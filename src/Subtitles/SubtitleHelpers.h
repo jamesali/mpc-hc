@@ -23,6 +23,7 @@
 
 #include <afx.h>
 #include <atlcoll.h>
+#include <regex>
 
 #define MS2RT(t)        (10000i64 * (t))
 #define RT2MS(t)        ((t) / 10000)
@@ -66,6 +67,8 @@ namespace Subtitle
     };
 
     void GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtlArray<SubFile>& ret);
+
+    void GetLCIDAndLangName(CStringW subName, LCID& lcid, CString& langname, HearingImpairedType& hi, std::wregex re);
 
     CString GuessSubtitleName(const CString& fn, CString videoName, LCID& lcid, CString& langname, HearingImpairedType& hi);
 };

@@ -1597,8 +1597,12 @@ void CFGManagerCustom::InsertLAVSplitterSource(bool IsPreview)
         pFGLAVSplitterSource->m_chkbytes.AddTail(_T("4,4,,F8726FBB"));                      // MLP
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".ac3"));
         pFGLAVSplitterSource->m_extensions.AddTail(_T(".eac3"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".mlp"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".truehd"));
         pFGLAVSplitterSource->AddEnabledFormat("ac3");
         pFGLAVSplitterSource->AddEnabledFormat("eac3");
+        pFGLAVSplitterSource->AddEnabledFormat("mlp");
+        pFGLAVSplitterSource->AddEnabledFormat("truehd");
     }
 #endif
 
@@ -1629,6 +1633,8 @@ void CFGManagerCustom::InsertLAVSplitterSource(bool IsPreview)
         pFGLAVSplitterSource->m_protocols.AddTail(_T("https"));
         pFGLAVSplitterSource->m_protocols.AddTail(_T("icyx"));
         pFGLAVSplitterSource->AddEnabledFormat("http");
+        pFGLAVSplitterSource->AddEnabledFormat("dash");
+        pFGLAVSplitterSource->AddEnabledFormat("hls");
     }
 #endif
 
@@ -1671,6 +1677,47 @@ void CFGManagerCustom::InsertLAVSplitterSource(bool IsPreview)
     if (src[SRC_RTMP] && !IsPreview) {
         pFGLAVSplitterSource->m_protocols.AddTail(_T("rtmp"));
         pFGLAVSplitterSource->m_protocols.AddTail(_T("rtmpt"));
+        pFGLAVSplitterSource->AddEnabledFormat("live_flv");
+    }
+#endif
+
+#if INTERNAL_SOURCEFILTER_MISC
+    // ToDo: split into separate options
+    if (src[SRC_MISC] || IsPreview) {
+        // video
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".dv"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".dhav"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".m3u8"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".y4m"));
+        pFGLAVSplitterSource->AddEnabledFormat("dv");
+        pFGLAVSplitterSource->AddEnabledFormat("dhav");
+        pFGLAVSplitterSource->AddEnabledFormat("y4m");
+    }
+    if (src[SRC_MISC] && !IsPreview) {
+        // raw video
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".264"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".265"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".h264"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".h265"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".av1"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".m4v"));
+        pFGLAVSplitterSource->AddEnabledFormat("av1");
+        pFGLAVSplitterSource->AddEnabledFormat("m4v");
+        pFGLAVSplitterSource->AddEnabledFormat("rawvideo");
+        // audio
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".amr"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".ape"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".mpc"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".w64"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".wav"));
+        pFGLAVSplitterSource->m_extensions.AddTail(_T(".wv"));
+        pFGLAVSplitterSource->AddEnabledFormat("amr");
+        pFGLAVSplitterSource->AddEnabledFormat("ape");
+        pFGLAVSplitterSource->AddEnabledFormat("mpc");
+        pFGLAVSplitterSource->AddEnabledFormat("mpc8");
+        pFGLAVSplitterSource->AddEnabledFormat("w64");
+        pFGLAVSplitterSource->AddEnabledFormat("wav");
+        pFGLAVSplitterSource->AddEnabledFormat("wv");
     }
 #endif
 
@@ -1810,12 +1857,15 @@ void CFGManagerCustom::InsertLAVSplitter(bool IsPreview)
         pFGLAVSplitterLM->AddDisabledFormat("ass");
         pFGLAVSplitterLM->AddDisabledFormat("microdvd");
         pFGLAVSplitterLM->AddDisabledFormat("mpl2");
+        pFGLAVSplitterLM->AddDisabledFormat("mpsub");
         pFGLAVSplitterLM->AddDisabledFormat("realtext");
         pFGLAVSplitterLM->AddDisabledFormat("sami");
         pFGLAVSplitterLM->AddDisabledFormat("srt");
         pFGLAVSplitterLM->AddDisabledFormat("subviewer");
         pFGLAVSplitterLM->AddDisabledFormat("subviewer1");
+        pFGLAVSplitterLM->AddDisabledFormat("sup");
         pFGLAVSplitterLM->AddDisabledFormat("vobsub");
+        pFGLAVSplitterLM->AddDisabledFormat("webvtt");
         m_transform.AddTail(pFGLAVSplitterLM.Detach());
     }
 }
@@ -2267,7 +2317,6 @@ void CFGManagerCustom::InsertLAVAudio()
 
 #if INTERNAL_DECODER_PCM
     pFGF = tra[TRA_PCM] ? pFGLAVAudio : pFGLAVAudioLM;
-    pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM);
     pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_NONE);
     pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_RAW);
     pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_TWOS);

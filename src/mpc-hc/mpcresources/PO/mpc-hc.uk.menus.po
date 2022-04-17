@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
+# Vlad Anisimov <uniss@ua.fm>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-02-15 14:52:58+0000\n"
+"POT-Creation-Date: 2021-08-25 14:36:40+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Last-Translator: Vlad Anisimov <uniss@ua.fm>, 2022\n"
 "Language-Team: Ukrainian (https://www.transifex.com/mpchc/teams/106126/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +48,7 @@ msgstr "Відкрити ди&ск"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "&Недавно відкриті файли"
+msgstr "&Нещодавно відкриті файли"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
@@ -71,7 +72,7 @@ msgstr "С&убтитри"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
-msgstr ""
+msgstr "&Додати субтитри..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
@@ -87,7 +88,7 @@ msgstr "В&ластивості"
 
 msgctxt "ID_FILE_OPEN_LOCATION"
 msgid "Open File &Location"
-msgstr ""
+msgstr "Відкрити із розташування"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
@@ -103,7 +104,7 @@ msgstr "За&головок та меню"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "Смуга &перемотки"
+msgstr "Смуга &перемотування"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
@@ -139,7 +140,7 @@ msgstr "Навігація"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "&Компоновка"
+msgstr "&Компоновка вигляду..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
@@ -155,7 +156,7 @@ msgstr "&Звичайна"
 
 msgctxt "ID_VIEW_MPCTHEME"
 msgid "Dark Theme (restart)"
-msgstr ""
+msgstr "Темна тема (рестарт)"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
@@ -163,11 +164,11 @@ msgstr "На весь екран"
 
 msgctxt "POPUP"
 msgid "&Zoom"
-msgstr "Масштаб"
+msgstr "Масштабування"
 
 msgctxt "ID_VIEW_ZOOM_25"
 msgid "&25%"
-msgstr ""
+msgstr "&25%"
 
 msgctxt "ID_VIEW_ZOOM_50"
 msgid "&50%"
@@ -183,11 +184,11 @@ msgstr "&200%"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
-msgstr "Автоматично"
+msgstr "Автоматичний підбір"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "Автоматично (лише збільшення)"
+msgstr "Автоматичний підбір (тільки збільшення)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
@@ -203,11 +204,11 @@ msgstr "&Показ статистики"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
-msgstr "Показ поточного часу"
+msgstr "Показувати поточний час"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
-msgstr "Показ &назви файла"
+msgstr "Показувати &ім'я файла"
 
 msgctxt "POPUP"
 msgid "&Output Range"
@@ -239,19 +240,19 @@ msgstr "10-ти бітний RGB на виході"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "Форсувати 10-ти бітний RGB на вході"
+msgstr "Примусовий 10-ти бітний RGB на вході"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "Повна обробка з рухомою точкою"
+msgstr "Повна обробка з плаваючою крапкою"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "Половинна обробка з рухомою точкою"
+msgstr "Половинна обробка з плаваючою крапкою"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
-msgstr "Вимкнути ефекти робочого столу"
+msgstr "Вимкнути ефекти робочого столу (Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
@@ -307,7 +308,7 @@ msgstr "Призначення рендерингу"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
-msgstr "По сприйняттю"
+msgstr "За сприйняттям"
 
 msgctxt "ID_VIEW_CM_INTENT_RELATIVECOLORIMETRIC"
 msgid "&Relative Colorimetric"
@@ -323,7 +324,7 @@ msgstr "Абсолютна колориметрія"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "Вертик. синхронізація (VSync)"
+msgstr "Верт. синхронізація (VSync)"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
@@ -347,7 +348,7 @@ msgstr "З&більшити затримку"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr "Графічний процесор (GPU)"
+msgstr "Управління GPU"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
@@ -391,11 +392,11 @@ msgstr "По&двійного розміру"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr "&Розтягнути до розміру вікна"
+msgstr "&Розтягнути до розміру вікна (із зміною пропорції)"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
-msgstr "На &ширину екрану"
+msgstr "На &висоту екрану"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
@@ -407,7 +408,7 @@ msgstr "Збільшення &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "На &висоту екрану"
+msgstr "На &ширину екрану"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
@@ -415,7 +416,7 @@ msgstr "&Співвідношення сторін"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr "&Типово (DAR)"
+msgstr "&За замовчуванням (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -431,23 +432,23 @@ msgstr "&16:9"
 
 msgctxt "ID_ASPECTRATIO_235_100"
 msgid "&235:100"
-msgstr "235:100"
+msgstr "&235:100"
 
 msgctxt "ID_ASPECTRATIO_185_100"
 msgid "1&85:100"
-msgstr "185:100"
+msgstr "1&85:100"
 
 msgctxt "ID_ASPECTRATIO_SAR"
 msgid "Assume &square pixels (SAR)"
-msgstr ""
+msgstr "Припустити, що пікселі квадратні (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "Пропорції &монітору та роб. столу різні"
+msgstr "Коригувати &різницю співвідношення сторін"
 
 msgctxt "POPUP"
 msgid "Pa&n && Scan"
-msgstr "Розта&шування та розмір кадру"
+msgstr "Розта&шування та розмір кадру (Pan&Scan)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
@@ -495,19 +496,19 @@ msgstr "По центру"
 
 msgctxt "ID_PANSCAN_ROTATEZM"
 msgid "Rotate Cloc&kwise"
-msgstr ""
+msgstr "Повернути за годинниковою стрілкою"
 
 msgctxt "ID_PANSCAN_ROTATEZ270"
 msgid "Rotate Counter-Clock&wise"
-msgstr ""
+msgstr "Повернути проти годинникової стрілки"
 
 msgctxt "ID_PANSCAN_ROTATEXM"
 msgid "&Flip Vertically"
-msgstr ""
+msgstr "Перевернути вертикально"
 
 msgctxt "ID_PANSCAN_ROTATEYM"
 msgid "&Mirror"
-msgstr ""
+msgstr "Віддзеркалити"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
@@ -515,7 +516,7 @@ msgstr "Скинути"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "П&оверх інших вікон"
+msgstr "Понад інших вікон"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
@@ -543,7 +544,7 @@ msgstr "&Відтворення"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
-msgstr "&Відтв/Пауза"
+msgstr "&Відтв./Пауза"
 
 msgctxt "ID_PLAY_STOP"
 msgid "&Stop"
@@ -559,7 +560,7 @@ msgstr "&Повторювати"
 
 msgctxt "ID_PLAY_REPEAT_FOREVER"
 msgid "F&orever"
-msgstr ""
+msgstr "Повторювати нескінченно"
 
 msgctxt "ID_PLAY_REPEAT_ONEFILE"
 msgid "&File"
@@ -571,79 +572,79 @@ msgstr "&Список відтворення"
 
 msgctxt "ID_PLAY_REPEAT_AB"
 msgid "A-B (&Reset)"
-msgstr ""
+msgstr "Від A до B (&Скинути)"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_A"
 msgid "A-B (Mark &A)"
-msgstr ""
+msgstr "Від A до B (Вказати &A)"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_B"
 msgid "A-B (Mark &B)"
-msgstr ""
+msgstr "Від A до B (Вказати &B)"
 
 msgctxt "POPUP"
 msgid "&Playback Rate"
-msgstr ""
+msgstr "Швидкість відтворення"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_025"
 msgid "0.25 x"
-msgstr ""
+msgstr "0.25 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_050"
 msgid "0.50 x"
-msgstr ""
+msgstr "0.50 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_075"
 msgid "0.75 x"
-msgstr ""
+msgstr "0.75 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_090"
 msgid "0.90 x"
-msgstr ""
+msgstr "0.90 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_100"
 msgid "1.00 x"
-msgstr ""
+msgstr "1.00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_110"
 msgid "1.10 x"
-msgstr ""
+msgstr "1.10 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_125"
 msgid "1.25 x"
-msgstr ""
+msgstr "1.25 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_150"
 msgid "1.50 x"
-msgstr ""
+msgstr "1.50 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_200"
 msgid "2.00 x"
-msgstr ""
+msgstr "2.00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_300"
 msgid "3.00 x"
-msgstr ""
+msgstr "3.00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_400"
 msgid "4.00 x"
-msgstr ""
+msgstr "4.00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_600"
 msgid "6.00 x"
-msgstr ""
+msgstr "6.00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_800"
 msgid "8.00 x"
-msgstr ""
+msgstr "8.00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_FPS24"
 msgid "24 fps"
-msgstr ""
+msgstr "24 к/с"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_FPS25"
 msgid "25 fps"
-msgstr ""
+msgstr "25 к/с"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
@@ -655,7 +656,7 @@ msgstr "Шв&идше"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "Нормально"
+msgstr "Звичайна швидкість"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
@@ -691,11 +692,11 @@ msgstr "&Тихіше"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "&Вимкнути"
+msgstr "&Вимкнути звук"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"
-msgstr "Наприкінці"
+msgstr "Після відтворення"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
@@ -775,7 +776,7 @@ msgstr "Меню с&цен"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
-msgstr "&Закладки"
+msgstr "&Вибране"
 
 msgctxt "POPUP"
 msgid "&Help"
@@ -783,7 +784,7 @@ msgstr "&Допомога"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "&Домівка"
+msgstr "&Домашня сторінка"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
@@ -791,11 +792,11 @@ msgstr "Перевірити &оновлення"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "Параметри &запуску"
+msgstr "Параметри &командного рядку"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Завантажити користувацькі панелі інструментів"
+msgstr "Завантажити панелі інструментів"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"

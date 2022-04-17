@@ -4,15 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Ali Kömesöğütlü <byzlo685@gmail.com>, 2020
-# bgette nameless <akiakane.nameless@gmail.com>, 2020
-# Mücahid Aksel <mucahidaksel@gmail.com>, 2020
+# Mücahid Aksel <mucahidaksel@gmail.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-04-03 23:14:53+0000\n"
+"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2020\n"
+"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2022\n"
 "Language-Team: Turkish (https://www.transifex.com/mpchc/teams/106126/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +37,7 @@ msgstr "Video"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON1"
 msgid "Set"
-msgstr "Seç"
+msgstr "Ayarla"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "Audio"
@@ -207,14 +206,13 @@ msgstr "Hakkında"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2022 clsid2 and others"
-msgstr ""
+msgstr "Telif Hakkı 2002-2022 clsid2 ve diğerleri"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
 "This program is freeware and released under the GNU General Public License."
 msgstr ""
-"Bu program özgür bir yazılımdır ve Genel Kamu Lisansı (GNU) altında "
-"yayınlanmıştır."
+"Bu yazılım ücretsizdir ve Genel Kamu Lisansı (GNU) altında yayınlanmıştır."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -376,7 +374,7 @@ msgstr "Varsayılan konumu aç:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD"
-msgstr "DVD Yöneticisi ve harici OGM Ayırıcısı için tercih edilen dil"
+msgstr "DVD için tercih edilen dil"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -408,7 +406,7 @@ msgstr "Düzey"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Min"
-msgstr "Min"
+msgstr "Alçak"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Max"
@@ -666,7 +664,7 @@ msgstr "Ses CD'si"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "Atlama uzaklıkları (ms olarak az, orta, çok)"
+msgstr "Atlama mesafeleri (az, orta, çok - ms cinsinden)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
@@ -819,7 +817,7 @@ msgstr "Sık Kullanılanlara Ekle"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
-msgstr "Kısayolunuz için bir ad seçiniz:"
+msgstr "Kısayolunuz için bir isim seçiniz:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
@@ -827,7 +825,7 @@ msgstr "Yerleşimi hatırla"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr ""
+msgstr "A-B tekrarlama noktalarını hatırla"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
@@ -1075,7 +1073,7 @@ msgstr "Aşağı"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
-msgstr "Altyazıları video karesine göre konumlandırın"
+msgstr "Altyazıları video karesine göre konumlandır"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
@@ -1152,7 +1150,7 @@ msgstr "Gözat..."
 
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
-msgstr ""
+msgstr "Monitör renk profilini uygula"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
@@ -1212,7 +1210,7 @@ msgstr "Tam Ekran Direct3D (kopuklukları sil)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
-msgstr "Değişken Eşzamanlama"
+msgstr "Alternatif VSync"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
@@ -1300,7 +1298,7 @@ msgstr "Ara"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr ""
+msgstr "Farklı Kaydet..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1594,11 +1592,11 @@ msgstr "Her zaman harici altyazıları tercih et"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Gömülü altyazıları yükleme"
+msgstr "Dahili altyazıları yoksay"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
-msgstr "Yükleme konumları"
+msgstr "Altyazı konumları"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
@@ -1606,7 +1604,7 @@ msgstr "Sıfırla"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online subtitle search"
-msgstr ""
+msgstr "Çevrimiçi altyazı arama"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
@@ -1739,15 +1737,15 @@ msgstr "Varsayılan"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
 msgid "SaneAR Audio Renderer Enabled"
-msgstr ""
+msgstr "SaneAR Ses İşleyicisini Aktifleştir"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
-msgstr ""
+msgstr "Aygıt"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC6"
 msgid "Options"
-msgstr ""
+msgstr "Seçenekler"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
@@ -1756,8 +1754,8 @@ msgstr "Ayrıcalıklı kip"
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
 msgstr ""
-"Sistem kanal karıştırıcısını yoksay (WASAPI özel modunda her zaman "
-"yoksayılır)"
+"Sistem kanal karıştırıcısını yok say (Ayrıcalıklı WASAPI kipinde her zaman "
+"yok sayılır)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
@@ -1781,17 +1779,19 @@ msgstr "Seviye:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC7"
 msgid "Note"
-msgstr ""
+msgstr "Not"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC8"
 msgid ""
 "To minimize audio distortion, it is recommended to keep player volume at "
 "around 85% when playing loud lossy-encoded content."
 msgstr ""
+"Gürültülü-kayıplı kodlanmış içerik oynatılırken ses bozulmalarını azaltmak "
+"için oynatıcı ses düzeyinin %85 civarında tutulması önerilir. "
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
 msgid "MPC Audio Renderer Settings"
-msgstr ""
+msgstr "MPC Ses İşleyici Ayarları"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"

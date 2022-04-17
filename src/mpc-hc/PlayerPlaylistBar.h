@@ -29,6 +29,7 @@
 #include "../Subtitles/TextFile.h"
 #include "CMPCThemeInlineEdit.h"
 #include "YoutubeDL.h"
+#include "AppSettings.h"
 
 
 class OpenMediaData;
@@ -105,6 +106,9 @@ private:
 
     CString m_playListPath;
 
+    ULONGLONG m_tcLastSave;
+    bool m_SaveDelayed;
+
 public:
     CPlayerPlaylistBar(CMainFrame* pMainFrame);
     virtual ~CPlayerPlaylistBar();
@@ -146,14 +150,15 @@ public:
     void Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs = nullptr, CString label = _T(""), CString ydl_src = _T(""), CString cue = _T(""));
     void Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs = nullptr, CString label = _T(""), CString ydl_src = _T(""), CString cue = _T(""), CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs = nullptr);
     void ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs = nullptr, CString label = _T(""), CString ydl_src = _T(""), CString cue = _T(""), CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs = nullptr);
+    void AddSubtitleToCurrent(CString fn);
 
     void Open(CStringW vdn, CStringW adn, int vinput, int vchannel, int ainput);
     void Append(CStringW vdn, CStringW adn, int vinput, int vchannel, int ainput);
 
-    OpenMediaData* GetCurOMD(REFERENCE_TIME rtStart = 0);
+    OpenMediaData* GetCurOMD(REFERENCE_TIME rtStart = 0, ABRepeat abRepeat = ABRepeat());
 
     void LoadPlaylist(LPCTSTR filename);
-    void SavePlaylist();
+    void SavePlaylist(bool can_delay = false);
 
     bool SelectFileInPlaylist(LPCTSTR filename);
     bool DeleteFileInPlaylist(POSITION pos, bool recycle = true);

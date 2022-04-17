@@ -46,8 +46,20 @@ CMPCThemeFloatEdit::operator double()
 {
     CString s;
     GetWindowText(s);
-    float f = 0;
-    return (_stscanf_s(s, _T("%f"), &f) == 1 ? f : 0);
+    float flt;
+    if (swscanf_s(s, L"%f", &flt) != 1) {
+        flt = 0.0f;
+    }
+    flt = std::clamp(flt, m_lower, m_upper);
+
+    return flt;
+}
+
+void CMPCThemeFloatEdit::SetRange(float fLower, float fUpper)
+{
+    ASSERT(fLower < fUpper);
+    m_lower = fLower;
+    m_upper = fUpper;
 }
 
 BEGIN_MESSAGE_MAP(CMPCThemeFloatEdit, CMPCThemeEdit)

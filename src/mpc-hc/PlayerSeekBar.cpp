@@ -620,12 +620,11 @@ void CPlayerSeekBar::OnPaint()
         if (m_bHasDuration) {
             // A-B Repeat
             REFERENCE_TIME aPos, bPos;
-            bool aEnabled, bEnabled;
-            if (m_pMainFrame->CheckABRepeat(aPos, bPos, aEnabled, bEnabled)) {
-                if (aEnabled) {
+            if (m_pMainFrame->CheckABRepeat(aPos, bPos)) {
+                if (aPos) {
                     funcMarkChannel(aPos, 1, CMPCTheme::SeekbarABColor);
                 }
-                if (bEnabled) {
+                if (bPos) {
                     funcMarkChannel(bPos, 1, CMPCTheme::SeekbarABColor);
                 }
             }
@@ -701,12 +700,11 @@ void CPlayerSeekBar::OnPaint()
         if (m_bHasDuration) {
             // A-B Repeat
             REFERENCE_TIME aPos, bPos;
-            bool aEnabled, bEnabled;
-            if (m_pMainFrame->CheckABRepeat(aPos, bPos, aEnabled, bEnabled)) {
-                if (aEnabled) {
+            if (m_pMainFrame->CheckABRepeat(aPos, bPos)) {
+                if (aPos) {
                     funcMarkChannel(aPos, 0, CMPCTheme::SeekbarABColor);
                 }
-                if (bEnabled) {
+                if (bPos) {
                     funcMarkChannel(bPos, 0, CMPCTheme::SeekbarABColor);
                 }
             }

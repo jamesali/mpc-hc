@@ -25,10 +25,14 @@
 
 class CMPCThemeFloatEdit : public CMPCThemeEdit
 {
+    float m_lower = -1000000000.0f;
+    float m_upper = 1000000000.0f;
+
 public:
     bool GetFloat(float& f);
     double operator = (double d);
     operator double();
+    void SetRange(float fLower, float fUpper);
 
     DECLARE_DYNAMIC(CMPCThemeFloatEdit)
     DECLARE_MESSAGE_MAP()

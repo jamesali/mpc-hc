@@ -40,8 +40,7 @@ private:
     CMPCThemeButton m_font;
     int m_iCharset;
     CMPCThemeComboBox m_cbCharset;
-    int m_spacing;
-    CMPCThemeSpinButtonCtrl m_spacingSpin;
+    CMPCThemeFloatEdit m_spacing;
     int m_angle;
     CMPCThemeSpinButtonCtrl m_angleSpin;
     int m_scalex;
@@ -49,10 +48,8 @@ private:
     int m_scaley;
     CMPCThemeSpinButtonCtrl m_scaleySpin;
     int m_borderStyle;
-    int m_borderWidth;
-    CMPCThemeSpinButtonCtrl m_borderWidthSpin;
-    int m_shadowDepth;
-    CMPCThemeSpinButtonCtrl m_shadowDepthSpin;
+    CMPCThemeFloatEdit m_borderWidth;
+    CMPCThemeFloatEdit m_shadowDepth;
     int m_screenAlignment;
     CRect m_margin;
     CMPCThemeSpinButtonCtrl m_marginLeftSpin;

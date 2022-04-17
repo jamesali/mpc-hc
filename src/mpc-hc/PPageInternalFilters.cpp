@@ -456,6 +456,11 @@ void CPPageInternalFilters::InitFiltersList()
 #if INTERNAL_SOURCEFILTER_RFS
     m_filters.Add(filter_t(_T("RAR"), SOURCE_FILTER, SRC_RFS, IDS_SRC_RFS));
 #endif
+#if INTERNAL_SOURCEFILTER_MISC
+    if (bLAVSplitterIsAvailable) {
+        m_filters.Add(filter_t(_T("Miscellaneous"), SOURCE_FILTER, SRC_MISC, IDS_INTERNAL_LAVF));
+    }
+#endif
 
 #if INTERNAL_DECODER_AAC
     if (bLAVAudioIsAvailable) {

@@ -13,6 +13,7 @@ public:
 
     static const COLORREF MenuSelectedColor;
     static const COLORREF MenuItemDisabledColor;
+    static const COLORREF MenuItemUnfocusedColor;
     static const COLORREF MainMenuBorderColor;
     static const COLORREF MenuSeparatorColor;
 

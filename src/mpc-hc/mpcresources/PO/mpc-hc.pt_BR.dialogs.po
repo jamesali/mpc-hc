@@ -4,14 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Zyz696 Paga, 2020
-# Felipefpl, 2021
+# Felipefpl, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-06 17:51:01+0000\n"
+"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Felipefpl, 2021\n"
+"Last-Translator: Felipefpl, 2022\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/mpchc/teams/106126/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -205,7 +205,7 @@ msgstr "Sobre"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2022 clsid2 and others"
-msgstr "Copyright 2002-2022 do clsid2 e outros"
+msgstr "Copyright 2002-2022 clsid2 e outros"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -824,7 +824,7 @@ msgstr "Lembrar posição"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr ""
+msgstr "Lembrar das marcas de repetição A-B"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
@@ -1400,7 +1400,7 @@ msgstr "Use um deslocamento"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr ""
+msgstr "Taxa dos Símbolos"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"

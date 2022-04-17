@@ -885,10 +885,12 @@ void CTreePropSheet::OnDestroy()
     delete m_pwndPageTree;
     m_pwndPageTree = NULL;
 
-    CWnd* frameWnd = m_pFrame->GetWnd();
-    if (nullptr != frameWnd && IsWindow(frameWnd->m_hWnd)) frameWnd->DestroyWindow(); //fix memory leak of CWnd
-    delete m_pFrame;
-    m_pFrame = NULL;
+    if (m_pFrame) {
+        CWnd* frameWnd = m_pFrame->GetWnd();
+        if (nullptr != frameWnd && IsWindow(frameWnd->m_hWnd)) frameWnd->DestroyWindow(); //fix memory leak of CWnd
+        delete m_pFrame;
+        m_pFrame = NULL;
+    }
 }
 
 

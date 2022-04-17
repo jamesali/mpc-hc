@@ -87,7 +87,7 @@ bool CYoutubeDLInstance::Run(CString url)
         if (s.bUseAutomaticCaptions) args.Append(_T(" --write-auto-sub"));
     }
     if (url.Find(_T("list=")) > 0) {
-        args.Append(_T(" --ignore-errors"));
+        args.Append(_T(" --ignore-errors --no-playlist"));
     }
     args.Append(_T(" \"") + url + _T("\""));
 

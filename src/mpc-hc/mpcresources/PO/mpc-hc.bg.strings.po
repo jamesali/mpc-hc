@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Симеон Цветков <sicvetkov@uni-sofia.bg>, 2020
-# Андрей Станков <astankov84@gmail.com>, 2021
+# Андрей Станков <astankov84@gmail.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-06 17:51:01+0000\n"
+"POT-Creation-Date: 2022-01-23 12:48:51+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Андрей Станков <astankov84@gmail.com>, 2021\n"
+"Last-Translator: Андрей Станков <astankov84@gmail.com>, 2022\n"
 "Language-Team: Bulgarian (https://www.transifex.com/mpchc/teams/106126/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -542,19 +542,19 @@ msgstr "Запиши миниатюрите"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
-msgstr ""
+msgstr "Преместване на субтитрите надолу"
 
 msgctxt "IDS_SUB_POS_UP"
 msgid "Move subtitle up"
-msgstr ""
+msgstr "Преместване на субтитрите нагоре"
 
 msgctxt "IDS_SUB_FONT_SIZE_DEC"
 msgid "Decrease subtitle text size"
-msgstr ""
+msgstr "Смаляване текста на субтитрите "
 
 msgctxt "IDS_SUB_FONT_SIZE_INC"
 msgid "Increase subtitle text size"
-msgstr ""
+msgstr "Уголемяване текста на субтитрите"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
@@ -689,7 +689,7 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
-"Въведете предпочитаните езици тук.\n"
+"Въведете вашите предпочитани езици тук.\n"
 "Например напишете: \"eng jpn swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
@@ -1207,8 +1207,8 @@ msgid "&Add to Favorites..."
 msgstr "&Добави към любими..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
-msgid "&Organize Favorites..."
-msgstr "&Създаване на любими..."
+msgid "Organize Favorites..."
+msgstr "Създаване на любими..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
@@ -1992,11 +1992,11 @@ msgstr "Отиди до следващи субтитри"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr ""
+msgstr "Ресинхронизация на субтитри: отместване -100мс"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr ""
+msgstr "Ресинхронизация на субтитри: отместване +100мс"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -3022,6 +3022,14 @@ msgstr "Модификатор на мишката"
 msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
 msgstr "FS модификатор на мишката"
+
+msgctxt "IDS_AG_ZOOM_ADD"
+msgid "Zoom Window +"
+msgstr "Размер на прозореца +"
+
+msgctxt "IDS_AG_ZOOM_SUB"
+msgid "Zoom Window -"
+msgstr "Размер на прозореца -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -4445,7 +4453,7 @@ msgstr "/regvid\t\tСъздава файлови асоциации за вид�
 
 msgctxt "IDS_CMD_REGAUD"
 msgid "/regaud\t\tCreate file associations for audio files"
-msgstr "/regaud\t\tСъздава файлови асоциации за аудио файлове"
+msgstr "/regaud\tСъздава файлови асоциации за аудио файлове"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"
@@ -4610,6 +4618,12 @@ msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
 msgstr ""
 "Показване на информация за видеото (кодек, резолюция) в статус лентата."
+
+msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
+msgid ""
+"Show the recording settings dialog automatically when opening a device."
+msgstr ""
+"Автоматично показване на настройките за запис при отваряне на устройство."
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"

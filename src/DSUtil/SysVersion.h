@@ -20,35 +20,7 @@
 
 #pragma once
 
-#include <VersionHelpers.h>
-
-#ifndef _WIN32_WINNT_WINTHRESHOLD
-#define _WIN32_WINNT_WINTHRESHOLD 0x0A00
-
-VERSIONHELPERAPI
-IsWindows10OrGreater()
-{
-	return IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_WINTHRESHOLD), LOBYTE(_WIN32_WINNT_WINTHRESHOLD), 0);
-}
-#endif
-
-static VERSIONHELPERAPI
-IsWindowsVersionOrGreaterBuild(WORD wMajorVersion, WORD wMinorVersion, DWORD dwBuildNumber)
-{
-    OSVERSIONINFOEXW osvi = { sizeof(osvi), 0, 0, 0, 0, {0}, 0, 0 };
-    DWORDLONG        const dwlConditionMask = VerSetConditionMask(
-        VerSetConditionMask(
-        VerSetConditionMask(
-            0, VER_MAJORVERSION, VER_GREATER_EQUAL),
-               VER_MINORVERSION, VER_GREATER_EQUAL),
-               VER_BUILDNUMBER, VER_GREATER_EQUAL);
-
-    osvi.dwMajorVersion = wMajorVersion;
-    osvi.dwMinorVersion = wMinorVersion;
-    osvi.dwBuildNumber = dwBuildNumber;
-
-    return VerifyVersionInfoW(&osvi, VER_MAJORVERSION | VER_MINORVERSION | VER_BUILDNUMBER, dwlConditionMask) != FALSE;
-}
+#include "VersionHelpersInternal.h"
 
 static bool IsWindows64()
 {
@@ -88,7 +60,11 @@ namespace SysVersion
 		const static bool bIsWin10RS4orLater = IsWindowsVersionOrGreaterBuild(HIBYTE(_WIN32_WINNT_WINTHRESHOLD), LOBYTE(_WIN32_WINNT_WINTHRESHOLD), 17134);
 		return bIsWin10RS4orLater;
 	}
-	inline const bool IsW64() {
+    inline const bool IsWin11orLater() {
+        const static bool bIsWin11orLater = IsWindows11OrGreater();
+        return bIsWin11orLater;
+    }
+    inline const bool IsW64() {
 		const static bool bIsW64 = IsWindows64();
 		return bIsW64;
 	}

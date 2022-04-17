@@ -21,13 +21,13 @@
 
 #pragma once
 
-#include "CMPCThemeResizableDialog.h"
+#include "ModelessResizableDialog.h"
 #include "CMPCThemeTabCtrl.h"
 #include "CMPCThemePlayerListCtrl.h"
 
 // CFavoriteOrganizeDlg dialog
 
-class CFavoriteOrganizeDlg : public CMPCThemeResizableDialog
+class CFavoriteOrganizeDlg : public CModelessResizableDialog
 {
     //  DECLARE_DYNAMIC(CFavoriteOrganizeDlg)
 
@@ -45,12 +45,16 @@ public:
 
     CMPCThemeTabCtrl m_tab;
     CMPCThemePlayerListCtrl m_list;
+    bool firstSize=false;
+    int minSizeTime = 0;
+    void LoadList();
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();
 
     void SetupList(bool fSave);
+
     void UpdateColumnsSizes();
     void MoveItem(int nItem, int offset);
     void PlayFavorite(int nItem);
@@ -60,6 +64,7 @@ protected:
 public:
     afx_msg void OnTcnSelchangeTab1(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
+    afx_msg void OnLvnItemchangedList2(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnRenameBnClicked();
     afx_msg void OnUpdateRenameBn(CCmdUI* pCmdUI);
     afx_msg void OnDeleteBnClicked();

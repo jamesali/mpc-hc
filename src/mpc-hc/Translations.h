@@ -35,5 +35,6 @@ namespace Translations
     std::list<LanguageResource> GetAvailableLanguageResources();
 
     LANGID SetDefaultLanguage();
+    bool IsLangRTL(LANGID localeID);
     bool SetLanguage(LANGID localeID, bool showErrorMsg = true);
 };

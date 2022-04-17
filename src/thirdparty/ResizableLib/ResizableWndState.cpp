@@ -114,10 +114,14 @@ BOOL CResizableWndState::LoadWindowRect(LPCTSTR pszName, BOOL bRectOnly)
 		&rc.right, &rc.bottom, &wp.showCmd, &wp.flags,
 		&wp.ptMinPosition.x, &wp.ptMinPosition.y) == 8)
 	{
-		if (bRectOnly)	// restore size/pos only
+
+        // MPC-HC custom code
+        if (!showOnWindowPlacement) {
+            wp.showCmd = SW_HIDE;
+        }
+
+        if (bRectOnly)	// restore size/pos only
 		{
-			// MPC-HC custom code
-			wp.showCmd = SW_HIDE;
 			wp.flags = 0;
 		}
 		// restore also min/max state

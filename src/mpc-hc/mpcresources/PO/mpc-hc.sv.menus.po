@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-02-15 14:52:58+0000\n"
+"POT-Creation-Date: 2021-08-25 14:36:40+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>, 2020\n"
 "Language-Team: Swedish (https://www.transifex.com/mpchc/teams/106126/sv/)\n"

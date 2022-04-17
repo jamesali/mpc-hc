@@ -77,7 +77,7 @@ BOOL COpenDlg::OnInitDialog()
     CAppSettings& s = AfxGetAppSettings();
 
     auto& MRU = s.MRU;
-    MRU.ReadList();
+    MRU.ReadMediaHistory();
     m_cbMRU.ResetContent();
     for (int i = 0; i < MRU.GetSize(); i++) {
         if (MRU[i].fns.GetCount() >0 && !MRU[i].fns.GetHead().IsEmpty()) {

@@ -351,6 +351,8 @@ void CFGFilterLAVSplitterBase::Settings::LoadSettings()
 
     bMatroskaExternalSegments = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("MatroskaExternalSegments"), bMatroskaExternalSegments);
 
+    bStreamSwitchRemoveAudio = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchReselectSubs"), bStreamSwitchReselectSubs);
+
     bStreamSwitchRemoveAudio = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchRemoveAudio"), bStreamSwitchRemoveAudio);
 
     bPreferHighQualityAudio = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("PreferHighQualityAudio"), bPreferHighQualityAudio);
@@ -386,6 +388,10 @@ void CFGFilterLAVSplitterBase::Settings::SaveSettings()
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("substreams"), bSubstreams);
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("MatroskaExternalSegments"), bMatroskaExternalSegments);
+
+    if (lav_version >= LAV_FILTERS_VERSION(0, 75, 1, 44)) {
+        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchReselectSubs"), bStreamSwitchReselectSubs);
+    }
 
     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchRemoveAudio"), bStreamSwitchRemoveAudio);
 
@@ -440,6 +446,12 @@ bool CFGFilterLAVSplitterBase::Settings::GetSettings(CComQIPtr<ILAVFSettings> pL
 
     bMatroskaExternalSegments = pLAVFSettings->GetLoadMatroskaExternalSegments();
 
+    if (lav_version >= LAV_FILTERS_VERSION(0, 75, 1, 44)) {
+        bStreamSwitchReselectSubs = pLAVFSettings->GetStreamSwitchReselectSubtitles();
+    } else {
+        bStreamSwitchReselectSubs = FALSE;
+    }
+
     bStreamSwitchRemoveAudio = pLAVFSettings->GetStreamSwitchRemoveAudio();
 
     bImpairedAudio = pLAVFSettings->GetUseAudioForHearingVisuallyImpaired();
@@ -478,6 +490,10 @@ bool CFGFilterLAVSplitterBase::Settings::SetSettings(CComQIPtr<ILAVFSettings> pL
     pLAVFSettings->SetSubstreamsEnabled(bSubstreams);
 
     pLAVFSettings->SetLoadMatroskaExternalSegments(bMatroskaExternalSegments);
+
+    if (lav_version >= LAV_FILTERS_VERSION(0, 75, 1, 44)) {
+        pLAVFSettings->SetStreamSwitchReselectSubtitles(bStreamSwitchReselectSubs);
+    }
 
     pLAVFSettings->SetStreamSwitchRemoveAudio(bStreamSwitchRemoveAudio);
 
@@ -764,12 +780,22 @@ bool CFGFilterLAVVideo::Settings::GetSettings(CComQIPtr<ILAVVideoSettings> pLAVF
 
     if (lav_version >= LAV_FILTERS_VERSION(0, 69, 0, 0)) {
         dwHWAccelDeviceDXVA2 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_DXVA2CopyBack, &dwHWAccelDeviceDXVA2Desc);
+    } else {
+        dwHWAccelDeviceDXVA2 = LAVHWACCEL_DEVICE_DEFAULT;
+        dwHWAccelDeviceDXVA2Desc = 0;
     }
+
     if (lav_version >= LAV_FILTERS_VERSION(0, 71, 0, 0)) {
         dwHWAccelDeviceD3D11 = pLAVFSettings->GetHWAccelDeviceIndex(HWAccel_D3D11, &dwHWAccelDeviceD3D11Desc);
+    } else {
+        dwHWAccelDeviceD3D11 = LAVHWACCEL_DEVICE_DEFAULT;
+        dwHWAccelDeviceD3D11Desc = 0;
     }
+
     if (lav_version >= LAV_FILTERS_VERSION(0, 70, 0, 0)) {
         bHWAccelCUVIDXVA = pLAVFSettings->GetHWAccelDeintHQ();
+    } else {
+        bHWAccelCUVIDXVA = TRUE;
     }
 
     return true;
@@ -1029,6 +1055,8 @@ bool CFGFilterLAVAudio::Settings::GetSettings(CComQIPtr<ILAVAudioSettings> pLAVF
 
     if (lav_version >= LAV_FILTERS_VERSION(0, 74, 0, 0)) {
         bBitstreamingFallback = pLAVFSettings->GetBitstreamingFallback();
+    } else {
+        bBitstreamingFallback = FALSE;
     }
 
     bAutoAVSync = pLAVFSettings->GetAutoAVSync();

@@ -27,175 +27,175 @@
 [Messages]
 ; Arabic
 ar.WelcomeLabel2=سوف يتم تثبيت [name] على جهازك.%n%nيستحسن - قبل الاستمرار - إغلاق كافة البرامج المفتوحة 
-ar.WinVersionTooLowError=[name] يتطلب Windows Vista او أحدث لتشغيله
+ar.WinVersionTooLowError=[name] يتطلب Windows 7 او أحدث لتشغيله
 
 ; Belarusian
 be.WelcomeLabel2=Зараз на ваш камп'ютар будзе ўсталявана праграма [name].%n%nПерш чым працягнуць, рэкамендуецца закрыць усе астатнія праграмы.
-be.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+be.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; Bulgarian
 ;bg.WelcomeLabel2=Приложението [name] ще бъде инсталирано на този компютър.%n%nПрепоръчва се да затворите всички други приложения преди да продължите.
-;bg.WinVersionTooLowError=[name] изисква Windows Vista или по-нова версия за да се изпълни.
+;bg.WinVersionTooLowError=[name] изисква Windows 7 или по-нова версия за да се изпълни.
 
 ; Bengali
 bn.WelcomeLabel2=এর মাধ্যমে আপনার কম্পিউটারে [name] ইনস্টল করা হবে। %n%nপ্রক্রিয়াটি চালিয়ে যাওয়ার পূর্বে অন্যান্য সকল অ্যাপ্লিকেশন বন্ধ করার পরামর্শ দেয়া যাচ্ছে।
-bn.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+bn.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; Bosnian
 bs_BA.WelcomeLabel2=Ovo će instalirati  [name] na vaš računar.%n%nPreporučljivo je da, prije nastavka, zatvorite sve ostale programe.
-bs_BA.WinVersionTooLowError=[name] za rad zahtijeva Windows Vista ili noviji.
+bs_BA.WinVersionTooLowError=[name] za rad zahtijeva Windows 7 ili noviji.
 
 ; Catalan
 ca.WelcomeLabel2=Aquest auxiliar instal·larà [name] al vostre ordinador.%n%nSe recomana tancar totes les aplicacions abans de continuar.
-ca.WinVersionTooLowError=[name] requereix Windows Vista o superior perquè funcioni.
+ca.WinVersionTooLowError=[name] requereix Windows 7 o superior perquè funcioni.
 
 ; Czech
 cs.WelcomeLabel2=Produkt [name] bude nainstalován na Váš počítač.%n%nDříve než budete pokračovat, doporučuje se ukončit veškeré spuštěné aplikace.
-cs.WinVersionTooLowError=[name] vyžaduje ke svému běhu Windows Vista nebo novější.
+cs.WinVersionTooLowError=[name] vyžaduje ke svému běhu Windows 7 nebo novější.
 
 ; Danish
 da.WelcomeLabel2=Dette vil installere [name] på din computer.%n%nDet anbefales, at du lukker alle andre programmer, inden du fortsætter.
-da.WinVersionTooLowError=[name] kræver Windows Vista eller nyere for at køre.
+da.WinVersionTooLowError=[name] kræver Windows 7 eller nyere for at køre.
 
 ; German (Neutral)
 de.WelcomeLabel2=Hiermit wird der [name] installiert. Bitte alle anderen Anwendungen schließen, bevor Sie mit der Installation fortfahren.
-de.WinVersionTooLowError=Systemvoraussetzung ist Windows Vista oder neuer.
+de.WinVersionTooLowError=Systemvoraussetzung ist Windows 7 oder neuer.
 
 ; Greek (Greece)
 el.WelcomeLabel2=Θα γίνει εγκατάσταση του [name] στον υπολογιστή σας.%n%nΣας συνιστούμε να κλείσετε κάθε άλλη εφαρμογή πριν συνεχίσετε.
-el.WinVersionTooLowError=Το [name] απαιτεί Windows Vista ή νεότερα για να λειτουργήσει.
+el.WinVersionTooLowError=Το [name] απαιτεί Windows 7 ή νεότερα για να λειτουργήσει.
 
 ; English (United Kingdom)
 en_GB.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-en_GB.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+en_GB.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; Spanish
 es.WelcomeLabel2=Esto instalará [name] en el equipo.%n%nSe recomienda que cierre el resto de las aplicaciones antes de continuar.
-es.WinVersionTooLowError=[nombre] Para ejecutar se requiere Windows Vista o superior
+es.WinVersionTooLowError=[nombre] Para ejecutar se requiere Windows 7 o superior
 
 ; Basque
 eu.WelcomeLabel2=Honek [name] zure ordenagailuan ezarriko du.%n%nGomendatzen da beste aplikazio guztiak istea jarraitu aurretik.
-eu.WinVersionTooLowError=[name] Windows Vista edo berriagoa behar du lan egiteko.
+eu.WinVersionTooLowError=[name] Windows 7 edo berriagoa behar du lan egiteko.
 
 ; Finnish
 fi.WelcomeLabel2=Tämä asentaa [name] tietokoneellesi.%n%nOn suositeltavaa, että suljet kaikki muut ohjelmat ennen kuin jatkat.
-fi.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+fi.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; French (France)
 fr.WelcomeLabel2=Vous allez installer [name] sur votre ordinateur.%n%nIl est recommandé de fermer toutes les autres applications avant de continuer.
-fr.WinVersionTooLowError=[name] nécessite Windows Vista ou plus récent pour fonctionner.
+fr.WinVersionTooLowError=[name] nécessite Windows 7 ou plus récent pour fonctionner.
 
 ; Galician
 gl.WelcomeLabel2=Isto instalará [name] no teu ordenador.%n%nRecoméndase que peches todas as aplicacións antes de seguir.
-gl.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+gl.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; Hebrew (Israel)
 he.WelcomeLabel2=תוכנית התקנה זו תתקין את [name] על מחשבך.%n%nמומלץ לסגור את שאר האפליקציות לפני שממשיכים.
-he.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+he.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; Croatian
 hr.WelcomeLabel2=Ovo će instalirati [name] na vaše računalo.%n%nPreporučeno je da zatvorite sve otvorene programe prije nego nastavite.
-hr.WinVersionTooLowError=[name] zahtjeva Windows Vista ili novije za rad.
+hr.WinVersionTooLowError=[name] zahtjeva Windows 7 ili novije za rad.
 
 ; Hungarian
 hu.WelcomeLabel2=Ez telepíteni fogja a(z) [name]-t a számítógépére.%n%nAjánlott, hogy minden más alkalmazást zárjon be a folytatás előtt.
-hu.WinVersionTooLowError=[name] használatához Windows Vista vagy újabb operácios rendszer használata szükséges.
+hu.WinVersionTooLowError=[name] használatához Windows 7 vagy újabb operácios rendszer használata szükséges.
 
 ; Armenian (Armenia)
 hy.WelcomeLabel2=[name]-ը կտեղադրվի ձեր համակարգչում։%n%nԽորհուրդ ենք տալիս փակել մյուս բոլոր ծրագրերը։
-hy.WinVersionTooLowError=[name]-ը պահանաջում է Windows Vista կամ ավելի նորը:
+hy.WinVersionTooLowError=[name]-ը պահանաջում է Windows 7 կամ ավելի նորը:
 
 ; Indonesian
 id.WelcomeLabel2=Ini akan memasang [name] di komputer Anda.%n%nSangat disarankan untuk menutup semua aplikasi lain sebelum melanjutkan.
-id.WinVersionTooLowError=[name] membutuhkan Windows Vista atau lebih baru untuk dapat berjalan.
+id.WinVersionTooLowError=[name] membutuhkan Windows 7 atau lebih baru untuk dapat berjalan.
 
 ; Italian
 it.WelcomeLabel2=Questo installerà [name] sul tuo computer.%n%nE' consigliato chiudere tutte le altre applicazioni prima di continuare.
-it.WinVersionTooLowError=[name] richiede per l'esecuzione Windows Vista o versioni successive.
+it.WinVersionTooLowError=[name] richiede per l'esecuzione Windows 7 o versioni successive.
 
 ; Japanese
 ja.WelcomeLabel2=これにより、コンピュータに [name] がインストールされます。%n%n続行する前に他のすべてのアプリケーションを閉じることを推奨します。
-ja.WinVersionTooLowError=[name] を実行するには Windows Vista 以降が必要です。
+ja.WinVersionTooLowError=[name] を実行するには Windows 7 以降が必要です。
 
 ; Korean
 ko.WelcomeLabel2=이것은 [name] 를(을) 당신의 컴퓨터에 설치합니다.%n%n설치를 계속하기 전에 다른 모든 프로그램을 종료하는 것을 권장합니다.
-ko.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+ko.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; Lithuanian
 lt.WelcomeLabel2=Ši programa įdiegs [name] į jūsų kompiuterį.%n%nRekomenduojama išjungti visas kitas programas, prieš pradedant diegimą.
-lt.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+lt.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; Malay (Malaysia)
 ms_MY.WelcomeLabel2=Ini akan memasang [name] ke dalam komputer anda.%n%nDisarankan anda tutup semua aplikasi lain sebelum diteruskan.
-ms_MY.WinVersionTooLowError=[name] memerlukan Windows Vista atau yang lebih baharu untuk dijalankan.
+ms_MY.WinVersionTooLowError=[name] memerlukan Windows 7 atau yang lebih baharu untuk dijalankan.
 
 ; Dutch (Neutral)
 nl.WelcomeLabel2=Dit programma zal [name] op uw computer installeren.%n%nHet is aanbevolen dat u alle andere toepassingen sluit voordat u verder gaat.
-nl.WinVersionTooLowError=[name] vereist Windows Vista of hoger.
+nl.WinVersionTooLowError=[name] vereist Windows 7 of hoger.
 
 ; Polish
 pl.WelcomeLabel2=Zostanie zainstalowane [name] na Twoim komputerze.%n%nZaleca się zamknięcie wszystkich innych aplikacji przed kontynuowaniem.
-pl.WinVersionTooLowError=[name] wymaga systemu Windows Vista lub nowszego do uruchomienia.
+pl.WinVersionTooLowError=[name] wymaga systemu Windows 7 lub nowszego do uruchomienia.
 
 ; Portuguese (Brazil)
 pt_BR.WelcomeLabel2=Isto instalará o [name] no seu computador.%n%nÉ recomendado que você feche todos os outros aplicativos antes de continuar.
-pt_BR.WinVersionTooLowError=O [name] requer Windows Vista ou mais novo pra rodar.
+pt_BR.WinVersionTooLowError=O [name] requer Windows 7 ou mais novo pra rodar.
 
 ; Portuguese (Portugal)
 pt_PT.WelcomeLabel2=Isto irá instalar o [name] no seu computador.%n%nÉ recomendado que feche todas as aplicações antes de continuar.
-pt_PT.WinVersionTooLowError=[name] requer Windows Vista ou superior para ser executado.
+pt_PT.WinVersionTooLowError=O [name] requer o Windows 7 ou posterior para funcionar.
 
 ; Romanian
 ro.WelcomeLabel2=Se va instala [name] pe calculatorul dumneavoastră.%n%nEste recomandat să închideți toate celelalte aplicații înainte de a continua.
-ro.WinVersionTooLowError=[name] necesită Windows Vista sau mai nou pentru a rula. 
+ro.WinVersionTooLowError=[name] necesită Windows 7 sau mai nou pentru a rula. 
 
 ; Russian
 ru.WelcomeLabel2=Эта программа установит [name] на ваш компьютер.%n%nПеред тем, как продолжить, рекомендуется закрыть все прочие приложения.
-ru.WinVersionTooLowError=Для запуска [name] требуется Windows Vista или выше.
+ru.WinVersionTooLowError=Для запуска [name] требуется Windows 7 или выше.
 
 ; Slovak
 sk.WelcomeLabel2=Teraz sa nainštaluje [name] do Vášho počítača.%n%nPredtým než budete pokračovať, odporúčame ukončiť všetky ostatné programy.
-sk.WinVersionTooLowError=[name] vyžaduje na svoje fungovanie systém Windows Vista alebo novší.
+sk.WinVersionTooLowError=[name] vyžaduje na svoje fungovanie systém Windows 7 alebo novší.
 
 ; Slovenian
 sl.WelcomeLabel2=[name] bo nameščen na tem računalniku.%n%nPriporočamo, da zaprete vse ostale programa pred nadaljevanjem.
-sl.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+sl.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; Serbian (Cyrillic)
 sr.WelcomeLabel2=Овај програм ће инсталирати [name] на ваш рачунар.%n%nПре него што наставите, препоручује се да затворите све друге програме.
-sr.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+sr.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; Swedish
 sv.WelcomeLabel2=Detta kommer att installera [name] på din dator.%n%nDet rekommenderas att du stänger alla andra program innan du fortsätter.
-sv.WinVersionTooLowError=[namn] kräver Windows Vista eller nyare för att köras.
+sv.WinVersionTooLowError=[namn] kräver Windows 7 eller nyare för att köras.
 
 ; Thai (Thailand)
 th_TH.WelcomeLabel2=สิ่งนี้จะติดตั้ง [name] บนคอมพิวเตอร์ของคุณ%n%nขอแนะนำให้คุณปิดโปรแกรมอื่นๆ ก่อนทำขั้นตอนต่อไป
-th_TH.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+th_TH.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; Turkish
 tr.WelcomeLabel2=[name] medya oynatıcısı programı bilgisayarınıza kurulacaktır.%n%nKuruluma geçmeden önce tüm açık uygulamaları kapatmanızı öneriyoruz.
-tr.WinVersionTooLowError=[name] programını çalıştırmak için Windows Vista veya daha yeni bir sürüm gerekiyor.
+tr.WinVersionTooLowError=[name] programını çalıştırmak için Windows 7 veya daha yeni bir sürüm gerekiyor.
 
 ; Tatar
 tt.WelcomeLabel2=Программа сезнең санакка [name] урнаштырачак.%n%nДәвам итү алдыннан барлык башка эшлекле кушымталарны ябарга кирәк.
-tt.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+tt.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; Ukrainian
 uk.WelcomeLabel2=На ваш комп'ютер буде встановлено [name].%n%nРекомендується завершити роботу інших додатків перед продовженням.
-uk.WinVersionTooLowError=[name] requires Windows Vista or newer to run.
+uk.WinVersionTooLowError=[name] requires Windows 7 or newer to run.
 
 ; Vietnamese
 vi.WelcomeLabel2=Chuẩn bị cài đặt [name] vào máy tính của bạn.%n%nĐề nghị bạn đóng tất cả các ứng dụng khác trước khi tiếp tục.
-vi.WinVersionTooLowError=[name] yêu cầu Windows Vista hoặc mới hơn để chạy.
+vi.WinVersionTooLowError=[name] yêu cầu Windows 7 hoặc mới hơn để chạy.
 
 ; Chinese (P.R.C.)
 zh_CN.WelcomeLabel2=这将安装 [name] 到您的计算机中。%n%n建议您在继续之前关闭所有其它的应用程序。
-zh_CN.WinVersionTooLowError=[name] 需要运行在Windows Vista或更新版本的Windows系统上
+zh_CN.WinVersionTooLowError=[name] 需要运行在Windows 7或更新版本的Windows系统上
 
 ; Chinese (Taiwan)
 zh_TW.WelcomeLabel2=這將會安裝 [name] 在您的電腦中。%n%n建議您關閉所有其它應用程式後再繼續。
-zh_TW.WinVersionTooLowError=[name] 需要 Windows Vista 或更新版才能執行。
+zh_TW.WinVersionTooLowError=[name] 需要 Windows 7 或更新版才能執行。
 
 
 [CustomMessages]
@@ -693,21 +693,21 @@ pt_BR.types_CustomInstallation=Instalação personalizada
 pt_BR.ViewChangelog=Visualizar Changelog
 
 ; Portuguese (Portugal)
-pt_PT.langid=00001046
+pt_PT.langid=00002070
 pt_PT.comp_mpciconlib=Biblioteca de ícones
 pt_PT.comp_mpcresources=Traduções
 pt_PT.msg_DeleteSettings=Pretende também eliminar as definições do MPC-HC?%n%nSe planeia instalar o MPC-HC outra vez, então não necessita de as eliminar.
 #if defined(sse2_required)
 pt_PT.msg_simd_sse2=Esta compilação do MPC-HC requer um processador com suporte para o SSE2.%n%nO seu processador não contém esta capacidade.
 #endif
-pt_PT.run_DownloadToolbarImages=Visite o nosso Wiki para descarregar imagens de barra de ferramentas
+pt_PT.run_DownloadToolbarImages=Visite a nossa página Wiki para descarregar imagens da barra de ferramentas
 pt_PT.tsk_AllUsers=Para todos os utilizadores
-pt_PT.tsk_CurrentUser=Para o utilizador atual apenas
+pt_PT.tsk_CurrentUser=Apenas para o utilizador atual
 pt_PT.tsk_Other=Outras tarefas:
-pt_PT.tsk_ResetSettings=Reiniciar definições
-pt_PT.types_DefaultInstallation=Instalação por defeito
+pt_PT.tsk_ResetSettings=Repor definições
+pt_PT.types_DefaultInstallation=Instalação predefinida
 pt_PT.types_CustomInstallation=Instalação personalizada
-pt_PT.ViewChangelog=Ver Changelog
+pt_PT.ViewChangelog=Ver registo de alterações
 
 ; Romanian
 ro.langid=00001048

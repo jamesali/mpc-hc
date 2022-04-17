@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-05-04 16:20:41+0000\n"
+"POT-Creation-Date: 2022-01-23 12:48:51+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
 "Language-Team: Belarusian (https://www.transifex.com/mpchc/teams/106126/be/)\n"
@@ -563,7 +563,7 @@ msgstr "Прайгравальнік"
 
 msgctxt "IDD_PPAGEDVD"
 msgid "Playback::DVD"
-msgstr "Прайграванне::DVD"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -686,8 +686,6 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
-"Увядзіце сюды пажаданыя мовы.\n"
-"Напрыклад: «bel eng rus»"
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -1185,8 +1183,8 @@ msgid "&Add to Favorites..."
 msgstr "&Дадаць..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
-msgid "&Organize Favorites..."
-msgstr "&Спарадкаваць..."
+msgid "Organize Favorites..."
+msgstr "Спарадкаваць..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
@@ -2987,6 +2985,14 @@ msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
 msgstr ""
 
+msgctxt "IDS_AG_ZOOM_ADD"
+msgid "Zoom Window +"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_SUB"
+msgid "Zoom Window -"
+msgstr ""
+
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
 msgstr "Маштаб відэакадра 1"
@@ -4160,7 +4166,7 @@ msgid ""
 "\"pathname\"\tThe main file or directory to be loaded\n"
 "\t\t(wildcards allowed, \"-\" denotes standard input)"
 msgstr ""
-"\"шлях\"\t\tФайл або каталог для загрузкі\n"
+"\"шлях\"\tФайл або каталог для загрузкі\n"
 "\t\t(дазволены маскі, \"-\" азначае стандартны)"
 
 msgctxt "IDS_CMD_DUB"
@@ -4239,7 +4245,7 @@ msgstr "/standby\t\tПерайсці ў рэжым чакання па скан�
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
-msgstr "/hibernate\t\tПерайсці ў рэжым сну па сканчэнні прайгравання"
+msgstr ""
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
@@ -4393,8 +4399,8 @@ msgstr "/start ms\t\tПрайграваць з пазіцыі \"ms\" (= мілі
 msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
 msgstr ""
-"/startpos\t\tПрайграваць з пазіцыі  hh:mm:ss (дзе h — гадзіна, m — хвіліна, "
-"s — секунда)"
+"/startpos\tПрайграваць з пазіцыі  hh:mm:ss (дзе h — гадзіна, m — хвіліна, s "
+"— секунда)"
 
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid "/fixedsize w,h\tSet a fixed window size"
@@ -4528,6 +4534,11 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
+msgid ""
+"Show the recording settings dialog automatically when opening a device."
 msgstr ""
 
 msgctxt "IDS_ARS_WASAPI_MODE"

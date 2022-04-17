@@ -803,3 +803,14 @@ ISOLang ISOLang::ISO639XToISOLang(LPCSTR code)
 
     return lang;
 }
+
+CStringW ISOLang::GetLocaleStringCompat(LCID lcid) {
+    CStringW langName;
+    WCHAR strNameBuffer[LOCALE_NAME_MAX_LENGTH];
+    if (0 == LCIDToLocaleName(lcid, strNameBuffer, LOCALE_NAME_MAX_LENGTH, 0)) {
+        GetLocaleString(lcid, LOCALE_SISO639LANGNAME2, langName);
+    } else {
+        langName = strNameBuffer;
+    }
+    return langName;
+}

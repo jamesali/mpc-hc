@@ -181,9 +181,6 @@
     <ClCompile Include="MediaFormats.cpp">
       <Filter>Player Config</Filter>
     </ClCompile>
-    <ClCompile Include="MediaPositionList.cpp">
-      <Filter>Player Config</Filter>
-    </ClCompile>
     <ClCompile Include="MediaTypesDlg.cpp">
       <Filter>Modal Dialogs</Filter>
     </ClCompile>
@@ -597,6 +594,9 @@
     <ClCompile Include="MediaTransControls.cpp">
       <Filter>Main View</Filter>
     </ClCompile>
+    <ClCompile Include="ModelessResizableDialog.cpp">
+      <Filter>Modal Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -687,9 +687,6 @@
       <Filter>Integration\Logitech LCD</Filter>
     </ClInclude>
     <ClInclude Include="MediaFormats.h">
-      <Filter>Player Config</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaPositionList.h">
       <Filter>Player Config</Filter>
     </ClInclude>
     <ClInclude Include="MediaTypesDlg.h">
@@ -1132,6 +1129,9 @@
     <ClInclude Include="RegexUtil.h" />
     <ClInclude Include="MediaTransControls.h">
       <Filter>Main View</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelessResizableDialog.h">
+      <Filter>Modal Dialogs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

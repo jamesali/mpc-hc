@@ -2055,11 +2055,12 @@ void CEVRAllocatorPresenter::RenderThread()
     VERIFY(timeBeginPeriod(dwResolution) == 0);
 
     auto checkPendingMediaFinished = [this]() {
-        if (m_bPendingMediaFinished) {
+        if (m_bPendingMediaFinished && m_nRenderState != Stopped) {
             CAutoLock lock(&m_SampleQueueLock);
             if (m_ScheduledSamples.IsEmpty()) {
                 m_bPendingMediaFinished = false;
                 m_pSink->Notify(EC_COMPLETE, 0, 0);
+                TRACE_EVR("EVR: send EC_COMPLETE\n");
             }
         }
     };
@@ -2596,9 +2597,7 @@ void CEVRAllocatorPresenter::RemoveAllSamples()
     CAutoLock sampleQueueLock(&m_SampleQueueLock);
 
     FlushSamples();
-    m_ScheduledSamples.RemoveAll();
     m_FreeSamples.RemoveAll();
-    m_LastScheduledSampleTime = -1;
     m_LastScheduledUncorrectedSampleTime = -1;
     m_nUsedBuffer = 0;
     // Increment the group id to make sure old samples will really be deleted

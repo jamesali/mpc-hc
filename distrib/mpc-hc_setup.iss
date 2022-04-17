@@ -149,7 +149,7 @@ AllowNoIcons              = yes
 ShowTasksTreeLines        = yes
 DisableDirPage            = auto
 DisableProgramGroupPage   = auto
-MinVersion                = 6.0
+MinVersion                = 6.1
 CloseApplications         = true
 #ifexist "..\signinfo.txt"
 SignTool                  = MySignTool
@@ -442,7 +442,13 @@ end;
 
 
 procedure CleanUpSettingsAndFiles();
+var
+  ResultCode: Integer;
 begin
+  try
+    Exec(ExpandConstant('{app}\{#mpchc_exe}'), '/unregall', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  except
+  end;
   DeleteFile(ExpandConstant('{app}\{#mpchc_ini}'));
   DelTree(ExpandConstant('{userappdata}\MPC-HC\ShaderCache'), True, True, True);  
   DeleteFile(ExpandConstant('{userappdata}\MPC-HC\default.mpcpl'));

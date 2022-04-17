@@ -33,13 +33,10 @@ CPPageSubStyle::CPPageSubStyle()
     , m_stss(AfxGetAppSettings().subtitlesDefStyle)
     , m_bDefaultStyle(true)
     , m_iCharset(0)
-    , m_spacing(0)
     , m_angle(0)
     , m_scalex(0)
     , m_scaley(0)
     , m_borderStyle(0)
-    , m_borderWidth(0)
-    , m_shadowDepth(0)
     , m_screenAlignment(0)
     , m_margin(0, 0, 0, 0)
     , m_bLinkAlphaSliders(FALSE)
@@ -77,8 +74,7 @@ void CPPageSubStyle::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_BUTTON1, m_font);
     DDX_CBIndex(pDX, IDC_COMBO1, m_iCharset);
     DDX_Control(pDX, IDC_COMBO1, m_cbCharset);
-    DDX_Text(pDX, IDC_EDIT3, m_spacing);
-    DDX_Control(pDX, IDC_SPIN3, m_spacingSpin);
+    DDX_Control(pDX, IDC_EDIT3, m_spacing);
     DDX_Text(pDX, IDC_EDIT4, m_angle);
     DDX_Control(pDX, IDC_SPIN10, m_angleSpin);
     DDX_Text(pDX, IDC_EDIT5, m_scalex);
@@ -86,10 +82,8 @@ void CPPageSubStyle::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT6, m_scaley);
     DDX_Control(pDX, IDC_SPIN5, m_scaleySpin);
     DDX_Radio(pDX, IDC_RADIO1, m_borderStyle);
-    DDX_Text(pDX, IDC_EDIT1, m_borderWidth);
-    DDX_Control(pDX, IDC_SPIN1, m_borderWidthSpin);
-    DDX_Text(pDX, IDC_EDIT2, m_shadowDepth);
-    DDX_Control(pDX, IDC_SPIN2, m_shadowDepthSpin);
+    DDX_Control(pDX, IDC_EDIT1, m_borderWidth);
+    DDX_Control(pDX, IDC_EDIT2, m_shadowDepth);
     DDX_Radio(pDX, IDC_RADIO3, m_screenAlignment);
     DDX_Text(pDX, IDC_EDIT7, m_margin.left);
     DDX_Control(pDX, IDC_SPIN6, m_marginLeftSpin);
@@ -148,8 +142,8 @@ BOOL CPPageSubStyle::OnInitDialog()
     }
 
     // TODO: allow floats in these edit boxes
-    m_spacing = (int)m_stss.fontSpacing;
-    m_spacingSpin.SetRange32(-10000, 10000);
+    m_spacing.SetRange(-100.0f, 100.0f);
+    m_spacing = m_stss.fontSpacing;
     while (m_stss.fontAngleZ < 0) {
         m_stss.fontAngleZ += 360;
     }
@@ -161,10 +155,10 @@ BOOL CPPageSubStyle::OnInitDialog()
     m_scaleySpin.SetRange32(-10000, 10000);
 
     m_borderStyle = m_stss.borderStyle;
-    m_borderWidth = (int)std::min(m_stss.outlineWidthX, m_stss.outlineWidthY);
-    m_borderWidthSpin.SetRange32(0, 10000);
-    m_shadowDepth = (int)std::min(m_stss.shadowDepthX, m_stss.shadowDepthY);
-    m_shadowDepthSpin.SetRange32(0, 10000);
+    m_borderWidth.SetRange(0.0f, 100.0f);
+    m_borderWidth = std::min(m_stss.outlineWidthX, m_stss.outlineWidthY);
+    m_shadowDepth.SetRange(0.0f, 100.0f);
+    m_shadowDepth = std::min(m_stss.shadowDepthX, m_stss.shadowDepthY);
 
     m_screenAlignment = m_stss.scrAlignment - 1;
     m_margin = m_stss.marginRect;

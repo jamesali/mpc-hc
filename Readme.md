@@ -25,7 +25,7 @@ Options > Tweaks > Show preview on seek bar
 Menu > Play > Playback rate<br/>
 The buttons in the player that control playback rate take a 2x step by default. This can be customized to smaller values (like 10%):<br/>
 Options > Playback > Speed step<br/>
-Adjusting playback speed works best with the internal audio renderer. This also has automatic pitch correction.<br/>
+Adjusting playback speed works best with the SaneAR audio renderer. This also has automatic pitch correction.<br/>
 Options > Playback > Output > Audio Renderer
 * MPC-HC can remember playback position, so you can resume from that point later<br/>
 Options > Player > History
@@ -61,7 +61,7 @@ Options > Subtitles > Misc
 
 ## System Requirements
 
-* Windows Vista / 7 / 8 / 8.1 / 10 / 11
+* Windows 7 / 8 / 8.1 / 10 / 11
 
 ## License
 

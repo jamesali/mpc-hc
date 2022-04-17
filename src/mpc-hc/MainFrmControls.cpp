@@ -120,14 +120,14 @@ void CMainFrameControls::DelayShowNotLoadedCallback()
 bool CMainFrameControls::InFullscreenWithPermahiddenToolbars()
 {
     const auto& s = AfxGetAppSettings();
-    return m_pMainFrame->m_fFullScreen && s.bHideFullscreenControls &&
+    return m_pMainFrame->IsFullScreenMainFrame() && s.bHideFullscreenControls &&
            s.eHideFullscreenControlsPolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER;
 }
 
 bool CMainFrameControls::InFullscreenWithPermahiddenDockedPanels()
 {
     const auto& s = AfxGetAppSettings();
-    return m_pMainFrame->m_fFullScreen && s.bHideFullscreenControls && s.bHideFullscreenDockedPanels &&
+    return m_pMainFrame->IsFullScreenMainFrame() && s.bHideFullscreenControls && s.bHideFullscreenDockedPanels &&
            s.eHideFullscreenControlsPolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER;
 }
 
@@ -292,7 +292,7 @@ CSize CMainFrameControls::GetDockZonesMinSize(unsigned uSaneFallback)
 bool CMainFrameControls::PanelsCoverVideo() const
 {
     const auto& s = AfxGetAppSettings();
-    return m_pMainFrame->m_fFullScreen || (!m_pMainFrame->IsD3DFullScreenMode() &&
+    return m_pMainFrame->IsFullScreenMainFrame() || (!m_pMainFrame->IsD3DFullScreenMode() &&
                                            s.bHideWindowedControls && s.bHideFullscreenControls && s.bHideFullscreenDockedPanels &&
                                            s.eHideFullscreenControlsPolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER);
 }
@@ -300,7 +300,7 @@ bool CMainFrameControls::PanelsCoverVideo() const
 bool CMainFrameControls::ToolbarsCoverVideo() const
 {
     const auto& s = AfxGetAppSettings();
-    return m_pMainFrame->m_fFullScreen || (!m_pMainFrame->IsD3DFullScreenMode() &&
+    return m_pMainFrame->IsFullScreenMainFrame() || (!m_pMainFrame->IsD3DFullScreenMode() &&
                                            s.bHideWindowedControls && s.bHideFullscreenControls &&
                                            s.eHideFullscreenControlsPolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER);
 }
@@ -322,7 +322,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
 
     const MLS mls = m_pMainFrame->GetLoadState();
     const bool bCanAutoHide = s.bHideFullscreenControls && (mls == MLS::LOADED || m_bDelayShowNotLoaded) &&
-                              (m_pMainFrame->m_fFullScreen || s.bHideWindowedControls) &&
+                              (m_pMainFrame->IsFullScreenMainFrame() || s.bHideWindowedControls) &&
                               ePolicy != CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER;
     const bool bCanHideDockedPanels = s.bHideFullscreenDockedPanels;
 
@@ -344,7 +344,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
     bool bRecalcLayout = false;
 
     bool bExclSeekbar = false;
-    if (m_pMainFrame->m_fFullScreen && m_pMainFrame->m_pMVRS) {
+    if (m_pMainFrame->IsFullScreenMainFrame() && m_pMainFrame->m_pMVRS) {
         BOOL bOptExcl = FALSE, bOptExclSeekbar = FALSE;
         VERIFY(m_pMainFrame->m_pMVRS->SettingsGetBoolean(L"enableExclusive", &bOptExcl));
         VERIFY(m_pMainFrame->m_pMVRS->SettingsGetBoolean(L"enableSeekbar", &bOptExclSeekbar));
@@ -353,7 +353,7 @@ void CMainFrameControls::UpdateToolbarsVisibility()
         bExclSeekbar = true;
     }
 
-    if (m_pMainFrame->m_fFullScreen && s.bHideFullscreenControls &&
+    if (m_pMainFrame->IsFullScreenMainFrame() && s.bHideFullscreenControls &&
             ePolicy == CAppSettings::HideFullscreenControlsPolicy::SHOW_NEVER) {
         // hide completely
         mask.hide(maskAll);
@@ -653,14 +653,12 @@ void CMainFrameControls::UpdateToolbarsVisibility()
         autohideZone(DOCK_RIGHT);
     }
 
-    if (uTimeout > 0 || s.bHideWindowedControls) {
-        const bool bNeedTimer = !m_zoneHideTicks.empty();
-        if (bNoTimer && bNeedTimer) {
-            m_pMainFrame->m_timerHider.Subscribe(CMainFrame::TimerHiderSubscriber::TOOLBARS_HIDER,
-                std::bind(&CMainFrameControls::UpdateToolbarsVisibility, this));
-        } else if (!bNoTimer && !bNeedTimer) {
-            m_pMainFrame->m_timerHider.Unsubscribe(CMainFrame::TimerHiderSubscriber::TOOLBARS_HIDER);
-        }
+    const bool bNeedTimer = !m_zoneHideTicks.empty();
+    if (bNoTimer && bNeedTimer) {
+        m_pMainFrame->m_timerHider.Subscribe(CMainFrame::TimerHiderSubscriber::TOOLBARS_HIDER,
+            std::bind(&CMainFrameControls::UpdateToolbarsVisibility, this));
+    } else if (!bNoTimer && !bNeedTimer) {
+        m_pMainFrame->m_timerHider.Unsubscribe(CMainFrame::TimerHiderSubscriber::TOOLBARS_HIDER);
     }
 
     if (bRecalcLayout) {

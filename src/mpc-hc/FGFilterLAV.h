@@ -30,9 +30,9 @@ DEFINE_GUID(GUID_LAVAudio, 0xE8E73B6B, 0x4CB3, 0x44A4, 0xBE, 0x99, 0x4F, 0x7B, 0
 #include "FGFilter.h"
 #include "ComPropertySheet.h"
 
-#include "LAVFilters/src/common/includes/LAVSplitterSettings.h"
-#include "LAVFilters/src/decoder/LAVVideo/LAVVideoSettings.h"
-#include "LAVFilters/src/decoder/LAVAudio/LAVAudioSettings.h"
+#include "LAVFilters/src/include/LAVSplitterSettings.h"
+#include "LAVFilters/src/include/LAVVideoSettings.h"
+#include "LAVFilters/src/include/LAVAudioSettings.h"
 
 #define IDS_R_INTERNAL_LAVSPLITTER           IDS_R_INTERNAL_FILTERS  _T("\\LAVSplitter")
 #define IDS_R_INTERNAL_LAVVIDEO              IDS_R_INTERNAL_FILTERS  _T("\\LAVVideo")
@@ -120,6 +120,8 @@ public:
         BOOL bSubstreams;
 
         BOOL bMatroskaExternalSegments;
+
+        BOOL bStreamSwitchReselectSubs;
 
         BOOL bStreamSwitchRemoveAudio;
         BOOL bImpairedAudio;

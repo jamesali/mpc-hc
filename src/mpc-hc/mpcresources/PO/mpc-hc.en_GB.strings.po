@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-05-04 16:20:41+0000\n"
+"POT-Creation-Date: 2022-01-23 12:48:51+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Dogers <dogers@the-marines.com>, 2020\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/mpchc/teams/106126/en_GB/)\n"
@@ -565,7 +565,7 @@ msgstr "Player"
 
 msgctxt "IDD_PPAGEDVD"
 msgid "Playback::DVD"
-msgstr "Playback::DVD"
+msgstr ""
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -1192,8 +1192,8 @@ msgid "&Add to Favorites..."
 msgstr "&Add to Favourites..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
-msgid "&Organize Favorites..."
-msgstr "&Organise Favourites..."
+msgid "Organize Favorites..."
+msgstr "Organise Favourites..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
@@ -3001,6 +3001,14 @@ msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
 msgstr ""
 
+msgctxt "IDS_AG_ZOOM_ADD"
+msgid "Zoom Window +"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_SUB"
+msgid "Zoom Window -"
+msgstr ""
+
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
 msgstr "VidFrm Zoom 1"
@@ -4257,7 +4265,7 @@ msgstr "/standby\t\tPut the operating system in standby mode after playback"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
-msgstr "/hibernate\t\tHibernate operating system after playback"
+msgstr ""
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
@@ -4573,6 +4581,11 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
+msgid ""
+"Show the recording settings dialog automatically when opening a device."
 msgstr ""
 
 msgctxt "IDS_ARS_WASAPI_MODE"

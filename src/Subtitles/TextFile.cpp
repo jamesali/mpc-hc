@@ -225,6 +225,24 @@ void CTextFile::WriteString(LPCSTR lpsz/*CStringA str*/)
     }
 }
 
+CStringA ConvertUnicodeToUTF8(const CStringW& input)
+{
+    if (input.IsEmpty()) {
+        return "";
+    }
+    CStringA utf8;
+    int cc = 0;
+    if ((cc = WideCharToMultiByte(CP_UTF8, 0, input, -1, NULL, 0, 0, 0) - 1) > 0)
+    {
+        char* buf = utf8.GetBuffer(cc);
+        if (buf) {
+            WideCharToMultiByte(CP_UTF8, 0, input, -1, buf, cc, 0, 0);
+        }
+        utf8.ReleaseBuffer();
+    }
+    return utf8;
+}
+
 void CTextFile::WriteString(LPCWSTR lpsz/*CStringW str*/)
 {
     CStringW str(lpsz);
@@ -237,25 +255,8 @@ void CTextFile::WriteString(LPCWSTR lpsz/*CStringW str*/)
         Write((LPCSTR)stra, stra.GetLength());
     } else if (m_encoding == UTF8) {
         str.Replace(L"\n", L"\r\n");
-        for (unsigned int i = 0, l = str.GetLength(); i < l; i++) {
-            DWORD c = (WORD)str[i];
-
-            if (c < 0x80) { // 0xxxxxxx
-                Write(&c, 1);
-            } else if (0x80 <= c && c < 0x800) { // 110xxxxx 10xxxxxx
-                c = 0xc080 | ((c << 2) & 0x1f00) | (c & 0x003f);
-                Write((BYTE*)&c + 1, 1);
-                Write(&c, 1);
-            } else if (0x800 <= c && c < 0xFFFF) { // 1110xxxx 10xxxxxx 10xxxxxx
-                c = 0xe08080 | ((c << 4) & 0x0f0000) | ((c << 2) & 0x3f00) | (c & 0x003f);
-                Write((BYTE*)&c + 2, 1);
-                Write((BYTE*)&c + 1, 1);
-                Write(&c, 1);
-            } else {
-                c = '?';
-                Write(&c, 1);
-            }
-        }
+        CStringA utf8data = ConvertUnicodeToUTF8(str);
+        Write((LPCSTR)utf8data, utf8data.GetLength());
     } else if (m_encoding == LE16) {
         str.Replace(L"\n", L"\r\n");
         Write((LPCWSTR)str, str.GetLength() * 2);

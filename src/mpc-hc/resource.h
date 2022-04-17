@@ -1082,6 +1082,10 @@
 #define ID_PLAY_REPEAT_AB_MARK_A        33454
 #define IDS_AG_MOUSE_FS_MODIFIER        33454
 #define ID_PLAY_REPEAT_AB_MARK_B        33455
+#define ID_VIEW_ZOOM_SUB                33456
+#define ID_VIEW_ZOOM_ADD                33457
+#define IDS_AG_ZOOM_ADD                 33458
+#define IDS_AG_ZOOM_SUB                 33459
 #define ID_RECENT_FILE_START            34000
 #define ID_RECENT_FILE_END              34999
 #define IDS_MFMT_AVI                    39001
@@ -1688,13 +1692,14 @@
 #define IDS_ARS_WASAPI_METHOD           57618
 #define IDS_ARS_DUMMY_CHANNELS          57619
 #define IDS_AG_DEFAULT                  57620
+#define IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE 57621
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20069
-#define _APS_NEXT_COMMAND_VALUE         33456
+#define _APS_NEXT_COMMAND_VALUE         33460
 #define _APS_NEXT_CONTROL_VALUE         22087
 #define _APS_NEXT_SYMED_VALUE           24052
 #endif

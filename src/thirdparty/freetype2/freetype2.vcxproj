@@ -137,6 +137,7 @@
     <ClCompile Include="freetype2\src\raster\raster.c" />
     <ClCompile Include="freetype2\src\sfnt\sfnt.c" />
     <ClCompile Include="freetype2\src\smooth\smooth.c" />
+    <ClCompile Include="freetype2\src\sdf\sdf.c" />
     <ClCompile Include="freetype2\src\truetype\truetype.c" />
     <ClCompile Include="freetype2\src\type1\type1.c" />
     <ClCompile Include="freetype2\src\type42\type42.c" />

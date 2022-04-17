@@ -321,7 +321,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
                 hdrCtrl->GetItem(nSubItem, &hditem);
                 align = hditem.fmt & HDF_JUSTIFYMASK;
             }
-            UINT textFormat = DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS;
+            UINT textFormat = DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX;
             if (align == HDF_CENTER) {
                 textFormat |= DT_CENTER;
             } else if (align == HDF_LEFT) {
@@ -476,13 +476,18 @@ BOOL CMPCThemePlayerListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
                 *pResult = CDRF_SKIPDEFAULT;
             }
         } else if (pLVCD->nmcd.dwDrawStage == (CDDS_ITEMPREPAINT | CDDS_SUBITEM)) {
-            int nItem = static_cast<int>(pLVCD->nmcd.dwItemSpec);
-            if (IsItemVisible(nItem)) {
-                int nSubItem = pLVCD->iSubItem;
-                CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
-                drawItem(pDC, nItem, nSubItem);
+            if (GetStyle() & LVS_OWNERDRAWFIXED) {
+                //found that for ownerdraw routines, we can end up here and draw both ways on hover/tooltip. this should prevent it
+                *pResult = CDRF_DODEFAULT;
+            } else {
+                int nItem = static_cast<int>(pLVCD->nmcd.dwItemSpec);
+                if (IsItemVisible(nItem)) {
+                    int nSubItem = pLVCD->iSubItem;
+                    CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
+                    drawItem(pDC, nItem, nSubItem);
+                }
+                *pResult = CDRF_SKIPDEFAULT;
             }
-            *pResult = CDRF_SKIPDEFAULT;
         }
         return TRUE;
     }

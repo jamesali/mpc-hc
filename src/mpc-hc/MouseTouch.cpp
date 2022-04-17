@@ -178,8 +178,11 @@ CPoint CMouse::GetVideoPoint(const CPoint& point) const
 
 bool CMouse::IsOnFullscreenWindow() const
 {
-    bool bD3DFSActive = m_pMainFrame->IsD3DFullScreenMode();
-    return (m_pMainFrame->m_fFullScreen && !bD3DFSActive) || (m_bD3DFS && bD3DFSActive);
+    if (m_pMainFrame->HasFullScreenWindow()) {
+        return m_pMainFrame->m_pFullscreenWnd == this; //we are the fullscreen window
+    } else {
+        return &m_pMainFrame->m_wndView == this && m_pMainFrame->IsFullScreenMainFrame(); //we are the view and it is fullscreened
+    }
 }
 
 bool CMouse::OnButton(UINT id, const CPoint& point, bool bOnFullscreen)

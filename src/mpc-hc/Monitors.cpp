@@ -76,6 +76,27 @@ CMonitor CMonitors::GetPrimaryMonitor()
     return monitor;
 }
 
+CMonitor CMonitors::GetMonitor(CStringW displayName)
+{
+    CMonitor monitor;
+    if (displayName != _T("Current")) {
+        for (int i = 0; i < GetCount(); i++) {
+            monitor = GetMonitor(i);
+            if (!monitor.IsMonitor()) {
+                continue;
+            }
+            CStringW str;
+            monitor.GetName(str);
+            if (displayName == str) {
+                break;
+            }
+            monitor.Detach();
+        }
+    }
+    return monitor;
+}
+
+
 //
 // is the given handle a valid monitor handle
 BOOL CMonitors::IsMonitor(const HMONITOR hMonitor)

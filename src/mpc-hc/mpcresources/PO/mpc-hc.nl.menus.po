@@ -4,15 +4,15 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # mark van tilburg <markvantilburg@gmail.com>, 2020
-# Renz Straatman <renz75@outlook.com>, 2020
 # Arne Bezuijen <transifex@arnage.nl>, 2021
+# Renz Straatman <renz75@outlook.com>, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-02-15 14:52:58+0000\n"
+"POT-Creation-Date: 2021-08-25 14:36:40+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Arne Bezuijen <transifex@arnage.nl>, 2021\n"
+"Last-Translator: Renz Straatman <renz75@outlook.com>, 2021\n"
 "Language-Team: Dutch (https://www.transifex.com/mpchc/teams/106126/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,7 +90,7 @@ msgstr "&Eigenschappen"
 
 msgctxt "ID_FILE_OPEN_LOCATION"
 msgid "Open File &Location"
-msgstr "Open bestandslocatie"
+msgstr "Maplocatie openen"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
@@ -790,15 +790,15 @@ msgstr "Website"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "Controleren op updates"
+msgstr "Controleer op updates"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "&Opdrachtprompt parameters"
+msgstr "Opdrachtprompt-parameters"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"
-msgstr "Skins voor werkbalk downloaden"
+msgstr "Werkbalkskins"
 
 msgctxt "ID_HELP_DONATE"
 msgid "&Donate"

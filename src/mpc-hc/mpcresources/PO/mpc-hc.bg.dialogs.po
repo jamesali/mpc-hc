@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Симеон Цветков <sicvetkov@uni-sofia.bg>, 2020
-# Андрей Станков <astankov84@gmail.com>, 2021
+# Андрей Станков <astankov84@gmail.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-06 17:51:01+0000\n"
+"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Андрей Станков <astankov84@gmail.com>, 2021\n"
+"Last-Translator: Андрей Станков <astankov84@gmail.com>, 2022\n"
 "Language-Team: Bulgarian (https://www.transifex.com/mpchc/teams/106126/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -204,7 +204,7 @@ msgstr "Относно"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2022 clsid2 and others"
-msgstr "Авторско право 2002-2022 clsid2 и други"
+msgstr "Авторски права 2002-2022 clsid2 и други"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -824,7 +824,7 @@ msgstr "Помни позицията"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr ""
+msgstr "Запаметяване на A-B маркери за повторение"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
@@ -1400,7 +1400,7 @@ msgstr "Използване на отместване"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr ""
+msgstr "Скорост на символи"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"

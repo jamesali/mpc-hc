@@ -58,4 +58,5 @@ struct ISOLang : public ISOLangT<LPCSTR> {
     static ISOLang ISO6391ToISOLang(LPCSTR code);
     static ISOLang ISO6392ToISOLang(LPCSTR code);
     static ISOLang ISO639XToISOLang(LPCSTR code);
+    static CStringW GetLocaleStringCompat(LCID lcid);
 };

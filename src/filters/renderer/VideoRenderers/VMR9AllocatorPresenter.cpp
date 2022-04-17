@@ -426,21 +426,21 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
         m_pSubPicQueue->SetFPS(m_fps);
 
         if (m_fUseInternalTimer && !g_bExternalSubtitleTime) {
-            REFERENCE_TIME rtSub = g_tSegmentStart;
             REFERENCE_TIME rtCurFrameTime = lpPresInfo->rtEnd - lpPresInfo->rtStart;
+            REFERENCE_TIME rtSampleTime = 0;
             // check if present timestamps are valid, rtStart can be invalid after a seek, while rtEnd always seems to be correct
             // rtStart is reliable when rtEnd equals duration of two frames (+2 ms because timestamps are sometimes rounded to ms values)
             // or if frame duration seems normal
             if (lpPresInfo->rtEnd > lpPresInfo->rtStart && (lpPresInfo->rtEnd >= 2 * m_rtTimePerFrame + 20000LL || abs(rtCurFrameTime - m_rtTimePerFrame) < 10000LL)) {
-                rtSub += lpPresInfo->rtStart;
-                //TRACE(_T("VMR9: Present %s -> %s | g_tSampleStart %s | g_tSegmentStart %s | rtCurFrameTime %ld\n"), ReftimeToString(lpPresInfo->rtStart).GetString(), ReftimeToString(lpPresInfo->rtEnd).GetString(), ReftimeToString(g_tSampleStart).GetString(), ReftimeToString(g_tSegmentStart).GetString(), rtCurFrameTime);
+                rtSampleTime = lpPresInfo->rtStart;
+                TRACE(_T("VMR9: Present %s -> %s | g_tSampleStart %s | g_tSegmentStart %s | rtCurFrameTime %ld\n"), ReftimeToString(lpPresInfo->rtStart).GetString(), ReftimeToString(lpPresInfo->rtEnd).GetString(), ReftimeToString(g_tSampleStart).GetString(), ReftimeToString(g_tSegmentStart).GetString(), rtCurFrameTime);
             } else {
                 if (lpPresInfo->rtEnd > m_rtTimePerFrame) {
-                    rtSub += lpPresInfo->rtEnd - m_rtTimePerFrame;
+                    rtSampleTime = lpPresInfo->rtEnd - m_rtTimePerFrame;
                 }
                 TRACE(_T("VMR9: Present %s -> %s INVALID! | g_tSampleStart %s | g_tSegmentStart %s | m_rtTimePerFrame %ld\n"), ReftimeToString(lpPresInfo->rtStart).GetString(), ReftimeToString(lpPresInfo->rtEnd).GetString(), ReftimeToString(g_tSampleStart).GetString(), ReftimeToString(g_tSegmentStart).GetString(), m_rtTimePerFrame);
             }
-            __super::SetTime(rtSub);
+            __super::SetTime(g_tSegmentStart + rtSampleTime * (g_bExternalSubtitle ? g_dRate : 1));
         }
     }
 

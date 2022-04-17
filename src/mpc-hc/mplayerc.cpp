@@ -836,7 +836,7 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
     m_s->SaveExternalFilters();
 
     // Write settings immediately
-    m_s->SaveSettings();
+    m_s->SaveSettings(true);
 
     return success;
 }
@@ -1094,6 +1094,58 @@ UINT CMPlayerCApp::GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDe
     return res;
 }
 
+std::list<CStringW> CMPlayerCApp::GetSectionSubKeys(LPCWSTR lpszSection) {
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+
+    std::list<CStringW> keys;
+
+    if (m_pszRegistryKey) {
+        WCHAR    achKey[MAX_REGKEY_LEN];   // buffer for subkey name
+        DWORD    cbName;                   // size of name string 
+        DWORD    cSubKeys = 0;             // number of subkeys 
+
+        if (HKEY hAppKey = GetAppRegistryKey()) {
+            HKEY hSectionKey;
+            if (ERROR_SUCCESS == RegOpenKeyExW(hAppKey, lpszSection, 0, KEY_READ, &hSectionKey)) {
+                RegQueryInfoKeyW(hSectionKey, NULL, NULL, NULL, &cSubKeys, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+                if (cSubKeys) {
+                    for (DWORD i = 0; i < cSubKeys; i++) {
+                        cbName = MAX_REGKEY_LEN;
+                        if (ERROR_SUCCESS == RegEnumKeyExW(hSectionKey, i, achKey, &cbName, NULL, NULL, NULL, NULL)){
+                            keys.push_back(achKey);
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        if (!lpszSection) {
+            ASSERT(FALSE);
+            return keys;
+        }
+        CStringW sectionStr(lpszSection);
+        if (sectionStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return keys;
+        }
+        InitProfile();
+        auto it1 = m_ProfileMap.begin();
+        while (it1 != m_ProfileMap.end()) {
+            if (it1->first.Find(sectionStr + L"\\") == 0) {
+                CStringW subKey = it1->first.Mid(sectionStr.GetLength() + 1);
+                if (subKey.Find(L"\\") == -1) {
+                    keys.push_back(subKey);
+                }
+            }
+            it1++;
+        }
+
+    }
+    return keys;
+}
+
+
 CString CMPlayerCApp::GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault)
 {
     std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
@@ -1163,6 +1215,38 @@ BOOL CMPlayerCApp::WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
         }
         return TRUE;
     }
+}
+
+LONG CMPlayerCApp::RemoveProfileKey(LPCWSTR lpszSection, LPCWSTR lpszEntry) {
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+
+    if (m_pszRegistryKey) {
+        if (HKEY hAppKey = GetAppRegistryKey()) {
+            HKEY hSectionKey;
+            if (ERROR_SUCCESS == RegOpenKeyEx(hAppKey, lpszSection, 0, KEY_READ, &hSectionKey)) {
+                return CWinAppEx::DelRegTree(hSectionKey, lpszEntry);
+            }
+        }
+    } else {
+        if (!lpszSection || !lpszEntry) {
+            ASSERT(FALSE);
+            return 1;
+        }
+        CString sectionStr(lpszSection);
+        CString keyStr(lpszEntry);
+        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return 1;
+        }
+
+        InitProfile();
+        auto it1 = m_ProfileMap.find(sectionStr + L"\\" + keyStr);
+        if (it1 != m_ProfileMap.end()) {
+            m_ProfileMap.erase(it1);
+            m_bQueuedProfileFlush = true;
+        }
+    }
+    return 0;
 }
 
 BOOL CMPlayerCApp::WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue)
@@ -1794,28 +1878,32 @@ BOOL CMPlayerCApp::InitInstance()
 
     m_mutexOneInstance.Create(nullptr, TRUE, MPC_WND_CLASS_NAME);
 
-    if (GetLastError() == ERROR_ALREADY_EXISTS &&
-            (!(m_s->GetAllowMultiInst() || m_s->nCLSwitches & CLSW_NEW || m_cmdln.IsEmpty()) || m_s->nCLSwitches & CLSW_ADD)) {
-
-        DWORD res = WaitForSingleObject(m_mutexOneInstance.m_h, 5000);
-        if (res == WAIT_OBJECT_0 || res == WAIT_ABANDONED) {
-            HWND hWnd = ::FindWindow(MPC_WND_CLASS_NAME, nullptr);
-            if (hWnd) {
-                DWORD dwProcessId = 0;
-                if (GetWindowThreadProcessId(hWnd, &dwProcessId) && dwProcessId) {
-                    VERIFY(AllowSetForegroundWindow(dwProcessId));
-                } else {
-                    ASSERT(FALSE);
+    if (GetLastError() == ERROR_ALREADY_EXISTS) {
+        if ((m_s->nCLSwitches & CLSW_ADD) || !(m_s->GetAllowMultiInst() || m_s->nCLSwitches & CLSW_NEW || m_cmdln.IsEmpty())) {
+            DWORD res = WaitForSingleObject(m_mutexOneInstance.m_h, 5000);
+            if (res == WAIT_OBJECT_0 || res == WAIT_ABANDONED) {
+                HWND hWnd = ::FindWindow(MPC_WND_CLASS_NAME, nullptr);
+                if (hWnd) {
+                    DWORD dwProcessId = 0;
+                    if (GetWindowThreadProcessId(hWnd, &dwProcessId) && dwProcessId) {
+                        VERIFY(AllowSetForegroundWindow(dwProcessId));
+                    } else {
+                        ASSERT(FALSE);
+                    }
+                    if (!(m_s->nCLSwitches & CLSW_MINIMIZED) && IsIconic(hWnd) &&
+                        (!(m_s->nCLSwitches & CLSW_ADD) || m_s->nCLSwitches & CLSW_PLAY) //do not restore when adding to playlist of minimized player, unless also playing
+                        ) {
+                        ShowWindow(hWnd, SW_RESTORE);
+                    }
+                    if (SendCommandLine(hWnd)) {
+                        m_mutexOneInstance.Close();
+                        return FALSE;
+                    }
                 }
-                if (!(m_s->nCLSwitches & CLSW_MINIMIZED) && IsIconic(hWnd) &&
-                    (!(m_s->nCLSwitches & CLSW_ADD) || m_s->nCLSwitches & CLSW_PLAY) //do not restore when adding to playlist of minimized player, unless also playing
-                    ) {
-                    ShowWindow(hWnd, SW_RESTORE);
-                }
-                if (SendCommandLine(hWnd)) {
-                    m_mutexOneInstance.Close();
-                    return FALSE;
-                }
+            }
+            if ((m_s->nCLSwitches & CLSW_ADD)) {
+                ASSERT(FALSE);
+                return FALSE; // don't open new instance if SendCommandLine() failed
             }
         }
     }
@@ -2176,7 +2264,7 @@ void CMPlayerCApp::OnAppAbout()
 void CMPlayerCApp::SetClosingState()
 {
     m_fClosingState = true;
-#if USE_DRDUMP_CRASH_REPORTER & (MPC_VERSION_REV < 50)
+#if USE_DRDUMP_CRASH_REPORTER & (MPC_VERSION_REV < 20)
     DisableCrashReporter();
 #endif
 }

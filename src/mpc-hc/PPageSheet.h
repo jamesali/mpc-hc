@@ -125,8 +125,7 @@ public:
     CPPageSheet();
     virtual ~CPPageSheet();
     void fulfillThemeReqs();
-
-
+    virtual INT_PTR DoModal(); //override to handle RTL without using SetWindowLongPtr
     void LockPage() { m_bLockPage = true; };
 
 protected:
@@ -140,6 +139,7 @@ protected:
     afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
     afx_msg void OnApply();
     LRESULT OnDpiChanged(WPARAM wParam, LPARAM lParam);
+
     virtual TreePropSheet::CPropPageFrame* CreatePageFrame();
 public:
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-04-03 23:14:53+0000\n"
+"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Peter Chen <petercpg@gmail.com>, 2021\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/mpchc/teams/106126/zh_TW/)\n"
@@ -199,7 +199,7 @@ msgstr "關於"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2022 clsid2 and others"
-msgstr "Copyright 2002-2022 clsid2 and others"
+msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -364,7 +364,7 @@ msgstr "總是開啟預設位置:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD"
-msgstr "DVD 導覽與外部 OGM 分離器的偏好語言"
+msgstr ""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -1024,7 +1024,7 @@ msgstr "輪廓"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
 msgid "Opaque box"
-msgstr "不透明框"
+msgstr "不透明外框"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Width"
@@ -1102,7 +1102,7 @@ msgstr "編碼轉換篩選器 (解碼器)"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "內部 LAV Filters 設定"
+msgstr "內建 LAV Filters 選項"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
@@ -1118,7 +1118,7 @@ msgstr "音訊解碼器"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
-msgstr "內部:"
+msgstr "內建："
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
 msgid "External:"
@@ -1146,7 +1146,7 @@ msgstr "字幕"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
-msgstr "螢幕截圖"
+msgstr "螢幕擷圖"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
@@ -1278,7 +1278,7 @@ msgstr "搜尋"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr ""
+msgstr "儲存為..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"

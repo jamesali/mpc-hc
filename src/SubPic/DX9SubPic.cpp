@@ -408,23 +408,10 @@ STDMETHODIMP CDX9SubPicAllocator::SetMaxTextureSize(SIZE maxTextureSize)
         m_maxsize = maxTextureSize;
         TRACE(_T("CDX9SubPicAllocator::SetMaxTextureSize %dx%d\n"), m_maxsize.cx, m_maxsize.cy);
     }
-    return SetCurSize(m_maxsize);
+    return S_OK;
 }
 
 // ISubPicAllocatorImpl
-
-LONG RoundUpToMultiple(LONG input, LONG multiple)
-{
-    if (multiple < 2 || input < 0 || multiple >= input) {
-        return input;
-    }
-    LONG r = input % multiple;
-    if (r == 0) {
-        return input;
-    } else {
-        return input + multiple - r;
-    }
-}
 
 bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 {
@@ -436,9 +423,6 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
         TRACE(_T("CDX9SubPicAllocator::Alloc -> maxsize is zero\n"));
         return false;
     }
-
-    LONG x_r8 = RoundUpToMultiple(m_maxsize.cx, 8);
-    LONG y_r8 = RoundUpToMultiple(m_maxsize.cy, 8);
 
     CAutoLock cAutoLock(this);
 
@@ -455,7 +439,7 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 
     if (!pSurface) {
         CComPtr<IDirect3DTexture9> pTexture;
-        HRESULT hr = m_pD3DDev->CreateTexture(x_r8, y_r8, 1, 0, D3DFMT_A8R8G8B8, fStatic ? D3DPOOL_SYSTEMMEM : D3DPOOL_DEFAULT, &pTexture, nullptr);
+        HRESULT hr = m_pD3DDev->CreateTexture(m_maxsize.cx, m_maxsize.cy, 1, 0, D3DFMT_A8R8G8B8, fStatic ? D3DPOOL_SYSTEMMEM : D3DPOOL_DEFAULT, &pTexture, nullptr);
         if (FAILED(hr)) {
             TRACE(_T("CDX9SubPicAllocator::Alloc -> CreateTexture failed (%dx%d), hr=%x\n"), m_maxsize.cx, m_maxsize.cy, hr);
             return false;
@@ -467,7 +451,7 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
             return false;
         }
 
-        TRACE(_T("CDX9SubPicAllocator::Alloc -> Surface allocated (%dx%d)\n"), x_r8, y_r8);
+        TRACE(_T("CDX9SubPicAllocator::Alloc -> Surface allocated (%dx%d)\n"), m_maxsize.cx, m_maxsize.cy);
     }
 
     try {

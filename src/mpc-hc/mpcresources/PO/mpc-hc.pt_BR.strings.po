@@ -4,14 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Zyz696 Paga, 2020
-# Felipefpl, 2021
+# Felipefpl, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-06 17:51:01+0000\n"
+"POT-Creation-Date: 2022-01-23 12:48:51+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Felipefpl, 2021\n"
+"Last-Translator: Felipefpl, 2022\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/mpchc/teams/106126/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -543,19 +543,19 @@ msgstr "Salvar thumbnails"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
-msgstr ""
+msgstr "Mova a legenda pra baixo"
 
 msgctxt "IDS_SUB_POS_UP"
 msgid "Move subtitle up"
-msgstr ""
+msgstr "Mova a legenda pra cima"
 
 msgctxt "IDS_SUB_FONT_SIZE_DEC"
 msgid "Decrease subtitle text size"
-msgstr ""
+msgstr "Diminuir o tamanho do texto da legenda"
 
 msgctxt "IDS_SUB_FONT_SIZE_INC"
 msgid "Increase subtitle text size"
-msgstr ""
+msgstr "Aumentar o tamanho do texto da legenda"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
@@ -691,7 +691,7 @@ msgid ""
 "For example, type: \"eng jpn swe\""
 msgstr ""
 "Insira seus idiomas preferidos aqui.\n"
-"Por examplo, Digite: \"eng jpn swe\""
+"Por exemplo, Digite: \"eng jap swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -1209,8 +1209,8 @@ msgid "&Add to Favorites..."
 msgstr "&Adicionar aos Favoritos..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
-msgid "&Organize Favorites..."
-msgstr "&Organizar Favoritos..."
+msgid "Organize Favorites..."
+msgstr "Organizar Favoritos..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
@@ -1534,7 +1534,7 @@ msgstr "Tópicos Educacionais/Cientificos/Factuais"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
-msgstr "Ocultar controles e painéis também no modo de janela."
+msgstr "Oculta os controles e painéis também no modo de janela."
 
 msgctxt "IDS_PPAGEADVANCED_BLOCK_VSFILTER"
 msgid ""
@@ -1832,7 +1832,7 @@ msgstr "Mostrar quando mover o cursor, ocultar após:"
 
 msgctxt "IDS_PPAGEFULLSCREEN_SHOHHOVERED"
 msgid "Show when hovering control, hide after:"
-msgstr "Mostrar quando pairar sobre o controle, esconder após:"
+msgstr "Mostrar quando paira sobre o controle, esconder após:"
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
@@ -1995,11 +1995,11 @@ msgstr "Ir pra Próxima Legenda"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr ""
+msgstr "Subresync: shift -100ms"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr ""
+msgstr "Subresync: shift +100ms"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -2233,7 +2233,7 @@ msgstr "Volume Mudo"
 
 msgctxt "IDS_MPLAYERC_63"
 msgid "DVD Title Menu"
-msgstr "Menu de Títulos do DVD"
+msgstr "Menu do Título do DVD"
 
 msgctxt "IDS_AG_DVD_ROOT_MENU"
 msgid "DVD Root Menu"
@@ -3025,6 +3025,14 @@ msgstr "Modificador do Mouse"
 msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
 msgstr "Modificador FS do Mouse"
+
+msgctxt "IDS_AG_ZOOM_ADD"
+msgid "Zoom Window +"
+msgstr "Zoom Window +"
+
+msgctxt "IDS_AG_ZOOM_SUB"
+msgid "Zoom Window -"
+msgstr "Zoom Window -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -4425,7 +4433,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
-msgstr "/fullscreen\tInicia o modo de tela cheia"
+msgstr "/fullscreen\tInicia no modo de tela cheia"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -4466,7 +4474,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_UNREGALL"
 msgid "/unregall\t\tRemove all file associations"
-msgstr "/unregall\t\tRemove todas as associações de arquivos"
+msgstr "/unregall\t\tRemove todas as associações dos arquivos"
 
 msgctxt "IDS_CMD_START"
 msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
@@ -4522,7 +4530,7 @@ msgstr "&Continuar"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
 msgid "Toggle Default Subtitle Style"
-msgstr "Alternar Estilo Padrão da Legenda"
+msgstr "Alternar o Estilo da Legenda Padrão"
 
 msgctxt "IDS_AG_TOGGLE_MPCTHEME"
 msgid "Toggle Dark Theme"
@@ -4622,6 +4630,13 @@ msgid "Display video info (codec name, resolution) in status bar."
 msgstr ""
 "Exibir informações do vídeo (nome do codec, resolução) na barra de status."
 
+msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
+msgid ""
+"Show the recording settings dialog automatically when opening a device."
+msgstr ""
+"Mostra o diálogo das configurações de gravação automaticamente quando abre "
+"um dispositivo."
+
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
 msgstr "Modo WASAPI:"
@@ -4700,7 +4715,7 @@ msgstr "Método do WASAPI:"
 
 msgctxt "IDS_ARS_DUMMY_CHANNELS"
 msgid "Don't fill channels when upmixing"
-msgstr "Não preencha os canais quando aumentar o número deles"
+msgstr "Não preencher os canais quando aumentar o número deles"
 
 msgctxt "IDS_AG_DEFAULT"
 msgid "Default"

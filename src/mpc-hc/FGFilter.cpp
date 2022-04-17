@@ -437,6 +437,7 @@ CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CS
 {
     bool mpcvr = (clsid == CLSID_MPCVR || clsid == CLSID_MPCVRAllocatorPresenter);
     bool madvr = (clsid == CLSID_madVR || clsid == CLSID_madVRAllocatorPresenter);
+    bool evr   = (clsid == CLSID_EnhancedVideoRenderer || clsid == CLSID_EVRAllocatorPresenter || clsid == CLSID_SyncAllocatorPresenter);
 
     // List is based on filter registration data from madVR.
     // ToDo: Some subtypes might only work with madVR. Figure out which ones and add them conditionally for extra efficiency.
@@ -513,6 +514,11 @@ CFGFilterVideoRenderer::CFGFilterVideoRenderer(HWND hWnd, const CLSID& clsid, CS
         AddType(MEDIATYPE_Video, MEDIASUBTYPE_Y8);
         AddType(MEDIATYPE_Video, MEDIASUBTYPE_Y16);
     }
+
+    if (mpcvr || evr) {
+        AddType(MEDIATYPE_Video, MEDIASUBTYPE_ARGB32);
+        AddType(MEDIATYPE_Video, MEDIASUBTYPE_A2R10G10B10);
+    }
 }
 
 CFGFilterVideoRenderer::~CFGFilterVideoRenderer()
@@ -537,7 +543,7 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
     };
 
     if (m_clsid == CLSID_EVRAllocatorPresenter) {
-        CheckNoLog(CreateEVR(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP, m_bIsPreview));
+        CheckNoLog(CreateEVR(m_clsid, m_hWnd, !m_bIsPreview && isD3DFullScreenMode(), &pCAP, m_bIsPreview));
     } else if (m_clsid == CLSID_SyncAllocatorPresenter) {
         CheckNoLog(CreateSyncRenderer(m_clsid, m_hWnd, isD3DFullScreenMode(), &pCAP));
     } else if (m_clsid == CLSID_MPCVRAllocatorPresenter || m_clsid == CLSID_madVRAllocatorPresenter ||

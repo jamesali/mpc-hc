@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Hugo Simões <hugo.simoes.1984@gmail.com>, 2021
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-06 17:51:01+0000\n"
+"POT-Creation-Date: 2022-01-23 12:48:51+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Hugo Simões <hugo.simoes.1984@gmail.com>, 2021\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>, 2022\n"
 "Language-Team: Portuguese (Portugal) (https://www.transifex.com/mpchc/teams/106126/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -540,19 +541,19 @@ msgstr "Guardar miniaturas"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
-msgstr ""
+msgstr "Mover a legenda para baixo"
 
 msgctxt "IDS_SUB_POS_UP"
 msgid "Move subtitle up"
-msgstr ""
+msgstr "Mover a legenda para cima"
 
 msgctxt "IDS_SUB_FONT_SIZE_DEC"
 msgid "Decrease subtitle text size"
-msgstr ""
+msgstr "Diminuir o tamanho do texto da legenda"
 
 msgctxt "IDS_SUB_FONT_SIZE_INC"
 msgid "Increase subtitle text size"
-msgstr ""
+msgstr "Aumentar o tamanho do texto da legenda"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
@@ -564,7 +565,7 @@ msgstr "Reprodutor"
 
 msgctxt "IDD_PPAGEDVD"
 msgid "Playback::DVD"
-msgstr "Reprodução: DVD"
+msgstr "Reprodução::DVD"
 
 msgctxt "IDD_PPAGESUBTITLES"
 msgid "Subtitles"
@@ -612,7 +613,7 @@ msgstr "Reprodução::Definições rend. sinc."
 
 msgctxt "IDD_PPAGEFULLSCREEN"
 msgid "Playback::Fullscreen"
-msgstr "Reprodução::Ecrã completo"
+msgstr "Reprodução::Ecrã inteiro"
 
 msgctxt "IDD_PPAGEAUDIORENDERER"
 msgid "Internal Filters::Audio Renderer"
@@ -688,7 +689,7 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
-"Introduza o seu idioma preferido aqui.\n"
+"Introduza os seus idiomas preferidos aqui.\n"
 "Por exemplo, digite: \"eng jpn swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
@@ -1006,19 +1007,19 @@ msgstr "Não há chaves personalizadas para exportar."
 
 msgctxt "IDS_RFS_NO_FILES"
 msgid "No media files found in the archive"
-msgstr "Não foram encontrados ficheiros de media no arquivo."
+msgstr "Não foram encontrados ficheiros de media no arquivo"
 
 msgctxt "IDS_RFS_COMPRESSED"
 msgid "Compressed files are not supported"
-msgstr "Ficheiros comprimidos não são suportados."
+msgstr "Ficheiros comprimidos não são suportados"
 
 msgctxt "IDS_RFS_ENCRYPTED"
 msgid "Encrypted files are not supported"
-msgstr "Ficheiros encriptados não são suportados."
+msgstr "Ficheiros encriptados não são suportados"
 
 msgctxt "IDS_RFS_MISSING_VOLS"
 msgid "Couldn't find all archive volumes"
-msgstr "Não foram encontrados todos os volumes do arquivo."
+msgstr "Não foram encontrados todos os volumes do arquivo"
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
@@ -1048,7 +1049,7 @@ msgstr "Abra VTS_xx_0.ifo para carregar ficheiros VTS_xx_x.vob num só pedaço"
 
 msgctxt "IDS_SRC_RFS"
 msgid "Based on RARFileSource, doesn't support compressed files"
-msgstr "Baseado em RARFileSource, não suporta ficheiros comprimidos."
+msgstr "Baseado em RARFileSource, não suporta ficheiros comprimidos"
 
 msgctxt "IDS_INTERNAL_LAVF"
 msgid "Uses LAV Filters"
@@ -1108,7 +1109,7 @@ msgstr ""
 "Depois de clicar este botão, o estado marcado do grupo de formatos irá "
 "refletir a associação atual de ficheiros para o MPC-HC. Uma extensão nova "
 "adicionada irá geralmente torná-la em cinzento, então não esqueça de "
-"verificá-la novamente antes de fechar esta caixa de diálogo."
+"verificá-la novamente antes de fechar esta caixa de diálogo!"
 
 msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid ""
@@ -1199,8 +1200,8 @@ msgid "&Add to Favorites..."
 msgstr "&Adicionar aos favoritos..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
-msgid "&Organize Favorites..."
-msgstr "&Organizar favoritos..."
+msgid "Organize Favorites..."
+msgstr "Organizar favoritos..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
@@ -1292,7 +1293,7 @@ msgstr "Ampliar para ecrã ultra-largo,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_PLAYLIST_HIDEFS"
 msgid "&Hide on Fullscreen"
-msgstr "Ocultar em ecrã completo"
+msgstr "Ocultar em ecrã inteiro"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1316,7 +1317,7 @@ msgstr "Fechado"
 
 msgctxt "IDS_SUBTITLES_OPTIONS"
 msgid "&Options..."
-msgstr "&Opções"
+msgstr "&Opções..."
 
 msgctxt "IDS_SUBTITLES_STYLES"
 msgid "&Styles..."
@@ -1380,7 +1381,7 @@ msgstr "Rato em janela"
 
 msgctxt "IDS_AG_MOUSE_FS"
 msgid "Mouse Fullscreen"
-msgstr "Rato em ecrã completo"
+msgstr "Rato em ecrã inteiro"
 
 msgctxt "IDS_AG_APP_COMMAND"
 msgid "App Command"
@@ -1679,8 +1680,8 @@ msgstr ""
 msgctxt "IDS_WEBUI_DISABLED_PREVIEW_MSG"
 msgid "Preview is currently disabled. You can enable it in MPC-HC's options."
 msgstr ""
-"Pré-visualização está atualmente desativada. Pode ativá nas opções do MPC-"
-"HC."
+"A pré-visualização está atualmente desativada. Pode ativá-la nas opções do "
+"MPC-HC."
 
 msgctxt "IDS_WEBUI_PREVIEW_WARNING"
 msgid ""
@@ -1975,7 +1976,7 @@ msgstr "Ficheiro anterior"
 
 msgctxt "IDS_MPLAYERC_99"
 msgid "Toggle Direct3D fullscreen"
-msgstr "Alternar ecrã completo Direct3D"
+msgstr "Alternar ecrã inteiro Direct3D"
 
 msgctxt "IDS_MPLAYERC_100"
 msgid "Goto Prev Subtitle"
@@ -1987,11 +1988,11 @@ msgstr "Ir para a legenda seguinte"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr ""
+msgstr "Subresync: shift -100ms"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr ""
+msgstr "Subresync: shift +100ms"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -2055,11 +2056,11 @@ msgstr "Visualização normal"
 
 msgctxt "IDS_AG_FULLSCREEN"
 msgid "Fullscreen"
-msgstr "Ecrã completo"
+msgstr "Ecrã inteiro"
 
 msgctxt "IDS_MPLAYERC_39"
 msgid "Fullscreen (w/o res.change)"
-msgstr "Ecrã completo (sem alt. res.)"
+msgstr "Ecrã inteiro (sem alt. res.)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
@@ -2075,7 +2076,7 @@ msgstr "VidFrm Normal"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "VidFrm Double"
-msgstr "Dobro de VidFrm "
+msgstr "Dobro de VidFrm"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
@@ -2115,7 +2116,7 @@ msgstr "A analisar a lista..."
 
 msgctxt "IDS_SUBDL_DLG_NOT_FOUND"
 msgid "No subtitles found."
-msgstr "Não foram encontradas legendas"
+msgstr "Não foram encontradas legendas."
 
 msgctxt "IDS_SUBDL_DLG_SUBS_AVAIL"
 msgid "%d subtitle(s) available."
@@ -2127,9 +2128,9 @@ msgid ""
 "\n"
 "This feature can be disabled later from the Miscellaneous options page."
 msgstr ""
-"Pretende verificar periodicamente atualizações para MPC-HC?\n"
+"Pretende verificar periodicamente atualizações para o MPC-HC?\n"
 "\n"
-"Esta funcionalidade pode ser desativada mais tarde a partir da página de opções Váriadas."
+"Esta funcionalidade pode ser desativada mais tarde em Opções - Diversos."
 
 msgctxt "IDS_ZOOM_50"
 msgid "50%"
@@ -2457,7 +2458,7 @@ msgid ""
 "Please click on the \"Run as administrator\" button."
 msgstr ""
 "O MPC-HC não tem privilégios suficientes para alterar as associações de "
-"ficheiros. Por favor clique no botão \"Executar como Administrador\". "
+"ficheiros. Por favor clique no botão \"Executar como Administrador\"."
 
 msgctxt "IDS_APP_DESCRIPTION"
 msgid ""
@@ -2595,7 +2596,7 @@ msgstr "Selecione o caminho para o DVD/BD:"
 
 msgctxt "IDS_SUB_LOADED_SUCCESS"
 msgid " loaded successfully"
-msgstr "carregado com sucesso"
+msgstr " carregado com sucesso"
 
 msgctxt "IDS_ALL_FILES_FILTER"
 msgid "All files (*.*)|*.*||"
@@ -2707,7 +2708,7 @@ msgstr "Falhou ao renderizar o ficheiro"
 
 msgctxt "IDS_AG_CHAPTER2"
 msgid "Chapter: "
-msgstr "Capítulo:"
+msgstr "Capítulo: "
 
 msgctxt "IDS_VOLUME_OSD"
 msgid "Vol: %d%%"
@@ -2836,7 +2837,7 @@ msgstr "Stream desconhecido"
 
 msgctxt "IDS_AG_UNKNOWN"
 msgid "Unknown %u"
-msgstr " %u desconhecido"
+msgstr "%u desconhecido"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
@@ -2872,7 +2873,7 @@ msgstr "Diminuir deslocamento de VSync"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
-msgstr "Ecrã completo MPC-HC D3D"
+msgstr "Ecrã inteiro MPC-HC D3D"
 
 msgctxt "IDS_MAINFRM_137"
 msgid "Unknown format"
@@ -3021,6 +3022,14 @@ msgstr "Alterador de rato"
 msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
 msgstr "Alterador FS de rato"
+
+msgctxt "IDS_AG_ZOOM_ADD"
+msgid "Zoom Window +"
+msgstr "Aumentar janela +"
+
+msgctxt "IDS_AG_ZOOM_SUB"
+msgid "Zoom Window -"
+msgstr "Reduzir janela -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -3504,11 +3513,11 @@ msgstr "Esperar pelo esvaziamento do GPU: Desativado"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_ON"
 msgid "D3D Fullscreen: On"
-msgstr "Ecrã completo D3D: Ativado"
+msgstr "Ecrã inteiro D3D: Ativado"
 
 msgctxt "IDS_OSD_RS_D3D_FULLSCREEN_OFF"
 msgid "D3D Fullscreen: Off"
-msgstr "Ecrã completo D3D: Desativado"
+msgstr "Ecrã inteiro D3D: Desativado"
 
 msgctxt "IDS_OSD_RS_NO_DESKTOP_COMP_ON"
 msgid "Disable desktop composition: On"
@@ -3536,11 +3545,11 @@ msgstr "Definições do renderizador repostas para otimizadas"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
-msgstr "Suporte GUI do ecrã completo D3D: Ativado"
+msgstr "Suporte GUI do ecrã inteiro D3D: Ativado"
 
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF"
 msgid "D3D Fullscreen GUI Support: Off"
-msgstr "Suporte GUI do ecrã completo D3D: Desativado"
+msgstr "Suporte GUI do ecrã inteiro D3D: Desativado"
 
 msgctxt "IDS_OSD_RS_10BIT_RBG_OUT_ON"
 msgid "10-bit RGB Output: On"
@@ -3682,15 +3691,15 @@ msgstr "Normalização: Desativado"
 
 msgctxt "IDS_REGAIN_VOLUME"
 msgid "Toggle regain volume"
-msgstr "Alternar reganho de volume"
+msgstr "Alternar recuperar volume"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_ON"
 msgid "Regain volume: On"
-msgstr "Reganho de volume: Ativado"
+msgstr "Recuperar volume: Ativado"
 
 msgctxt "IDS_OSD_REGAIN_VOLUME_OFF"
 msgid "Regain volume: Off"
-msgstr "Reganho do volume: Desativado"
+msgstr "Recuperar volume: Desativado"
 
 msgctxt "IDS_SIZE_UNIT_BYTES"
 msgid "bytes"
@@ -3958,7 +3967,7 @@ msgstr "Pontuação"
 
 msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
-msgstr "Falhou a pesquisa online de legendas"
+msgstr "Falhou a pesquisa online de legendas."
 
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
@@ -4075,7 +4084,7 @@ msgstr "Copiar URL"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
-msgstr "Não implementado"
+msgstr "Não implementado."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADING"
 msgid "Uploading..."
@@ -4083,15 +4092,15 @@ msgstr "A enviar..."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_UPLOADED"
 msgid "Subtitles uploaded successfully."
-msgstr "Legendas enviadas com sucesso"
+msgstr "Legendas enviadas com sucesso."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_FAILED"
 msgid "Subtitles upload failed."
-msgstr "Falhou o envio de legendas"
+msgstr "Falhou o envio de legendas."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ABORTED"
 msgid "Subtitles upload aborted."
-msgstr "Envio de legendas abortado"
+msgstr "Envio de legendas abortado."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_ALREADYEXISTS"
 msgid "Subtitles already exist."
@@ -4151,7 +4160,7 @@ msgstr "Insira as credenciais do website"
 
 msgctxt "IDS_SUB_CREDENTIALS_MSG"
 msgid "Enter your credentials to connect to: "
-msgstr "Insira as suas credenciais para ligar a:"
+msgstr "Insira as suas credenciais para ligar a: "
 
 msgctxt "IDS_ASPECT_RATIO_SAR"
 msgid "Aspect Ratio: Assume square pixels (SAR)"
@@ -4217,7 +4226,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_D3DFS"
 msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
-msgstr "/d3dfs\t\tInicia o modo de renderização D3D em ecrã completo"
+msgstr "/d3dfs\t\tInicia o modo de renderização D3D em ecrã inteiro"
 
 msgctxt "IDS_CMD_SUB"
 msgid "/sub \"subname\"\tLoad an additional subtitle file"
@@ -4285,7 +4294,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
-msgstr "/hibernate\t\tHiberna o sistema operativo após a reprodução"
+msgstr "/hibernate\t\tHibernar o sistema operativo após a reprodução"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
@@ -4422,7 +4431,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_FULLSCREEN"
 msgid "/fullscreen\tStart in fullscreen mode"
-msgstr "/fullscreen\tIniciar em modo de ecrã completo"
+msgstr "/fullscreen\tIniciar em modo de ecrã inteiro"
 
 msgctxt "IDS_CMD_MINIMIZED"
 msgid "/minimized\tStart in minimized mode"
@@ -4549,7 +4558,7 @@ msgstr ""
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
 msgstr ""
-"Atraso entre a mostra de vídeo em ecrã completo, para prevenir falhas "
+"Atraso entre a mostra de vídeo em ecrã inteiro, para prevenir falhas "
 "visuais."
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
@@ -4619,6 +4628,13 @@ msgstr "Mostrar as marcas de repetição A-B na barra de estado."
 msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
 msgstr "Mostrar info do vídeo (nome do codec, resolução) na barra de estado."
+
+msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
+msgid ""
+"Show the recording settings dialog automatically when opening a device."
+msgstr ""
+"Mostra a caixa de diálogo das definições de gravação automaticamente ao "
+"abrir um dispositivo."
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
