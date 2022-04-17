@@ -26,6 +26,7 @@
 #include "MainFrm.h"
 #include "PPageFileMediaInfo.h"
 #include "WinAPIUtils.h"
+#include "../DeCSS/VobFile.h"
 
 #include "MediaInfo/MediaInfoDLL.h"
 using namespace MediaInfoDLL;
@@ -60,7 +61,18 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, 
         ULONG len = 0;
         if (SUCCEEDED(pDVDI->GetDVDDirectory(m_path.GetBufferSetLength(MAX_PATH), MAX_PATH, &len)) && len) {
             m_path.ReleaseBuffer();
-            m_fn = m_path += _T("\\VIDEO_TS.IFO");
+
+            CString main_ifo = m_path + _T("\\VIDEO_TS.IFO");
+            DVD_PLAYBACK_LOCATION2 loc;
+            ULONG VTSN, TTN;
+            if (SUCCEEDED(pDVDI->GetCurrentLocation(&loc)) && CVobFile::GetTitleInfo(main_ifo, loc.TitleNum, VTSN, TTN)) {
+                CString vts_file;
+                vts_file.Format(_T("\\VTS_%02lu_0.IFO"), VTSN);
+                m_path += vts_file;
+            } else {
+                m_path = main_ifo;
+            }
+            m_fn = m_path;
         }
     }
 

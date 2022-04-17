@@ -103,6 +103,7 @@ DWORD CXySubPicQueue::ThreadProc()
 
                         if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(0, MaxTextureSize, VirtualSize, VirtualTopLeft))) {
                             m_pAllocator->SetMaxTextureSize(MaxTextureSize);
+                            m_pAllocator->SetCurSize(MaxTextureSize);
                         }
 
                         if (m_llSubId == id && !m_queue.IsEmpty()) { // same subtitle as last time
@@ -260,6 +261,7 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, b
                 HRESULT hr2;
                 if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(0, MaxTextureSize, VirtualSize, VirtualTopLeft))) {
                     m_pAllocator->SetMaxTextureSize(MaxTextureSize);
+                    m_pAllocator->SetCurSize(MaxTextureSize);
                     if (!bAllocSubPic) {
                         // Ensure the previously allocated subpic is big enough to hold the subtitle to be rendered
                         SIZE maxSize;

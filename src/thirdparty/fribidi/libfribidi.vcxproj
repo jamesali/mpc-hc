@@ -191,12 +191,12 @@
   <ItemDefinitionGroup>
     <PostBuildEvent>
       <Command>mkdir "generated"
-copy /y "fribidi\SMP\*.h" "generated"
+copy /y "fribidi\SMP\config.h" "generated"
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if exist generated\*.h (
-del generated\*.h
+      <Command>if exist generated\config.h (
+del generated\config.h
 )</Command>
     </PreBuildEvent>
     <CustomBuildStep>
@@ -204,8 +204,8 @@ del generated\*.h
     </CustomBuildStep>
     <CustomBuildStep>
       <Outputs>force_clean</Outputs>
-      <Command>if exist generated\*.h (
-del generated\*.h
+      <Command>if exist generated\config.h (
+del generated\config.h
 )</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>

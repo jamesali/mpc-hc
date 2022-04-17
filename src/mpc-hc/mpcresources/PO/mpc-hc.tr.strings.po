@@ -4,14 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Ali Kömesöğütlü <byzlo685@gmail.com>, 2020
-# Mücahid Aksel <mucahidaksel@gmail.com>, 2020
+# Mücahid Aksel <mucahidaksel@gmail.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-05-04 16:20:41+0000\n"
+"POT-Creation-Date: 2022-01-23 12:48:51+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2020\n"
+"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2022\n"
 "Language-Team: Turkish (https://www.transifex.com/mpchc/teams/106126/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 msgctxt "IDS_INFOBAR_LOCATION"
 msgid "Location"
-msgstr "Yerleşim"
+msgstr "Konum"
 
 msgctxt "IDS_INFOBAR_VIDEO"
 msgid "Video"
@@ -69,7 +69,7 @@ msgstr "Dosya"
 
 msgctxt "IDS_SUBTITLES_DEFAULT_STYLE"
 msgid "&Default Style"
-msgstr "&Görünüm"
+msgstr "Varsayılan biçim"
 
 msgctxt "IDS_PLAY_LOOPMODE_PLAYLIST"
 msgid "Playlist"
@@ -230,11 +230,11 @@ msgstr "İçerik"
 
 msgctxt "IDS_CONTENT_MOVIE_DRAMA"
 msgid "Movie/Drama"
-msgstr "Duygusal/Film"
+msgstr "Film/Dram"
 
 msgctxt "IDS_CONTENT_NEWS_CURRENTAFFAIRS"
 msgid "News/Current affairs"
-msgstr "Güncel/Haberler"
+msgstr "Haberler/Güncel olaylar"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
@@ -400,7 +400,7 @@ msgstr "Son (FPS)"
 
 msgctxt "IDS_PPAGE_FS_CLN_DISPLAY_MODE"
 msgid "Display mode (Hz)"
-msgstr "Görünüm kipi (Hz)"
+msgstr "Görüntüleme hızı (Hz)"
 
 msgctxt "IDS_PPAGE_FS_DEFAULT"
 msgid "Default"
@@ -448,7 +448,7 @@ msgstr "&Panoya kopyala"
 
 msgctxt "IDS_PLAYLIST_SAVE"
 msgid "Sa&ve"
-msgstr ""
+msgstr "Kaydet"
 
 msgctxt "IDS_PLAYLIST_SAVEAS"
 msgid "&Save As..."
@@ -464,7 +464,7 @@ msgstr "&Konuma göre sırala"
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
-msgstr "R&astgele"
+msgstr "Rastgele sırala"
 
 msgctxt "IDS_PLAYLIST_RESTORE"
 msgid "R&estore"
@@ -472,7 +472,7 @@ msgstr "G&eri Al"
 
 msgctxt "IDS_SUBRESYNC_SEPARATOR"
 msgid "&Separator"
-msgstr "&Ayırıcı"
+msgstr "&Ayır"
 
 msgctxt "IDS_SUBRESYNC_DELETE"
 msgid "&Delete"
@@ -480,7 +480,7 @@ msgstr "&Sil"
 
 msgctxt "IDS_SUBRESYNC_DUPLICATE"
 msgid "D&uplicate"
-msgstr "K&opyala"
+msgstr "Çoğalt"
 
 msgctxt "IDS_SUBRESYNC_RESET"
 msgid "&Reset"
@@ -540,19 +540,19 @@ msgstr "Küçük Resim Kaydet"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
-msgstr ""
+msgstr "Altyazıyı aşağı kaydır"
 
 msgctxt "IDS_SUB_POS_UP"
 msgid "Move subtitle up"
-msgstr ""
+msgstr "Altyazıyı yukarı kaydır"
 
 msgctxt "IDS_SUB_FONT_SIZE_DEC"
 msgid "Decrease subtitle text size"
-msgstr ""
+msgstr "Altyazı boyutunu azalt"
 
 msgctxt "IDS_SUB_FONT_SIZE_INC"
 msgid "Increase subtitle text size"
-msgstr ""
+msgstr "Altyazı boyutunu arttır"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
@@ -656,7 +656,7 @@ msgstr "Video Karıştırma İşleyicisi 9 (pencerede)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "Video Karıştırma İşleyicisi 9 (çevrilmeden)"
+msgstr "Video Karıştırma İşleyicisi 9 (işleyicisiz)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
@@ -687,8 +687,8 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
-"Lütfen bu alana tercih ettiğiniz dilleri giriniz.\n"
-"Örnek : \"eng jpn tur\""
+"Bu alana tercih ettiğiniz dilleri giriniz.\n"
+"Örnek: \"eng jpn tur\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -724,7 +724,7 @@ msgstr "MPC Video İşleyici"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7"
 msgid "Video Mixing Renderer 7"
-msgstr ""
+msgstr "Video Mixing Renderer 7"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -908,7 +908,7 @@ msgstr "Eşzamanlama İşleyicisi"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
 msgid "MPC Audio Renderer"
-msgstr ""
+msgstr "MPC Ses İşleyicisi"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -964,7 +964,7 @@ msgstr "Boş (sıkıştırılmadan)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "SaneAR Audio Renderer"
-msgstr ""
+msgstr "SaneAR Ses İşleyicisi"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -1197,16 +1197,16 @@ msgid "&Add to Favorites..."
 msgstr "&Sık Kullanılanlara Ekle..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
-msgid "&Organize Favorites..."
-msgstr "&Sık Kullanılanları Düzenle..."
+msgid "Organize Favorites..."
+msgstr "Sık Kullanılanları Düzenle..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
-msgstr "Rastgele s&ırala"
+msgstr "Rastgele oynat"
 
 msgctxt "IDS_PLAYLIST_SHOWFOLDER"
 msgid "Ope&n file location"
-msgstr "Do&sya yerleşimini aç"
+msgstr "Dosya konumunu aç"
 
 msgctxt "IDS_CONTROLS_CLOSING"
 msgid "Closing..."
@@ -1328,7 +1328,7 @@ msgstr "&Yeniden Yükle"
 
 msgctxt "IDS_SUBTITLES_ENABLE"
 msgid "&Enable"
-msgstr "&Aç"
+msgstr "Etkinleştir"
 
 msgctxt "IDS_PANSCAN_EDIT"
 msgid "&Edit..."
@@ -1545,16 +1545,16 @@ msgid ""
 "Maximum number of files shown in the \"Recent files\" menu and for which the"
 " position is potentially saved."
 msgstr ""
-"\"Geçmiş\" menüsünde gösterilip, dosya yerleşiminde hatırlanacak en fazla "
-"dosya sayısını belirleyin."
+"\"Geçmiş\" menüsünde gösterilip, dosya konumu hatırlanacak en fazla dosya "
+"sayısını belirleyin."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_LONGER"
 msgid "Remember file position only for files longer than N minutes."
-msgstr "Dosya yerleşimini sadece N dakikadan büyük dosyalar için hatırla."
+msgstr "Dosya konumunu sadece N dakikadan büyük dosyalar için hatırla."
 
 msgctxt "IDS_PPAGEADVANCED_FILE_POS_AUDIO"
 msgid "Remember file position also for audio files."
-msgstr "Dosya yerleşimini ses dosyaları için de hatırla."
+msgstr "Dosya konumunu ses dosyaları için de hatırla."
 
 msgctxt "IDS_AFTER_PLAYBACK_DO_NOTHING"
 msgid "Do Nothing"
@@ -1764,7 +1764,7 @@ msgstr "Spor"
 
 msgctxt "IDS_CONTENT_CHILDREN_YOUTH_PROG"
 msgid "Children's/Youth programmes"
-msgstr "Çocuk/Genç programları"
+msgstr "Çocuk/Gençlik programları"
 
 msgctxt "IDS_CONTENT_MUSIC_BALLET_DANCE"
 msgid "Music/Ballet/Dance"
@@ -1788,7 +1788,7 @@ msgstr "Geri Dönüşüm Kutusuna gönder"
 
 msgctxt "IDS_AG_SAVE_COPY"
 msgid "Save a Copy"
-msgstr "Kaydet"
+msgstr "Kopya Kaydet"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
@@ -1834,7 +1834,7 @@ msgstr "Görüntü süresi düzeltmesi: Kapalı"
 
 msgctxt "IDS_OSD_RS_TARGET_VSYNC_OFFSET"
 msgid "Target VSync Offset: %.1f"
-msgstr "Hedef eşzamanlılık: %.1f"
+msgstr "Hedef VSync: %.1f"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFFSET"
 msgid "VSync Offset: %d"
@@ -1981,11 +1981,11 @@ msgstr "Sonraki Altyazıya Git"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr ""
+msgstr "Altyazı senkron: -100ms"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr ""
+msgstr "Altyazı senkron: +100ms"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -2009,7 +2009,7 @@ msgstr "OSD: İşleyici İstatistiklerini Göster"
 
 msgctxt "IDS_OSD_RESET_RENDERER_STATS"
 msgid "OSD: Reset Renderer Statistics"
-msgstr "OSD : İşleyici İstatistiklerini Sıfırla"
+msgstr "OSD: İşleyici İstatistiklerini Sıfırla"
 
 msgctxt "IDD_PPAGESUBMISC"
 msgid "Subtitles::Misc"
@@ -2053,7 +2053,7 @@ msgstr "Tam Ekran"
 
 msgctxt "IDS_MPLAYERC_39"
 msgid "Fullscreen (w/o res.change)"
-msgstr "Tam Ekran (çöz.değiş)"
+msgstr "Tam Ekran (çöz.değişmeden)"
 
 msgctxt "IDS_AG_ZOOM_AUTO_FIT"
 msgid "Zoom Auto Fit"
@@ -2343,7 +2343,7 @@ msgstr "Altyazıyı Aç/Kapat (DVD)"
 
 msgctxt "IDS_OSD_DISPLAY_CURRENT_TIME"
 msgid "OSD: Display Current Time"
-msgstr "OSD : Güncel Süreyi Göster"
+msgstr "OSD: Güncel Süreyi Göster"
 
 msgctxt "IDS_PPAGEWEBSERVER_0"
 msgid "Select the directory"
@@ -2534,7 +2534,7 @@ msgstr ""
 
 msgctxt "IDS_THUMB_ROWNUMBER"
 msgid "Rows:"
-msgstr "Sıra:"
+msgstr "Satır:"
 
 msgctxt "IDS_THUMB_COLNUMBER"
 msgid "Columns:"
@@ -2542,7 +2542,7 @@ msgstr "Sütun:"
 
 msgctxt "IDS_THUMB_IMAGE_WIDTH"
 msgid "Image width"
-msgstr "Görüntü eni"
+msgstr "Görüntü genişliği"
 
 msgctxt "IDS_AG_ASPECT_RATIO"
 msgid "Aspect Ratio"
@@ -2679,7 +2679,7 @@ msgstr "Yetersiz hafıza"
 
 msgctxt "IDS_MAINFRM_77"
 msgid "Error: Requires Adobe Flash Player for IE with killswitch patch"
-msgstr ""
+msgstr "Hata: IE için olan killswitch yamalı Adobe Flash Player gerekmekte."
 
 msgctxt "IDS_MAINFRM_80"
 msgid "Failed to create the filter graph object"
@@ -2691,7 +2691,7 @@ msgstr "Geçersiz istek"
 
 msgctxt "IDS_MAINFRM_82"
 msgid "Opening aborted"
-msgstr "Açılış durduruldu"
+msgstr "Açma işlemi iptal edildi"
 
 msgctxt "IDS_MAINFRM_83"
 msgid "Failed to render the file"
@@ -2831,7 +2831,7 @@ msgstr "Bilinmeyen %u"
 
 msgctxt "IDS_AG_VSYNC"
 msgid "VSync"
-msgstr "Eşzamanlılık"
+msgstr "VSync"
 
 msgctxt "IDS_MAINFRM_121"
 msgid " (Director Comments 1)"
@@ -2875,7 +2875,7 @@ msgstr "Altyazı atlaması : %ld ms"
 
 msgctxt "IDS_VOLUME_BOOST_INC"
 msgid "Volume boost increase"
-msgstr "Ses yüksekliğini arttır"
+msgstr "Ses yükseltmeyi arttır"
 
 msgctxt "IDS_VOLUME_BOOST_DEC"
 msgid "Volume boost decrease"
@@ -2995,7 +2995,7 @@ msgstr "Düzen"
 
 msgctxt "IDS_THUMB_PIXELS"
 msgid "Pixels:"
-msgstr "Pikseller:"
+msgstr "Piksel:"
 
 msgctxt "IDS_TEXTFILE_ENC"
 msgid "Encoding:"
@@ -3011,6 +3011,14 @@ msgstr ""
 
 msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_ADD"
+msgid "Zoom Window +"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_SUB"
+msgid "Zoom Window -"
 msgstr ""
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
@@ -3031,7 +3039,8 @@ msgstr "&Tüm süzgeçleri aç"
 
 msgctxt "IDS_LOGO_AUTHOR"
 msgid "Author unknown. Contact us if you made this logo!"
-msgstr "Yazar bilinmiyor. Bu tasarım size aitse lütfen irtibata geçiniz!"
+msgstr ""
+"Eser sahibi bilinmiyor. Bu tasarım size aitse lütfen irtibata geçiniz!"
 
 msgctxt "IDS_NO_MORE_MEDIA"
 msgid "No more media in the current folder."
@@ -3203,7 +3212,7 @@ msgstr "3GP"
 
 msgctxt "IDS_MFMT_3GA"
 msgid "3GA"
-msgstr ""
+msgstr "3GA"
 
 msgctxt "IDS_MFMT_FLV"
 msgid "Flash Video"
@@ -3263,7 +3272,7 @@ msgstr "AIFF"
 
 msgctxt "IDS_MFMT_ALAC"
 msgid "Apple Lossless"
-msgstr "Kayıpsız Apple"
+msgstr "Apple Kayıpsız"
 
 msgctxt "IDS_MFMT_WAV"
 msgid "WAV"
@@ -3375,19 +3384,19 @@ msgstr "En Boy Oranı"
 
 msgctxt "IDS_OSD_RS_VSYNC_ON"
 msgid "VSync: On"
-msgstr "Eşzamanlama: Açık"
+msgstr "VSync: Açık"
 
 msgctxt "IDS_OSD_RS_VSYNC_OFF"
 msgid "VSync: Off"
-msgstr "Eşzamanlama: Kapalı"
+msgstr "VSync: Kapalı"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_ON"
 msgid "Accurate VSync: On"
-msgstr "Net Eşzamanlama: Açık"
+msgstr "Net VSync: Açık"
 
 msgctxt "IDS_OSD_RS_ACCURATE_VSYNC_OFF"
 msgid "Accurate VSync: Off"
-msgstr "Net Eşzamanlama: Kapalı"
+msgstr "Net VSync: Kapalı"
 
 msgctxt "IDS_OSD_RS_SYNC_TO_DISPLAY_ON"
 msgid "Synchronize Video to Display: On"
@@ -3471,11 +3480,11 @@ msgstr "Çıktı Alanı: %s"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_ON"
 msgid "Flush GPU before VSync: On"
-msgstr "GPU'yu eşzamanlılıktan önce sıfırlama: Açık"
+msgstr "GPU'yu VSync'den önce sıfırla: Açık"
 
 msgctxt "IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF"
 msgid "Flush GPU before VSync: Off"
-msgstr "GPU'yu eşzamanlılıktan önce sıfırlama: Kapalı"
+msgstr "GPU'yu VSync'den önce sıfırla: Kapalı"
 
 msgctxt "IDS_OSD_RS_FLUSH_AFT_PRES_ON"
 msgid "Flush GPU after Present: On"
@@ -3511,11 +3520,11 @@ msgstr "Masaüstü düzeltmesini kapatma: Kapalı"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_ON"
 msgid "Alternative VSync: On"
-msgstr "Farklı Eşzamanlama: Açık"
+msgstr "Alternatif VSync: Açık"
 
 msgctxt "IDS_OSD_RS_ALT_VSYNC_OFF"
 msgid "Alternative VSync: Off"
-msgstr "Farklı Eşzamanlama: Kapalı"
+msgstr "Alternatif VSync: Kapalı"
 
 msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
@@ -3938,7 +3947,7 @@ msgstr "Sağlayıcı"
 
 msgctxt "IDS_SUBDL_DLG_HI_COL"
 msgid "Hearing Impaired"
-msgstr "İşitme engelliler için"
+msgstr "İşitme güçlüğü"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADS_COL"
 msgid "Downloads"
@@ -3962,7 +3971,7 @@ msgstr "Çevrimiçi altyazı araması tamamlandı, %d adet altyazı bulundu."
 
 msgctxt "IDS_SUBDL_DLG_NOTFOUND"
 msgid "Online subtitles search completed, no subtitles found."
-msgstr "Çevrimiçi altyazı araması tamamlandı, hiç bir altyazı bulunamadı."
+msgstr "Çevrimiçi altyazı araması tamamlandı, altyazı bulunamadı."
 
 msgctxt "IDS_SUBDL_DLG_TITLE"
 msgid "Download subtitles"
@@ -3990,7 +3999,7 @@ msgstr "Hazır..."
 
 msgctxt "IDS_CMD_PNS"
 msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
-msgstr "/pns \"adı\"\t\tÖnceden ayarlanmış panoramik adını belirtin"
+msgstr "/pns \"adı\"\tÖnceden ayarlanmış panoramik adını belirtin"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
@@ -4048,7 +4057,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_FS_CLN_AUDIO_DELAY"
 msgid "Audio Delay (ms)"
-msgstr "Ses Gecikmesi(ms)"
+msgstr "Ses Gecikmesi (ms)"
 
 msgctxt "IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE"
 msgid "Size in pixels of the default toolbar."
@@ -4195,8 +4204,8 @@ msgid ""
 "\"pathname\"\tThe main file or directory to be loaded\n"
 "\t\t(wildcards allowed, \"-\" denotes standard input)"
 msgstr ""
-"\"dosya yolu\"\tAna dosya ya da klasör yüklenecek\n"
-"\t\t(joker karakterler kullanılabilir, \"-\" standart girdi belirttir)"
+"\"dosya yolu\"\tAna dosya ya da klasör yüklenecek \t\t(joker karakterler "
+"kullanılabilir, \"-\" standart girdi belirttir)"
 
 msgctxt "IDS_CMD_DUB"
 msgid "/dub \"dubname\"\tLoad an additional audio file"
@@ -4207,8 +4216,8 @@ msgid ""
 "/dubdelay \"file\"\tLoad an additional audio file shifted with XXms\n"
 "\t\t(if the file contains \"...DELAY XXms...\")"
 msgstr ""
-"/dubdelay \"dosya\"\tİlave ses dosyası yükle XXms ile kaydırılacak\n"
-"\t\t(Eğer dosya \"...DELAY XXms...\" içeriyorsa)"
+"/dubdelay \"dosya\"\tİlave ses dosyası yükle XXms ile kaydırılacak \t\t(Eğer"
+" dosya \"...DELAY XXms...\" içeriyorsa)"
 
 msgctxt "IDS_CMD_D3DFS"
 msgid "/d3dfs\t\tStart rendering in D3D fullscreen mode"
@@ -4224,12 +4233,12 @@ msgid ""
 "(wildcards allowed)"
 msgstr ""
 "/filter \"filtre adı\"\tDinamik bir bağlantı kitaplığından DirectShow "
-"filtreleri yükle (joker karakterler kullanılabilir)"
+"filtreleri yükle(joker karakterler kullanılabilir)"
 
 msgctxt "IDS_CMD_DVD"
 msgid "/dvd\t\tRun in DVD mode, \"pathname\" means the DVD folder (optional)"
 msgstr ""
-"/dvd\t\tDVD modunda çalıştır, \"dosya yolu\" DVD klasörü anlamında (isteğe "
+"/dvd\t\tDVD modunda çalıştır, \"dosya yolu\" DVD klasörü anlamında(isteğe "
 "bağlı)"
 
 msgctxt "IDS_CMD_DVDPOS_TC"
@@ -4245,8 +4254,8 @@ msgid ""
 "/cd\t\tLoad all the tracks of an Audio CD or (S)VCD,\n"
 "\t\t\"pathname\" means the drive path (optional)"
 msgstr ""
-"/cd\t\tSes CD'si ya da (S)VCD içerisindeki tüm ses izlerini yükle,\n"
-"\t\t\"dosya yolu\" sürücü yolunu ifade eder (isteğe bağlı)"
+"/cd\t\tSes CD'si ya da (S)VCD içerisindeki tüm ses izlerini yükle, "
+"\t\t\"dosya yolu\" sürücü yolunu ifade eder(isteğe bağlı)"
 
 msgctxt "IDS_CMD_DEVICE"
 msgid "/device\t\tOpen the default video device"
@@ -4264,7 +4273,7 @@ msgctxt "IDS_CMD_CLOSE"
 msgid ""
 "/close\t\tClose the player after playback (only works when used with /play)"
 msgstr ""
-"/close\t\tDosyayı yürüttükten sonra uygulamayı kapat (sadece /play seçeği "
+"/close\t\tDosyayı yürüttükten sonra uygulamayı kapat (sadece /play seçeneği "
 "kullanıldığında çalışır)"
 
 msgctxt "IDS_CMD_SHUTDOWN"
@@ -4307,7 +4316,7 @@ msgstr "/mute\t\tSesi kıs"
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr ""
+msgstr "/volume N\tSesi ayarla, N 0 ile 100 arasında bir değer olmalıdır"
 
 msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
 msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
@@ -4321,7 +4330,7 @@ msgstr "Youtube-dl çalıştırılıyor..."
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_TOP"
 msgid "Align Top"
-msgstr ""
+msgstr "Yukarıya Hizala"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_MIDDLE"
 msgid "Align Middle"
@@ -4329,15 +4338,15 @@ msgstr "Ortaya Hizala"
 
 msgctxt "IDS_VERTICAL_ALIGN_VIDEO_BOTTOM"
 msgid "Align Bottom"
-msgstr ""
+msgstr "Aşağıya Hizala"
 
 msgctxt "IDS_PPAGEADVANCED_USE_YDL"
 msgid ""
 "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal "
 "whitelist/blacklist for URLs that are always/never processed."
 msgstr ""
-"HTTP(s) URL'lerini Youtube-DL (varsa) ile işleyin. Hiç bir/Her zaman işlenen"
-" URL'ler için dahili bir beyaz liste / kara liste vardır."
+"HTTP(s) URL'lerini Youtube-DL (varsa) ile işleyin. Her/hiçbir zaman işlenen "
+"URL'ler için dahili bir beyaz/kara liste vardır."
 
 msgctxt "IDS_PPAGEADVANCED_YDL_MAX_HEIGHT"
 msgid ""
@@ -4582,26 +4591,33 @@ msgid ""
 "When save the subtitles file, the language code (if available) text will be "
 "added to suggested file name by default."
 msgstr ""
+"Altyazıyı kaydederken dil kodu mevcutsa önerilen dosya isminin sonuna "
+"varsayılan olarak eklenecek."
 
 msgctxt "IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST"
 msgid "Use title in recent file list."
-msgstr ""
+msgstr "Geçmiş dosya listesinde başlık kullan."
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR"
 msgid "Display current A-B repeat marks in status bar."
-msgstr ""
+msgstr "Mevcut A-B tekrar işaretlerini durum çubuğunda göster."
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
+msgstr "Video bilgilerini (kodek ismi, çözünürlük) durum çubuğunda göster."
+
+msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
+msgid ""
+"Show the recording settings dialog automatically when opening a device."
 msgstr ""
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
-msgstr ""
+msgstr "WASAPI kipi:"
 
 msgctxt "IDS_ARS_EXCLUSIVE"
 msgid "Exclusive"
-msgstr ""
+msgstr "Ayrıcalıklı"
 
 msgctxt "IDS_ARS_SHARED"
 msgid "Shared"
@@ -4617,7 +4633,7 @@ msgstr ""
 
 msgctxt "IDS_ARS_SOUND_DEVICE"
 msgid "Sound Device:"
-msgstr ""
+msgstr "Ses Aygıtı:"
 
 msgctxt "IDS_ARS_RELEASE_DEVICE_IDLE"
 msgid "Release device when idle"
@@ -4625,7 +4641,7 @@ msgstr ""
 
 msgctxt "IDS_ARS_CROSSFEED"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr ""
+msgstr "Stereo çapraz beslemeyi etkinleştir (kulaklık için)"
 
 msgctxt "IDS_ARS_DEVICE_PERIOD"
 msgid "Device buffer:"
@@ -4637,11 +4653,11 @@ msgstr ""
 
 msgctxt "IDS_ARS_STATUS"
 msgid "Status"
-msgstr ""
+msgstr "Durum"
 
 msgctxt "IDS_ARS_DEVICE"
 msgid "Device:"
-msgstr ""
+msgstr "Aygıt:"
 
 msgctxt "IDS_ARS_MODE"
 msgid "Mode:"
@@ -4669,7 +4685,7 @@ msgstr ""
 
 msgctxt "IDS_ARS_WASAPI_METHOD"
 msgid "WASAPI method:"
-msgstr ""
+msgstr "WASAPI kipi:"
 
 msgctxt "IDS_ARS_DUMMY_CHANNELS"
 msgid "Don't fill channels when upmixing"
@@ -4677,4 +4693,4 @@ msgstr ""
 
 msgctxt "IDS_AG_DEFAULT"
 msgid "Default"
-msgstr ""
+msgstr "Varsayılan"

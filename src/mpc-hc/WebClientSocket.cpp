@@ -280,6 +280,9 @@ void CWebClientSocket::ParsePostData()
 
     while (start < endData) {
         end = strchr(start, '=');
+        if (!end) {
+            break;
+        }
         key.SetString(start, int(end - start));
         start = end + 1;
         end = strchr(start, '&');

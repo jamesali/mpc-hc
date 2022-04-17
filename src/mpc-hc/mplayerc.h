@@ -52,6 +52,7 @@
 
 #define MIN_FULLSCREEN_DELAY 0
 #define MAX_FULLSCREEN_DELAY 500
+#define MAX_REGKEY_LEN 255
 
 extern HICON LoadIcon(CString fn, bool bSmallIcon, DpiHelper* pDpiHelper = nullptr);
 extern bool LoadType(CString fn, CString& type);
@@ -161,8 +162,11 @@ public:
     void FlushProfile(bool bForce = true);
     virtual BOOL GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE* ppData, UINT* pBytes) override;
     virtual UINT GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDefault) override;
+
+    std::list<CStringW> GetSectionSubKeys(LPCWSTR lpszSection);
     virtual CString GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault = nullptr) override;
     virtual BOOL WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE pData, UINT nBytes) override;
+    virtual LONG RemoveProfileKey(LPCWSTR lpszSection, LPCWSTR lpszEntry);
     virtual BOOL WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue) override;
     virtual BOOL WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszValue) override;
     bool HasProfileEntry(LPCTSTR lpszSection, LPCTSTR lpszEntry);

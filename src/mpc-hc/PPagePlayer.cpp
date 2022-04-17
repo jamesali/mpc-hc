@@ -205,7 +205,6 @@ BOOL CPPagePlayer::OnApply()
         for (int i = s.MRUDub.GetSize() - 1; i >= 0; i--) {
             s.MRUDub.Remove(i);
         }
-        s.MRU.WriteList();
         s.MRUDub.WriteList();
 
         // Empty the "Recent" jump list
@@ -220,12 +219,6 @@ BOOL CPPagePlayer::OnApply()
     } else {
         // Re-enable Windows recent menu and the "Recent" jump list if needed
         s.fileAssoc.SetNoRecentDocs(false, true);
-    }
-    if (!m_fKeepHistory || !m_fRememberFilePos) {
-        s.filePositions.Empty();
-    }
-    if (!m_fKeepHistory || !m_fRememberDVDPos) {
-        s.dvdPositions.Empty();
     }
 
     // Check if the settings location needs to be changed

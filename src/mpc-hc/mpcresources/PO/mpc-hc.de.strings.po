@@ -7,14 +7,14 @@
 # tobsen <github@tobsen.de>, 2020
 # fc5b3681a8011aa2097a1a11b3d42f55_901a704, 2021
 # Gaugg_Markus, 2021
-# Steve <secure@mail.az>, 2021
+# Steve, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-06 17:51:01+0000\n"
+"POT-Creation-Date: 2022-01-23 12:48:51+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Steve <secure@mail.az>, 2021\n"
+"Last-Translator: Steve, 2022\n"
 "Language-Team: German (https://www.transifex.com/mpchc/teams/106126/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -546,19 +546,19 @@ msgstr "Miniaturbilder speichern"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
-msgstr ""
+msgstr "Untertitel nach unten verschieben"
 
 msgctxt "IDS_SUB_POS_UP"
 msgid "Move subtitle up"
-msgstr ""
+msgstr "Untertitel nach oben verschieben"
 
 msgctxt "IDS_SUB_FONT_SIZE_DEC"
 msgid "Decrease subtitle text size"
-msgstr ""
+msgstr "Untertiteltext verkleinern"
 
 msgctxt "IDS_SUB_FONT_SIZE_INC"
 msgid "Increase subtitle text size"
-msgstr ""
+msgstr "Untertiteltext vergrößern"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
@@ -694,8 +694,8 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
-"Erlaubt eine automatische Sprachauswahl nach Priorität durch bspw. \"ger eng"
-" swe\""
+"Bevorzugte Sprache hier eingeben.\n"
+"Beispiel: \"eng jpn swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -1210,8 +1210,8 @@ msgid "&Add to Favorites..."
 msgstr "Zu Favoriten &hinzufügen..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
-msgid "&Organize Favorites..."
-msgstr "Favoriten &verwalten..."
+msgid "Organize Favorites..."
+msgstr "Favoriten verwalten..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
@@ -1993,11 +1993,11 @@ msgstr "Untertitel-Item vor"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr ""
+msgstr "Untertitel-Resync: Versatz -100ms"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr ""
+msgstr "Untertitel-Resync: Versatz +100ms"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -3021,6 +3021,14 @@ msgstr "Maus Modifier"
 msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
 msgstr "Maus FS Modifier"
+
+msgctxt "IDS_AG_ZOOM_ADD"
+msgid "Zoom Window +"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_SUB"
+msgid "Zoom Window -"
+msgstr ""
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -4290,7 +4298,7 @@ msgstr "/standby\t\tWechselt in den Standby-Modus (nach Wiedergabe)"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
-msgstr "/hibernate\t\tWechselt in den Ruhezustand (nach Wiedergabe)"
+msgstr "/hibernate\t\tRuhezustand des Betriebssystems nach Wiedergabe"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
@@ -4623,6 +4631,11 @@ msgstr "Aktuelle A-B Wiederholungsmarken in Statusleiste anzeigen."
 msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
 msgstr "Videoinformationen (Codecname, Auflösung) in Statusleiste anzeigen."
+
+msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
+msgid ""
+"Show the recording settings dialog automatically when opening a device."
+msgstr ""
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"

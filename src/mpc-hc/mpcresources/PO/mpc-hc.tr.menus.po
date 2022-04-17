@@ -4,14 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Ali Kömesöğütlü <byzlo685@gmail.com>, 2020
-# Mücahid Aksel <mucahidaksel@gmail.com>, 2020
+# Mücahid Aksel <mucahidaksel@gmail.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-02-15 14:52:58+0000\n"
+"POT-Creation-Date: 2021-08-25 14:36:40+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2020\n"
+"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2022\n"
 "Language-Team: Turkish (https://www.transifex.com/mpchc/teams/106126/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -305,7 +305,7 @@ msgstr "K&aranlık (2.4 Karşıtlık)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "&İşleyici Yöntemi (Niyeti)"
+msgstr "&İşleyici Yöntemi"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
@@ -353,7 +353,7 @@ msgstr "&GPU Denetimi"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "GPU'yu eşzamanlılıktan &önce sıfırla"
+msgstr "GPU'yu VSync'den önce sıfırla"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
@@ -413,7 +413,7 @@ msgstr "Pencereye Dışarıdan U&yarla"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
-msgstr "&Taraf Oranı"
+msgstr "En Boy Oranı"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"

@@ -207,7 +207,7 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
     img.Attach(m_img);
 
     if ((m_pMainFrame->GetLoadState() != MLS::CLOSED || (!m_bFirstMedia && m_pMainFrame->m_controls.DelayShowNotLoaded())) &&
-            !m_pMainFrame->IsD3DFullScreenMode() && !m_pMainFrame->m_fAudioOnly) {
+            !m_pMainFrame->HasFullScreenWindow() && !m_pMainFrame->m_fAudioOnly) {
         pDC->ExcludeClipRect(m_vrect);
     } else if (!img.IsNull()) {
         const double dImageAR = double(img.GetWidth()) / img.GetHeight();
@@ -274,7 +274,7 @@ void CChildView::OnSize(UINT nType, int cx, int cy)
 LRESULT CChildView::OnNcHitTest(CPoint point)
 {
     LRESULT ret = CWnd::OnNcHitTest(point);
-    if (!m_pMainFrame->m_fFullScreen && m_pMainFrame->IsFrameLessWindow()) {
+    if (!m_pMainFrame->IsFullScreenMainFrame() && m_pMainFrame->IsFrameLessWindow()) {
         CRect rcFrame;
         GetWindowRect(&rcFrame);
         CRect rcClient(rcFrame);

@@ -59,9 +59,11 @@ BOOL CFullscreenWnd::PreCreateWindow(CREATESTRUCT& cs)
 
 LRESULT CFullscreenWnd::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-    if (message == WM_NCACTIVATE) {
-        return 0;
+#if 0
+    if (message == WM_NCACTIVATE && LOWORD(wParam) == WA_INACTIVE && m_pMainFrame->IsD3DFullScreenMode()) {
+        return m_pMainFrame->m_pFullscreenWnd == this;
     }
+#endif
 
     return __super::WindowProc(message, wParam, lParam);
 }

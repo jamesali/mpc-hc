@@ -25,7 +25,7 @@
 #include "SubtitlesProviders.h" // Forward declaration doesn't work on VS2013. Remove this once VS2013 support is dropped.
 #include <list>
 #include "CMPCThemePlayerListCtrl.h"
-#include "CMPCThemeResizableDialog.h"
+#include "ModelessResizableDialog.h"
 #include "CMPCThemeStatusBar.h"
 
 class CMainFrame;
@@ -41,7 +41,7 @@ class CSubtitleDlDlgListCtrl final : public CMPCThemePlayerListCtrl
     afx_msg BOOL OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 };
 
-class CSubtitleDlDlg : public CMPCThemeResizableDialog
+class CSubtitleDlDlg : public CModelessResizableDialog
 {
 public:
     enum {
@@ -95,7 +95,6 @@ protected:
     virtual BOOL OnInitDialog();
     virtual BOOL PreTranslateMessage(MSG* pMsg);
     virtual void OnOK();
-    virtual void OnCancel();
 
     DECLARE_MESSAGE_MAP()
 

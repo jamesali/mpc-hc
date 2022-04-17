@@ -546,7 +546,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             if (!bTryToReset) {
                 m_pD3DDev = nullptr;
                 m_pD3DDevEx = nullptr;
-                hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                                               D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS | D3DCREATE_NOWINDOWCHANGES,
                                               &m_pp, &DisplayMode, &m_pD3DDevEx);
             }
@@ -562,7 +562,7 @@ HRESULT CBaseAP::CreateDXDevice(CString& _Error)
             if (!bTryToReset) {
                 m_pD3DDev = nullptr;
                 m_pD3DDevEx = nullptr;
-                hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_FocusThread->GetFocusWindow(),
+                hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
                                           D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES,
                                           &m_pp, &m_pD3DDev);
             }
@@ -3835,7 +3835,7 @@ void CSyncAP::RenderThread()
         LONG lDisplayCycle4 = (LONG)(GetDisplayCycle() / 4.0);
 
         const CRenderersSettings& r = GetRenderersSettings();
-        double dTargetSyncOffset = r.m_AdvRendSets.fTargetSyncOffset;
+        double dTargetSyncOffset = (&r == nullptr) ? 12.0 : r.m_AdvRendSets.fTargetSyncOffset;
 
         if ((m_nRenderState == Started || !m_bPrerolled) && !pNewSample) {  // If either streaming or the pre-roll sample and no sample yet fetched
             if (SUCCEEDED(GetScheduledSample(&pNewSample, nSamplesLeft))) { // Get the next sample
@@ -4726,6 +4726,9 @@ HRESULT CGenlock::UpdateStats(double syncOffset, double frameCycle)
 
 STDMETHODIMP CSyncAP::SetD3DFullscreen(bool fEnabled)
 {
+    CAutoLock cAutoLock(this);
+    CAutoLock cRenderLock(&m_allocatorLock);
+
     fullScreenChanged = (fEnabled != m_bIsFullscreen);
     m_bIsFullscreen = fEnabled;
     return S_OK;

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Hugo Simões <hugo.simoes.1984@gmail.com>, 2021
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-02-15 14:52:58+0000\n"
+"POT-Creation-Date: 2021-08-25 14:36:40+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Hugo Simões <hugo.simoes.1984@gmail.com>, 2021\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>, 2022\n"
 "Language-Team: Portuguese (Portugal) (https://www.transifex.com/mpchc/teams/106126/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -139,7 +140,7 @@ msgstr "Na&vigação"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "&Pré-definições..."
+msgstr "&Predefinições..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
@@ -227,11 +228,11 @@ msgstr "A&presentação"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "Modo ecrã completo D3D"
+msgstr "Modo ecrã inteiro D3D"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "Suporte &GUI ecrã completo D3D"
+msgstr "Suporte &GUI ecrã inteiro D3D"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
@@ -347,7 +348,7 @@ msgstr "Aumentar o deslocamento do VSync"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr "Controlo do &GPU"
+msgstr "Controlo da &GPU"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
@@ -367,7 +368,7 @@ msgstr "R&epor"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Repor p/ definições pré-definidas do renderizador"
+msgstr "Repor p/ definições predefinidas do renderizador"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
@@ -375,7 +376,7 @@ msgstr "Repor p/ definições ótimas do renderizador"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr "&Frame do vídeo"
+msgstr "&Fotograma do vídeo"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
@@ -383,7 +384,7 @@ msgstr "Metade do tamanho"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "Tamanho &Normal"
+msgstr "Tamanho &normal"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
@@ -415,7 +416,7 @@ msgstr "Rácio do &aspeto"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
-msgstr "Por &defeito (DAR)"
+msgstr "Pre&definido (DAR)"
 
 msgctxt "ID_ASPECTRATIO_4_3"
 msgid "&4:3"
@@ -447,7 +448,7 @@ msgstr "&Corrigir dif. rác. asp. ecrã/amb. de trabalho"
 
 msgctxt "POPUP"
 msgid "Pa&n && Scan"
-msgstr "Pan && Scan"
+msgstr "Pan e Scan"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
@@ -519,7 +520,7 @@ msgstr "Por cima"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
-msgstr "Por &defeito"
+msgstr "Pre&definido"
 
 msgctxt "ID_ONTOP_ALWAYS"
 msgid "&Always"
@@ -551,7 +552,7 @@ msgstr "Parar"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "Fra&me Step"
-msgstr "A passo de fra&me"
+msgstr "A passo de fotogra&ma"
 
 msgctxt "POPUP"
 msgid "&Repeat"
@@ -783,11 +784,11 @@ msgstr "&Ajuda"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "&Home Page"
+msgstr "&Página inicial"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "Verificar por at&ualizações"
+msgstr "Procurar por at&ualizações"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"

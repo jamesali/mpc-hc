@@ -1980,3 +1980,15 @@ inline const LONGLONG GetPerfCounter() {
         return timeGetTime() * 10000;
     }
 }
+
+bool FindStringInList(const CAtlList<CString>& list, CString& value)
+{
+    bool found = false;
+    POSITION pos = list.GetHeadPosition();
+    while (pos && !found) {
+        if (list.GetNext(pos).CompareNoCase(value) == 0) {
+            found = true;
+        }
+    }
+    return found;
+}

@@ -15,6 +15,7 @@ const COLORREF CMPCTheme::HighLightColor = GetSysColor(COLOR_HIGHLIGHT);
 const COLORREF CMPCTheme::MenuSelectedColor = COLORREF(RGB(65, 65, 65));
 const COLORREF CMPCTheme::MenuSeparatorColor = COLORREF(RGB(128, 128, 128));
 const COLORREF CMPCTheme::MenuItemDisabledColor = COLORREF(RGB(109, 109, 109));
+const COLORREF CMPCTheme::MenuItemUnfocusedColor = COLORREF(RGB(170, 170, 170));
 const COLORREF CMPCTheme::MainMenuBorderColor = COLORREF(RGB(32, 32, 32));
 
 const COLORREF CMPCTheme::ShadowColor = COLORREF(RGB(25, 25, 25));

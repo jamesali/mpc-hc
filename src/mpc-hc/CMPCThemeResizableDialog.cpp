@@ -3,7 +3,6 @@
 #include "CMPCTheme.h"
 #include "mplayerc.h"
 
-
 CMPCThemeResizableDialog::CMPCThemeResizableDialog()
 {
 }

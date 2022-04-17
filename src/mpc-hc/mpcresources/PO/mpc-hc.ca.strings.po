@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Roger Espolet <roger.espolet@gmail.com>, 2021
+# Roger Espolet <roger.espolet@gmail.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-06 17:51:01+0000\n"
+"POT-Creation-Date: 2022-01-23 12:48:51+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Roger Espolet <roger.espolet@gmail.com>, 2021\n"
+"Last-Translator: Roger Espolet <roger.espolet@gmail.com>, 2022\n"
 "Language-Team: Catalan (https://www.transifex.com/mpchc/teams/106126/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -346,7 +346,7 @@ msgid ""
 msgstr ""
 "Manca la llibreria d'icones \"mpciconlib.dll\".\n"
 "Es faran servir les icones del reproductor per defecte per a l'associació dels fitxers.\n"
-"Si us plau, instal·leu l'MPC-HC per obtenir el \"mpciconlib.dll\"."
+"Si us plau, instal·leu l'MPC-HC per obtenir la \"mpciconlib.dll\"."
 
 msgctxt "IDS_SUBDL_DLG_FILENAME_COL"
 msgid "File"
@@ -366,7 +366,7 @@ msgstr "Disc"
 
 msgctxt "IDS_SUBDL_DLG_TITLES_COL"
 msgid "Title(s)"
-msgstr "Títol(s)"
+msgstr "Títol/s"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
@@ -549,19 +549,19 @@ msgstr "Desa les miniatures"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
-msgstr ""
+msgstr "Mou els subtítols avall"
 
 msgctxt "IDS_SUB_POS_UP"
 msgid "Move subtitle up"
-msgstr ""
+msgstr "Mou els subtítols amunt"
 
 msgctxt "IDS_SUB_FONT_SIZE_DEC"
 msgid "Decrease subtitle text size"
-msgstr ""
+msgstr "Redueix la mida del text dels subtítols"
 
 msgctxt "IDS_SUB_FONT_SIZE_INC"
 msgid "Increase subtitle text size"
-msgstr ""
+msgstr "Augmenta la mida del text dels subtítols"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
@@ -704,7 +704,7 @@ msgid ""
 "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\n"
 "Enable this option if you want MPC-HC to control external splitters."
 msgstr ""
-"Els divisors o \"splitters\" externs poden tenir les seves pròpies opcions de preferència d'idioma, de manera que el comportament predeterminat de de l'MPC-HC és no canviar la seva configuració inicial.\n"
+"Els splitters externs poden tenir les seves pròpies opcions de preferència d'idioma, de manera que el comportament predeterminat de l'MPC-HC és no canviar la seva configuració inicial.\n"
 "Activeu aquesta opció si voleu que de l'MPC-HC controli els splitters externs."
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
@@ -1219,8 +1219,8 @@ msgid "&Add to Favorites..."
 msgstr "&Afegeix-ho a Preferits..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
-msgid "&Organize Favorites..."
-msgstr "&Organitza els Preferits..."
+msgid "Organize Favorites..."
+msgstr "Organitza els Preferits..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
@@ -2007,11 +2007,11 @@ msgstr "Ves al subtítol següent"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr ""
+msgstr "Resincronització de subtítols: desplaçament -100 ms"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr ""
+msgstr "Resincronització de subtítols: desplaçament +100 ms"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -3041,6 +3041,14 @@ msgctxt "IDS_AG_MOUSE_FS_MODIFIER"
 msgid "Mouse FS Modifier"
 msgstr "Modificador del ratolí FS"
 
+msgctxt "IDS_AG_ZOOM_ADD"
+msgid "Zoom Window +"
+msgstr ""
+
+msgctxt "IDS_AG_ZOOM_SUB"
+msgid "Zoom Window -"
+msgstr ""
+
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
 msgstr "Zoom 1 de fotograma"
@@ -3649,7 +3657,7 @@ msgid ""
 "\n"
 "Do you want to visit MPC-HC's website to download it?"
 msgstr ""
-"L'MPC-HC v%s està disponible. Ara fa servir la v%s.\n"
+"L'MPC-HC v%s està disponible. Ara feu servir la v%s.\n"
 "\n"
 "Voleu visitar la pàgina web de l'MPC-HC per baixar-la?"
 
@@ -4225,7 +4233,7 @@ msgid ""
 "\"pathname\"\tThe main file or directory to be loaded\n"
 "\t\t(wildcards allowed, \"-\" denotes standard input)"
 msgstr ""
-"\"ruta\"\t\tEl fitxer principal o carpeta a ser carregat\n"
+"\"ruta\"\tEl fitxer principal o carpeta a ser carregat\n"
 "\t\t(es permeten comodins, \"-\" denota l'entrada estàndard)"
 
 msgctxt "IDS_CMD_DUB"
@@ -4308,7 +4316,7 @@ msgstr ""
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
-msgstr "/hibernate\t\tHiberna el sistema operatiu un cop acabada la reproducció"
+msgstr "/hibernate\t\tHiberna el sistema operatiu després de la reproducció"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
@@ -4371,7 +4379,7 @@ msgid ""
 "Process HTTP(s) URLs with Youtube-DL (if available). There is an internal "
 "whitelist/blacklist for URLs that are always/never processed."
 msgstr ""
-"Processa les URL HTTP(S) amb el Youtube-DL (si està disponible). Existeixen "
+"Processa les URL HTTP(s) amb el Youtube-DL (si està disponible). Existeixen "
 "llistes blanques i negres internes per decidir quines URL es processaran."
 
 msgctxt "IDS_PPAGEADVANCED_YDL_MAX_HEIGHT"
@@ -4649,6 +4657,11 @@ msgid "Display video info (codec name, resolution) in status bar."
 msgstr ""
 "Mostra informació del vídeo (nom del còdec, resolució) a la barra d'estat."
 
+msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
+msgid ""
+"Show the recording settings dialog automatically when opening a device."
+msgstr ""
+
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
 msgstr "Mode WASAPI:"
@@ -4675,7 +4688,7 @@ msgstr "Dispositiu de so:"
 
 msgctxt "IDS_ARS_RELEASE_DEVICE_IDLE"
 msgid "Release device when idle"
-msgstr "Allibera el dispositiu quan no s'utilitzi"
+msgstr "Allibera el dispositiu quan estigui inactiu"
 
 msgctxt "IDS_ARS_CROSSFEED"
 msgid "Enable stereo crossfeed (for headphones)"

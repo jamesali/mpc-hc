@@ -397,6 +397,8 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
     if ((lpDrawItemStruct->itemState & ODS_DISABLED)) {
         TextFGColor = CMPCTheme::MenuItemDisabledColor;
         ArrowColor = CMPCTheme::MenuItemDisabledColor;
+    } else if (menuObject->isMenubar && GetForegroundWindow() != AfxGetMainWnd()->m_hWnd) {
+        TextFGColor = CMPCTheme::TextFGColorFade;
     } else {
         TextFGColor = CMPCTheme::TextFGColor;
     }
@@ -430,27 +432,22 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
         if (CMPCThemeUtil::getFontByType(font, pDC, AfxGetMainWnd(), CMPCThemeUtil::MenuFont)) {
             pDC->SelectObject(&font);
         }
-
-        if ((lpDrawItemStruct->itemState & ODS_SELECTED) && (lpDrawItemStruct->itemAction & (ODA_SELECT | ODA_DRAWENTIRE))) {
+        if ((lpDrawItemStruct->itemState & (ODS_SELECTED | ODS_HOTLIGHT)) && (lpDrawItemStruct->itemAction & (ODA_SELECT | ODA_DRAWENTIRE))) {
             pDC->FillSolidRect(&rectM, TextSelectColor);
         }
         CString left, right;
         GetStrings(menuObject, left, right);
 
+        UINT accelStyle = 0;
         if (lpDrawItemStruct->itemState & ODS_NOACCEL) { //removing single &s before drawtext
-            left.Replace(TEXT("&&"), TEXT("{{amp}}"));
-            left.Remove(TEXT('&'));
-            left.Replace(TEXT("{{amp}}"), TEXT("&&"));
-
-            pDC->DrawText(left, rectText, DT_VCENTER | captionAlign | DT_SINGLELINE);
-        } else {
-            pDC->DrawText(left, rectText, DT_VCENTER | captionAlign | DT_SINGLELINE);
+            accelStyle = DT_HIDEPREFIX;
         }
+        pDC->DrawTextW(left, rectText, DT_VCENTER | captionAlign | DT_SINGLELINE | accelStyle);
 
         if (!menuObject->isMenubar) {
 
             if (right.GetLength() > 0) {
-                pDC->DrawText(right, rectText, DT_VCENTER | DT_RIGHT | DT_SINGLELINE);
+                pDC->DrawTextW(right, rectText, DT_VCENTER | DT_RIGHT | DT_SINGLELINE | accelStyle);
             }
 
             if (mInfo.hSubMenu) {
@@ -459,7 +456,7 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
                     pDC->SelectObject(&sfont);
                 }
                 pDC->SetTextColor(ArrowColor);
-                pDC->DrawText(TEXT(">"), rectArrow, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
+                pDC->DrawTextW(TEXT(">"), rectArrow, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
             }
 
             if (lpDrawItemStruct->itemState & ODS_CHECKED) {
@@ -477,7 +474,7 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
                     pDC->SelectObject(&bFont);
                 }
                 pDC->SetTextColor(TextFGColor);
-                pDC->DrawText(check, rectIcon, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
+                pDC->DrawTextW(check, rectIcon, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
             }
         }
 

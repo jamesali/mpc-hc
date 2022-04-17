@@ -29,6 +29,7 @@
 #include "PPageSubMisc.h"
 #include "CMPCTheme.h"
 #include "CMPCThemeMenu.h"
+#include "SysVersion.h"
 
 BEGIN_MESSAGE_MAP(CSubtitleDlDlgListCtrl, CMPCThemePlayerListCtrl)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolNeedText)
@@ -99,7 +100,7 @@ enum {
 };
 
 CSubtitleDlDlg::CSubtitleDlDlg(CMainFrame* pParentWnd)
-    : CMPCThemeResizableDialog(IDD, pParentWnd)
+    : CModelessResizableDialog(IDD, pParentWnd)
     , m_ps(nullptr, 0, 0)
     , m_bIsRefreshed(false)
     , m_pMainFrame(pParentWnd)
@@ -312,15 +313,7 @@ void CSubtitleDlDlg::OnOK()
         }
     }
 
-    // Just hide the dialog, since it's modeless we don't want to call EndDialog
-    ShowWindow(SW_HIDE);
-}
-
-
-void CSubtitleDlDlg::OnCancel()
-{
-    // Just hide the dialog, since it's modeless we don't want to call EndDialog
-    ShowWindow(SW_HIDE);
+    __super::OnOK();
 }
 
 void CSubtitleDlDlg::OnRefresh()
@@ -441,7 +434,7 @@ void CSubtitleDlDlg::DownloadSelectedSubtitles()
 }
 
 // ON_UPDATE_COMMAND_UI does not work for modeless dialogs
-BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CMPCThemeResizableDialog)
+BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CModelessResizableDialog)
     ON_WM_ERASEBKGND()
     ON_WM_SIZE()
     ON_COMMAND(IDC_BUTTON1, OnRefresh)

@@ -152,9 +152,10 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(LANG_STATUSBAR, IDS_RS_SHOW_LANG_STATUSBAR, false, s.bShowLangInStatusbar, StrRes(IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR));
     addBoolItem(FPS_STATUSBAR, IDS_RS_SHOW_FPS_STATUSBAR, false, s.bShowFPSInStatusbar, StrRes(IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR));
     addBoolItem(ABMARKS_STATUSBAR, IDS_RS_SHOW_ABMARKS_STATUSBAR, false, s.bShowABMarksInStatusbar, StrRes(IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR));
-    addIntItem(RECENT_FILES_NB, IDS_RS_RECENT_FILES_NUMBER, 40, s.iRecentFilesNumber, std::make_pair(0, 1000), StrRes(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
+    addIntItem(RECENT_FILES_NB, IDS_RS_RECENT_FILES_NUMBER, 100, s.iRecentFilesNumber, std::make_pair(0, 1000), StrRes(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
     addIntItem(FILE_POS_LONGER, IDS_RS_FILEPOSLONGER, 0, s.iRememberPosForLongerThan, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_FILE_POS_LONGER));
     addBoolItem(FILE_POS_AUDIO, IDS_RS_FILEPOSAUDIO, true, s.bRememberPosForAudioFiles, StrRes(IDS_PPAGEADVANCED_FILE_POS_AUDIO));
+    addBoolItem(FULLSCREEN_SEPARATE_CONTROLS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, false, s.bFullscreenSeparateControls, _T("Keep main window controls visible on current monitor when going fullscreen on another monitor."));
     addIntItem(COVER_SIZE_LIMIT, IDS_RS_COVER_ART_SIZE_LIMIT, 600, s.nCoverArtSizeLimit, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_COVER_SIZE_LIMIT));
     addBoolItem(BLOCK_VSFILTER, IDS_RS_BLOCKVSFILTER, true, s.fBlockVSFilter, StrRes(IDS_PPAGEADVANCED_BLOCK_VSFILTER));
     addBoolItem(BLOCK_RDP, IDS_RS_BLOCKRDP, false, s.bBlockRDP, _T("Block use of RDP Redirection Filter"));
@@ -175,9 +176,10 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(ADD_LANGCODE_WHEN_SAVE_SUBTITLES, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, false, s.bAddLangCodeWhenSaveSubtitles, StrRes(IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES));
     addBoolItem(USE_TITLE_IN_RECENT_FILE_LIST, IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST, true, s.bUseTitleInRecentFileList, StrRes(IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST));
     addBoolItem(LOCK_NOPAUSE, IDS_RS_LOCK_NOPAUSE, false, s.bLockNoPause, _T("Do not pause playback when locking the screen."));
-    addIntItem(RELOAD_AFTER_LONG_PAUSE, IDS_RS_RELOAD_AFTER_LONG_PAUSE, 30, s.iReloadAfterLongPause, std::make_pair(0, 1440), _T("Reload video file before resuming playback if it was paused for more than X minutes. Use 0 to disable automatic file reload."));
+    addIntItem(RELOAD_AFTER_LONG_PAUSE, IDS_RS_RELOAD_AFTER_LONG_PAUSE, -1, s.iReloadAfterLongPause, std::make_pair(-1, 1440), _T("Reload video file before resuming playback if it was paused for more than X minutes. Use 0 to disable automatic file reload after pause. Use -1 to also disable reload after hibernate/sleep."));
     addBoolItem(INACCURATE_FASTSEEK, IDS_RS_ALLOW_INACCURATE_FASTSEEK, true, s.bAllowInaccurateFastseek, StrRes(IDS_PPAGEADVANCED_ALLOW_INACCURATE_FASTSEEK));
     addIntItem(STREAMPOSPOLLER_INTERVAL, IDS_RS_TIME_REFRESH_INTERVAL, 100, s.nStreamPosPollerInterval, std::make_pair(40, 500), StrRes(IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL));
+    addIntItem(REDIR_OPEN_TO_APPEND, IDS_RS_REDIRECT_OPEN_TO_APPEND_THRESHOLD, 1000, s.iRedirectOpenToAppendThreshold, std::make_pair(250, 5000), _T("If a file is opened within this amount of milliseconds after a previous file, then it will be appended to playlist instead of replacing that previous file. This redirection is required for properly handling opening of a selection of files in Explorer. A too short threshold can result in only a part of your selection being added to playlist."));
 #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
     addBoolItem(CRASHREPORTER, IDS_RS_ENABLE_CRASH_REPORTER, true, s.bEnableCrashReporter, StrRes(IDS_PPAGEADVANCED_CRASHREPORTER));
 #endif
@@ -187,6 +189,7 @@ void CPPageAdvanced::InitSettings()
         std::make_pair(10, 30), StrRes(IDS_PPAGEADVANCED_SCORE));
     addIntItem(AUTO_DOWNLOAD_SCORE_SERIES, IDS_RS_AUTODOWNLOADSCORESERIES, 0x18, s.nAutoDownloadScoreSeries,
         std::make_pair(10, 30), StrRes(IDS_PPAGEADVANCED_SCORE));
+    addBoolItem(OPEN_REC_PANEL_WHEN_OPENING_DEVICE, IDS_RS_OPEN_REC_PANEL_WHEN_OPENING_DEVICE, true, s.bOpenRecPanelWhenOpeningDevice, StrRes(IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE));
 }
 
 BOOL CPPageAdvanced::OnApply()
@@ -201,9 +204,6 @@ BOOL CPPageAdvanced::OnApply()
     }
 
     s.MRU.SetSize(s.iRecentFilesNumber);
-    s.MRUDub.SetSize(s.iRecentFilesNumber);
-    s.filePositions.SetMaxSize(s.iRecentFilesNumber);
-    s.dvdPositions.SetMaxSize(s.iRecentFilesNumber);
 
 #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
     if (!s.bEnableCrashReporter && CrashReporter::IsEnabled()) {

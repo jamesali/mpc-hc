@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
+# Vlad Anisimov <uniss@ua.fm>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-04-03 23:14:53+0000\n"
+"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
+"Last-Translator: Vlad Anisimov <uniss@ua.fm>, 2022\n"
 "Language-Team: Ukrainian (https://www.transifex.com/mpchc/teams/106126/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,7 +76,7 @@ msgstr "Запис"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "Увімкнути вбудований перемикач аудіодоріжок (необхідний перезап.)"
+msgstr "Увімкнути вбудований перемикач аудіодоріжок (потребує рестарт)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -83,7 +84,7 @@ msgstr "Нормалізувати"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
-msgstr "Максим. підсилення:"
+msgstr "Макс. підсилення:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
 msgid "%"
@@ -103,11 +104,11 @@ msgstr "Перетворювати в 44100 Гц"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Затримка звуку (в мс):"
+msgstr "Затримка звуку (мс):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "Увімкнути розподіл каналів користувача"
+msgstr "Увімкнути довільний розподіл каналів"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for"
@@ -119,7 +120,7 @@ msgstr "вхідних каналів:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something"
-msgstr "Утримуйте shift для негайного використання змін при натискуванні"
+msgstr "Утримуйте shift для негайного застосування змін при натисканні"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
@@ -146,7 +147,7 @@ msgid ""
 "Enter two numbers to jump to a specified frame, the first is the frame "
 "number, the second is the frame rate."
 msgstr ""
-"Уведіть два числа для переходу до заданого кадру: перше - номер кадру, друге"
+"Введіть два числа для переходу до заданого кадру: перше - номер кадру, друге"
 " - кількість кадрів на секунду."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
@@ -166,7 +167,7 @@ msgid ""
 "Type the address of a movie or audio file (on the Internet or your computer)"
 " and the player will open it for you."
 msgstr ""
-"Введіть шлях до фільму або аудіофайлу (в мережі або на вашому комп'ютері)"
+"Введіть шлях до відео- або аудіофайлу (в мережі або на вашому комп'ютері)"
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -194,7 +195,7 @@ msgstr "Скасувати"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "Лише додати до списка відтворення"
+msgstr "Додати до списка відтворення без відтворення"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
@@ -202,7 +203,7 @@ msgstr "Про програму"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2022 clsid2 and others"
-msgstr ""
+msgstr "Авторське право 2002-2022 clsid2 та інші"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -213,7 +214,7 @@ msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Локалізація: Ihor Bobalo"
+msgstr "Українська локалізація зроблена небайдужими користувачами."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -257,11 +258,11 @@ msgstr "При відкриванні файлів"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "один програвач для всіх файлів"
+msgstr "Використовувати один екземпляр програвача для всіх файлів"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr "новий програвач для кожного файлу"
+msgstr "ВІдтворювати файли в окремих екземплярах програвача"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
@@ -269,23 +270,23 @@ msgstr "Мова"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
-msgstr "В заголовку"
+msgstr "Рядок заголовка"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO3"
 msgid "Display full path"
-msgstr "показувати повний шлях"
+msgstr "Показувати повний шлях"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
-msgstr "лише ім'я файлу"
+msgstr "Лише ім'я файлу"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
-msgstr "не показувати нічого"
+msgstr "Не показувати нічого"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
-msgstr "Замінюв. назвою з тегу title"
+msgstr "Замінювати ім'я файла змістом тегу title"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Other"
@@ -297,11 +298,11 @@ msgstr "Значок у панелі задач"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "Показати OSD (необхідний перезап.)"
+msgstr "Показати OSD (потрібний рестарт)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
-msgstr "Прив'язати межі вікна до відеокадра"
+msgstr "Прив'язати розмір вікна до відеокадра"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
 msgid "Snap to desktop edges"
@@ -333,15 +334,15 @@ msgstr "Зберігати історію відкритих файлів"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr "Запам'ятов. останній список відтворення"
+msgstr "Запам'ятовувати список відтворення"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
-msgstr "На виході запам'ятати позицію у файлі"
+msgstr "Запам'ятовувати позицію у файлі"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
 msgid "Remember DVD position"
-msgstr "На виході запам'ятати позицію DVD"
+msgstr "Запам'ятовувати позицію DVD"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
@@ -353,7 +354,7 @@ msgstr "Запам'ятовувати розмір вікна"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan && Scan Zoom"
-msgstr "Запам'ятов. останнє значення Pan && Scan"
+msgstr "Запам'ятовувати розташування та розміру кадра"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -369,7 +370,7 @@ msgstr "Завжди відкривати типове розташування:
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD"
-msgstr "Бажана мова для навігатора DVD та відтворення OGM"
+msgstr "Бажана мова для DVD"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -425,7 +426,7 @@ msgstr "Регулювання"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume step:"
-msgstr "Крок зміни гучн.:"
+msgstr "Крок зміни гучності:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
@@ -433,7 +434,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Speed step:"
-msgstr "Крок зміни швидк. відтвор.:"
+msgstr "Крок зміни швидкості відтворення:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
@@ -445,15 +446,15 @@ msgstr "Повтор"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
 msgid "Repeat forever"
-msgstr "Повторювати безмежно"
+msgstr "Повторювати нескінченно"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
-msgstr "раз"
+msgstr "раз(-ів)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr ""
+msgstr "Режим повторювання:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -461,7 +462,7 @@ msgstr "Після відтворення"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Zoom and Alignment"
-msgstr ""
+msgstr "Масштаб та вирівнювання"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
@@ -477,15 +478,15 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
 msgid "Vertical Alignment:"
-msgstr ""
+msgstr "Вертикальне вирівнювання:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
-msgstr "Уподобання користувача щодо вибору:"
+msgstr "Налаштування треку за умовчанням"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
-msgstr "Субтитрів:"
+msgstr "Субтитри:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio:"
@@ -493,11 +494,11 @@ msgstr "Аудіо:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Дозволити ігнорування вибору зовнішніх спліттерів"
+msgstr "Дозволити ігнорування вибору зовнішнього спліттеру"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
-msgstr "Налаштування відркриття файлів"
+msgstr "Налаштування відкриття"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
@@ -509,7 +510,7 @@ msgstr "Звіт про помилки рендерингу потоків"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "Автозавантаження звуку"
+msgstr "Автозавантаження аудіо файлів"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
@@ -517,7 +518,7 @@ msgstr "Змінити положення"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
 msgid "Horizontal:"
-msgstr "Горизонт:"
+msgstr "Горизонтальне:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC2"
 msgid "%"
@@ -525,7 +526,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC3"
 msgid "Vertical:"
-msgstr "Верт:"
+msgstr "Вертикальне:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC4"
 msgid "%"
@@ -541,7 +542,7 @@ msgstr "мс"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Налаштування текстури (після перевідкриття відео)"
+msgstr "Налаштування текстури (потрібне перевідкриття відео)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
@@ -557,7 +558,7 @@ msgstr "Не застосовувати анімацію субтитрів"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr "Рендеринг зі швидк."
+msgstr "Рендеринг зі швидкістю"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
@@ -565,20 +566,20 @@ msgstr "% від повної анімації"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr "Анімація зі швидк."
+msgstr "Анімація зі швидкістю"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr "% від швидк. відтвор. відео"
+msgstr "% від частоти кадрів"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
 msgstr ""
-"Дозволити випадан. деяких фрагмен. субтитрів якщо черга запущена пізно"
+"Дозволити випадання деяких фрагментів субтитрів, якщо черга запущена пізно"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
-msgstr "Розкладка рендерера"
+msgstr "Макет рендерера"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
@@ -586,7 +587,7 @@ msgstr "Застосовувати компенсацію співвідноше
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
-msgstr "Увага"
+msgstr "Попердження"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid ""
@@ -596,7 +597,7 @@ msgid ""
 msgstr ""
 "Якщо Ви зміните положення та увімкнете повноекранне згладжування в "
 "налаштуваннях відеокарти, вигляд субтитрів не покращиться, але навантаження "
-"процесора збільшиться."
+"на процесор збільшиться."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
@@ -640,7 +641,7 @@ msgstr "Файл(и)"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
-msgstr "Автовідтворення (лише XP)"
+msgstr "Автовідтворення"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK1"
 msgid "Video"
@@ -656,11 +657,11 @@ msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
-msgstr "Audio CD"
+msgstr "Аудіо CD"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "Крок переходу (короткого, середнього, довгого) в мс"
+msgstr "Крок переходу (малий, середній, великий в мс)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
@@ -668,24 +669,25 @@ msgstr "Типово"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
 msgid "Show preview on seek bar"
-msgstr ""
+msgstr "Показувати попередній перегляд на панелі пошуку"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Preview width (% of screen width)"
-msgstr ""
+msgstr "Ширина попереднього перегляду (% від ширини екрана)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
-msgstr "Швидке перемотування (по ключ. кадрам)"
+msgstr "Швидке перемотування (по ключовим кадрам)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
-msgstr "Відображати маркери розділів у стрічці перемотування"
+msgstr "Відображати маркери розділів у панелі пошуку"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
 msgstr ""
-"Автоматично приховувати вказівник миші під час відтвор. у віконному режимі"
+"Автоматично приховувати вказівник миші під час відтворення у віконному "
+"режимі"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
@@ -693,7 +695,7 @@ msgstr "Надавати інформацію \"Зараз слухаю\" у п�
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr "Використовувати особливості панелі завдань"
+msgstr "Використовувати моливості панелі завдань"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
@@ -702,7 +704,9 @@ msgstr "Задіяти підтримку Logitech LCD (експеримента
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid ""
 "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "Заблокувати ЗГОРТАННЯ, якщо повноекранний режим на іншому моніторі"
+msgstr ""
+"Заблокувати згортання вікна, якщо повноекранний режим задіяний на нетиповому"
+" моніторі"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid ""
@@ -710,7 +714,7 @@ msgid ""
 "only one item in playlist"
 msgstr ""
 "Відкривати попередній/наступний файл в теці при виконанні команд 'Крок "
-"назад/вперед' коли лише один файл у списку відтворення"
+"назад/вперед' коли у списку відтворення є лише один файл"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
 msgid "Show time tooltip:"
@@ -722,7 +726,7 @@ msgstr "Шрифт OSD:"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
-msgstr "Додати..."
+msgstr "Додати фільтр..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
 msgid "Remove"
@@ -810,7 +814,7 @@ msgstr "Опис:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
-msgstr "Додати до закладок"
+msgstr "Додати до вибраного"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
@@ -822,7 +826,7 @@ msgstr "Зберегти позицію"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr ""
+msgstr "Запам’ятовувати мітки повторення від A до B"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
@@ -838,11 +842,11 @@ msgstr "Скасувати"
 
 msgctxt "IDD_FAVORGANIZE_CAPTION"
 msgid "Organize Favorites"
-msgstr "Закладки"
+msgstr "Упорядкувати вибране"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
-msgstr "Змінити ім'я"
+msgstr "Перейменувати"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
 msgid "Move Up"
@@ -862,7 +866,7 @@ msgstr "Гаразд"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "Pan & Scan Presets"
-msgstr "Список положення та пропорцій"
+msgstr "Список положення та масштабу"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -894,15 +898,15 @@ msgstr "&Зберегти"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Pos: 0.0 -> 1.0"
-msgstr "Поз: 0.0 -> 1.0"
+msgstr "Позиція: 0.0 -> 1.0"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
-msgstr "Масшт: 0.2 -> 3.0"
+msgstr "Масштаб: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_CAPTION"
 msgid "Shortcut Keys"
-msgstr ""
+msgstr "Клавіатурні сполучення"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
@@ -914,7 +918,7 @@ msgstr "Обрати усі"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "Скинути обране"
+msgstr "Скинути вибране"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
@@ -930,7 +934,7 @@ msgstr ""
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
-msgstr "Для деяких потоків не знайдено відповідного фільтру:"
+msgstr "Для потока(-ів) не знайдено відповідного фільтру:"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDOK"
 msgid "Close"
@@ -962,7 +966,7 @@ msgstr "мс"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr "Зберегти користув. стиль"
+msgstr "Зберегти користувацький стиль"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1146,7 +1150,7 @@ msgstr "Знайти..."
 
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
-msgstr ""
+msgstr "Застосувати кольоровий профіль монітора"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
@@ -1182,7 +1186,7 @@ msgstr "Рендерер субтитрів"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Налаштування VMR-9 (renderless) і EVR (користув.)"
+msgstr "Налаштування VMR-9 (renderless) і EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1202,11 +1206,11 @@ msgstr "Реініціалізація при зміні дисплею"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "Повноекранний Direct3D (зменшує дрижання)"
+msgstr "Повноекранний D3D (зменшує дрижання)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
-msgstr "Альтернат. VSync"
+msgstr "Альтернативний VSync"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
@@ -1218,7 +1222,7 @@ msgstr "Буфери EVR:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
-msgstr ""
+msgstr "Кеш компільованих шейдерів"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1226,7 +1230,7 @@ msgstr "Використовувати порт:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "Запустити в web-оглядачі..."
+msgstr "Запустити в браузері..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
@@ -1238,7 +1242,7 @@ msgstr "Дозволити доступ лише з локального ком�
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
-msgstr "Ввімкнути поперед. перегляд"
+msgstr "Ввімкнути попередній перегляд"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
@@ -1290,11 +1294,11 @@ msgstr "Опції"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_BUTTON4"
 msgid "Search"
-msgstr ""
+msgstr "Пошук"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr ""
+msgstr "Зберегти як..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1334,7 +1338,7 @@ msgstr "Перевіряти кожні:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
-msgstr "днів"
+msgstr "дні(-в)"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Settings management"
@@ -1366,7 +1370,7 @@ msgstr "Відмінити"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. Start"
-msgstr "Част. Початку"
+msgstr "Початкова частота"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Bandwidth"
@@ -1374,7 +1378,7 @@ msgstr "Полоса пропускання"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. End"
-msgstr "Част. Кінця"
+msgstr "Кінцева частота"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
 msgid "Ignore encrypted channels"
@@ -1398,7 +1402,7 @@ msgstr "Використовувати зміщення"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr ""
+msgstr "Символьна швидкість"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1406,11 +1410,11 @@ msgstr "Типове джерело сигналу"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
 msgid "Analog"
-msgstr "Аналог."
+msgstr "Аналогове"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
 msgid "Digital"
-msgstr "Цифр."
+msgstr "Цифрове"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Analog settings"
@@ -1454,23 +1458,23 @@ msgstr "Перебудовувати граф фільтрів"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr "Зупиняти граф фільтрів"
+msgstr "Зупинити граф фільтрів"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
-msgstr "Синхр. відео з диспл."
+msgstr "Синхронізувати відео з дисплеєм"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
 msgid "Frequency adjustment:"
-msgstr "Регулюв. частоти:"
+msgstr "Регулювання частоти:"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
-msgstr "Синхронізація дисплею з відео"
+msgstr "Синхронізувати дисплей з відео"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
 msgid "Frequency adjustment:"
-msgstr "Регулюв. частоти:"
+msgstr "Регулювання частоти:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
 msgid "lines"
@@ -1486,7 +1490,7 @@ msgstr "Презентація при найближчому vsync"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
-msgstr "Відх. синхрон.:"
+msgstr "Відхилення синхронізації:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
 msgid "ms"
@@ -1494,7 +1498,7 @@ msgstr "мс"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
 msgid "Control limits:"
-msgstr "Межі контр.:"
+msgstr "Межі контролю:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
 msgid "+/-"
@@ -1514,7 +1518,7 @@ msgstr "Запускати файли на повний екран"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr "Приховувати елементи керування якщо 'На весь екран'"
+msgstr "Приховувати елементи керування в режимі повного екрану"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
@@ -1554,7 +1558,8 @@ msgstr "Донизу"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Застосовув. типовий режим монітора при виході з повноекр."
+msgstr ""
+"Застосовувати типовий режим монітора при виході з повноекранного режиму"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
@@ -1598,24 +1603,28 @@ msgstr "Скинути"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online subtitle search"
-msgstr ""
+msgstr "Онлайн пошук субтитрів"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
 msgstr ""
+"Автоматично шукати та завантажувати субтитри, якщо локальних не було "
+"знайдено"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid ""
 "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
 msgstr ""
+"Віддавати перевагу субтитрам для людей з вадами слуху (якщо це зазначено "
+"постачальником субтитрів)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr ""
+msgstr "Ігнорувати файли, що містять будь-яке з наступних слів:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
-msgstr ""
+msgstr "Мови в порядку переваги:"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1651,11 +1660,11 @@ msgstr "Видалити"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr "Додати до перед-масштабов."
+msgstr "Додати до перед-масштабування"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr "Додати до після-масштабов."
+msgstr "Додати до після-масштабування"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
@@ -1675,17 +1684,19 @@ msgstr "Видалити"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "Активні перед-масштабов. шейдери"
+msgstr "Активні шейдери перед-масштабування"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "Активні після-масштабов. шейдери"
+msgstr "Активні шейдери після-масштабування"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC5"
 msgid ""
 "MPC-VR does not support pre-resize shaders. It will run them after resize, "
 "before the post-resize shaders."
 msgstr ""
+"MPC-VR не підтримує шейдери перед-маштабування. Він запускатиме їх після "
+"зміни розміру, перед шейдерами після-маштабування."
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
@@ -1729,15 +1740,15 @@ msgstr "Типово"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
 msgid "SaneAR Audio Renderer Enabled"
-msgstr ""
+msgstr "Дозволити аудіо рендер SaneAR"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
-msgstr ""
+msgstr "Пристрій"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC6"
 msgid "Options"
-msgstr ""
+msgstr "Опції"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
@@ -1746,10 +1757,12 @@ msgstr "Ексклюзивний режим"
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
 msgstr ""
+"Ігнорувати змішувач системних каналів (завжди ігнорується в ексклюзивному "
+"режимі WASAPI)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr ""
+msgstr "Увімкнути перехресну передачу стерео (для навушників)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
 msgid "C. Moy"
@@ -1761,7 +1774,7 @@ msgstr "J. Meier"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
 msgid "Cut-off:"
-msgstr ""
+msgstr "Відрізання:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"
@@ -1769,17 +1782,20 @@ msgstr "Рівень:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC7"
 msgid "Note"
-msgstr ""
+msgstr "Примітка"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC8"
 msgid ""
 "To minimize audio distortion, it is recommended to keep player volume at "
 "around 85% when playing loud lossy-encoded content."
 msgstr ""
+"Щоб мінімізувати спотворення звуку, рекомендується підтримувати гучність "
+"програвача на рівні близько 85% під час відтворення гучного вмісту із "
+"втратами."
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
 msgid "MPC Audio Renderer Settings"
-msgstr ""
+msgstr "Налаштування аудіо рендеру MPC"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1791,11 +1807,11 @@ msgstr "Параметри запуску"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
-msgstr "ОК"
+msgstr "Гаразд"
 
 msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
-msgstr "Повідомити про падіння"
+msgstr "Повідомити про збій"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
 msgid "We are sorry, it seems MPC-HC just crashed. :("
@@ -1818,8 +1834,8 @@ msgid ""
 "Your email address is optional and will only be used if the developers need "
 "to contact you for more information."
 msgstr ""
-"Вказання вашої email-адреси є опціональним і розробники вам напишуть лише "
-"тоді, коли необхідна додаткова інформація."
+"Вказання вашої email-адреси є опціональним і розробники напишуть вам лише "
+"тоді, коли їм буде необхідна додаткова інформація."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
@@ -1835,8 +1851,8 @@ msgstr "Вийти з MPC-HC"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC1"
 msgid "Groupbox"
-msgstr ""
+msgstr "Groupbox"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC2"
 msgid "Autoplay"
-msgstr ""
+msgstr "Автовідтворення"

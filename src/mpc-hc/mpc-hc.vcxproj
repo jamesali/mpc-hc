@@ -71,7 +71,7 @@
       <AdditionalIncludeDirectories>..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>delayimp.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;dwmapi.lib;strmiids.lib;Uuid.Lib;Version.lib;Bcrypt.lib;RuntimeObject.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>crypt32.lib;delayimp.lib;dsound.lib;dxguid.lib;GdiPlus.lib;Psapi.lib;SetupAPI.lib;UxTheme.lib;Vfw32.lib;Winmm.lib;dwmapi.lib;strmiids.lib;Uuid.Lib;Version.lib;Bcrypt.lib;RuntimeObject.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DelayLoadDLLs>psapi.dll;api-ms-win-shcore-stream-winrt-l1-1-0.dll;api-ms-win-core-winrt-l1-1-0.dll;api-ms-win-core-winrt-string-l1-1-0.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
     </Link>
@@ -202,7 +202,6 @@
     <ClCompile Include="FreeviewEPGDecode.cpp" />
     <ClCompile Include="ImageGrayer.cpp" />
     <ClCompile Include="MainFrmControls.cpp" />
-    <ClCompile Include="MediaPositionList.cpp" />
     <ClCompile Include="FloatEdit.cpp" />
     <ClCompile Include="FullscreenWnd.cpp" />
     <ClCompile Include="GoToDlg.cpp" />
@@ -213,6 +212,7 @@
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MediaFormats.cpp" />
     <ClCompile Include="MediaTypesDlg.cpp" />
+    <ClCompile Include="ModelessResizableDialog.cpp" />
     <ClCompile Include="Monitors.cpp" />
     <ClCompile Include="MouseTouch.cpp" />
     <ClCompile Include="MPCPngImage.cpp" />
@@ -400,8 +400,8 @@
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MainFrmControls.h" />
     <ClInclude Include="MediaFormats.h" />
-    <ClInclude Include="MediaPositionList.h" />
     <ClInclude Include="MediaTypesDlg.h" />
+    <ClInclude Include="ModelessResizableDialog.h" />
     <ClInclude Include="Monitors.h" />
     <ClInclude Include="MouseTouch.h" />
     <ClInclude Include="MpcApi.h" />

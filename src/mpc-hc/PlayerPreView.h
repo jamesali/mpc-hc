@@ -43,8 +43,7 @@ private:
 
     CMainFrame* m_pMainFrame;
 
-    int m_border = 2;
-
+    int m_border = 1;
     int m_caption = 20;
     int m_relativeSize = 15;
 

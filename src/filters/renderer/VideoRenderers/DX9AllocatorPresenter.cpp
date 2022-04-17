@@ -1238,12 +1238,12 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int& _RasterStart, int _RasterSi
 
 int CDX9AllocatorPresenter::GetVBlackPos()
 {
-    const CRenderersSettings& r = GetRenderersSettings();
     BOOL bCompositionEnabled = m_bCompositionEnabled;
 
     int WaitRange = std::max(m_ScreenSize.cy / 40l, 5l);
     if (!bCompositionEnabled) {
         if (m_bAlternativeVSync) {
+            const CRenderersSettings& r = GetRenderersSettings();
             return r.m_AdvRendSets.iVMR9VSyncOffset;
         } else {
             int MinRange = std::max(std::min(long(0.005 * m_ScreenSize.cy * GetRefreshRate() + 0.5), m_ScreenSize.cy / 3l), 5l); // 5  ms or max 33 % of Time
@@ -2288,6 +2288,9 @@ STDMETHODIMP CDX9AllocatorPresenter::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTa
 
 STDMETHODIMP CDX9AllocatorPresenter::SetD3DFullscreen(bool fEnabled)
 {
+    CAutoLock cAutoLock(this);
+    CAutoLock cRenderLock(&m_RenderLock);
+
     fullScreenChanged = (fEnabled != m_bIsFullscreen);
     m_bIsFullscreen = fEnabled;
     return S_OK;

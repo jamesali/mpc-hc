@@ -41,14 +41,14 @@ BOOL CPreView::SetWindowTextW(LPCWSTR lpString) {
     GetClientRect(&rect);
 
     if (PREVIEW_TOOLTIP_BOTTOM) {
-        rect.top = rect.bottom - m_caption - m_border;
-        rect.bottom = rect.bottom - m_border;
+        rect.top    = rect.bottom - m_border - m_caption + 2;
+        rect.bottom = rect.bottom - m_border - 1;
     } else {
-        rect.top = m_border;
-        rect.bottom = m_caption + m_border;
+        rect.top    = m_border + 1;
+        rect.bottom = m_border + m_caption - 2;
     }
-    rect.left += 10;
-    rect.right -= 10;
+    rect.left  += m_border + 2;
+    rect.right -= m_border + 2;
 
     InvalidateRect(rect);
 
@@ -95,16 +95,10 @@ int CPreView::OnCreate(LPCREATESTRUCT lpCreateStruct) {
         return -1;
     }
 
-    m_caption = m_pMainFrame->m_dpi.ScaleY(20);
+    m_caption = m_pMainFrame->m_dpi.ScaleY(20) + 3; // 3 pixels of padding
 
     CRect rc;
     GetClientRect(&rc);
-
-    if (AfxGetAppSettings().bMPCTheme) {
-        m_border = 1;
-    } else {
-        m_border = 5;
-    }
 
     m_videorect.left = m_border;
     m_videorect.right = rc.right - m_border;
@@ -164,38 +158,32 @@ void CPreView::OnPaint() {
     CBitmap* pOldBm = mdc.SelectObject(&bm);
     mdc.SetBkMode(TRANSPARENT);
 
-    COLORREF bg = GetSysColor(COLOR_BTNFACE);
-    COLORREF frameLight = RGB(255, 255, 255);
-    COLORREF frameShadow = GetSysColor(COLOR_BTNSHADOW);
-
+    COLORREF bg;
     if (AfxGetAppSettings().bMPCTheme) {
         bg = CMPCTheme::CMPCTheme::MenuBGColor;
-        frameLight = frameShadow = CMPCTheme::NoBorderColor;
         m_crText = CMPCTheme::TextFGColor;
     } else {
-        m_crText = 0;
+        bg = GetSysColor(COLOR_BTNFACE);
+        m_crText = GetSysColor(COLOR_BTNTEXT);
     }
 
     mdc.FillSolidRect(0, 0, rcBar.Width(), rcBar.Height(), bg); //fill
 
-    mdc.FillSolidRect(0, 0, rcBar.Width(), 1, frameLight); //top border
-    mdc.FillSolidRect(0, rcBar.Height() - 1, rcBar.Width(), 1, frameShadow); //bottom border
-    mdc.FillSolidRect(0, 0, 1, rcBar.Height() - 1, frameLight); //left border
-    mdc.FillSolidRect(rcBar.right - 1, 0, 1, rcBar.Height(), frameShadow); //right border
-
     CRect rtime(rcBar);
     if (PREVIEW_TOOLTIP_BOTTOM) {
-        rtime.top = rcBar.Height() - m_caption;
-        rtime.bottom = rcBar.Height();
+        rtime.top    = rtime.bottom - m_border - m_caption + 2;
+        rtime.bottom = rtime.bottom - m_border - 1;
     } else {
-        rtime.top = 0;
-        rtime.bottom = m_caption;
+        rtime.top    = m_border + 1;
+        rtime.bottom = m_border + m_caption - 2;
     }
+    rtime.left  += m_border + 2;
+    rtime.right -= m_border + 2;
 
     // text
     mdc.SelectObject(&m_font);
     mdc.SetTextColor(m_crText);
-    mdc.DrawTextW(m_tooltipstr, m_tooltipstr.GetLength(), &rtime, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
+    mdc.DrawTextW(m_tooltipstr, m_tooltipstr.GetLength(), &rtime, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
 
     dc.ExcludeClipRect(m_videorect);
     dc.BitBlt(0, 0, rcBar.Width(), rcBar.Height(), &mdc, 0, 0, SRCCOPY);

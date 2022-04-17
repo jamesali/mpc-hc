@@ -4,16 +4,16 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # tobsen <github@tobsen.de>, 2020
-# Gaugg_Markus, 2020
-# Steve <secure@mail.az>, 2020
+# Steve, 2020
 # fc5b3681a8011aa2097a1a11b3d42f55_901a704, 2021
+# Gaugg_Markus, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-02-15 14:52:58+0000\n"
+"POT-Creation-Date: 2021-08-25 14:36:40+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: fc5b3681a8011aa2097a1a11b3d42f55_901a704, 2021\n"
+"Last-Translator: Gaugg_Markus, 2021\n"
 "Language-Team: German (https://www.transifex.com/mpchc/teams/106126/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr "&Zuletzt geöffnete Dateien"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
-msgstr "Datei &Schließen"
+msgstr "Datei &schließen"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
@@ -91,7 +91,7 @@ msgstr "&Eigenschaften"
 
 msgctxt "ID_FILE_OPEN_LOCATION"
 msgid "Open File &Location"
-msgstr "Dateiab&lageort öffnen"
+msgstr "Dateispeicherort öffnen"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
@@ -791,11 +791,11 @@ msgstr "&Homepage"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "&Auf Programmaktualisierungen prüfen"
+msgstr "Nach &Updates suchen"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "&Kommandozeile"
+msgstr "&Kommandozeilen-Befehle"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"

@@ -135,13 +135,17 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
     if (m_renderingCaches.overlayCache.Lookup(overlayKey, m_pOverlayData)) {
         m_fDrawn = m_renderingCaches.outlineCache.Lookup(overlayKey, m_pOutlineData);
         if (m_style.borderStyle == 1) {
-            VERIFY(CreateOpaqueBox());
+            if (m_style.outlineWidthX > 0.0 || m_style.shadowDepthX > 0.0 || m_style.outlineWidthY > 0.0 || m_style.shadowDepthY > 0.0) {
+                VERIFY(CreateOpaqueBox());
+            }
         }
     } else {
         if (!m_fDrawn) {
             if (m_renderingCaches.outlineCache.Lookup(overlayKey, m_pOutlineData)) {
                 if (m_style.borderStyle == 1) {
-                    VERIFY(CreateOpaqueBox());
+                    if (m_style.outlineWidthX > 0.0 || m_style.shadowDepthX > 0.0 || m_style.outlineWidthY > 0.0 || m_style.shadowDepthY > 0.0) {
+                        VERIFY(CreateOpaqueBox());
+                    }
                 }
             } else {
                 if (!CreatePath()) {
@@ -171,7 +175,9 @@ void CWord::Paint(const CPoint& p, const CPoint& org)
                         return;
                     }
                 } else if (m_style.borderStyle == 1) {
-                    VERIFY(CreateOpaqueBox());
+                    if (m_style.outlineWidthX > 0.0 || m_style.shadowDepthX > 0.0 || m_style.outlineWidthY > 0.0 || m_style.shadowDepthY > 0.0) {
+                        VERIFY(CreateOpaqueBox());
+                    }
                 }
 
                 m_renderingCaches.outlineCache.SetAt(overlayKey, m_pOutlineData);
@@ -1110,14 +1116,15 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
             return bbox;    // should not happen since this class is just a line of text without any breaks
         }
 
-        if ((w->m_style.outlineWidthX + w->m_style.outlineWidthY > 0 || w->m_style.borderStyle == 1) && !(w->m_ktype == 2 && time < w->m_kstart)) {
+        bool has_outline = w->m_style.outlineWidthX + w->m_style.outlineWidthY > 0.0;
+        if ((has_outline || w->m_style.borderStyle == 1) && !(w->m_ktype == 2 && time < w->m_kstart)) {
             int x = p.x;
             int y = p.y + m_ascent - w->m_ascent;
             DWORD aoutline = w->m_style.alpha[2];
             if (alpha > 0) {
                 aoutline += alpha * (0xff - w->m_style.alpha[2]) / 0xff;
             }
-            COLORREF outline = revcolor(w->m_style.colors[2]) | ((0xff - aoutline) << 24);
+            COLORREF outline = revcolor(has_outline ? w->m_style.colors[2] : w->m_style.colors[3]) | ((0xff - aoutline) << 24);
             DWORD sw[6] = {outline, DWORD_MAX};
             sw[0] = ColorConvTable::ColorCorrection(sw[0]);
 
@@ -1819,12 +1826,12 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
     str.Replace(L"<br>", L"\n");
     str.Replace(L"\\N", L"\n");
     str.Replace(L"\\n", (sub->m_wrapStyle < 2 || sub->m_wrapStyle == 3) ? L" " : L"\n");
-    str.Replace(L"\\h", L"\x00A0");
+    str.Replace(L"\\h", L"\x00A0"); // no-break space
 
     for (int i = 0, j = 0, len = str.GetLength(); j <= len; j++) {
         WCHAR c = str[j];
 
-        if (c != L'\n' && c != L' ' && c != L'\x00A0' && c != 0) {
+        if (c != L'\n' && c != L' ' && c != 0) {
             continue;
         }
 
@@ -1840,7 +1847,7 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
             }
-        } else if (c == L' ' || c == L'\x00A0') {
+        } else if (c == L' ') {
             if (CWord* w = DEBUG_NEW CText(style, CStringW(c), m_ktype, m_kstart, m_kend, sub->m_scalex, sub->m_scaley, m_renderingCaches)) {
                 sub->m_words.AddTail(w);
                 m_kstart = m_kend;
@@ -2739,7 +2746,9 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
     double dFontScaleXCompensation = 1.0;
     double dFontScaleYCompensation = 1.0;
 
-    if (m_ePARCompensationType == EPCTUpscale) {
+    if (m_ePARCompensationType == EPCTAccurateSize_ISR || m_ePARCompensationType == EPCTAccurateSize) {
+        dFontScaleXCompensation = m_dPARCompensation;
+    } else if (m_ePARCompensationType == EPCTUpscale) {
         if (m_dPARCompensation < 1.0) {
             dFontScaleYCompensation = 1.0 / m_dPARCompensation;
         } else {
@@ -2751,8 +2760,6 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         } else {
             dFontScaleYCompensation = 1.0 / m_dPARCompensation;
         }
-    } else if (m_ePARCompensationType == EPCTAccurateSize || m_ePARCompensationType == EPCTAccurateSize_ISR) {
-        dFontScaleXCompensation = m_dPARCompensation;
     }
 
     const CRenderersSettings& r = GetRenderersSettings();
@@ -2865,15 +2872,14 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         tmp.shadowDepthX  *= (fScaledBAS ? sub->m_scalex : 1.0) * 8.0;
         tmp.shadowDepthY  *= (fScaledBAS ? sub->m_scaley : 1.0) * 8.0;
 
-        if ((tmp.fontScaleX == tmp.fontScaleY && m_ePARCompensationType != EPCTAccurateSize_ISR)
-                || (tmp.fontScaleX != tmp.fontScaleY && m_ePARCompensationType == EPCTAccurateSize_ISR)) {
-            tmp.fontScaleX *= dFontScaleXCompensation;
-            tmp.fontScaleY *= dFontScaleYCompensation;
-        }
-
         if (m_nPolygon) {
             ParsePolygon(sub, str.Mid(iStart, iEnd - iStart), tmp);
         } else {
+            if (m_ePARCompensationType != EPCTDisabled) {
+                tmp.fontScaleX *= dFontScaleXCompensation;
+                tmp.fontScaleY *= dFontScaleYCompensation;
+            }
+
             ParseString(sub, str.Mid(iStart, iEnd - iStart), tmp);
         }
     }
@@ -3379,8 +3385,14 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
 
     CString strLanguage;
     if (m_lcid && m_lcid != LCID(-1)) {
-        int len = GetLocaleInfo(m_lcid, LOCALE_SENGLANGUAGE, strLanguage.GetBuffer(64), 64);
-        strLanguage.ReleaseBufferSetLength(std::max(len - 1, 0));
+        WCHAR dispName[1024];
+        memset(dispName, 0, 1024 * sizeof(WCHAR));
+        if (0 == GetLocaleInfoEx(m_langname, LOCALE_SLOCALIZEDDISPLAYNAME, (LPWSTR)&dispName, 1024)) {
+            int len = GetLocaleInfo(m_lcid, LOCALE_SENGLANGUAGE, strLanguage.GetBuffer(64), 64);
+            strLanguage.ReleaseBufferSetLength(std::max(len - 1, 0));
+        } else {
+            strLanguage = dispName;
+        }
     }
 
     if (strLanguage.IsEmpty() && !m_langname.IsEmpty()) {
@@ -3455,7 +3467,7 @@ STDMETHODIMP CRenderedTextSubtitle::SetSourceTargetInfo(CString yuvVideoMatrix, 
         parseMatrixString(yuvVideoMatrix);
     }
 
-    bool bTransformColors = !bIsVSFilter && !m_sYCbCrMatrix.IsEmpty();
+    bool bTransformColors = !bIsVSFilter && (!m_sYCbCrMatrix.IsEmpty() || !yuvVideoMatrix.IsEmpty());
     ColorConvTable::SetDefaultConvType(yuvMatrix, yuvRange, (targetWhiteLevel < 245), bTransformColors);
 
     return S_OK;

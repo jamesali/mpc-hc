@@ -159,9 +159,9 @@ namespace DSObjects
     private:
 
         enum RENDER_STATE {
-            Started  = State_Running,
             Stopped  = State_Stopped,
             Paused   = State_Paused,
+            Started  = State_Running,
             Shutdown = State_Running + 1
         };
 

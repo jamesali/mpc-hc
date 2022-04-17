@@ -24,7 +24,6 @@
 #include "TextFile.h"
 #include "../DSUtil/PathUtils.h"
 #include "../DSUtil/ISOLang.h"
-#include <regex>
 
 namespace
 {
@@ -149,6 +148,40 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
     std::sort(ret.GetData(), ret.GetData() + ret.GetCount());
 }
 
+void Subtitle::GetLCIDAndLangName(CStringW subName, LCID& lcid, CString& langname, HearingImpairedType& hi, std::wregex re) {
+    std::wcmatch mc;
+    if (std::regex_search((LPCTSTR)subName, mc, re)) {
+        ASSERT(mc.size() == 4);
+        ASSERT(mc[2].matched);
+
+        CStringW langFull(mc[1].str().c_str());
+        CStringA langSimple(mc[2].str().c_str());
+
+        LCID lcidFull = 0;
+        if (langFull.Find(L"-") != -1) { //only use LocaleNameToLCID when we have the longer ISO codes
+            lcidFull = LocaleNameToLCID(langFull, 0);
+        }
+        if (lcidFull) {
+            lcid = lcidFull;
+            langname = langFull;
+        } else {
+            langname = ISOLang::ISO639XToLanguage(langSimple, true);
+
+            if (!langname.IsEmpty()) {
+                size_t len = mc[1].str().size();
+                if (len == 3) {
+                    lcid = ISOLang::ISO6392ToLcid(langSimple);
+                } else if (len == 2) {
+                    lcid = ISOLang::ISO6391ToLcid(langSimple);
+                }
+            }
+        }
+        if (!langname.IsEmpty() && langSimple.CompareNoCase("hi") == 0) {
+            hi = HI_YES;
+        }
+    }
+}
+
 CString Subtitle::GuessSubtitleName(const CString& fn, CString videoName, LCID& lcid, CString& langname, HearingImpairedType& hi)
 {
     CString name;
@@ -182,66 +215,15 @@ CString Subtitle::GuessSubtitleName(const CString& fn, CString videoName, LCID& 
             }
             subName = subName.Mid(iVideoNameEnd);
 
-            std::wregex re(_T("^[.\\-_ ]+([^.\\-_ ]+)(?:[.\\-_ ]+([^.\\-_ ]+))?"), std::wregex::icase);
-            std::wcmatch mc;
-            if (std::regex_search((LPCTSTR)subName, mc, re)) {
-                ASSERT(mc.size() == 3);
-                ASSERT(mc[1].matched);
-                langname = ISOLang::ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
-
-                if (!langname.IsEmpty()) {
-                    size_t len = mc[1].str().size();
-                    if (len == 3) {
-                        lcid = ISOLang::ISO6392ToLcid(CStringA(mc[1].str().c_str()));
-                    } else if (len == 2) {
-                        lcid = ISOLang::ISO6391ToLcid(CStringA(mc[1].str().c_str()));
-                    }
-                    if (mc[2].matched) {
-                        if (CString(mc[2].str().c_str()).CompareNoCase(_T("hi")) == 0) {
-                            hi = HI_YES;
-                        }
-                    }
-                }
-            }
+            std::wregex re(_T("^[.\\-_ ]+(([^.\\-_ ]+)(?:[.\\-_ ]+([^.\\-_ ]+))?)"), std::wregex::icase);
+            GetLCIDAndLangName(subName, lcid, langname, hi, re);
         }
     }
 
     // If we couldn't find any info yet, we try to find the language at the end of the filename
     if (langname.IsEmpty()) {
-        std::wregex re(_T(".*?[.\\-_ ]+([^.\\-_ ]+)(?:[.\\-_ ]+([^.\\-_ ]+))?$"), std::wregex::icase);
-        std::wcmatch mc;
-        if (std::regex_search((LPCTSTR)subName, mc, re)) {
-            ASSERT(mc.size() == 3);
-            ASSERT(mc[1].matched);
-            langname = ISOLang::ISO639XToLanguage(CStringA(mc[1].str().c_str()), true);
-            if (!langname.IsEmpty()) {
-                size_t len = mc[1].str().size();
-                if (len == 3) {
-                    lcid = ISOLang::ISO6392ToLcid(CStringA(mc[1].str().c_str()));
-                } else if (len == 2) {
-                    lcid = ISOLang::ISO6391ToLcid(CStringA(mc[1].str().c_str()));
-                }
-            }
-
-            CStringA str;
-            if (mc[2].matched) {
-                str = mc[2].str().c_str();
-            }
-
-            if (!langname.IsEmpty() && str.CompareNoCase("hi") == 0) {
-                hi = HI_YES;
-            } else {
-                langname = ISOLang::ISO639XToLanguage(str, true);
-                if (!langname.IsEmpty()) {
-                    size_t len = str.GetLength();
-                    if (len == 3) {
-                        lcid = ISOLang::ISO6392ToLcid(str.GetString());
-                    } else if (len == 2) {
-                        lcid = ISOLang::ISO6391ToLcid(str.GetString());
-                    }
-                }
-            }
-        }
+        std::wregex re(_T(".*?[.\\-_ ]+(([^.\\-_ ]+)(?:[.\\-_ ]+([^.\\-_ ]+))?)$"), std::wregex::icase);
+        GetLCIDAndLangName(subName, lcid, langname, hi, re);
     }
 
     name = fn.Mid(fn.ReverseFind('\\') + 1);

@@ -593,6 +593,7 @@ DWORD CSubPicQueue::ThreadProc()
 
                         if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(pos, maxTextureSize, virtualSize, virtualTopLeft))) {
                             m_pAllocator->SetMaxTextureSize(maxTextureSize);
+                            m_pAllocator->SetCurSize(maxTextureSize);
                         }
 
                         CComPtr<ISubPic> pStatic;
@@ -799,6 +800,7 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, boo
                     HRESULT hr;
                     if (SUCCEEDED(hr = pSubPicProvider->GetTextureSize(pos, maxTextureSize, virtualSize, virtualTopLeft))) {
                         m_pAllocator->SetMaxTextureSize(maxTextureSize);
+                        m_pAllocator->SetCurSize(maxTextureSize);
                         if (!bAllocSubPic) {
                             // Ensure the previously allocated subpic is big enough to hold the subtitle to be rendered
                             SIZE maxSize = {0L,0L};

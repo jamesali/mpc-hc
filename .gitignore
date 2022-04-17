@@ -35,5 +35,6 @@
 /src/MPCTestAPI/bin17
 /src/thirdparty/DoctorDump/obj
 /src/thirdparty/LAVFilters/obj
-generated
+/src/thirdparty/fribidi/generated/config.h
+/src/thirdparty/libxml2/generated/libxml/xmlversion.h
 ipch

@@ -23,6 +23,7 @@
 #include "FileVersionInfo.h"
 #include "PathUtils.h"
 #include "VersionInfo.h"
+#include "PPageSheet.h"
 
 namespace
 {
@@ -81,7 +82,10 @@ namespace
         if (code == HCBT_CREATEWND) {
             HWND hWnd = (HWND)wParam;
             if ((GetWindowLongPtr(hWnd, GWL_STYLE) & WS_CHILD) == 0) {
-                SetWindowLongPtr(hWnd, GWL_EXSTYLE, GetWindowLongPtr(hWnd, GWL_EXSTYLE) | WS_EX_LAYOUTRTL);
+                CWnd* wnd = CWnd::FromHandle(hWnd);
+                if (nullptr == DYNAMIC_DOWNCAST(CPPageSheet, wnd)) { //see CPPageSheet::DoModal().  in Windows 11, SetWindowLongPtr corrupts CPPageSheet dialog
+                    SetWindowLongPtr(hWnd, GWL_EXSTYLE, GetWindowLongPtr(hWnd, GWL_EXSTYLE) | WS_EX_LAYOUTRTL);
+                }
             }
         }
         return CallNextHookEx(nullptr, code, wParam, lParam);
@@ -120,6 +124,14 @@ LANGID Translations::SetDefaultLanguage()
     // Try to set the language resource but don't fail if it can't be loaded
     // English will we used instead in case of error
     return SetLanguage(localeID, false) ? localeID : 0;
+}
+
+bool Translations::IsLangRTL(LANGID localeID) {
+    //arabic or hebrew
+    if (localeID == 1025 || localeID == 1037) {
+        return true;
+    }
+    return false;
 }
 
 bool Translations::SetLanguage(LANGID localeID, bool showErrorMsg /*= true*/)
@@ -171,8 +183,7 @@ bool Translations::SetLanguage(LANGID localeID, bool showErrorMsg /*= true*/)
         hMod = AfxGetApp()->m_hInstance;
     }
     // In case a dll was loaded, check if some special action is needed
-    else if (PRIMARYLANGID(languageResource.localeID) == LANG_ARABIC || PRIMARYLANGID(languageResource.localeID) == LANG_HEBREW) {
-        // Hebrew needs the RTL flag.
+    else if (IsLangRTL(languageResource.localeID)) {
         SetProcessDefaultLayout(LAYOUT_RTL);
         SetWindowsHookEx(WH_CBT, RTLWindowsLayoutCbtFilterHook, nullptr, GetCurrentThreadId());
     }
