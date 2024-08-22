@@ -201,3 +201,7 @@ void CChildView::OnNcLButtonDown(UINT nHitTest, CPoint point)
         m_pMainFrame->SendMessage(WM_SYSCOMMAND, SC_SIZE | flag, MAKELPARAM(point.x, point.y));
     }
 }
+
+BOOL CChildView::OnEraseBkgnd(CDC* pDC) {
+    return __super::OnEraseBkgnd(pDC);
+}

@@ -841,6 +841,7 @@ CMainFrame::CMainFrame()
     , m_fAudioOnly(true)
     , m_iDVDDomain(DVD_DOMAIN_Stop)
     , m_iDVDTitle(0)
+    , m_bDVDStillOn(false)
     , m_dSpeedRate(1.0)
     , m_ZoomX(1.0)
     , m_ZoomY(1.0)
@@ -3277,7 +3278,11 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 UpdateCachedMediaState();
                 break;
             case EC_DVD_STILL_ON:
+                m_bDVDStillOn = true;
+                break;
             case EC_DVD_STILL_OFF:
+                m_bDVDStillOn = false;
+                break;
             case EC_DVD_BUTTON_CHANGE:
             case EC_DVD_SUBPICTURE_STREAM_CHANGE:
             case EC_DVD_AUDIO_STREAM_CHANGE:
@@ -12638,7 +12643,7 @@ void CMainFrame::RepaintVideo(const bool bForceRepaint/* = false*/)
 {
     if (!m_bDelaySetOutputRect && (m_pCAP || m_pMFVDC)) {
         OAFilterState fs = GetMediaState();
-        if (fs == State_Paused || fs == State_Stopped || bForceRepaint) {
+        if (fs == State_Paused || fs == State_Stopped || bForceRepaint || (m_bDVDStillOn && GetPlaybackMode() == PM_DVD)) {
             if (m_pCAP) {
                 m_pCAP->Paint(false);
             } else if (m_pMFVDC) {
@@ -18802,6 +18807,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         m_wndPreView.ShowWindow(SW_HIDE);
     }
     m_bUseSeekPreview = false;
+    m_bDVDStillOn = false;
 
     if (GetLoadState() == MLS::CLOSING || GetLoadState() == MLS::CLOSED) {
         // double close, should be prevented

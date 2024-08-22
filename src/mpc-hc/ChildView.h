@@ -48,4 +48,6 @@ protected:
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg LRESULT OnNcHitTest(CPoint point);
     afx_msg void OnNcLButtonDown(UINT nHitTest, CPoint point);
+public:
+    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };

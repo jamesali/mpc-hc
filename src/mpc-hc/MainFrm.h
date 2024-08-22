@@ -567,6 +567,7 @@ protected:
 
     DVD_DOMAIN  m_iDVDDomain;
     DWORD       m_iDVDTitle;
+    bool        m_bDVDStillOn;
     int         m_loadedAudioTrackIndex = -1;
     int         m_loadedSubtitleTrackIndex = -1;
     int         m_audioTrackCount = 0;
