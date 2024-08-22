@@ -3226,7 +3226,7 @@ msgid "Indeo Video Format"
 msgstr "Indeo ਵਿਡੀਓ ਫਾਰਮੈਟ"
 
 msgctxt "IDS_MFMT_AVS"
-msgid "AviSynth script"
+msgid "AviSynth Script"
 msgstr ""
 
 msgctxt "IDS_MFMT_OTHER"

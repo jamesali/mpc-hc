@@ -1086,23 +1086,23 @@ msgstr "Używaj libass dla SSA/ASS"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Buttons"
-msgstr ""
+msgstr "Przyciski"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Click"
-msgstr ""
+msgstr "Klik"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Double click"
-msgstr ""
+msgstr "Podwójny klik"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Right click"
-msgstr ""
+msgstr "Prawy klik"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_BUTTON2"
 msgid "Default"
-msgstr ""
+msgstr "Domyślny"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid ""
@@ -1871,19 +1871,19 @@ msgstr "Autoodtwarzanie"
 
 msgctxt "IDD_ADDCOMMAND_DLG_CAPTION"
 msgid "Select command"
-msgstr ""
+msgstr "Wybierz polecenie"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDC_STATIC"
 msgid "Filter:"
-msgstr ""
+msgstr "Filtry:"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "Ok"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDCANCEL"
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC1"
 msgid "Theme"
@@ -1919,7 +1919,7 @@ msgstr "Typ podglądu:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
 msgid "Preview width (% of screen)"
-msgstr "Szer. podglądu (% ekranu)"
+msgstr "Szerokość podglądu (% ekranu)"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
 msgid "Show chapter marks on seekbar"

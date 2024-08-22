@@ -581,55 +581,55 @@ msgstr "Yürütme &hızı"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_025"
 msgid "0.25 x"
-msgstr "x 0,25"
+msgstr "0,25 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_050"
 msgid "0.50 x"
-msgstr "x 0,50"
+msgstr "0,50 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_075"
 msgid "0.75 x"
-msgstr "x 0,75"
+msgstr "0,75 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_090"
 msgid "0.90 x"
-msgstr "x 0,90"
+msgstr "0,90 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_100"
 msgid "1.00 x"
-msgstr "x 1,00"
+msgstr "1,00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_110"
 msgid "1.10 x"
-msgstr "x 1,10"
+msgstr "1,10 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_125"
 msgid "1.25 x"
-msgstr "x 1,25"
+msgstr "1,25 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_150"
 msgid "1.50 x"
-msgstr "x 1,50"
+msgstr "1,50 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_200"
 msgid "2.00 x"
-msgstr "x 2,00"
+msgstr "2,00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_300"
 msgid "3.00 x"
-msgstr "x 3,00"
+msgstr "3,00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_400"
 msgid "4.00 x"
-msgstr "x 4,00"
+msgstr "4,00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_600"
 msgid "6.00 x"
-msgstr "x 6,00"
+msgstr "6,00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_800"
 msgid "8.00 x"
-msgstr "x 8,00"
+msgstr "8,00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_FPS24"
 msgid "24 fps"

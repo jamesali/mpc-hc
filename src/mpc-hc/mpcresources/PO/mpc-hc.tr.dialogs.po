@@ -538,7 +538,7 @@ msgstr "Doku ayarları (değişiklikleri görmek için videoyu tekrar açın)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC9"
 msgid "Sub pictures to buffer:"
-msgstr "Arabelleğe alınacak alt resim sayısı:"
+msgstr "Tamponlanacak alt resimler:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC21"
 msgid "Maximum texture resolution:"
@@ -684,8 +684,8 @@ msgid ""
 "Open previous/next file in folder on \"Skip back/forward\" when there is "
 "only one item in playlist"
 msgstr ""
-"Oynatma listesinde tek medya varken \"Önceki / Sonraki bölüm\" tuşuyla "
-"önceki/sonraki dosyayı aç"
+"Oynatma listesinde tek öğe varken \"Önceki / Sonraki bölüm\" düğmesiyle "
+"klasördeki önceki/sonraki dosyayı aç"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
@@ -989,15 +989,15 @@ msgstr "Aralık"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC2"
 msgid "Angle (z,°)"
-msgstr "Açı (z,°)"
+msgstr "Açı (z, °)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC3"
 msgid "Scale (x,%)"
-msgstr "Ölçek (x,%)"
+msgstr "Ölçek (x, %)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC4"
 msgid "Scale (y,%)"
-msgstr "Ölçek (y,%)"
+msgstr "Ölçek (y, %)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"

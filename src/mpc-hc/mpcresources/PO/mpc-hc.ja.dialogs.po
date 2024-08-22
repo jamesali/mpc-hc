@@ -405,7 +405,7 @@ msgstr "コントロール"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC5"
 msgid "Volume step:"
-msgstr "音量調節のステップ:"
+msgstr "音量調節の刻み幅:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
@@ -413,7 +413,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC6"
 msgid "Speed step:"
-msgstr "速度調節のステップ:"
+msgstr "速度調節の刻み幅:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
@@ -1076,23 +1076,23 @@ msgstr "SSA/ASS に libass を使用する"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Buttons"
-msgstr ""
+msgstr "ボタン"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Click"
-msgstr ""
+msgstr "クリック"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Double click"
-msgstr ""
+msgstr "ダブル クリック"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Right click"
-msgstr ""
+msgstr "右クリック"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_BUTTON2"
 msgid "Default"
-msgstr ""
+msgstr "既定"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid ""
@@ -1845,19 +1845,19 @@ msgstr "自動再生"
 
 msgctxt "IDD_ADDCOMMAND_DLG_CAPTION"
 msgid "Select command"
-msgstr ""
+msgstr "コマンドを選択"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDC_STATIC"
 msgid "Filter:"
-msgstr ""
+msgstr "検索:"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDCANCEL"
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC1"
 msgid "Theme"
@@ -1949,7 +1949,7 @@ msgstr "フォント サイズ:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "再生位置を表示する(&I)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Window Behavior"

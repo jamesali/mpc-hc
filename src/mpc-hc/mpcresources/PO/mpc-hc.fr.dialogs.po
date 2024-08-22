@@ -411,7 +411,7 @@ msgstr "Contrôles"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC5"
 msgid "Volume step:"
-msgstr "Pas du volume :"
+msgstr "Pas du volume:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
@@ -419,7 +419,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC6"
 msgid "Speed step:"
-msgstr "Pas de la vitesse :"
+msgstr "Pas de la vitesse:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
@@ -439,7 +439,7 @@ msgstr "fois"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC7"
 msgid "Repeat mode:"
-msgstr "Mode de répétition :"
+msgstr "Mode de répétition:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -475,7 +475,7 @@ msgstr "Langues préférées des pistes"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC8"
 msgid "Subtitles:"
-msgstr "Sous-titres :"
+msgstr "Sous-titres:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC9"
 msgid "Audio:"
@@ -535,11 +535,11 @@ msgstr "Paramètres de texture (réouvrir la vidéo pour voir les modifications)
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC9"
 msgid "Sub pictures to buffer:"
-msgstr "Nombre de sous-titres à précharger :"
+msgstr "Nombre de sous-titres à précharger:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC21"
 msgid "Maximum texture resolution:"
-msgstr "Résolution maximale :"
+msgstr "Résolution de texture maximale:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
@@ -1643,7 +1643,7 @@ msgstr "Ignorer les fichiers contenant le(s) mot(s) suivant(s) :"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC2"
 msgid "Languages in order of preference:"
-msgstr "Ordre de préférence des langues :"
+msgstr "Ordre de préférence des langues:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
@@ -1993,7 +1993,7 @@ msgstr "Taille de police:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "Afficher l'&indicateur de temps"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Window Behavior"

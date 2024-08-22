@@ -412,7 +412,7 @@ msgstr "Steuerung"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC5"
 msgid "Volume step:"
-msgstr "Lautstärkestufen:"
+msgstr "Lautstärkestufe:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
@@ -420,7 +420,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC6"
 msgid "Speed step:"
-msgstr "Tempostufen:"
+msgstr "Geschwindigkeitsstufe:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
@@ -440,7 +440,7 @@ msgstr "Mal(e) ab"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC7"
 msgid "Repeat mode:"
-msgstr "Wiedergabe-Modus:"
+msgstr "Wiederholungsmodus:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -536,7 +536,7 @@ msgstr "Untertitel-Textur (Neuladen des Videos erforderlich)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC9"
 msgid "Sub pictures to buffer:"
-msgstr "Anzahl der Untertitelbilder im Puffer:"
+msgstr "Unterbilder zum Puffern:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC21"
 msgid "Maximum texture resolution:"
@@ -981,7 +981,7 @@ msgstr "Schriftart"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC1"
 msgid "Spacing"
-msgstr "Laufweite"
+msgstr "Abstand"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC2"
 msgid "Angle (z,°)"
@@ -989,11 +989,11 @@ msgstr "Winkel (z,°)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC3"
 msgid "Scale (x,%)"
-msgstr "Größe (x,%)"
+msgstr "Maßstab (x,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC4"
 msgid "Scale (y,%)"
-msgstr "Größe (y,%)"
+msgstr "Maßstab (y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
@@ -1009,7 +1009,7 @@ msgstr "Rechteck"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC5"
 msgid "Width"
-msgstr "Randstärke"
+msgstr "Breite"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC6"
 msgid "Shadow"
@@ -1630,7 +1630,7 @@ msgstr "Teilpfade ausgenommener Mediendateien:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC2"
 msgid "Languages in order of preference:"
-msgstr "Auswahl der Untertitelsprachen:"
+msgstr "Sprachen in präferierter Reihenfolge:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""

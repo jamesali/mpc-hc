@@ -234,7 +234,7 @@ msgstr "Ebeveyn derecelendirmesi"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
-msgstr "+%d"
+msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
@@ -1950,7 +1950,7 @@ msgstr "VSync kaydırması: %d"
 
 msgctxt "IDS_OSD_SPEED"
 msgid "Speed: %.2lfx"
-msgstr "Hız: x%.2lf"
+msgstr "Hız: %.2lfx"
 
 msgctxt "IDS_OSD_THUMBS_SAVED"
 msgid "Thumbnails saved successfully"
@@ -3361,7 +3361,7 @@ msgid "Indeo Video Format"
 msgstr "Indeo Video Biçimi"
 
 msgctxt "IDS_MFMT_AVS"
-msgid "AviSynth script"
+msgid "AviSynth Script"
 msgstr ""
 
 msgctxt "IDS_MFMT_OTHER"
@@ -4319,7 +4319,7 @@ msgid ""
 "\"pathname\"\tThe main file or directory to be loaded\n"
 "\t\t(wildcards allowed, \"-\" denotes standard input)"
 msgstr ""
-"\"yol adı\"\tAçılacak ana dosya ya da klasör\n"
+"\"yol adı\"\t\tAçılacak ana dosya ya da klasör\n"
 "\t\t(joker karakterler kullanılabilir, \"-\" standart girdi belirtir)"
 
 msgctxt "IDS_CMD_DUB"

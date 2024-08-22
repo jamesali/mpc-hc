@@ -963,7 +963,7 @@ msgstr "字体"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC1"
 msgid "Spacing"
-msgstr "间隔"
+msgstr "间距"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC2"
 msgid "Angle (z,°)"
@@ -983,7 +983,7 @@ msgstr "边框样式"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
-msgstr "轮廓"
+msgstr "轮廓描边"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
 msgid "Opaque box"
@@ -991,7 +991,7 @@ msgstr "不透明框"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC5"
 msgid "Width"
-msgstr "边框宽度"
+msgstr "宽度"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC6"
 msgid "Shadow"
@@ -999,15 +999,15 @@ msgstr "阴影"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
-msgstr "屏幕排列与边缘"
+msgstr "屏幕对齐与边距"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC7"
 msgid "Left"
-msgstr "左"
+msgstr "左侧"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC8"
 msgid "Right"
-msgstr "右"
+msgstr "右侧"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC9"
 msgid "Top"
@@ -1019,7 +1019,7 @@ msgstr "底部"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
-msgstr "相对于视频帧的字幕位置"
+msgstr "以视频帧为参照来定位字幕"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
@@ -1943,7 +1943,7 @@ msgstr "字体大小: "
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "显示当前时间(&I)"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Window Behavior"

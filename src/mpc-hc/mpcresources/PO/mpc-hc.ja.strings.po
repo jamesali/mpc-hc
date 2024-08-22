@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-03-28 16:29:05+0000\n"
+"POT-Creation-Date: 2024-08-20 00:30:57+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: ever_green, 2024\n"
 "Language-Team: Japanese (https://app.transifex.com/mpchc/teams/106126/ja/)\n"
@@ -736,7 +736,7 @@ msgstr "プレーヤー::キー"
 
 msgctxt "IDD_PPAGEMOUSE"
 msgid "Player::Mouse"
-msgstr ""
+msgstr "プレーヤー::マウス"
 
 msgctxt "IDD_PPAGESUBSTYLE"
 msgid "Subtitles::Default Style"
@@ -1046,7 +1046,7 @@ msgstr "ファイルの場所を開く"
 
 msgctxt "IDS_AG_OPENDIRECTORY"
 msgid "Open Directory"
-msgstr ""
+msgstr "ディレクトリを開く"
 
 msgctxt "IDS_AG_TOGGLE_NAVIGATION"
 msgid "Toggle Navigation Bar"
@@ -1267,11 +1267,11 @@ msgstr "インターレース解除フィルター (ブレンド) をキャプ�
 
 msgctxt "IDS_PLAYLIST_TOGGLE_SHUFFLE"
 msgid "Toggle Playlist Shuffle"
-msgstr ""
+msgstr "再生リストのシャッフル 切り替え"
 
 msgctxt "IDS_AUDIOSHIFT_ONOFF"
 msgid "Toggle Audio Delay"
-msgstr ""
+msgstr "音声の遅延 切り替え"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
@@ -3276,8 +3276,8 @@ msgid "Indeo Video Format"
 msgstr "Indeo Video Format"
 
 msgctxt "IDS_MFMT_AVS"
-msgid "AviSynth script"
-msgstr ""
+msgid "AviSynth Script"
+msgstr "AviSynth Script"
 
 msgctxt "IDS_MFMT_OTHER"
 msgid "Other"
@@ -4300,7 +4300,7 @@ msgstr "/standby\t\t再生終了後に OS をスタンバイ モードにする"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
-msgstr "/hibernate\t\t再生終了後に OS を休止状態にする"
+msgstr "/hibernate\t再生終了後に OS を休止状態にする"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
@@ -4332,7 +4332,7 @@ msgstr "/mute\t\tオーディオをミュートする"
 
 msgctxt "IDS_CMD_VOLUME"
 msgid "/volume N\tSet Volume, where N is a range from 0 to 100"
-msgstr "/volume N\t\t音量を設定する, N は 0 ～ 100 の範囲内で指定する"
+msgstr "/volume N\t音量を設定する, N は 0 ～ 100 の範囲内で指定する"
 
 msgctxt "IDS_YOUTUBEDL_NOT_FOUND"
 msgid "Youtube-dl failed to launch. Make sure youtube-dl is in PATH."
@@ -4481,7 +4481,7 @@ msgctxt "IDS_CMD_FIXEDSIZE"
 msgid ""
 "/fixedsize w,h[,x,y]\tSet a fixed window size; optionally specificy upper-"
 "left window position"
-msgstr ""
+msgstr "/fixedsize w,h[,x,y]\tウィンドウ サイズを固定して、必要に応じて左上のウィンドウ位置を指定する"
 
 msgctxt "IDS_CMD_MONITOR"
 msgid "/monitor N\tStart player on monitor N, where N starts from 1"
@@ -4519,43 +4519,43 @@ msgstr "OK"
 
 msgctxt "IDS_MOUSE_CLICK_MIDDLE"
 msgid "Middle click"
-msgstr ""
+msgstr "中央クリック"
 
 msgctxt "IDS_MOUSE_CLICK_X1"
 msgid "X1 click"
-msgstr ""
+msgstr "X1 クリック"
 
 msgctxt "IDS_MOUSE_CLICK_X2"
 msgid "X2 click"
-msgstr ""
+msgstr "X2 クリック"
 
 msgctxt "IDS_MOUSE_WHEEL_UP"
 msgid "Wheel Up"
-msgstr ""
+msgstr "ホイール 上"
 
 msgctxt "IDS_MOUSE_WHEEL_DOWN"
 msgid "Wheel Down"
-msgstr ""
+msgstr "ホイール 下"
 
 msgctxt "IDS_MOUSE_WHEEL_LEFT"
 msgid "Wheel Left"
-msgstr ""
+msgstr "ホイール 左"
 
 msgctxt "IDS_MOUSE_WHEEL_RIGHT"
 msgid "Wheel Right"
-msgstr ""
+msgstr "ホイール 右"
 
 msgctxt "IDS_MOUSE_ACTION"
 msgid "Action"
-msgstr ""
+msgstr "操作"
 
 msgctxt "IDS_MOUSE_COMMAND"
 msgid "Command"
-msgstr ""
+msgstr "コマンド"
 
 msgctxt "IDS_MOUSE_RIGHT_BUTTON"
 msgid "Right button"
-msgstr ""
+msgstr "右ボタン"
 
 msgctxt "IDS_MESSAGEBOX_CONTINUE"
 msgid "&Continue"
@@ -4650,7 +4650,7 @@ msgstr "ステータス バーにビデオ情報 (コーデック名、解像度
 
 msgctxt "IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR"
 msgid "Pause playback while dragging the seekbar."
-msgstr ""
+msgstr "シークバーをドラッグしている間は再生を一時停止します。"
 
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
 msgid ""
@@ -4834,4 +4834,4 @@ msgstr "既定"
 
 msgctxt "IDS_CMD_THUMBNAILS"
 msgid "/thumbnails\tCreate thumbnails"
-msgstr ""
+msgstr "/thumbnails\tサムネイルを作成する"

@@ -148,8 +148,8 @@ msgid ""
 "Enter two numbers to jump to a specified frame, the first is the frame "
 "number, the second is the frame rate."
 msgstr ""
-"Insira dois número para saltar para frame especifico, o primeiro é o número "
-"do frame, o segundo é o ritmo dos frames."
+"Introduza dois números para saltar para um fotograma específico, o primeiro "
+"é o número do fotograma, o segundo é a velocidade do fotograma."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -435,7 +435,7 @@ msgstr "vez(es)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC7"
 msgid "Repeat mode:"
-msgstr "Modo repetição:"
+msgstr "Modo de repetição:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -531,7 +531,7 @@ msgstr "Definições de textura (abre o vídeo outra vez para ver as alteraçõe
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC9"
 msgid "Sub pictures to buffer:"
-msgstr "Sob-imagens para empilhar:"
+msgstr "Sub imagens para o buffer:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC21"
 msgid "Maximum texture resolution:"
@@ -555,7 +555,7 @@ msgstr "Animar em"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr "% do ritmo de frames do vídeo"
+msgstr "% da velocidade dos fotogramas do vídeo"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
@@ -680,7 +680,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
-msgstr "Procura rápida (nas chaves de frames)"
+msgstr "Pesquisa rápida (nos fotogramas chave)"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -1024,15 +1024,15 @@ msgstr "Direita"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC9"
 msgid "Top"
-msgstr "Cima"
+msgstr "Topo"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC10"
 msgid "Bottom"
-msgstr "Baixo"
+msgstr "Fundo"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
-msgstr "Posição legendas relativamente ao frame do vídeo"
+msgstr "Posição legendas relativamente ao fotograma do vídeo"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
@@ -1630,7 +1630,7 @@ msgstr ""
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC2"
 msgid "Languages in order of preference:"
-msgstr "Idiomas na ordem de preferência:"
+msgstr "Idiomas por ordem de preferência:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
@@ -1908,7 +1908,7 @@ msgstr "Barra de pesquisa"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC22"
 msgid "Modern Seekbar height:"
-msgstr "Altura da barra de pesquisa do tema moderno:"
+msgstr "Altura da barra de pesquisa moderna:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK8"
 msgid "Hover:"
@@ -1960,7 +1960,7 @@ msgstr "Idioma:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC9"
 msgid "On Screen Display (OSD)"
-msgstr "Exibição no ecrã (OSD)"
+msgstr "Visualização no ecrã (OSD)"
 
 msgctxt "IDD_PPAGETHEME_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"

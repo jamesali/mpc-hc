@@ -1975,7 +1975,7 @@ msgstr "Размер шрифта:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
 msgid "Display Current T&ime"
-msgstr ""
+msgstr "Отображать текущее &время"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Window Behavior"

@@ -33,7 +33,7 @@ msgstr "Szybkie &otwieranie..."
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File/URL..."
-msgstr "Otwórz &plik..."
+msgstr "Otwórz &plik/url..."
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
@@ -269,7 +269,7 @@ msgstr "&Format wejściowy"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
-msgstr "&Auto-detekcja"
+msgstr "&Automatyczne wykrywanie"
 
 msgctxt "ID_VIEW_CM_INPUT_HDTV"
 msgid "&HDTV"
@@ -349,7 +349,7 @@ msgstr "&Kontrola GPU"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
-msgstr "Opróżniaj bufor przed &synch. pion."
+msgstr "Opróżniaj bufor przed &synchronizacją pionową"
 
 msgctxt "ID_VIEW_FLUSHGPU_AFTERPRESENT"
 msgid "Flush GPU &after Present"
@@ -673,7 +673,7 @@ msgstr "Ścieżka &napisów"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "Vide&o Track"
-msgstr "Ścieżka w&ideo"
+msgstr "Ścieżka wide&o"
 
 msgctxt "POPUP"
 msgid "&Volume"

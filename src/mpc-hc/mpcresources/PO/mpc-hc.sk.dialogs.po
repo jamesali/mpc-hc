@@ -407,7 +407,7 @@ msgstr "Ovládač"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC5"
 msgid "Volume step:"
-msgstr "Krok pri hlasitosti:"
+msgstr "Krok pre hlasitosť:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
@@ -415,7 +415,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC6"
 msgid "Speed step:"
-msgstr "Krok pri rýchlosti:"
+msgstr "Krok pre rýchlosť:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
@@ -917,7 +917,7 @@ msgstr "Kódovanie:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "Delay:"
-msgstr "Posun:"
+msgstr "Oneskorenie:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "ms"
@@ -1037,7 +1037,7 @@ msgstr "Relatívne umiestnenie titulkov voči videu"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
-msgstr "Farby && priesvitnosť"
+msgstr "Farby a priehľadnosť"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "0%"
@@ -1085,23 +1085,23 @@ msgstr "Použiť libass pre SSA/ASS"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Buttons"
-msgstr ""
+msgstr "Tlačidlá"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Click"
-msgstr ""
+msgstr "Kliknutie"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Double click"
-msgstr ""
+msgstr "Dvojité kliknutie"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_STATIC"
 msgid "Right click"
-msgstr ""
+msgstr "Kliknutie pravým tlačidlom"
 
 msgctxt "IDD_PPAGEMOUSE_IDC_BUTTON2"
 msgid "Default"
-msgstr ""
+msgstr "Predvolené"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid ""
@@ -1145,7 +1145,7 @@ msgstr "Externé:"
 
 msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
 msgid "Browse..."
-msgstr "Prehľadávať"
+msgstr "Prehľadávať..."
 
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
@@ -1153,7 +1153,7 @@ msgstr "Použiť profil farieb monitora"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
-msgstr "Vykresľovanie DirectShow"
+msgstr "DirectShow Video"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON1"
 msgid "Settings"
@@ -1193,7 +1193,7 @@ msgstr "Vykresľovač titulkov"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Nastavenia VMR-9 (bez vykreslenia) EVR (CP)"
+msgstr "Nastavenia VMR-9 (bez vykreslenia) a EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1245,7 +1245,7 @@ msgstr "Zapnúť kompresiu"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
-msgstr "Povoliť prístup len z lokálnej stanice"
+msgstr "Povoliť prístup len lokálnemu host."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
@@ -1253,7 +1253,7 @@ msgstr "Zapnúť náhľad"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
-msgstr "Informácie pre ladenie"
+msgstr "Vytlačiť Informácie pre ladenie"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
 msgid "Serve pages from:"
@@ -1261,11 +1261,11 @@ msgstr "Dodávať stránky z adresy:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
 msgid "Browse..."
-msgstr "Prehľadávať"
+msgstr "Prehľadávať..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON2"
 msgid "Deploy..."
-msgstr "Rozmiestniť"
+msgstr "Rozmiestniť..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "Default page:"
@@ -1329,7 +1329,7 @@ msgstr "Sýtosť"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET"
 msgid "Reset"
-msgstr "Obnoviť"
+msgstr "Reset"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
@@ -1353,7 +1353,7 @@ msgstr "Správa nastavení"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
 msgid "Reset"
-msgstr "Obnoviť"
+msgstr "Reset"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
 msgid "Export"
@@ -1401,11 +1401,11 @@ msgstr "S"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Q"
-msgstr "K"
+msgstr "Q"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
-msgstr "Použiť offset"
+msgstr "Použiť posun"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
@@ -1425,7 +1425,7 @@ msgstr "Digitálne"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Analog settings"
-msgstr "Nastavenia analógovej časti"
+msgstr "Analógové nastavenia"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
 msgid "Video"
@@ -1441,11 +1441,11 @@ msgstr "Krajina"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Digital settings (BDA)"
-msgstr "Nastavenia digitálnej časti (BDA)"
+msgstr "Digitálne nastavenia (BDA)"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
 msgid "Network Provider"
-msgstr "Poskytovateľ (sieť)"
+msgstr "Sieťový poskytovateľ"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
 msgid "Tuner"
@@ -1570,7 +1570,7 @@ msgstr "Po ukončení režimu na celú obrazovku použiť predvolený režim mon
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
-msgstr "Po ukončení obnoviť pôvodné rozlíšenie"
+msgstr "Po ukončení obnoviť rozlíšenie"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
@@ -1598,7 +1598,7 @@ msgstr "Uprednostniť externé titulky pred vloženými"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Nenačítavať vložené titulky"
+msgstr "Ignorovať vložené titulky"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
@@ -1606,7 +1606,7 @@ msgstr "Cesty pre automotické načítavanie"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
-msgstr "Obnoviť"
+msgstr "Reset"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online subtitle search"
@@ -1627,7 +1627,7 @@ msgstr "Ignorovať súbory obsahujúce niektoré z týchto slov:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC2"
 msgid "Languages in order of preference:"
-msgstr "Uprednostňované jazyky v poradí:"
+msgstr "Jazyky v uprednostňovanom poradí:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
@@ -1830,8 +1830,8 @@ msgstr ""
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
 msgstr ""
-"Ak nám chcete pomôcť s diagnostikou a riešením vzniknutého problému, pošlite"
-" nám záznam o chybe."
+"Ak nám chcete pomôcť určiť a riešiť tento problém, pošlite nám záznam o "
+"chybe."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
@@ -1871,19 +1871,19 @@ msgstr "Automatické prehrávanie"
 
 msgctxt "IDD_ADDCOMMAND_DLG_CAPTION"
 msgid "Select command"
-msgstr ""
+msgstr "Vyberte príkaz"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDC_STATIC"
 msgid "Filter:"
-msgstr ""
+msgstr "Filter:"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDOK"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgctxt "IDD_ADDCOMMAND_DLG_IDCANCEL"
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC1"
 msgid "Theme"

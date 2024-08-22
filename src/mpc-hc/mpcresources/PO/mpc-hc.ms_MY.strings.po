@@ -3323,7 +3323,7 @@ msgid "Indeo Video Format"
 msgstr "Format Video Indeo"
 
 msgctxt "IDS_MFMT_AVS"
-msgid "AviSynth script"
+msgid "AviSynth Script"
 msgstr ""
 
 msgctxt "IDS_MFMT_OTHER"

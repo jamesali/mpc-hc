@@ -469,7 +469,7 @@ msgstr "자막 :"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC9"
 msgid "Audio:"
-msgstr "오디오 :"
+msgstr "음향 :"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
@@ -525,11 +525,11 @@ msgstr "텍스쳐 설정(파일을 다시 열어야 적용)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC9"
 msgid "Sub pictures to buffer:"
-msgstr "버퍼로 읽어올 서브픽쳐 개수 :"
+msgstr "버퍼링할 자막 :"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC21"
 msgid "Maximum texture resolution:"
-msgstr "최대 텍스쳐 해상도 :"
+msgstr "텍스처 해상도 최대치 :"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
@@ -965,15 +965,15 @@ msgstr "간격"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC2"
 msgid "Angle (z,°)"
-msgstr "기울기 (z,°)"
+msgstr "각도(z,°)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC3"
 msgid "Scale (x,%)"
-msgstr "배율 (x,%)"
+msgstr "배율(x,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC4"
 msgid "Scale (y,%)"
-msgstr "배율 (y,%)"
+msgstr "배율(y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
@@ -989,11 +989,11 @@ msgstr "불투명 상자"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC5"
 msgid "Width"
-msgstr "두께"
+msgstr "폭"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC6"
 msgid "Shadow"
-msgstr "그림자"
+msgstr "음영"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
@@ -1608,7 +1608,7 @@ msgstr "다음 단어가 포함된 파일 무시 :"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC2"
 msgid "Languages in order of preference:"
-msgstr "선호 언어 선택 :"
+msgstr "선호하는 언어 순 정렬 :"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
