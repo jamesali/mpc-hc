@@ -212,19 +212,25 @@ void CPreView::SetWindowSize() {
     CRect wr;
     GetParent()->GetClientRect(&wr);
 
-    int w = (mi.rcWork.right - mi.rcWork.left) * m_relativeSize / 100;
-    // the preview size should not be larger than half size of the main window, but not less than 160
-    w = std::max(160, std::min(w, wr.Width() / 2));
-
-    CSize vs;
-
-    vs = m_pMainFrame->GetVideoSizeWithRotation(true);
+    CSize vs = m_pMainFrame->GetVideoSizeWithRotation(true);
     if (vs.cx == 0) {
         vs.cx = 160;
         vs.cy = 90;
     }
 
-    int h = w * vs.cy / vs.cx;
+    int h = 0;
+    int w = 0;
+    if (vs.cy > vs.cx) { // vertical video
+        h = (mi.rcWork.bottom - mi.rcWork.top) * m_relativeSize / 100;
+        // the preview size should not be larger than half size of the main window, but not less than 100
+        h = std::max(100, std::min(h, wr.Height() / 2));
+        w = h * vs.cx / vs.cy;
+    } else { // normal horizontal video
+        w = (mi.rcWork.right - mi.rcWork.left) * m_relativeSize / 100;
+        // the preview size should not be larger than half size of the main window, but not less than 160
+        w = std::max(160, std::min(w, wr.Width() / 2));
+        h = w * vs.cy / vs.cx;
+    }
     w += m_border * 2;
     h += m_caption + m_border;
 
