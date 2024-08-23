@@ -547,6 +547,7 @@ public:
     bool IsInteractiveVideo() const;
     bool IsFullScreenMode() const;
     bool IsFullScreenMainFrame() const;
+    bool IsFullScreenSeparate() const;
     bool HasDedicatedFSVideoWindow() const;
     bool IsD3DFullScreenMode() const;
     bool IsSubresyncBarVisible() const;

@@ -11704,6 +11704,10 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             }
         }
         MoveVideoWindow();
+
+        if (s.bHideWindowedControls) {
+            m_controls.UpdateToolbarsVisibility();
+        }
     } else {
         if (!m_fFullScreen) {
             SetCursor(nullptr); // prevents cursor flickering when our window is not under the cursor
@@ -19340,10 +19344,13 @@ bool CMainFrame::IsFullScreenMainFrame() const {
     return m_fFullScreen && !HasDedicatedFSVideoWindow();
 }
 
+bool CMainFrame::IsFullScreenSeparate() const {
+    return m_fFullScreen && HasDedicatedFSVideoWindow() && !m_bFullScreenWindowIsD3D;
+}
+
 bool CMainFrame::HasDedicatedFSVideoWindow() const {
     return m_pDedicatedFSVideoWnd && m_pDedicatedFSVideoWnd->IsWindow();
 }
-
 
 bool CMainFrame::IsD3DFullScreenMode() const
 {
