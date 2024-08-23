@@ -13153,7 +13153,7 @@ HRESULT CMainFrame::PreviewWindowHide() {
         ::SystemParametersInfo(SPI_SETANIMATION, sizeof(ANIMATIONINFO), &AnimationInfo, 0);
 
         m_wndPreView.ShowWindow(SW_HIDE);
-        m_wndPreView.SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+
         if (WindowExpectedOnTop()) {
             SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
             //now that we have set the main window to topMost, its toolbars will have to be re-ordered as well
