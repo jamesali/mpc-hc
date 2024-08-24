@@ -312,6 +312,7 @@
 #define ID_PLAY_PLAYBACKRATE_END        5029
 #define ID_PLAYLIST_TOGGLE_SHUFFLE      5030
 #define ID_CMDLINE_SAVE_THUMBNAILS      5031
+#define ID_MOUSE_ADD_CMD                5032
 #define IDS_FILTER_SETTINGS_CAPTION     7000
 #define IDD_OPEN_DLG                    10000
 #define IDD_MEDIATYPES_DLG              10002
