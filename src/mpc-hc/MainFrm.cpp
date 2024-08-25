@@ -3377,7 +3377,8 @@ void CMainFrame::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 }
 
 void CMainFrame::RestoreFocus() {
-    if (GetFocus() != this) {
+    CWnd* curFocus = GetFocus();
+    if (curFocus && curFocus != this) {
         SetFocus();
     }
 }
