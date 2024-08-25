@@ -524,7 +524,7 @@ CAppSettings::CAppSettings()
     // Mouse
     nMouseLeftClick = ID_PLAY_PLAYPAUSE;
     nMouseLeftDblClick = ID_VIEW_FULLSCREEN;
-    nMouseRightClick = ID_MENU_PLAYER_LONG;
+    nMouseRightClick = ID_MENU_PLAYER_SHORT;
     MouseMiddleClick = { 0, 0, 0, 0 };
     MouseX1Click = { ID_NAVIGATE_SKIPBACK, 0, 0, 0 };
     MouseX2Click = { ID_NAVIGATE_SKIPFORWARD, 0, 0, 0 };

@@ -125,8 +125,8 @@ BOOL CPPageMouse::OnInitDialog()
     AddStringData(m_cmbLeftButtonDblClick, ResStr(IDS_AG_FULLSCREEN), ID_VIEW_FULLSCREEN);
     m_cmbLeftButtonDblClick.SelectByItemData(s.nMouseLeftDblClick);
 
-    AddStringData(m_cmbRightButtonClick, ResStr(IDS_MPLAYERC_78), ID_MENU_PLAYER_LONG);
     AddStringData(m_cmbRightButtonClick, ResStr(IDS_MPLAYERC_77), ID_MENU_PLAYER_SHORT);
+    AddStringData(m_cmbRightButtonClick, ResStr(IDS_MPLAYERC_78), ID_MENU_PLAYER_LONG);
     AddStringData(m_cmbRightButtonClick, L"...", ID_MOUSE_ADD_CMD);
     if (s.nMouseRightClick != ID_MENU_PLAYER_LONG && s.nMouseRightClick != ID_MENU_PLAYER_SHORT) {
         AddCmdToRightClick(s.nMouseRightClick, m_cmbRightButtonClick.GetCount());
@@ -406,7 +406,7 @@ void CPPageMouse::OnBnClickedReset()
 
     m_cmbLeftButtonClick.SelectByItemData(ID_PLAY_PLAYPAUSE);
     m_cmbLeftButtonDblClick.SelectByItemData(ID_VIEW_FULLSCREEN);
-    m_cmbRightButtonClick.SelectByItemData(ID_MENU_PLAYER_LONG);
+    m_cmbRightButtonClick.SelectByItemData(ID_MENU_PLAYER_SHORT);
 
     m_table_values[ROW_BTN_M][COL_CMD]    = 0;
     m_table_values[ROW_BTN_M][COL_CTRL]   = 0;
