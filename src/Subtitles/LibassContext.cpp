@@ -674,7 +674,7 @@ void LibassContext::DefaultStyleChanged() {
         return;
     }
 
-    if (m_STS->m_subtitleType == Subtitle::SubType::SRT || m_STS->m_SubRendererSettings.overrideDefaultStyle) {
+    if (m_STS->m_subtitleType == Subtitle::SubType::SRT || m_STS->m_SubRendererSettings.overrideDefaultStyle || m_STS->m_SubRendererSettings.overrideAllStyles) {
         std::vector<CStringA> styles_overrides;
 
         if (m_STS->m_subtitleType == Subtitle::SubType::SRT) {
@@ -683,9 +683,12 @@ void LibassContext::DefaultStyleChanged() {
                 return;
             }
             detect_style_changes(nullptr, &defStyle, nullptr, styles_overrides);
-        } else if (m_STS->m_SubRendererSettings.overrideDefaultStyle) {
+        } else if (m_STS->m_SubRendererSettings.overrideAllStyles) {
             STSStyle defStyle = m_STS->m_SubRendererSettings.defaultStyle;
             detect_style_changes(nullptr, &defStyle, nullptr, styles_overrides);
+        } else if (m_STS->m_SubRendererSettings.overrideDefaultStyle) {
+            STSStyle defStyle = m_STS->m_SubRendererSettings.defaultStyle;
+            detect_style_changes(nullptr, &defStyle, L"Default", styles_overrides);
         }
 
         std::unique_ptr<char* []> tmp = std::make_unique<char* []>(styles_overrides.size() + 1);
@@ -696,7 +699,6 @@ void LibassContext::DefaultStyleChanged() {
 
         ass_set_style_overrides(m_ass.get(), tmp.get());
         ass_process_force_style(m_track.get());
-
     } else {
         // this doesn't seem to have effect
         ass_set_style_overrides(m_ass.get(), NULL);

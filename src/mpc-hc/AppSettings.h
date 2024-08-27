@@ -861,7 +861,8 @@ public:
     LANGID          language;
     // Subtitles menu
     bool            fEnableSubtitles;
-    bool            fUseDefaultSubtitlesStyle;
+    bool            bSubtitleOverrideDefaultStyle;
+    bool            bSubtitleOverrideAllStyles;
     // Video Frame
     int             iDefaultVideoSize;
     bool            fKeepAspectRatio;

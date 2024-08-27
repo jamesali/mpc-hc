@@ -203,7 +203,8 @@ CAppSettings::CAppSettings()
     , nCS(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR)
     , language(LANGID(-1))
     , fEnableSubtitles(true)
-    , fUseDefaultSubtitlesStyle(false)
+    , bSubtitleOverrideDefaultStyle(false)
+    , bSubtitleOverrideAllStyles(false)
     , iDefaultVideoSize(DVS_FROMINSIDE)
     , fKeepAspectRatio(true)
     , fCompMonDeskARDiff(false)
@@ -1031,7 +1032,7 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, strSubtitlesProviders);
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, strSubtitlePaths);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, fUseDefaultSubtitlesStyle);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, bSubtitleOverrideDefaultStyle);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, fEnableAudioSwitcher);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOTIMESHIFT, fAudioTimeShift);
@@ -1873,7 +1874,7 @@ void CAppSettings::LoadSettings()
 
     strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles2|||1|0|><|podnapisi|||1|0|><|Napisy24|||0|0|>"));
     strSubtitlePaths = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, DEFAULT_SUBTITLE_PATHS);
-    fUseDefaultSubtitlesStyle = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, FALSE);
+    bSubtitleOverrideDefaultStyle = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, FALSE);
     fEnableAudioSwitcher = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, TRUE);
     fDownSampleTo441 = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DOWNSAMPLETO441, FALSE);
     fCustomChannelMapping = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CUSTOMCHANNELMAPPING, FALSE);
@@ -3852,7 +3853,8 @@ SubRendererSettings GetSubRendererSettings() {
     const auto& s = AfxGetAppSettings();
     SubRendererSettings srs;
     srs.defaultStyle = s.subtitlesDefStyle;
-    srs.overrideDefaultStyle = s.fUseDefaultSubtitlesStyle;
+    srs.overrideDefaultStyle = s.bSubtitleOverrideDefaultStyle || s.bSubtitleOverrideAllStyles;
+    srs.overrideAllStyles = s.bSubtitleOverrideAllStyles;
 #if USE_LIBASS
     srs.renderSSAUsingLibass = s.bRenderSSAUsingLibass;
     srs.renderSRTUsingLibass = s.bRenderSRTUsingLibass;

@@ -476,7 +476,6 @@ class __declspec(uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0"))
     int m_ktype, m_kstart, m_kend;
     int m_nPolygon;
     int m_polygonBaselineOffset;
-    bool m_bOverrideStyle;
     bool m_bOverridePlacement;
     bool m_bUseFreeType;
     CSize m_overridePlacement;
@@ -503,7 +502,7 @@ public:
     virtual void Empty();
 
     // call to signal this RTS to ignore any of the styles and apply the given override style
-    void SetOverride(bool bOverride, const STSStyle& styleOverride);
+    void SetOverride(bool bOverrideDefault, bool bOverrideAll, const STSStyle& styleOverride);
  
     void SetUseFreeType(bool useFreeType) { m_bUseFreeType = useFreeType; }
     bool GetUseFreeType() { return m_bUseFreeType; }

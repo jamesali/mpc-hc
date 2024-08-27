@@ -9720,7 +9720,7 @@ void CMainFrame::OnSubtitlesDefaultStyle()
 {
     CAppSettings& s = AfxGetAppSettings();
     if (!m_pSubStreams.IsEmpty()) {
-        s.fUseDefaultSubtitlesStyle = !s.fUseDefaultSubtitlesStyle;
+        s.bSubtitleOverrideDefaultStyle = !s.bSubtitleOverrideDefaultStyle;
         UpdateSubtitleRenderingParameters();
         RepaintVideo();
     }
@@ -9822,7 +9822,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
         } else if (i == -1) {
             // override default style
             // TODO: default subtitles style toggle here
-            s.fUseDefaultSubtitlesStyle = !s.fUseDefaultSubtitlesStyle;
+            s.bSubtitleOverrideDefaultStyle = !s.bSubtitleOverrideDefaultStyle;
             UpdateSubtitleRenderingParameters();
             RepaintVideo();
         } else if (i >= 0) {
@@ -16449,7 +16449,7 @@ void CMainFrame::SetupSubtitlesSubMenu()
         if (!bTextSubtitles) {
             subMenu.EnableMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_GRAYED);
         }
-        if (s.fUseDefaultSubtitlesStyle) {
+        if (s.bSubtitleOverrideDefaultStyle) {
             subMenu.CheckMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_CHECKED);
         }
         if (iSelected >= 0) {
@@ -21302,7 +21302,7 @@ void CMainFrame::UpdateSubtitleRenderingParameters()
         }
 
         if (pRTS->m_subtitleType == Subtitle::ASS || pRTS->m_subtitleType == Subtitle::SSA) {
-            if (!s.fUseDefaultSubtitlesStyle && szVideoFrame.cx > 0) {
+            if (!s.bSubtitleOverrideDefaultStyle && !s.bSubtitleOverrideAllStyles && szVideoFrame.cx > 0) {
                 if (pRTS->m_layoutRes.cx == 0 || pRTS->m_layoutRes.cy == 0) {
                     bChangeStorageRes = (pRTS->m_storageRes != szVideoFrame);
                 } else {
@@ -21325,6 +21325,7 @@ void CMainFrame::UpdateSubtitleRenderingParameters()
                 pRTS->m_ePARCompensationType = CSimpleTextSubtitle::EPARCompensationType::EPCTAccurateSize_ISR;
                 pRTS->m_dPARCompensation = dPARCompensation;
             }
+
             STSStyle style = s.subtitlesDefStyle;
             if (pRTS->m_bUsingPlayerDefaultStyle) {
                 pRTS->SetDefaultStyle(style);
@@ -21332,7 +21333,7 @@ void CMainFrame::UpdateSubtitleRenderingParameters()
                 style.relativeTo = s.subtitlesDefStyle.relativeTo;
                 pRTS->SetDefaultStyle(style);
             }
-            pRTS->SetOverride(s.fUseDefaultSubtitlesStyle, s.subtitlesDefStyle);
+            pRTS->SetOverride(s.bSubtitleOverrideDefaultStyle, s.bSubtitleOverrideAllStyles, s.subtitlesDefStyle);
             pRTS->SetAlignment(s.fOverridePlacement, s.nHorPos, s.nVerPos);
             pRTS->SetUseFreeType(s.bUseFreeType);
             pRTS->SetOpenTypeLangHint(s.strOpenTypeLangHint);

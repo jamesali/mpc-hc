@@ -1791,7 +1791,6 @@ CRenderedTextSubtitle::CRenderedTextSubtitle(CCritSec* pLock)
     , m_kend(0)
     , m_nPolygon(0)
     , m_polygonBaselineOffset(0)
-    , m_bOverrideStyle(false)
     , m_bOverridePlacement(false)
     , m_overridePlacement(50, 90)
     , m_webvtt_allow_clear(false)
@@ -1894,23 +1893,24 @@ void CRenderedTextSubtitle::Empty()
     __super::Empty();
 }
 
-void CRenderedTextSubtitle::SetOverride(bool bOverride, const STSStyle& styleOverride) {
+void CRenderedTextSubtitle::SetOverride(bool bOverrideDefault, bool bOverrideAll, const STSStyle& styleOverride) {
     overrideANSICharset = styleOverride.charSet;
-    bool changed = (m_bOverrideStyle != bOverride) || bOverride && (m_styleOverride != styleOverride);
+    bool bOverride = bOverrideDefault || bOverrideAll;
+    bool changed = (bOverride && !m_bStyleOverrideActive) || (m_SubRendererSettings.overrideDefaultStyle != bOverrideDefault) || (m_SubRendererSettings.overrideAllStyles != bOverrideAll) || bOverride && (m_SubRendererSettings.defaultStyle != styleOverride);
+    
     if (changed) {
-        m_bOverrideStyle = bOverride;
-        m_styleOverride = styleOverride;
-
+        m_bStyleOverrideActive = bOverride;
         m_SubRendererSettings.defaultStyle = styleOverride;
         m_SubRendererSettings.overrideDefaultStyle = bOverride;
+        m_SubRendererSettings.overrideAllStyles = bOverrideAll;
+
+        SetDefaultStyle(styleOverride);
 
 #if USE_LIBASS
         if (m_LibassContext.IsLibassActive()) {
             m_LibassContext.DefaultStyleChanged();
-        } else {
-            if (bOverride) {
-                m_storageRes = m_playRes; // needed to get correct font scaling with default style
-            }
+        } else if (bOverride) {
+            m_storageRes = m_playRes; // needed to get correct font scaling with default style
         }
 #else
         if (bOverride) {
@@ -2963,9 +2963,9 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
     STSStyle stss;
     int scaledBAS = m_scaledBAS;
-    if (m_bOverrideStyle) {
+    if (m_SubRendererSettings.overrideAllStyles) {
         // this RTS has been signaled to ignore embedded styles, use the built-in one
-        stss = m_styleOverride;
+        stss = m_SubRendererSettings.defaultStyle;
         UpdateSubRelativeTo(m_subtitleType, stss.relativeTo);
 
         // Scale values relatively to subtitles without explicitly defined m_storageRes, we use 384x288 px in this case

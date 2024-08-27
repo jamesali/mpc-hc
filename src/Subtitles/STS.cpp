@@ -2375,6 +2375,7 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
     , m_defaultWrapStyle(0)
     , m_collisions(0)
     , m_scaledBAS(-1)
+    , m_bStyleOverrideActive(false)
     , m_bUsingPlayerDefaultStyle(false)
     , m_ePARCompensationType(EPCTDisabled)
     , m_dPARCompensation(1.0)
@@ -2960,7 +2961,8 @@ REFERENCE_TIME CSimpleTextSubtitle::TranslateSegmentEnd(int i, double fps)
 STSStyle* CSimpleTextSubtitle::GetStyle(int i)
 {
     STSStyle* style = nullptr;
-    m_styles.Lookup(GetAt(i).style, style);
+    CString stylename = GetAt(i).style;
+    m_styles.Lookup(stylename, style);
 
     if (!style) {
         m_styles.Lookup(_T("Default"), style);
@@ -2985,9 +2987,9 @@ bool CSimpleTextSubtitle::GetStyle(int i, STSStyle& stss)
     m_styles.Lookup(GetAt(i).style, style);
 
     STSStyle* defstyle = nullptr;
-    m_styles.Lookup(_T("Default"), defstyle);
 
     if (!style) {
+        m_styles.Lookup(_T("Default"), defstyle);
         if (!defstyle) {
             defstyle = CreateDefaultStyle(DEFAULT_CHARSET);
         }
@@ -3001,10 +3003,16 @@ bool CSimpleTextSubtitle::GetStyle(int i, STSStyle& stss)
     }
 
     stss = *style;
-    if (stss.relativeTo == STSStyle::AUTO && defstyle) {
-        stss.relativeTo = defstyle->relativeTo;
-        // If relative to is set to "auto" even for the default style, decide based on the subtitle type
-        UpdateSubRelativeTo(m_subtitleType, stss.relativeTo);
+
+    if (stss.relativeTo == STSStyle::AUTO) {
+        if (!defstyle) {
+            m_styles.Lookup(_T("Default"), defstyle);
+        }
+        if (defstyle) {
+            stss.relativeTo = defstyle->relativeTo;
+            // If relative to is set to "auto" even for the default style, decide based on the subtitle type
+            UpdateSubRelativeTo(m_subtitleType, stss.relativeTo);
+        }
     }
 
     return true;
@@ -3020,12 +3028,14 @@ bool CSimpleTextSubtitle::GetStyle(CString styleName, STSStyle& stss)
 
     stss = *style;
 
-    STSStyle* defstyle = nullptr;
-    m_styles.Lookup(_T("Default"), defstyle);
-    if (defstyle && stss.relativeTo == STSStyle::AUTO) {
-        stss.relativeTo = defstyle->relativeTo;
-        // If relative to is set to "auto" even for the default style, decide based on the subtitle type
-        UpdateSubRelativeTo(m_subtitleType, stss.relativeTo);
+    if (stss.relativeTo == STSStyle::AUTO) {
+        STSStyle* defstyle = nullptr;
+        m_styles.Lookup(_T("Default"), defstyle);
+        if (defstyle) {
+            stss.relativeTo = defstyle->relativeTo;
+            // If relative to is set to "auto" even for the default style, decide based on the subtitle type
+            UpdateSubRelativeTo(m_subtitleType, stss.relativeTo);
+        }
     }
 
     return true;
@@ -3703,6 +3713,11 @@ void STSStyle::SetDefault()
     fontShiftX = fontShiftY = fontAngleZ = fontAngleX = fontAngleY = 0;
     relativeTo = STSStyle::AUTO;
     hasAnsiStyleName = false;
+#if USE_LIBASS
+    Kerning = false;
+    ScaledBorderAndShadow = false;
+    customTags = L"";
+#endif
 }
 
 bool STSStyle::operator == (const STSStyle& s) const

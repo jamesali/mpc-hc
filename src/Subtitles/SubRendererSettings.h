@@ -9,6 +9,7 @@ public:
 
     STSStyle defaultStyle;
     bool overrideDefaultStyle = false;
+    bool overrideAllStyles = false;
 
     bool renderSSAUsingLibass = false;
     bool renderSRTUsingLibass = false;
