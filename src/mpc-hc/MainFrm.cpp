@@ -21310,11 +21310,10 @@ void CMainFrame::UpdateSubtitleRenderingParameters()
         }
 
         if (pRTS->m_subtitleType == Subtitle::ASS || pRTS->m_subtitleType == Subtitle::SSA) {
-            if (!s.bSubtitleOverrideDefaultStyle && !s.bSubtitleOverrideAllStyles && szVideoFrame.cx > 0) {
+            if (szVideoFrame.cx > 0) {
                 if (pRTS->m_layoutRes.cx == 0 || pRTS->m_layoutRes.cy == 0) {
                     bChangeStorageRes = (pRTS->m_storageRes != szVideoFrame);
                 } else {
-
                     bChangeStorageRes = (pRTS->m_storageRes != pRTS->m_layoutRes);
                 }
             }
