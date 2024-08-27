@@ -699,15 +699,16 @@ void LibassContext::DefaultStyleChanged() {
 
         ass_set_style_overrides(m_ass.get(), tmp.get());
         ass_process_force_style(m_track.get());
-    } else {
-        // this doesn't seem to have effect
-        ass_set_style_overrides(m_ass.get(), NULL);
-        ass_process_force_style(m_track.get());
 
+        // workaround to clear caches, no direct way to do that?
+        ass_set_selective_style_override_enabled(m_renderer.get(), 0);
+        ass_set_selective_style_override_enabled(m_renderer.get(), 2);
+    } else {
         // Reload to get original styles back
         if (!m_STS->m_path.IsEmpty()) {
             LoadASSFile(m_STS->m_subtitleType);
         } else if (!m_trackData.empty()) {
+            // note: buffered embedded subs will be discarded, so it will take a few seconds or a seek to show subs again
             LoadASSTrack((char*)m_trackData.c_str(), m_trackData.length(), m_STS->m_subtitleType);
         }
     }
