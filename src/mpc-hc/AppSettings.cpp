@@ -608,7 +608,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_VIEW_DEBUGSHADERS,                 0, 0,                 IDS_AG_TOGGLE_DEBUGSHADERS },
     { ID_PRESIZE_SHADERS_TOGGLE,          'P', FCONTROL,          IDS_PRESIZE_SHADERS_TOGGLE },
     { ID_POSTSIZE_SHADERS_TOGGLE,         'P', FCONTROL | FALT,   IDS_POSTSIZE_SHADERS_TOGGLE },
-    { ID_SUBTITLES_DEFAULT_STYLE,           0, 0,                 IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE },
+    { ID_SUBTITLES_OVERRIDE_DEFAULT_STYLE,  0, 0,                 IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE },
     { ID_VIEW_PRESETS_MINIMAL,            '1', 0,                 IDS_AG_VIEW_MINIMAL },
     { ID_VIEW_PRESETS_COMPACT,            '2', 0,                 IDS_AG_VIEW_COMPACT },
     { ID_VIEW_PRESETS_NORMAL,             '3', 0,                 IDS_AG_VIEW_NORMAL },
@@ -1032,7 +1032,8 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, strSubtitlesProviders);
 
     pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, strSubtitlePaths);
-    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, bSubtitleOverrideDefaultStyle);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_OVERRIDE_DEFAULT_STYLE, bSubtitleOverrideDefaultStyle);
+    pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_OVERRIDE_ALL_STYLES, bSubtitleOverrideAllStyles);
 
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, fEnableAudioSwitcher);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOTIMESHIFT, fAudioTimeShift);
@@ -1874,7 +1875,9 @@ void CAppSettings::LoadSettings()
 
     strSubtitlesProviders = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESPROVIDERS, _T("<|OpenSubtitles2|||1|0|><|podnapisi|||1|0|><|Napisy24|||0|0|>"));
     strSubtitlePaths = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLEPATHS, DEFAULT_SUBTITLE_PATHS);
-    bSubtitleOverrideDefaultStyle = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USEDEFAULTSUBTITLESSTYLE, FALSE);
+    bSubtitleOverrideDefaultStyle = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_OVERRIDE_DEFAULT_STYLE, FALSE);
+    bSubtitleOverrideAllStyles = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_OVERRIDE_ALL_STYLES, FALSE);
+
     fEnableAudioSwitcher = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ENABLEAUDIOSWITCHER, TRUE);
     fDownSampleTo441 = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DOWNSAMPLETO441, FALSE);
     fCustomChannelMapping = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CUSTOMCHANNELMAPPING, FALSE);

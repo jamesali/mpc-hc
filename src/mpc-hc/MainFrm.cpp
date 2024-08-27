@@ -554,7 +554,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_SHADERS_PRESETS_START, ID_SHADERS_PRESETS_END, OnPlayShadersPresets)
     ON_COMMAND_RANGE(ID_AUDIO_SUBITEM_START, ID_AUDIO_SUBITEM_END, OnPlayAudio)
     ON_COMMAND_RANGE(ID_SUBTITLES_SUBITEM_START, ID_SUBTITLES_SUBITEM_END, OnPlaySubtitles)
-    ON_COMMAND(ID_SUBTITLES_DEFAULT_STYLE, OnSubtitlesDefaultStyle)
+    ON_COMMAND(ID_SUBTITLES_OVERRIDE_DEFAULT_STYLE, OnSubtitlesDefaultStyle)
     ON_COMMAND_RANGE(ID_VIDEO_STREAMS_SUBITEM_START, ID_VIDEO_STREAMS_SUBITEM_END, OnPlayVideoStreams)
     ON_COMMAND_RANGE(ID_FILTERSTREAMS_SUBITEM_START, ID_FILTERSTREAMS_SUBITEM_END, OnPlayFiltersStreams)
     ON_COMMAND_RANGE(ID_VOLUME_UP, ID_VOLUME_MUTE, OnPlayVolume)
@@ -9753,13 +9753,13 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
             SetSubtitle(i);
         }
     } else if (!m_pSubStreams.IsEmpty()) {
-        // Currently the subtitles menu contains 5 items apart from the actual subtitles list when the ISR is used
-        i -= 5;
+        // Currently the subtitles menu contains 6 items apart from the actual subtitles list when the ISR is used
+        i -= 6;
 
-        if (i == -5) {
+        if (i == -6) {
             // options
             ShowOptions(CPPageSubtitles::IDD);
-        } else if (i == -4) {
+        } else if (i == -5) {
             // styles
             int j = 0;
             SubtitleInput* pSubInput = GetSubtitleInput(j, true);
@@ -9813,16 +9813,20 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                     }
                 }
             }
-        } else if (i == -3) {
+        } else if (i == -4) {
             // reload
             ReloadSubtitle();
-        } else if (i == -2) {
-            // enable
+        } else if (i == -3) {
+            // hide
             ToggleSubtitleOnOff();
-        } else if (i == -1) {
+        } else if (i == -2) {
             // override default style
-            // TODO: default subtitles style toggle here
             s.bSubtitleOverrideDefaultStyle = !s.bSubtitleOverrideDefaultStyle;
+            UpdateSubtitleRenderingParameters();
+            RepaintVideo();
+        } else if (i == -1) {
+            // override all styles
+            s.bSubtitleOverrideAllStyles = !s.bSubtitleOverrideAllStyles;
             UpdateSubtitleRenderingParameters();
             RepaintVideo();
         } else if (i >= 0) {
@@ -16334,8 +16338,9 @@ void CMainFrame::SetupSubtitlesSubMenu()
         VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_RELOAD)));
         VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
 
-        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_ENABLE)));
-        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_DEFAULT_STYLE)));
+        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUBTITLES_HIDE)));
+        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUB_OVERRIDE_DEFAULT_STYLE)));
+        VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, ResStr(IDS_SUB_OVERRIDE_ALL_STYLES)));
         VERIFY(subMenu.AppendMenu(MF_SEPARATOR));
 
         // Build the dynamic menu's items
@@ -16440,20 +16445,23 @@ void CMainFrame::SetupSubtitlesSubMenu()
         if (!bTextSubtitles) {
             subMenu.EnableMenuItem(nItemsBeforeStart + 1, MF_BYPOSITION | MF_GRAYED);
         }
-        // Enabled
-        if (s.fEnableSubtitles) {
+        // Hide
+        if (!s.fEnableSubtitles) {
             subMenu.CheckMenuItem(nItemsBeforeStart + 4, MF_BYPOSITION | MF_CHECKED);
         }
-        // Default style
-        // TODO: foxX - default subtitles style toggle here; still wip
+        // Style overrides
         if (!bTextSubtitles) {
             subMenu.EnableMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_GRAYED);
+            subMenu.EnableMenuItem(nItemsBeforeStart + 6, MF_BYPOSITION | MF_GRAYED);
         }
         if (s.bSubtitleOverrideDefaultStyle) {
             subMenu.CheckMenuItem(nItemsBeforeStart + 5, MF_BYPOSITION | MF_CHECKED);
         }
+        if (s.bSubtitleOverrideAllStyles) {
+            subMenu.CheckMenuItem(nItemsBeforeStart + 6, MF_BYPOSITION | MF_CHECKED);
+        }
         if (iSelected >= 0) {
-            VERIFY(subMenu.CheckMenuRadioItem(nItemsBeforeStart + 7, nItemsBeforeStart + 7 + i - 1, nItemsBeforeStart + 7 + iSelected, MF_BYPOSITION));
+            VERIFY(subMenu.CheckMenuRadioItem(nItemsBeforeStart + 8, nItemsBeforeStart + 8 + i - 1, nItemsBeforeStart + 8 + iSelected, MF_BYPOSITION));
         }
     } else if (GetPlaybackMode() == PM_FILE) {
         SetupNavStreamSelectSubMenu(subMenu, id, 2);
