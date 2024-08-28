@@ -165,21 +165,14 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                     mt.pbFormat[dwOffset + 2] = 0xbf;
                 }
 
-                bool success = false;
+                // process with own parser first, even when using libass, since we need certain info like PlayRes
+                pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
 #if USE_LIBASS
                 if (pRTS->m_LibassContext.m_renderUsingLibass) {
-                    success = pRTS->m_LibassContext.LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset, subtype_ass ? Subtitle::ASS : Subtitle::SRT);
+                    bool success = pRTS->m_LibassContext.LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset, subtype_ass ? Subtitle::ASS : Subtitle::SRT);
+                    pRTS->m_LibassContext.m_renderUsingLibass = success && pRTS->m_LibassContext.IsLibassActive();
                 }
 #endif
-#if USE_LIBASS
-                if (!success || !pRTS->m_LibassContext.IsLibassActive()) {
-                    pRTS->m_LibassContext.m_renderUsingLibass = false;
-#endif
-                    success = pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
-#if USE_LIBASS
-                }
-#endif
-                ASSERT(success);
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
             if (!(m_pSubStream = DEBUG_NEW CVobSubStream(m_pSubLock))) {
