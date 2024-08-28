@@ -674,7 +674,23 @@ void LibassContext::DefaultStyleChanged() {
         return;
     }
 
-    if (m_STS->m_subtitleType == Subtitle::SubType::SRT || m_STS->m_SubRendererSettings.overrideDefaultStyle || m_STS->m_SubRendererSettings.overrideAllStyles) {
+    bool need_override = m_STS->m_subtitleType == Subtitle::SubType::SRT || m_STS->m_SubRendererSettings.overrideDefaultStyle || m_STS->m_SubRendererSettings.overrideAllStyles || m_bOverrideDefaultStyleActive && !m_bOverrideAllStylesActive;
+    bool need_reload = !need_override && (m_bOverrideDefaultStyleActive || m_bOverrideAllStylesActive) || m_bOverrideAllStylesActive && !m_STS->m_SubRendererSettings.overrideAllStyles;
+
+    if (need_reload) {
+        m_bOverrideDefaultStyleActive = false;
+        m_bOverrideAllStylesActive = false;
+
+        // Reload to get original styles back
+        if (!m_STS->m_path.IsEmpty()) {
+            LoadASSFile(m_STS->m_subtitleType);
+        } else if (!m_trackData.empty()) {
+            // note: buffered embedded subs will be discarded, so it will take a few seconds or a seek to show subs again
+            LoadASSTrack((char*)m_trackData.c_str(), m_trackData.length(), m_STS->m_subtitleType);
+        }
+    }
+
+    if (need_override) {
         std::vector<CStringA> styles_overrides;
 
         if (m_STS->m_subtitleType == Subtitle::SubType::SRT) {
@@ -686,9 +702,16 @@ void LibassContext::DefaultStyleChanged() {
         } else if (m_STS->m_SubRendererSettings.overrideAllStyles) {
             STSStyle defStyle = m_STS->m_SubRendererSettings.defaultStyle;
             detect_style_changes(nullptr, &defStyle, nullptr, styles_overrides);
+            m_bOverrideAllStylesActive = true;
         } else if (m_STS->m_SubRendererSettings.overrideDefaultStyle) {
             STSStyle defStyle = m_STS->m_SubRendererSettings.defaultStyle;
             detect_style_changes(nullptr, &defStyle, L"Default", styles_overrides);
+            m_bOverrideDefaultStyleActive = true;
+        } else if (m_bOverrideDefaultStyleActive) {
+            // this is the original default style
+            STSStyle defStyle = m_STS->m_SubRendererSettings.defaultStyle;
+            detect_style_changes(nullptr, &defStyle, L"Default", styles_overrides);
+            m_bOverrideDefaultStyleActive = false;
         }
 
         std::unique_ptr<char* []> tmp = std::make_unique<char* []>(styles_overrides.size() + 1);
@@ -703,14 +726,6 @@ void LibassContext::DefaultStyleChanged() {
         // workaround to clear caches, no direct way to do that?
         ass_set_selective_style_override_enabled(m_renderer.get(), 0);
         ass_set_selective_style_override_enabled(m_renderer.get(), 2);
-    } else {
-        // Reload to get original styles back
-        if (!m_STS->m_path.IsEmpty()) {
-            LoadASSFile(m_STS->m_subtitleType);
-        } else if (!m_trackData.empty()) {
-            // note: buffered embedded subs will be discarded, so it will take a few seconds or a seek to show subs again
-            LoadASSTrack((char*)m_trackData.c_str(), m_trackData.length(), m_STS->m_subtitleType);
-        }
     }
 }
 

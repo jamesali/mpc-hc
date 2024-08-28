@@ -140,4 +140,6 @@ protected:
     CRect lastSPDRect;
     REFERENCE_TIME rtCurrent;
     bool curTimeInitialized;
+    bool m_bOverrideDefaultStyleActive = false;
+    bool m_bOverrideAllStylesActive = false;
 };
