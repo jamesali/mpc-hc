@@ -1900,11 +1900,11 @@ void CRenderedTextSubtitle::SetOverride(bool bOverrideDefault, bool bOverrideAll
     
     if (changed) {
         m_bStyleOverrideActive = bOverride;
-        m_SubRendererSettings.defaultStyle = styleOverride;
+        m_SubRendererSettings.defaultStyle = bOverride ? styleOverride : GetOriginalDefaultStyle();
         m_SubRendererSettings.overrideDefaultStyle = bOverride;
         m_SubRendererSettings.overrideAllStyles = bOverrideAll;
 
-        SetDefaultStyle(styleOverride);
+        SetDefaultStyle(m_SubRendererSettings.defaultStyle);
 
 #if USE_LIBASS
         if (m_LibassContext.IsLibassActive()) {

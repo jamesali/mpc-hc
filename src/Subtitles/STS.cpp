@@ -2670,6 +2670,11 @@ STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
     return ret;
 }
 
+STSStyle CSimpleTextSubtitle::GetOriginalDefaultStyle()
+{
+    return m_originalDefaultStyle;
+}
+
 void CSimpleTextSubtitle::ChangeUnknownStylesToDefault()
 {
     CAtlMap<CString, STSStyle*, CStringElementTraits<CString>> unknown;
