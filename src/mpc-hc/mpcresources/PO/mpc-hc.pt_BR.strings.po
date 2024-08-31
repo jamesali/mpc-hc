@@ -4776,6 +4776,16 @@ msgctxt "IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR"
 msgid "Pause playback while dragging the seekbar."
 msgstr "Pausar a reprodução enquanto arrasta a barra de busca."
 
+msgctxt "IDS_PPAGEADVANCED_CONFIRM_FILE_DELETE"
+msgid "Show confirmation prompt before deleting file"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_LIBASS_FOR_SRT"
+msgid ""
+"Use libass (instead of standard renderer) for SRT subtitles. NOT "
+"recommended."
+msgstr ""
+
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
 msgid ""
 "Show the recording settings dialog automatically when opening a device."

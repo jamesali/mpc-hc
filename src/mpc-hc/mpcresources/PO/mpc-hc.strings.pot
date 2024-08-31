@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-08-27 15:44:44+0000\n"
+"POT-Creation-Date: 2024-08-30 22:11:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4505,6 +4505,16 @@ msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_PAUSE_WHILE_DRAGGING_SEEKBAR"
 msgid "Pause playback while dragging the seekbar."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_CONFIRM_FILE_DELETE"
+msgid "Show confirmation prompt before deleting file"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_LIBASS_FOR_SRT"
+msgid ""
+"Use libass (instead of standard renderer) for SRT subtitles. NOT "
+"recommended."
 msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
