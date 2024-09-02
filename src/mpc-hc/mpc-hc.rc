@@ -2795,7 +2795,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_LANG_PREF_EXAMPLE   "Enter your preferred languages here.\nFor example, type: ""eng jpn swe"""
+    IDS_LANG_PREF_EXAMPLE   "Enter your preferred languages here.\nUse three letter ISO 639-2 languages codes.\nFor example: eng spa ger fre rus pob jpn chi"
     IDS_OVERRIDE_EXT_SPLITTER_CHOICE 
                             "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\nEnable this option if you want MPC-HC to control external splitters."
     IDS_NAVIGATE_BD_PLAYLISTS "&Blu-Ray playlists"
