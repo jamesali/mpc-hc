@@ -1449,6 +1449,9 @@ NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
     return nRet;
 }
 
+#define USE_DLL_BLOCKLIST 1
+
+#if USE_DLL_BLOCKLIST
 #define STATUS_UNSUCCESSFUL ((NTSTATUS)0xC0000001L)
 
 typedef enum _SECTION_INHERIT { ViewShare = 1, ViewUnmap = 2 } SECTION_INHERIT;
@@ -1467,10 +1470,12 @@ typedef struct _SECTION_BASIC_INFORMATION {
 typedef NTSTATUS(STDMETHODCALLTYPE* pfn_NtMapViewOfSection)(HANDLE, HANDLE, PVOID, ULONG_PTR, SIZE_T, PLARGE_INTEGER, PSIZE_T, SECTION_INHERIT, ULONG, ULONG);
 typedef NTSTATUS(STDMETHODCALLTYPE* pfn_NtUnmapViewOfSection)(HANDLE, PVOID);
 typedef NTSTATUS(STDMETHODCALLTYPE* pfn_NtQuerySection)(HANDLE, SECTION_INFORMATION_CLASS, PVOID, SIZE_T, PSIZE_T);
+typedef DWORD(STDMETHODCALLTYPE* pfn_GetMappedFileNameW)(HANDLE, LPVOID, LPWSTR, DWORD);
 
 static pfn_NtMapViewOfSection Real_NtMapViewOfSection = nullptr;
 static pfn_NtUnmapViewOfSection Real_NtUnmapViewOfSection = nullptr;
 static pfn_NtQuerySection Real_NtQuerySection = nullptr;
+static pfn_GetMappedFileNameW Real_GetMappedFileNameW = nullptr;
 
 typedef struct {
     // DLL name, lower case, with backslash as prefix
@@ -1523,6 +1528,7 @@ bool IsBlockedModule(wchar_t* modulename)
         if (mod_name_len > b->name_len) {
             wchar_t* dll_ptr = modulename + mod_name_len - b->name_len;
             if (_wcsicmp(dll_ptr, b->name) == 0) {
+                //AfxMessageBox(modulename);
                 TRACE(L"Blocked module load: %s\n", modulename);
                 return true;
             }
@@ -1535,22 +1541,16 @@ bool IsBlockedModule(wchar_t* modulename)
 NTSTATUS STDMETHODCALLTYPE Mine_NtMapViewOfSection(HANDLE SectionHandle, HANDLE ProcessHandle, PVOID* BaseAddress, ULONG_PTR ZeroBits,  SIZE_T CommitSize,
     PLARGE_INTEGER SectionOffset, PSIZE_T ViewSize, SECTION_INHERIT InheritDisposition, ULONG AllocationType, ULONG Win32Protect)
 {
-
-    SECTION_BASIC_INFORMATION section_information;
-    wchar_t fileName[MAX_PATH];
-    SIZE_T wrote = 0;
-    NTSTATUS ret;
-
-    ret = Real_NtMapViewOfSection(SectionHandle, ProcessHandle, BaseAddress, ZeroBits, CommitSize, SectionOffset, ViewSize, InheritDisposition, AllocationType, Win32Protect);
+    NTSTATUS ret = Real_NtMapViewOfSection(SectionHandle, ProcessHandle, BaseAddress, ZeroBits, CommitSize, SectionOffset, ViewSize, InheritDisposition, AllocationType, Win32Protect);
 
     // Verify map and process
     if (ret < 0 || ProcessHandle != GetCurrentProcess())
         return ret;
 
     // Fetch section information
-    if (Real_NtQuerySection(SectionHandle, SectionBasicInformation,
-        &section_information, sizeof(section_information),
-        &wrote) < 0)
+    SIZE_T wrote = 0;
+    SECTION_BASIC_INFORMATION section_information;
+    if (Real_NtQuerySection(SectionHandle, SectionBasicInformation, &section_information, sizeof(section_information), &wrote) < 0)
         return ret;
 
     // Verify fetch was successful
@@ -1562,7 +1562,9 @@ NTSTATUS STDMETHODCALLTYPE Mine_NtMapViewOfSection(HANDLE SectionHandle, HANDLE 
         return ret;
 
     // Get the actual filename if possible
-    if (GetMappedFileNameW(ProcessHandle, *BaseAddress, fileName, _countof(fileName)) == 0)
+    wchar_t fileName[MAX_PATH];
+    // ToDo: switch to PSAPI_VERSION=2 and directly use K32GetMappedFileNameW ?
+    if (Real_GetMappedFileNameW(ProcessHandle, *BaseAddress, fileName, _countof(fileName)) == 0)
         return ret;
 
     if (IsBlockedModule(fileName)) {
@@ -1572,6 +1574,7 @@ NTSTATUS STDMETHODCALLTYPE Mine_NtMapViewOfSection(HANDLE SectionHandle, HANDLE 
 
     return ret;
 }
+#endif
 
 static LONG Mine_ChangeDisplaySettingsEx(LONG ret, DWORD dwFlags, LPVOID lParam)
 {
@@ -1793,14 +1796,17 @@ BOOL CMPlayerCApp::InitInstance()
         AfxMessageBox(IDS_HOOKS_FAILED);
     }
 
+#if USE_DLL_BLOCKLIST
     if (m_hNTDLL) {
         Real_NtMapViewOfSection = (pfn_NtMapViewOfSection)GetProcAddress(m_hNTDLL, "NtMapViewOfSection");
         Real_NtUnmapViewOfSection = (pfn_NtUnmapViewOfSection)GetProcAddress(m_hNTDLL, "NtUnmapViewOfSection");
         Real_NtQuerySection = (pfn_NtQuerySection)GetProcAddress(m_hNTDLL, "NtQuerySection");
-        if (Real_NtMapViewOfSection && Real_NtUnmapViewOfSection && Real_NtQuerySection) {
+        Real_GetMappedFileNameW = (pfn_GetMappedFileNameW)GetProcAddress(GetModuleHandle(L"kernel32.dll"), "K32GetMappedFileNameW");
+        if (Real_NtMapViewOfSection && Real_NtUnmapViewOfSection && Real_NtQuerySection && Real_GetMappedFileNameW) {
             VERIFY(Mhook_SetHookEx(&Real_NtMapViewOfSection, Mine_NtMapViewOfSection));
         }
     }
+#endif
 
     // If those hooks fail it's annoying but try to run anyway without reporting any error in release mode
     VERIFY(Mhook_SetHookEx(&Real_ChangeDisplaySettingsExA, Mine_ChangeDisplaySettingsExA));
