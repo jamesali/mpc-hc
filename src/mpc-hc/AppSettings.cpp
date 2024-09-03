@@ -1678,9 +1678,6 @@ void CAppSettings::LoadSettings()
     swscanf_s(str, L"%u", &nMouseLeftDblClick);
     str = pApp->GetProfileString(IDS_R_MOUSE, IDS_RS_MOUSE_BTN_RIGHT);
     swscanf_s(str, L"%u", &nMouseRightClick);
-    if (nMouseRightClick != ID_MENU_PLAYER_SHORT && nMouseRightClick != ID_MENU_PLAYER_LONG) {
-        nMouseRightClick = ID_MENU_PLAYER_LONG;
-    }
 
     str = pApp->GetProfileString(IDS_R_MOUSE, IDS_RS_MOUSE_BTN_MIDDLE);
     swscanf_s(str, L"%u;%u;%u;%u", &MouseMiddleClick.normal, &MouseMiddleClick.ctrl, &MouseMiddleClick.shift, &MouseMiddleClick.rbtn);
