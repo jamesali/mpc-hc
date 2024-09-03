@@ -38,7 +38,7 @@ IMPLEMENT_DYNAMIC(CPlayerToolBar, CToolBar)
 CPlayerToolBar::CPlayerToolBar(CMainFrame* pMainFrame)
     : m_pMainFrame(pMainFrame)
     , m_nButtonHeight(16)
-    , m_volumeMinSizeInc(0)
+    , m_volumeCtrlSize(60)
     , mouseDownL(false)
     , mouseDownR(false)
 {
@@ -188,7 +188,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
         TBBS_SEPARATOR,
         TBBS_BUTTON,
         TBBS_SEPARATOR,
-        TBBS_SEPARATOR,
+        TBBS_SEPARATOR, // variable spacing between the regular controls and mute button
         TBBS_CHECKBOX,
     };
 
@@ -229,34 +229,34 @@ void CPlayerToolBar::ArrangeControls() {
 
     CRect br = GetBorders();
 
-    CRect r10;
-    GetItemRect(10, &r10);
-
     CRect vr;
     if (AppIsThemeLoaded()) {
         float dpiScaling = (float)std::min(m_pMainFrame->m_dpi.ScaleFactorX(), m_pMainFrame->m_dpi.ScaleFactorY());
         int targetsize = int(dpiScaling * AfxGetAppSettings().nDefaultToolbarSize);
 
-        m_volumeMinSizeInc = targetsize * 2.5f;
-        vr = CRect(r.right + br.right - m_volumeMinSizeInc, r.top+targetsize/4, r.right + br.right, r.bottom-targetsize/4);
-        m_volctrl.MoveWindow(vr);
+        m_volumeCtrlSize = targetsize * 2.5f;
+        vr = CRect(r.right + br.right - m_volumeCtrlSize, r.top+targetsize/4, r.right + br.right, r.bottom-targetsize/4);
     } else {
-        vr = CRect(r.right + br.right - 60, r.top - 2, r.right + br.right + 6, r.bottom);
+        vr = CRect(r.right + br.right - 58, r.top - 2, r.right + br.right + 6, r.bottom);
         m_volctrl.MoveWindow(vr);
 
         CRect thumbRect;
         m_volctrl.GetThumbRect(thumbRect);
         m_volctrl.MapWindowPoints(this, thumbRect);
         vr.top += std::max((r.bottom - thumbRect.bottom - 4) / 2, 0l);
-        vr.left -= m_volumeMinSizeInc = MulDiv(thumbRect.Height(), 50, 19) - 50;
-        m_volctrl.MoveWindow(vr);
+        vr.left -= MulDiv(thumbRect.Height(), 50, 19) - 50;
+        m_volumeCtrlSize = vr.Width();
     }
+    m_volctrl.MoveWindow(vr);
 
-    UINT nID;
-    UINT nStyle;
-    int iImage;
-    GetButtonInfo(12, nID, nStyle, iImage);
-    SetButtonInfo(11, GetItemID(11), TBBS_SEPARATOR, vr.left - iImage - r10.right - (r10.bottom - r10.top) + 11);
+    CRect r10; // last normal separator
+    GetItemRect(10, &r10);
+    CRect r12; // mute button
+    GetItemRect(12, &r12);
+
+    // adjust spacing between controls and mute
+    int spacing = vr.left - r10.right - r12.Width();
+    SetButtonInfo(11, GetItemID(11), TBBS_SEPARATOR, spacing);
 }
 
 void CPlayerToolBar::SetMute(bool fMute)
@@ -295,7 +295,9 @@ int CPlayerToolBar::GetVolume() const
 
 int CPlayerToolBar::GetMinWidth() const
 {
-    return m_nButtonHeight * 9 + 155 + m_volumeMinSizeInc;
+    // button widths are inflated by 7px
+    // 9 buttons + 3 separators + spacing + volume
+    return 9 * (m_nButtonHeight + 7) + 3 * 8 + 4 + m_volumeCtrlSize;
 }
 
 void CPlayerToolBar::SetVolume(int volume)
@@ -417,7 +419,7 @@ void CPlayerToolBar::OnSize(UINT nType, int cx, int cy)
 
 void CPlayerToolBar::OnInitialUpdate()
 {
-    ArrangeControls();
+    //ArrangeControls();
 }
 
 BOOL CPlayerToolBar::OnVolumeMute(UINT nID)

@@ -47,7 +47,7 @@ private:
     int m_nButtonHeight;
     std::unique_ptr<CImageList> m_pButtonsImages;
     std::unique_ptr<CImageList> m_pDisabledButtonsImages;
-    int m_volumeMinSizeInc;
+    int m_volumeCtrlSize;
 
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);
