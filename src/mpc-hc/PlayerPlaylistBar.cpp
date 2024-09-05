@@ -1571,7 +1571,7 @@ bool CPlayerPlaylistBar::DeleteFileInPlaylist(POSITION pos, bool recycle)
 
     if (isplaying) {
         // close file to release the file handle
-        m_pMainFrame->SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+        m_pMainFrame->CloseMedia(nextpos != nullptr, candeletefile);
     }
 
     if (candeletefile) {

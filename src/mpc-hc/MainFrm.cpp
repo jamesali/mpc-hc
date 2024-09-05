@@ -18799,7 +18799,7 @@ void CMainFrame::ForceCloseProcess()
     TerminateProcess(GetCurrentProcess(), 0xDEADBEEF);
 }
 
-void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
+void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDelete/* = false*/)
 {
     TRACE(_T("CMainFrame::CloseMedia\n"));
 
@@ -18832,7 +18832,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         m_wndSubtitlesDownloadDialog.DoClear();
 
         // save playback position
-        if (s.fKeepHistory) {
+        if (s.fKeepHistory && !bPendingFileDelete) {
             if (m_bRememberFilePos && !m_fEndOfStream && m_dwReloadPos == 0 && m_pMS) {
                 REFERENCE_TIME rtNow = 0;
                 m_pMS->GetCurrentPosition(&rtNow);
@@ -18862,7 +18862,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         }
 
         // save external subtitle
-        if (g_bExternalSubtitle &&
+        if (g_bExternalSubtitle && !bPendingFileDelete &&
             m_pCurrentSubInput.pSubStream && m_pCurrentSubInput.pSubStream->GetPath().IsEmpty()) {
             const auto& s = AfxGetAppSettings();
             if (s.bAutoSaveDownloadedSubtitles) {
@@ -18879,7 +18879,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
             }
         }
 
-        if (s.fKeepHistory) {
+        if (s.fKeepHistory && !bPendingFileDelete) {
             savehistory = true;
         }
     }

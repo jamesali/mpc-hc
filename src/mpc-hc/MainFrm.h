@@ -652,7 +652,7 @@ public:
     bool ResetDevice();
     bool DisplayChange();
     void CloseMediaBeforeOpen();
-    void CloseMedia(bool bNextIsQueued = false);
+    void CloseMedia(bool bNextIsQueued = false, bool bPendingFileDelete = false);
     void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
     void StopTunerScan();
     HRESULT SetChannel(int nChannel);
