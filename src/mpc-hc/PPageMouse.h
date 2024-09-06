@@ -87,7 +87,7 @@ class CPPageMouse : public CMPCThemePPageBase
         void AddEllipsisEnd()
         {
             if (!bEllipsisEnd) {
-                str_list.emplace_back(L"...");
+                str_list.emplace_back(L"<...>");
                 bEllipsisEnd = true;
             }
         }

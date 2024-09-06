@@ -127,7 +127,7 @@ BOOL CPPageMouse::OnInitDialog()
 
     AddStringData(m_cmbRightButtonClick, ResStr(IDS_MPLAYERC_77), ID_MENU_PLAYER_SHORT);
     AddStringData(m_cmbRightButtonClick, ResStr(IDS_MPLAYERC_78), ID_MENU_PLAYER_LONG);
-    AddStringData(m_cmbRightButtonClick, L"...", ID_MOUSE_ADD_CMD);
+    AddStringData(m_cmbRightButtonClick, L"<...>", ID_MOUSE_ADD_CMD);
     if (s.nMouseRightClick != ID_MENU_PLAYER_LONG && s.nMouseRightClick != ID_MENU_PLAYER_SHORT) {
         AddCmdToRightClick(s.nMouseRightClick, m_cmbRightButtonClick.GetCount());
     }
@@ -297,12 +297,13 @@ void CPPageMouse::OnRightClickChange() {
             
             if (idx == m_cmbRightButtonClick.GetCount()) {
                 AddCmdToRightClick(id, idx);
-                m_cmbRightButtonClick.SelectByItemData(id);
             }
+            m_cmbRightButtonClick.SelectByItemData(id);
+        } else {
+            m_cmbRightButtonClick.SelectByItemData(ID_MENU_PLAYER_SHORT);
         }
-
+        SetModified();
     }
-    SetModified();
 }
 
 void CPPageMouse::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
