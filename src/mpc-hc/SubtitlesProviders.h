@@ -38,7 +38,6 @@ enum SubtitlesProviderFlags {
     SPF_SEARCH = 0x00000000,
     SPF_LOGIN  = 0x00000001,
     SPF_HASH   = 0x00000002,
-    SPF_UPLOAD = 0x00000004,
 };
 
 enum SubtitlesProviderLogin {
@@ -55,15 +54,12 @@ enum SRESULT {
     SR_ABORTED,
     // Specific to search only
     SR_TOOMANY,
-    // Specific to upload only
-    SR_EXISTS,
 };
 
 enum SubtitlesThreadType {
     STT_UNDEFINED = 0x00000000,
     STT_SEARCH    = 0x00000001,
     STT_DOWNLOAD  = 0x00000002,
-    STT_UPLOAD    = 0x00000004,
     STT_MANUALSEARCH = 0x00000008
 };
 
@@ -237,7 +233,6 @@ private:
     void Search();
     void Download(SubtitlesInfo& pFileInfo, BOOL bActivate);
     void Download();
-    //void Upload();
 
     void CheckAbortAndThrow() {
         if (IsThreadAborting()) {
@@ -260,8 +255,6 @@ public:
     SubtitlesTask(CMainFrame* pMainFrame, bool bAutoDownload, const std::list<std::string>& sLanguages, CString manualSearch);
     // Download
     SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesInfo, bool bActivate);
-    // Upload
-    SubtitlesTask(CMainFrame* pMainFrame, const SubtitlesInfo& pSubtitlesInfo);
 
     SubtitlesThreadType Type() const { return m_nType; };
     BYTE GetLangPriority(const std::string& sLanguage) {
@@ -335,7 +328,6 @@ public: // overridden
         return SR_SUCCEEDED;
     }
     virtual SRESULT Hash(SubtitlesInfo&) { return SR_UNDEFINED; }
-    virtual SRESULT Upload(const SubtitlesInfo&) { return SR_UNDEFINED; };
     virtual std::string UserAgent() const {
         return SubtitlesProvidersUtils::StringFormat("MPC-HC v%u.%u.%u",
                                                      VersionInfo::GetMajorNumber(),
@@ -355,13 +347,9 @@ public: // overridden
     static void Set(SubtitlesInfo& pSubtitlesInfo);
     static bool IsAborting();
 
-    BOOL Enabled(SubtitlesProviderFlags nFlag) { return nFlag == SPF_UPLOAD ? m_bUpload : m_bSearch; }
+    BOOL Enabled(SubtitlesProviderFlags nFlag) { return m_bSearch; }
     void Enabled(SubtitlesProviderFlags nFlag, BOOL bEnabled) {
-        if (nFlag == SPF_UPLOAD) {
-            m_bUpload = bEnabled;
-        } else {
-            m_bSearch = bEnabled;
-        }
+        m_bSearch = bEnabled;
     }
     std::string UserName() const { return m_sUserName; };
     void UserName(std::string sUserName) { m_sUserName = sUserName; };
@@ -381,7 +369,6 @@ public: // overridden
 
 private:
     BOOL m_bSearch;
-    BOOL m_bUpload;
     std::string m_sUserName;
     std::string m_sPassword;
     SubtitlesProviders* m_pOwner;
@@ -420,7 +407,6 @@ public:
 
     void Search(bool bAutoDownload);
     void ManualSearch(bool bAutoDownload, CString manualSearch);
-    void Upload(bool bShowConfirm);
     void Download(SubtitlesInfo& pSubtitlesInfo, bool bActivate);
     void Abort(SubtitlesThreadType nType);
 

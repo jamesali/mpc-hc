@@ -41,7 +41,6 @@
 #include "PlayerPreView.h"
 #include "PlayerToolBar.h"
 #include "SubtitleDlDlg.h"
-#include "SubtitleUpDlg.h"
 #include "TimerWrappers.h"
 #include "OSD.h"
 #include "CMPCThemeMenu.h"
@@ -632,8 +631,6 @@ protected:
 protected:
     friend class CSubtitleDlDlg;
     CSubtitleDlDlg m_wndSubtitlesDownloadDialog;
-    //friend class CSubtitleUpDlg;
-    //CSubtitleUpDlg m_wndSubtitlesUploadDialog;
     CFavoriteOrganizeDlg m_wndFavoriteOrganizeDialog;
     friend class CPPageSubMisc;
 

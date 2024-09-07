@@ -343,9 +343,6 @@
     <ClCompile Include="SubtitlesProvidersUtils.cpp">
       <Filter>Subtitles</Filter>
     </ClCompile>
-    <ClCompile Include="SubtitleUpDlg.cpp">
-      <Filter>Subtitles</Filter>
-    </ClCompile>
     <ClCompile Include="SubtitleDlDlg.cpp">
       <Filter>Subtitles</Filter>
     </ClCompile>
@@ -888,9 +885,6 @@
       <Filter>Subtitles</Filter>
     </ClInclude>
     <ClInclude Include="SubtitlesProvidersUtils.h">
-      <Filter>Subtitles</Filter>
-    </ClInclude>
-    <ClInclude Include="SubtitleUpDlg.h">
       <Filter>Subtitles</Filter>
     </ClInclude>
     <ClInclude Include="SubtitleDlDlg.h">

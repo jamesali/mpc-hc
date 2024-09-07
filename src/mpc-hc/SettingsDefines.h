@@ -344,9 +344,6 @@
 #define IDS_RS_DLG_SUBTITLEDL_SORTCOLUMN    _T("SortColumn")
 #define IDS_RS_DLG_SUBTITLEDL_SORTORDER     _T("SortOrder")
 
-#define IDS_R_DLG_SUBTITLEUP                _T("Dialogs\\SubtitleUp")
-#define IDS_RS_DLG_SUBTITLEUP_COLWIDTH      _T("ColWidth")
-
 #define IDS_R_DLG_ORGANIZE_FAV              _T("Dialogs\\OrganizeFavorites")
 
 #define IDS_R_DLG_CMD_LINE_HELP             _T("Dialogs\\CmdLineHelp")

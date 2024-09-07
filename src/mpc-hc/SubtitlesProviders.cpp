@@ -442,7 +442,7 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
 ******************************************************************************/
 
 SubtitlesProvider::SubtitlesProvider(SubtitlesProviders* pOwner)
-    : m_bSearch(FALSE), m_bUpload(FALSE), m_pOwner(pOwner), m_nIconIndex(0), m_nLoggedIn(SPL_UNDEFINED)
+    : m_bSearch(FALSE), m_pOwner(pOwner), m_nIconIndex(0), m_nLoggedIn(SPL_UNDEFINED)
 {
 }
 
@@ -554,7 +554,7 @@ SubtitlesProviders::SubtitlesProviders(CMainFrame* pMainFrame)
 
 SubtitlesProviders::~SubtitlesProviders()
 {
-    Abort(SubtitlesThreadType(STT_SEARCH | STT_UPLOAD | STT_DOWNLOAD));
+    Abort(SubtitlesThreadType(STT_SEARCH | STT_DOWNLOAD));
 }
 
 BOOL SubtitlesProviders::CheckInternetConnection()
@@ -594,29 +594,6 @@ void SubtitlesProviders::Download(SubtitlesInfo& pSubtitlesInfo, bool bActivate)
     }
 }
 
-#if 0
-void SubtitlesProviders::Upload(bool bShowConfirm)
-{
-    if (CheckInternetConnection()) {
-        // We get all the information we need within the main thread, to delay closing the file
-        // until we have everything we need.
-        SubtitlesInfo pSubtitlesInfo;
-        m_pMainFrame->SendMessage(WM_GETSUBTITLES, 0, (LPARAM)&pSubtitlesInfo);
-        //pSubtitlesInfo.GetCurrentSubtitles();
-
-        if (!pSubtitlesInfo.fileContents.empty()) {
-            CString msg;
-            msg.Format(IDS_SUBUL_DLG_CONFIRM, UTF8To16(pSubtitlesInfo.fileName.c_str()).GetString());
-
-            if (!bShowConfirm
-                    || IDYES == CMPCThemeMsgBox::MessageBox(&m_pMainFrame->m_wndSubtitlesUploadDialog, msg, ResStr(IDS_SUBUL_DLG_TITLE), MB_YESNO)) {
-                InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, pSubtitlesInfo));
-            }
-        }
-    }
-}
-#endif
-
 void SubtitlesProviders::Abort(SubtitlesThreadType nType)
 {
     CAutoLock cAutoLock(&m_csTasks);
@@ -642,7 +619,6 @@ void SubtitlesProviders::ReadSettings()
                 iter1->UserName(iter[1]);
                 iter1->Password(iter[2].c_str(), false);
                 iter1->Enabled(SPF_SEARCH, atoi(iter[3].c_str()));
-                iter1->Enabled(SPF_UPLOAD, atoi(iter[4].c_str()));
                 std::iter_swap(&iter1, m_pProviders.begin() + std::min(index, m_pProviders.size() - 1));
             }
         }
@@ -656,7 +632,7 @@ std::string SubtitlesProviders::WriteSettings()
 {
     std::string result;
     for (const auto& iter : m_pProviders) {
-        result += "<|" + iter->Name() + "|" + iter->UserName() + "|" + iter->Password(false) + "|" + std::to_string(iter->Enabled(SPF_SEARCH)) + "|" + std::to_string(iter->Enabled(SPF_UPLOAD)) + "|>";
+        result += "<|" + iter->Name() + "|" + iter->UserName() + "|" + iter->Password(false) + "|" + std::to_string(iter->Enabled(SPF_SEARCH)) + "|0|>";
     }
     return result;
 }
@@ -711,16 +687,6 @@ SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, SubtitlesInfo& pSubtitlesIn
     VERIFY(CreateThread());
 }
 
-SubtitlesTask::SubtitlesTask(CMainFrame* pMainFrame, const SubtitlesInfo& pSubtitlesInfo)
-    : m_pMainFrame(pMainFrame)
-    , m_pFileInfo(pSubtitlesInfo)
-    , m_bActivate(false)
-    , m_nType(STT_UPLOAD)
-    , m_bAutoDownload(false)
-{
-    VERIFY(CreateThread());
-}
-
 void SubtitlesTask::ThreadProc()
 {
     if (m_nType & STT_SEARCH) {
@@ -749,20 +715,12 @@ void SubtitlesTask::ThreadProc()
 
     } else if (m_nType & STT_DOWNLOAD) {
         InsertThread(DEBUG_NEW SubtitlesThread(this, m_pFileInfo, m_pFileInfo.Provider()));
-    } else if (m_nType & STT_UPLOAD) {
-        for (const auto& iter : m_pMainFrame->m_pSubtitlesProviders->Providers()) {
-            if (iter->Enabled(SPF_UPLOAD) && iter->Flags(SPF_UPLOAD)) {
-                InsertThread(DEBUG_NEW SubtitlesThread(this, m_pFileInfo, iter));
-            }
-        }
     }
 
     if (!m_pThreads.empty() && !IsThreadAborting()) {
         if (m_nType & STT_SEARCH) {
             m_pMainFrame->m_wndSubtitlesDownloadDialog.DoSearch((INT)m_pThreads.size());
         } else if (m_nType & STT_DOWNLOAD) {
-        } else if (m_nType & STT_UPLOAD) {
-            //m_pMainFrame->m_wndSubtitlesUploadDialog.DoUpload((INT)m_pThreads.size());
         }
 
         CAutoLock cAutoLock(&m_csThreads);
@@ -791,8 +749,6 @@ void SubtitlesTask::ThreadProc()
         }
         m_pMainFrame->m_wndSubtitlesDownloadDialog.DoFinished(IsThreadAborting(), bShowDialog);
     } else if (m_nType & STT_DOWNLOAD) {
-    } else if (m_nType & STT_UPLOAD) {
-        //m_pMainFrame->m_wndSubtitlesUploadDialog.DoFinished(IsThreadAborting());
     }
 
     m_pMainFrame->m_pSubtitlesProviders->RemoveTask(this);
@@ -811,21 +767,15 @@ void SubtitlesThread::ThreadProc()
                 Search();
             } else if (m_pTask->m_nType & STT_DOWNLOAD) {
                 Download(m_pFileInfo, m_pTask->m_bActivate);
-            } else if (m_pTask->m_nType & STT_UPLOAD) {
-                //Upload();
             }
         } else {
             if (m_pTask->m_nType & STT_SEARCH) {
                 m_pTask->m_pMainFrame->m_wndSubtitlesDownloadDialog.DoCompleted(SR_FAILED, m_pSubtitlesList);
-            } else if (m_pTask->m_nType & STT_UPLOAD) {
-                //m_pTask->m_pMainFrame->m_wndSubtitlesUploadDialog.DoCompleted(SR_FAILED, m_pFileInfo.Provider());
             }
         }
     } catch (/*HRESULT e*/...) {
         if (m_pTask->m_nType & STT_SEARCH) {
             m_pTask->m_pMainFrame->m_wndSubtitlesDownloadDialog.DoCompleted(SR_ABORTED, m_pSubtitlesList);
-        } else if (m_pTask->m_nType & STT_UPLOAD) {
-            //m_pTask->m_pMainFrame->m_wndSubtitlesUploadDialog.DoCompleted(SR_ABORTED, m_pFileInfo.Provider());
         }
     }
 

@@ -301,9 +301,6 @@
     <ClCompile Include="SubtitlesProvider.cpp" />
     <ClCompile Include="SubtitlesProviders.cpp" />
     <ClCompile Include="SubtitlesProvidersUtils.cpp" />
-    <ClCompile Include="SubtitleUpDlg.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="TextPassThruFilter.cpp" />
     <ClCompile Include="TunerScanDlg.cpp" />
     <ClCompile Include="UpdateChecker.cpp" />
@@ -499,7 +496,6 @@
     <ClInclude Include="SubtitlesProvider.h" />
     <ClInclude Include="SubtitlesProviders.h" />
     <ClInclude Include="SubtitlesProvidersUtils.h" />
-    <ClInclude Include="SubtitleUpDlg.h" />
     <ClInclude Include="SVGImage.h" />
     <ClInclude Include="TextPassThruFilter.h" />
     <ClInclude Include="TimerWrappers.h" />
