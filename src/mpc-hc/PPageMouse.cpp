@@ -118,6 +118,7 @@ BOOL CPPageMouse::OnInitDialog()
 
     AddStringData(m_cmbLeftButtonClick, L"", 0);
     AddStringData(m_cmbLeftButtonClick, ResStr(IDS_AG_PLAYPAUSE), ID_PLAY_PLAYPAUSE);
+    AddStringData(m_cmbLeftButtonClick, ResStr(IDS_AG_FULLSCREEN), ID_VIEW_FULLSCREEN);
     m_cmbLeftButtonClick.SelectByItemData(s.nMouseLeftClick);
 
     AddStringData(m_cmbLeftButtonDblClick, L"", 0);
