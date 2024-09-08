@@ -4565,8 +4565,8 @@ msgid "&Continue"
 msgstr "続行(&C)"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
-msgid "Toggle Default Subtitle Style"
-msgstr "既定の字幕スタイルに切り替え"
+msgid "Toggle Override Default Style"
+msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."

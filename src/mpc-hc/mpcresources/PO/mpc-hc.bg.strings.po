@@ -4658,8 +4658,8 @@ msgid "&Continue"
 msgstr "&Продължи"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
-msgid "Toggle Default Subtitle Style"
-msgstr "Управление на стила на субтитрите по подразбиране"
+msgid "Toggle Override Default Style"
+msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
 msgid "Loop back to first file in folder after playing the last file."

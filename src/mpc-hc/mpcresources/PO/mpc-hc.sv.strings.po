@@ -4570,7 +4570,7 @@ msgid "&Continue"
 msgstr "&Fortsätt"
 
 msgctxt "IDS_AG_TOGGLE_DEFAULT_SUBTITLE_STYLE"
-msgid "Toggle Default Subtitle Style"
+msgid "Toggle Override Default Style"
 msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_LOOP_FOLDER_NEXT_FILE"
