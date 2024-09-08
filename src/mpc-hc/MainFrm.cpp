@@ -11680,6 +11680,12 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         ::DwmSetWindowAttribute(m_hWnd, DWMWA_CLOAK, &setEnabled, sizeof(setEnabled));
     }
 
+    bool restart_osd = false;
+    if (!m_pMVTO) {
+        m_OSD.Stop();
+        restart_osd = s.fShowOSD || s.fShowDebugInfo;
+    }
+
     if (fullScreenSeparate) {
         if (m_fFullScreen) {
             m_fFullScreen = false;
@@ -11748,10 +11754,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     } else {
         m_fFullScreen = !m_fFullScreen;
         s.fLastFullScreen = m_fFullScreen;
-
-        // Temporarily hide the OSD message if there is one, it will
-        // be restored after. This avoid positioning problems.
-        m_OSD.HideMessage(true);
 
         if (m_fFullScreen) {
             SetCursor(nullptr); // prevents cursor flickering when our window is not under the cursor
@@ -11854,8 +11856,15 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             ZoomVideoWindow();
         }
         MoveVideoWindow();
+    }
 
-        m_OSD.HideMessage(false);
+    if (restart_osd) {
+        if (m_fFullScreen && (m_pVMB || m_pMFVMB)) {
+            m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, false);
+        } else {
+            m_OSD.Start(m_pOSDWnd);
+            OSDBarSetPos();
+        }
     }
 
     if (m_fFullScreen) {
@@ -15206,6 +15215,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
     m_pMVRS = nullptr;
     m_pMVRSR = nullptr;
     m_pMVRFG = nullptr;
+    m_pMVTO = nullptr;
     m_pLN21 = nullptr;
     m_pCAP2_preview = nullptr;
     m_pMFVDC_preview = nullptr;
@@ -15261,8 +15271,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
             throw (UINT)IDS_MAINFRM_88;
         }
 
-        CComPtr<IMadVRTextOsd>       pMVTO  = nullptr;
-
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP2), TRUE);
         m_pGB->FindInterface(IID_PPV_ARGS(&m_pCAP3), TRUE);
@@ -15276,7 +15284,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pMVRS = m_pCAP;
         m_pMVRSR = m_pCAP;
         m_pMVRFG = m_pCAP;
-        pMVTO = m_pCAP;
+        m_pMVTO = m_pCAP;
 
         checkAborted();
 
@@ -15329,8 +15337,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
                     m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, true);
                 }
             } else {
-                if (pMVTO) {
-                    m_OSD.Start(m_pVideoWnd, pMVTO);
+                if (m_pMVTO) {
+                    m_OSD.Start(m_pVideoWnd, m_pMVTO);
                 } else {
                     m_OSD.Start(m_pOSDWnd);
                 }
@@ -15570,6 +15578,7 @@ void CMainFrame::CloseMediaPrivate()
     m_pMVRS.Release();
     m_pMVRC.Release();
     m_pMVRI.Release();
+    m_pMVTO.Release();
     m_pCAP3.Release();
     m_pCAP2.Release();
     m_pCAP.Release();
@@ -18357,8 +18366,6 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
         }
 
         if (fVidPrev) {
-            CComPtr<IMadVRTextOsd>       pMVTO;
-
             m_pMVRS.Release();
             m_pMVRFG.Release();
             m_pMVRSR.Release();
@@ -18386,7 +18393,7 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVMB), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVDC), TRUE);
             m_pGB->FindInterface(IID_PPV_ARGS(&m_pMFVP), TRUE);
-            pMVTO = m_pCAP;
+            m_pMVTO = m_pCAP;
             m_pMVRSR = m_pCAP;
             m_pMVRS = m_pCAP;
             m_pMVRFG = m_pCAP;
@@ -18408,8 +18415,8 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
                         m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, true);
                     }
                 } else {
-                    if (pMVTO) {
-                        m_OSD.Start(m_pVideoWnd, pMVTO);
+                    if (m_pMVTO) {
+                        m_OSD.Start(m_pVideoWnd, m_pMVTO);
                     } else {
                         m_OSD.Start(m_pOSDWnd);
                     }

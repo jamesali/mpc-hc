@@ -300,6 +300,7 @@ private:
     CComPtr<IMadVRCommand> m_pMVRC;
     CComPtr<IMadVRInfo> m_pMVRI;
     CComPtr<IMadVRFrameGrabber> m_pMVRFG;
+    CComPtr<IMadVRTextOsd> m_pMVTO;
 
     CComQIPtr<IDvdControl2> m_pDVDC;
     CComQIPtr<IDvdInfo2> m_pDVDI;
