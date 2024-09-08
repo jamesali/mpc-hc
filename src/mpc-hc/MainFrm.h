@@ -392,6 +392,7 @@ private:
     void OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup);
     void OnStreamSelect(bool forward, DWORD dwSelGroup);
     static CString GetStreamOSDString(CString name, LCID lcid, DWORD dwSelGroup);
+
     void CreateOSDBar();
     bool OSDBarSetPos();
     void DestroyOSDBar();
@@ -454,6 +455,8 @@ private:
     bool m_fLiveWM;
 
     bool delayingFullScreen;
+
+    bool m_bIsMPCVRExclusiveMode = false;
 
     void SendStatusMessage(CString msg, int nTimeOut);
     CString m_tempstatus_msg, m_closingmsg;
@@ -1180,9 +1183,11 @@ public:
     afx_msg void OnHelpDonate();
 
     afx_msg void OnClose();
+
     bool FilterSettingsByClassID(CLSID clsid, CWnd* parent);
     void FilterSettings(CComPtr<IUnknown> pUnk, CWnd* parent);
 
+    LRESULT OnMPCVRSwitchFullscreen(WPARAM wParam, LPARAM lParam);
 
     CMPC_Lcd m_Lcd;
 

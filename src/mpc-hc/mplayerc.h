@@ -97,6 +97,7 @@ enum {
     WM_GETSUBTITLES,
     WM_OSD_HIDE,
     WM_OSD_DRAW,
+    WM_MPCVR_SWITCH_FULLSCREEN = WM_APP + 4096,
 };
 
 enum ControlType {

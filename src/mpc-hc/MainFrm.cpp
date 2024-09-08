@@ -252,6 +252,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_CLOSE()
     ON_WM_MEASUREITEM()
 
+    ON_MESSAGE(WM_MPCVR_SWITCH_FULLSCREEN, OnMPCVRSwitchFullscreen)
+
     ON_REGISTERED_MESSAGE(s_uTaskbarRestart, OnTaskBarRestart)
     ON_REGISTERED_MESSAGE(WM_NOTIFYICON, OnNotifyIcon)
 
@@ -4708,6 +4710,36 @@ void CMainFrame::OnFileOpenmedia()
 
         OpenCurPlaylistItem();
     }
+}
+
+LRESULT CMainFrame::OnMPCVRSwitchFullscreen(WPARAM wParam, LPARAM lParam)
+{
+    const auto& s = AfxGetAppSettings();
+    m_bIsMPCVRExclusiveMode = static_cast<bool>(wParam);
+
+    m_OSD.Stop();
+    if (m_bIsMPCVRExclusiveMode) {
+        TRACE(L"MPCVR exclusive full screen\n");
+        if (m_wndPlaylistBar.IsVisible()) {
+            m_wndPlaylistBar.SetHiddenDueToFullscreen(true);
+        }
+        if (s.fShowOSD || s.fShowDebugInfo) {
+            if (m_pVMB || m_pMFVMB) {
+                m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, true);
+            }
+        }
+    } else {
+        if (s.fShowOSD || s.fShowDebugInfo) {
+            m_OSD.Start(m_pOSDWnd);
+        }
+        if (m_wndPlaylistBar.IsHiddenDueToFullscreen()) {
+            m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
+        }
+    }
+
+    OSDBarSetPos();
+
+    return 0;
 }
 
 void CMainFrame::OnUpdateFileOpen(CCmdUI* pCmdUI)
@@ -15528,6 +15560,8 @@ void CMainFrame::CloseMediaPrivate()
     if (m_pVW && !m_pMVRS) {
         m_pVW->put_Owner(NULL);
     }
+
+    m_bIsMPCVRExclusiveMode = false;
 
     // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
     m_OSD.Stop();
