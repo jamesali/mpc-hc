@@ -11714,7 +11714,14 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             m_controls.UpdateToolbarsVisibility();
         }
     } else {
-        if (!m_fFullScreen) {
+        m_fFullScreen = !m_fFullScreen;
+        s.fLastFullScreen = m_fFullScreen;
+
+        // Temporarily hide the OSD message if there is one, it will
+        // be restored after. This avoid positioning problems.
+        m_OSD.HideMessage(true);
+
+        if (m_fFullScreen) {
             SetCursor(nullptr); // prevents cursor flickering when our window is not under the cursor
 
             m_eventc.FireEvent(MpcEvent::SWITCHING_TO_FULLSCREEN);
@@ -11791,16 +11798,10 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         }
 
         bool bZoomVideoWindow = false;
-        if (m_bNeedZoomAfterFullscreenExit && m_fFullScreen) {
+        if (m_bNeedZoomAfterFullscreenExit && !m_fFullScreen) {
             bZoomVideoWindow = s.fRememberZoomLevel;
             m_bNeedZoomAfterFullscreenExit = false;
         }
-
-        m_fFullScreen = !m_fFullScreen;
-        s.fLastFullScreen = m_fFullScreen;
-        // Temporarily hide the OSD message if there is one, it will
-        // be restored after. This avoid positioning problems.
-        m_OSD.HideMessage(true);
 
         ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
         SetWindowPos(pInsertAfter, windowRect.left, windowRect.top, windowRect.Width(), windowRect.Height(),
@@ -11817,16 +11818,13 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
         UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
 
-
         if (bZoomVideoWindow) {
             ZoomVideoWindow();
         }
-
         MoveVideoWindow();
 
         m_OSD.HideMessage(false);
     }
-
 
     if (m_fFullScreen) {
         m_eventc.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN);
