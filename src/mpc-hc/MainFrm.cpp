@@ -15197,9 +15197,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
     OpenDeviceData* pDeviceData = dynamic_cast<OpenDeviceData*>(pOMD.m_p);
     ASSERT(pFileData || pDVDData || pDeviceData);
 
-    // Clear DXVA state ...
-    ClearDXVAState();
-
     m_pCAP3 = nullptr;
     m_pCAP2 = nullptr;
     m_pCAP = nullptr;

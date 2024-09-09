@@ -2537,13 +2537,6 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString& _Error)
         if (FAILED(hr)) {
             _Error += L"m_pD3DManager->ResetDevice failed\n";
         }
-        CComPtr<IDirectXVideoDecoderService> pDecoderService;
-        HANDLE hDevice;
-        if (SUCCEEDED(m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
-                SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
-            HookDirectXVideoDecoderService(pDecoderService);
-            m_pD3DManager->CloseDeviceHandle(hDevice);
-        }
     } else {
         _Error += L"DXVA2CreateDirect3DDeviceManager9 failed\n";
     }

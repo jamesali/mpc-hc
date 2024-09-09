@@ -120,10 +120,6 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
          }
     }
 
-    if (CComQIPtr<IAMVideoAccelerator> pAMVA = pPin) {
-        HookAMVideoAccelerator((IAMVideoAcceleratorC*)(IAMVideoAccelerator*)pAMVA);
-    }
-
     CComQIPtr<IVMRFilterConfig9> pConfig = pBF;
     if (!pConfig) {
         return E_FAIL;

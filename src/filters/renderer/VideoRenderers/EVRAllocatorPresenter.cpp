@@ -148,18 +148,6 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
         if (FAILED(hr)) {
             _Error += L"m_pD3DManager->ResetDevice failed\n";
         }
-
-        CComPtr<IDirectXVideoDecoderService> pDecoderService;
-        HANDLE hDevice;
-        if (SUCCEEDED(m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
-                SUCCEEDED(m_pD3DManager->GetVideoService(hDevice, IID_PPV_ARGS(&pDecoderService)))) {
-            TRACE_EVR("EVR: DXVA2 : device handle = 0x%08x\n", hDevice);
-            if (!m_bIsPreview) {
-                HookDirectXVideoDecoderService(pDecoderService);
-            }
-
-            m_pD3DManager->CloseDeviceHandle(hDevice);
-        }
     } else {
         _Error += L"DXVA2CreateDirect3DDeviceManager9 failed\n";
     }
