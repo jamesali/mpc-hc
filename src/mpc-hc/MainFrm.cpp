@@ -2594,8 +2594,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                     // prevent screensaver activate, monitor sleep/turn off after playback
                     SetThreadExecutionState(ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
                 }
-
-                UpdateDXVAStatus();
             }
         }
         break;
@@ -21279,31 +21277,20 @@ GUID CMainFrame::GetTimeFormat()
 
 void CMainFrame::UpdateDXVAStatus()
 {
-    CString DXVADecoderDescription = GetDXVADecoderDescription();
-    m_bUsingDXVA = (_T("Not using DXVA") != DXVADecoderDescription && _T("Unknown") != DXVADecoderDescription);
     CString DXVAInfo;
-    // If LAV Video is in the graph, we query it since it's always more reliable than the hook.
+    // We only support getting info from LAV Video Decoder is that is what will be used 99% of the time
     if (CComQIPtr<ILAVVideoStatus> pLAVVideoStatus = FindFilter(GUID_LAVVideo, m_pGB)) {
         const LPCWSTR decoderName = pLAVVideoStatus->GetActiveDecoderName();
-        ASSERT(decoderName != nullptr);
-        if (decoderName != nullptr && wcscmp(decoderName, L"avcodec") != 0 && wcscmp(decoderName, L"wmv9 mft") != 0 && wcscmp(decoderName, L"msdk mvc") != 0) {
+        if (decoderName == nullptr || wcscmp(decoderName, L"avcodec") == 0 || wcscmp(decoderName, L"wmv9 mft") == 0 || wcscmp(decoderName, L"msdk mvc") == 0) {
+            DXVAInfo = _T("H/W Decoder  : None");
+        } else {
+            m_bUsingDXVA = true;
             m_HWAccelType = CFGFilterLAVVideo::GetUserFriendlyDecoderName(decoderName);
-            CString LAVDXVAInfo;
-            LAVDXVAInfo.Format(_T("LAV Video Decoder (%s)"), m_HWAccelType);
-
-            if (!m_bUsingDXVA) { // Don't trust the hook
-                m_bUsingDXVA = true;
-                DXVAInfo.Format(_T("H/W Decoder  : %s"), LAVDXVAInfo.GetString());
-            } else {
-                DXVAInfo.AppendFormat(_T(" [%s]"), LAVDXVAInfo.GetString());
-            }
+            DXVAInfo.Format(_T("H/W Decoder  : %s"), m_HWAccelType);
         }
+    } else {
+        DXVAInfo = _T("H/W Decoder  : None / Unknown");
     }
-    if (DXVAInfo.IsEmpty()) {
-        m_HWAccelType = GetDXVAVersion();
-        DXVAInfo.Format(_T("%-13s: %s"), m_HWAccelType, DXVADecoderDescription.GetString());
-    }
-
     GetRenderersData()->m_strDXVAInfo = DXVAInfo;
 }
 
