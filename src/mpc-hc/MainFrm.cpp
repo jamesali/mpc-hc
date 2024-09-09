@@ -19039,7 +19039,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                 TRACE(_T("Failed to close filter graph thread.\n"));
                 CString msg;
                 if (!m_pGB && m_pGB_preview) {
-#if MPC_VERSION_REV > 10
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
                     if (CrashReporter::IsEnabled()) {
                         throw 1;
                     }
