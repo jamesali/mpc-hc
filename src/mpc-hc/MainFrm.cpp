@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "MainFrm.h"
 #include "mplayerc.h"
+#include "version.h"
 
 #include "GraphThread.h"
 #include "FGFilterLAV.h"
@@ -19043,6 +19044,11 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                 TRACE(_T("Failed to close filter graph thread.\n"));
                 CString msg;
                 if (!m_pGB && m_pGB_preview) {
+#if MPC_VERSION_REV > 10
+                    if (CrashReporter::IsEnabled()) {
+                        throw 1;
+                    }
+#endif
                     msg = L"Timeout when closing preview filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15s).";
                 } else {
                     msg = L"Timeout when closing filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15s).";
