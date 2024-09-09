@@ -550,6 +550,7 @@ public:
     bool IsInteractiveVideo() const;
     bool IsFullScreenMode() const;
     bool IsFullScreenMainFrame() const;
+    bool IsFullScreenMainFrameExclusiveMPCVR() const;
     bool IsFullScreenSeparate() const;
     bool HasDedicatedFSVideoWindow() const;
     bool IsD3DFullScreenMode() const;

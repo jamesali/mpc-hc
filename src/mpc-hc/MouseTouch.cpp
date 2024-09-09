@@ -326,7 +326,7 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
             (m_pMainFrame->m_pDVDC->ActivateAtPosition(GetVideoPoint(point)) == S_OK)) {
         return;
     }
-    if (m_bD3DFS && bIsOnFS && m_pMainFrame->m_OSD.OnLButtonDown(nFlags, point)) {
+    if (bIsOnFS && (m_bD3DFS || m_pMainFrame->IsFullScreenMainFrameExclusiveMPCVR()) && m_pMainFrame->m_OSD.OnLButtonDown(nFlags, point)) {
         return;
     }
 
@@ -397,7 +397,6 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
 void CMouse::PerformDelayedLeftUp()
 {
     m_bLeftUpDelayed = false;
-    bool bIsOnFS = IsOnFullscreenWindow();
     OnButton(wmcmd::LUP, m_LeftUpPoint);
     m_LeftUpPoint = CPoint();
 }
@@ -419,7 +418,7 @@ void CMouse::InternalOnLButtonUp(UINT nFlags, const CPoint& point)
     ReleaseCapture();
     if (!MVRUp(nFlags, point) && m_bLeftDown) {
         bool bIsOnFS = IsOnFullscreenWindow();
-        if (!(m_bD3DFS && bIsOnFS && m_pMainFrame->m_OSD.OnLButtonUp(nFlags, point))) {
+        if (!(bIsOnFS && (m_bD3DFS || m_pMainFrame->IsFullScreenMainFrameExclusiveMPCVR()) && m_pMainFrame->m_OSD.OnLButtonUp(nFlags, point))) {
             UINT delay = (UINT)AfxGetAppSettings().iMouseLeftUpDelay;
             if (delay > 0 && m_pMainFrame->GetLoadState() == MLS::LOADED) {
                 ASSERT(!m_bLeftUpDelayed);
@@ -523,7 +522,7 @@ bool CMouse::SelectCursor(const CPoint& screenPoint, const CPoint& clientPoint, 
 {
     const auto& s = AfxGetAppSettings();
 
-    if (m_bD3DFS && m_pMainFrame->m_OSD.OnMouseMove(nFlags, clientPoint)) {
+    if ((m_bD3DFS || m_pMainFrame->IsFullScreenMainFrameExclusiveMPCVR()) && m_pMainFrame->m_OSD.OnMouseMove(nFlags, clientPoint)) {
         StopMouseHider();
         m_cursor = Cursor::HAND;
         return true;
@@ -645,7 +644,7 @@ void CMouse::InternalOnMouseLeave()
     StopMouseHider();
     m_bTrackingMouseLeave = false;
     m_cursor = Cursor::ARROW;
-    if (m_bD3DFS) {
+    if (m_bD3DFS || m_pMainFrame->IsFullScreenMainFrameExclusiveMPCVR()) {
         m_pMainFrame->m_OSD.OnMouseLeave();
     }
 }

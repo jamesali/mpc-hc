@@ -4719,24 +4719,24 @@ LRESULT CMainFrame::OnMPCVRSwitchFullscreen(WPARAM wParam, LPARAM lParam)
     m_OSD.Stop();
     if (m_bIsMPCVRExclusiveMode) {
         TRACE(L"MPCVR exclusive full screen\n");
-        if (m_wndPlaylistBar.IsVisible()) {
+        bool excl_mode_controls = IsFullScreenMainFrame();
+        if (excl_mode_controls && m_wndPlaylistBar.IsVisible()) {
             m_wndPlaylistBar.SetHiddenDueToFullscreen(true);
         }
         if (s.fShowOSD || s.fShowDebugInfo) {
             if (m_pVMB || m_pMFVMB) {
-                m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, true);
+                m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, excl_mode_controls);
             }
         }
     } else {
         if (s.fShowOSD || s.fShowDebugInfo) {
             m_OSD.Start(m_pOSDWnd);
+            OSDBarSetPos();
         }
         if (m_wndPlaylistBar.IsHiddenDueToFullscreen()) {
             m_wndPlaylistBar.SetHiddenDueToFullscreen(false);
         }
     }
-
-    OSDBarSetPos();
 
     return 0;
 }
@@ -19391,6 +19391,10 @@ bool CMainFrame::IsFullScreenMode() const {
 
 bool CMainFrame::IsFullScreenMainFrame() const {
     return m_fFullScreen && !HasDedicatedFSVideoWindow();
+}
+
+bool CMainFrame::IsFullScreenMainFrameExclusiveMPCVR() const {
+    return m_fFullScreen && m_bIsMPCVRExclusiveMode && !HasDedicatedFSVideoWindow();
 }
 
 bool CMainFrame::IsFullScreenSeparate() const {
