@@ -201,6 +201,10 @@ public:
     bool UpdateButtonImages();
     void EnableShowSeekBar(bool enabled);
 
+    void SetCursorArrow();
+    void SetCursorHand();
+    void SetCursorName(LPCWSTR lpCursorName);
+
     DECLARE_DYNAMIC(COSD)
 
 private:

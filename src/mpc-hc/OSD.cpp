@@ -586,6 +586,22 @@ void COSD::EnableShowSeekBar(bool enabled) {
     m_bShowSeekBar = enabled;
 }
 
+void COSD::SetCursorName(LPCWSTR lpCursorName) {
+    if (m_pMainFrame->IsD3DFullScreenMode()) {
+        m_pMainFrame->m_pDedicatedFSVideoWnd->SetCursor(lpCursorName);
+    } else {
+        SetCursor(LoadCursorW(nullptr, lpCursorName));
+    }
+}
+
+void COSD::SetCursorArrow() {
+    SetCursorName(IDC_ARROW);
+}
+
+void COSD::SetCursorHand() {
+    SetCursorName(IDC_HAND);
+}
+
 bool COSD::OnMouseMove(UINT nFlags, CPoint point)
 {
     bool bRet = false;
@@ -598,22 +614,14 @@ bool COSD::OnMouseMove(UINT nFlags, CPoint point)
         } else if (m_bShowSeekBar && m_rectSeekBar.PtInRect(point)) {
             bRet = true;
             if (!m_bSeekBarVisible) {
-                if (m_pMainFrame->IsD3DFullScreenMode()) {
-                    m_pMainFrame->m_pDedicatedFSVideoWnd->SetCursor(IDC_HAND);
-                } else {
-                    SetCursor(LoadCursorW(nullptr, IDC_HAND));
-                }
+                SetCursorHand();
                 m_bSeekBarVisible = true;
                 InvalidateBitmapOSD();
             }
         } else if (m_rectFlyBar.PtInRect(point)) {
             bRet = true;
             if (!m_bFlyBarVisible) {
-                if (m_pMainFrame->IsD3DFullScreenMode()) {
-                    m_pMainFrame->m_pDedicatedFSVideoWnd->SetCursor(IDC_ARROW);
-                } else {
-                    SetCursor(LoadCursorW(nullptr, IDC_ARROW));
-                }
+                SetCursorArrow();
                 m_bFlyBarVisible = true;
                 InvalidateBitmapOSD();
             } else {
@@ -632,17 +640,9 @@ bool COSD::OnMouseMove(UINT nFlags, CPoint point)
                 }
 
                 if (m_rectCloseButton.PtInRect(point) || m_rectExitButton.PtInRect(point)) {
-                    if (m_pMainFrame->IsD3DFullScreenMode()) {
-                        m_pMainFrame->m_pDedicatedFSVideoWnd->SetCursor(IDC_HAND);
-                    } else {
-                        SetCursor(LoadCursorW(nullptr, IDC_HAND));
-                    }
+                    SetCursorHand();
                 } else {
-                    if (m_pMainFrame->IsD3DFullScreenMode()) {
-                        m_pMainFrame->m_pDedicatedFSVideoWnd->SetCursor(IDC_ARROW);
-                    } else {
-                        SetCursor(LoadCursorW(nullptr, IDC_ARROW));
-                    }
+                    SetCursorArrow();
                 }
             }
         } else if (m_bSeekBarVisible || m_bFlyBarVisible) {
@@ -655,11 +655,7 @@ bool COSD::OnMouseMove(UINT nFlags, CPoint point)
 
 void COSD::OnMouseLeave()
 {
-    if (m_pMainFrame->IsD3DFullScreenMode()) {
-        m_pMainFrame->m_pDedicatedFSVideoWnd->SetCursor(IDC_ARROW);
-    } else {
-        SetCursor(LoadCursorW(nullptr, IDC_ARROW));
-    }
+    SetCursorArrow();
 
     const bool bHideBars = (m_pMFVMB && (m_bSeekBarVisible || m_bFlyBarVisible));
 
