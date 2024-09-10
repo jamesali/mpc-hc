@@ -601,7 +601,18 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
 
         *ppBF = CComQIPtr<IBaseFilter>(pRenderer).Detach();
 
-        if (m_clsid == CLSID_madVRAllocatorPresenter || m_clsid == CLSID_MPCVRAllocatorPresenter) {
+        if (m_clsid == CLSID_MPCVRAllocatorPresenter) {
+            auto pMainFrame = (CMainFrame*)(AfxGetApp()->m_pMainWnd);
+            if (pMainFrame && pMainFrame->HasDedicatedFSVideoWindow()) {
+                if (CComQIPtr<ID3DFullscreenControl> pD3DFSC = *ppBF) {
+                    pD3DFSC->SetD3DFullscreen(true);
+                }
+            }
+            // renderer supports calling IVideoWindow::put_Owner before the pins are connected
+            if (CComQIPtr<IVideoWindow> pVW = *ppBF) {
+                VERIFY(SUCCEEDED(pVW->put_Owner((OAHWND)m_hWnd)));
+            }
+        } else if (m_clsid == CLSID_madVRAllocatorPresenter) {
             if (CComQIPtr<IMadVRSubclassReplacement> pMVRSR = pCAP) {
                 VERIFY(SUCCEEDED(pMVRSR->DisableSubclassing()));
             }
