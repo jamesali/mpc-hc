@@ -11707,6 +11707,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
             }
 
             CreateFullScreenWindow(false);
+            if (m_pD3DFSC && s.iDSVideoRendererType == VIDRNDT_DS_MPCVR) {
+                m_pD3DFSC->SetD3DFullscreen(true);
+            }
             // Assign the windowed video frame and pass it to the relevant classes.
             m_pVideoWnd = m_pDedicatedFSVideoWnd;
             if (m_pMFVDC) {
@@ -11722,6 +11725,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         } else {
             m_eventc.FireEvent(MpcEvent::SWITCHING_FROM_FULLSCREEN);
 
+            if (m_pD3DFSC && s.iDSVideoRendererType == VIDRNDT_DS_MPCVR) {
+                m_pD3DFSC->SetD3DFullscreen(false);
+            }
             m_pVideoWnd = &m_wndView;
             if (m_pMFVDC) {
                 m_pMFVDC->SetVideoWindow(m_pVideoWnd->m_hWnd);

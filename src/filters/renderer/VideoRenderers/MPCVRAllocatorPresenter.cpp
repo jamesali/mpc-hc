@@ -303,7 +303,8 @@ STDMETHODIMP CMPCVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     (*ppRenderer = (IUnknown*)(INonDelegatingUnknown*)(this))->AddRef();
 
 	if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
-		pIExFilterConfig->SetBool("lessRedraws", true);
+        pIExFilterConfig->Flt_SetBool("lessRedraws", true);
+        pIExFilterConfig->Flt_SetBool("d3dFullscreenControl", true);
 	}
 
     CComQIPtr<IBaseFilter> pBF = m_pMPCVR;
@@ -335,9 +336,9 @@ STDMETHODIMP CMPCVRAllocatorPresenter::SetRotation(int rotation)
 		HRESULT hr = E_NOTIMPL;
 		if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
 			int curRotation = rotation;
-			hr = pIExFilterConfig->GetInt("rotation", &curRotation);
+			hr = pIExFilterConfig->Flt_GetInt("rotation", &curRotation);
 			if (SUCCEEDED(hr) && rotation != curRotation) {
-				hr = pIExFilterConfig->SetInt("rotation", rotation);
+				hr = pIExFilterConfig->Flt_SetInt("rotation", rotation);
 				if (SUCCEEDED(hr)) {
 					m_bOtherTransform = true;
 				}
@@ -352,7 +353,7 @@ STDMETHODIMP_(int) CMPCVRAllocatorPresenter::GetRotation()
 {
     if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
         int rotation = 0;
-        if (SUCCEEDED(pIExFilterConfig->GetInt("rotation", &rotation))) {
+        if (SUCCEEDED(pIExFilterConfig->Flt_GetInt("rotation", &rotation))) {
             return rotation;
         }
     }
@@ -363,9 +364,9 @@ STDMETHODIMP CMPCVRAllocatorPresenter::SetFlip(bool flip) {
     HRESULT hr = E_NOTIMPL;
     if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
         bool curFlip = flip;
-        hr = pIExFilterConfig->GetBool("flip", &curFlip);
+        hr = pIExFilterConfig->Flt_GetBool("flip", &curFlip);
         if (SUCCEEDED(hr) && flip != curFlip) {
-            hr = pIExFilterConfig->SetBool("flip", flip);
+            hr = pIExFilterConfig->Flt_SetBool("flip", flip);
             if (SUCCEEDED(hr)) {
                 m_bOtherTransform = true;
             }
@@ -377,7 +378,7 @@ STDMETHODIMP CMPCVRAllocatorPresenter::SetFlip(bool flip) {
 STDMETHODIMP_(bool) CMPCVRAllocatorPresenter::GetFlip() {
     if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
         bool flip = false;
-        if (SUCCEEDED(pIExFilterConfig->GetBool("flip", &flip))) {
+        if (SUCCEEDED(pIExFilterConfig->Flt_GetBool("flip", &flip))) {
             return flip;
         }
     }
@@ -404,7 +405,7 @@ STDMETHODIMP_(SIZE) CMPCVRAllocatorPresenter::GetVideoSize(bool bCorrectAR) cons
 STDMETHODIMP_(bool) CMPCVRAllocatorPresenter::Paint(bool /*bAll*/)
 {
     if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
-        return SUCCEEDED(pIExFilterConfig->SetBool("cmd_redraw", true));
+        return SUCCEEDED(pIExFilterConfig->Flt_SetBool("cmd_redraw", true));
     }
     return false;
 }
@@ -422,7 +423,7 @@ STDMETHODIMP CMPCVRAllocatorPresenter::GetDisplayedImage(LPVOID* dibImage)
 {
 	if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
 		unsigned size = 0;
-		HRESULT hr = pIExFilterConfig->GetBin("displayedImage", dibImage, &size);
+		HRESULT hr = pIExFilterConfig->Flt_GetBin("displayedImage", dibImage, &size);
 
 		return hr;
 	}
@@ -434,7 +435,7 @@ STDMETHODIMP_(int) CMPCVRAllocatorPresenter::GetPixelShaderMode()
 {
 	if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
 		int rtype = 0;
-		if (S_OK == pIExFilterConfig->GetInt("renderType", &rtype)) {
+		if (S_OK == pIExFilterConfig->Flt_GetInt("renderType", &rtype)) {
 			return rtype;
 		}
 	}
@@ -448,7 +449,7 @@ STDMETHODIMP CMPCVRAllocatorPresenter::ClearPixelShaders(int target)
 	if (TARGET_SCREEN == target) {
 		// experimental
 		if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
-			hr = pIExFilterConfig->SetBool("cmd_clearPostScaleShaders", true);
+			hr = pIExFilterConfig->Flt_SetBool("cmd_clearPostScaleShaders", true);
 		}
 	}
 	return hr;
@@ -485,7 +486,7 @@ STDMETHODIMP CMPCVRAllocatorPresenter::AddPixelShader(int target, LPCWSTR name, 
 		// experimental
 		if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
 			int rtype = 0;
-			hr = pIExFilterConfig->GetInt("renderType", &rtype);
+			hr = pIExFilterConfig->Flt_GetInt("renderType", &rtype);
 			if (S_OK == hr && (rtype == 9 && iProfile == 3 || rtype == 11 && iProfile == 4)) {
 				int size = 8 + codesize;
 				if (namesize) {
@@ -500,7 +501,7 @@ STDMETHODIMP CMPCVRAllocatorPresenter::AddPixelShader(int target, LPCWSTR name, 
 					}
 					p = WriteChunk(p, FCC('CODE'), codesize, (BYTE*)sourceCode);
 
-					hr = pIExFilterConfig->SetBin("cmd_addPostScaleShader", (LPVOID)pBuf, size);
+					hr = pIExFilterConfig->Flt_SetBin("cmd_addPostScaleShader", (LPVOID)pBuf, size);
 					LocalFree(pBuf);
 				}
 			}
@@ -513,7 +514,7 @@ STDMETHODIMP CMPCVRAllocatorPresenter::AddPixelShader(int target, LPCWSTR name, 
 STDMETHODIMP_(bool) CMPCVRAllocatorPresenter::DisplayChange()
 {
 	if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
-		return SUCCEEDED(pIExFilterConfig->SetBool("displayChange", true));
+		return SUCCEEDED(pIExFilterConfig->Flt_SetBool("displayChange", true));
 	}
 
 	return false;
@@ -523,7 +524,7 @@ STDMETHODIMP_(bool) CMPCVRAllocatorPresenter::IsRendering()
 {
     if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
         int playbackState;
-        if (SUCCEEDED(pIExFilterConfig->GetInt("playbackState", &playbackState))) {
+        if (SUCCEEDED(pIExFilterConfig->Flt_GetInt("playbackState", &playbackState))) {
             return playbackState == State_Running;
         }
     }
@@ -540,9 +541,9 @@ STDMETHODIMP_(bool) CMPCVRAllocatorPresenter::ToggleStats() {
     if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
         if (pIExFilterConfig) {
             bool statsEnable = 0;
-            if (S_OK == pIExFilterConfig->GetBool("statsEnable", &statsEnable)) {
+            if (S_OK == pIExFilterConfig->Flt_GetBool("statsEnable", &statsEnable)) {
                 statsEnable = !statsEnable;
-                pIExFilterConfig->SetBool("statsEnable", statsEnable);
+                pIExFilterConfig->Flt_SetBool("statsEnable", statsEnable);
                 return statsEnable;
             }
         }
