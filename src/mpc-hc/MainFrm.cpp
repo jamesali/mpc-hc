@@ -11887,25 +11887,18 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 {
-    CComQIPtr<ID3DFullscreenControl> pD3DFS;
-    if (m_pMFVDC) {
-        pD3DFS = m_pMFVDC;
-    } else {
-        ASSERT(false);
-    }
-
-    if (pD3DFS) {
+    if (m_pD3DFSC) {
         CAppSettings& s = AfxGetAppSettings();
 
         bool bIsFullscreen = false;
-        pD3DFS->GetD3DFullscreen(&bIsFullscreen);
+        m_pD3DFSC->GetD3DFullscreen(&bIsFullscreen);
         s.fLastFullScreen = !bIsFullscreen;
 
         m_OSD.Stop();
 
         if (bIsFullscreen) {
             // Turn off D3D Fullscreen
-            pD3DFS->SetD3DFullscreen(false);
+            m_pD3DFSC->SetD3DFullscreen(false);
 
             // Assign the windowed video frame and pass it to the relevant classes.
             m_pVideoWnd = &m_wndView;
@@ -11948,7 +11941,7 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
             MoveVideoWindow();
 
             // Turn on D3D Fullscreen
-            pD3DFS->SetD3DFullscreen(true);
+            m_pD3DFSC->SetD3DFullscreen(true);
 
             if (s.fShowOSD || s.fShowDebugInfo) {
                 if (m_pVMB || m_pMFVMB) {
@@ -11958,6 +11951,8 @@ void CMainFrame::ToggleD3DFullscreen(bool fSwitchScreenResWhenHasTo)
 
             m_eventc.FireEvent(MpcEvent::SWITCHED_TO_FULLSCREEN_D3D);
         }
+    } else {
+        ASSERT(false);
     }
 }
 
@@ -15212,6 +15207,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
     m_pMVRSR = nullptr;
     m_pMVRFG = nullptr;
     m_pMVTO = nullptr;
+    m_pD3DFSC = nullptr;
     m_pLN21 = nullptr;
     m_pCAP2_preview = nullptr;
     m_pMFVDC_preview = nullptr;
@@ -15281,6 +15277,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         m_pMVRSR = m_pCAP;
         m_pMVRFG = m_pCAP;
         m_pMVTO = m_pCAP;
+        m_pD3DFSC = m_pCAP;
 
         checkAborted();
 
@@ -15575,6 +15572,7 @@ void CMainFrame::CloseMediaPrivate()
     m_pMVRC.Release();
     m_pMVRI.Release();
     m_pMVTO.Release();
+    m_pD3DFSC.Release();
     m_pCAP3.Release();
     m_pCAP2.Release();
     m_pCAP.Release();

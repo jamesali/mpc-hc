@@ -52,6 +52,7 @@
 #include "../filters/transform/VSFilter/IDirectVobSub.h"
 #include "MediaTransControls.h"
 #include "FavoriteOrganizeDlg.h"
+#include "AllocatorCommon.h"
 
 class CDebugShadersDlg;
 class CFullscreenWnd;
@@ -301,6 +302,8 @@ private:
     CComPtr<IMadVRInfo> m_pMVRI;
     CComPtr<IMadVRFrameGrabber> m_pMVRFG;
     CComPtr<IMadVRTextOsd> m_pMVTO;
+
+    CComPtr<ID3DFullscreenControl> m_pD3DFSC;
 
     CComQIPtr<IDvdControl2> m_pDVDC;
     CComQIPtr<IDvdInfo2> m_pDVDI;
