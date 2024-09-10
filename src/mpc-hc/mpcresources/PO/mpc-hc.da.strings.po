@@ -4538,6 +4538,14 @@ msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
 msgstr "/startpos tt:mm:ss\tStart afspilning ved placering tt:mm:ss"
 
+msgctxt "IDS_CMD_AB_START"
+msgid "/ab_start hh:mm:ss\tA-B repeat start position"
+msgstr ""
+
+msgctxt "IDS_CMD_AB_END"
+msgid "/ab_end hh:mm:ss\tA-B repeat end position"
+msgstr ""
+
 msgctxt "IDS_CMD_FIXEDSIZE"
 msgid ""
 "/fixedsize w,h[,x,y]\tSet a fixed window size; optionally specificy upper-"

@@ -1731,6 +1731,8 @@
 #define IDS_CMD_THUMBNAILS              57648
 #define IDS_PPAGEADVANCED_CONFIRM_FILE_DELETE 57649
 #define IDS_PPAGEADVANCED_LIBASS_FOR_SRT 57650
+#define IDS_CMD_AB_START                57651
+#define IDS_CMD_AB_END                  57652
 
 #define IDS_ARS_WASAPI_MODE             57700
 #define IDS_ARS_EXCLUSIVE               57701

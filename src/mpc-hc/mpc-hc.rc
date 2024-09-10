@@ -4067,6 +4067,8 @@ BEGIN
     IDS_CMD_UNREGALL        "/unregall\t\tRemove all file associations"
     IDS_CMD_START           "/start ms\t\tStart playing at ""ms"" (= milliseconds)"
     IDS_CMD_STARTPOS        "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+    IDS_CMD_AB_START        "/ab_start hh:mm:ss\tA-B repeat start position"
+    IDS_CMD_AB_END          "/ab_end hh:mm:ss\tA-B repeat end position"
     IDS_CMD_FIXEDSIZE       "/fixedsize w,h[,x,y]\tSet a fixed window size; optionally specificy upper-left window position"
     IDS_CMD_MONITOR         "/monitor N\tStart player on monitor N, where N starts from 1"
     IDS_CMD_AUDIORENDERER   "/audiorenderer N\tStart using audiorenderer N, where N starts from 1 (see ""Output"" settings)"

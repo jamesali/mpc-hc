@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-09-08 16:21:06+0000\n"
+"POT-Creation-Date: 2024-09-10 21:17:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4332,6 +4332,14 @@ msgstr ""
 
 msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
+msgstr ""
+
+msgctxt "IDS_CMD_AB_START"
+msgid "/ab_start hh:mm:ss\tA-B repeat start position"
+msgstr ""
+
+msgctxt "IDS_CMD_AB_END"
+msgid "/ab_end hh:mm:ss\tA-B repeat end position"
 msgstr ""
 
 msgctxt "IDS_CMD_FIXEDSIZE"
