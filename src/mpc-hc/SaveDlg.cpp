@@ -221,8 +221,9 @@ void CSaveDlg::OnBnClickedCancel()
 
 LRESULT CSaveDlg::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
-    LONG evCode, evParam1, evParam2;
-    while (pME && SUCCEEDED(pME->GetEvent(&evCode, (LONG_PTR*)&evParam1, (LONG_PTR*)&evParam2, 0))) {
+    LONG evCode = 0;
+    LONG_PTR evParam1 = 0, evParam2 = 0;
+    while (pME && SUCCEEDED(pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
         HRESULT hr = pME->FreeEventParams(evCode, evParam1, evParam2);
         UNREFERENCED_PARAMETER(hr);
 
