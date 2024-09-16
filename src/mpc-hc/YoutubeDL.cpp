@@ -265,21 +265,21 @@ DWORD WINAPI CYoutubeDLInstance::BuffErrThread(void* ydl_inst)
 struct YDLStreamDetails {
     CString protocol;
     CString url;
-    int width;
-    int height;
+    int width  = 0;
+    int height = 0;
     CString vcodec;
     CString acodec;
     CString format;
-    bool has_video;
-    bool has_audio;
-    int vbr;
-    int abr;
-    int fps;
+    bool has_video = false;
+    bool has_audio = false;
+    int vbr = 0;
+    int abr = 0;
+    int fps = 0;
     CString format_id;
     CString language;
-    bool pref_lang;
-    int video_score;
-    int audio_score;
+    bool pref_lang  = false;
+    int video_score = 0;
+    int audio_score = 0;
     CString useragent;
 };
 
