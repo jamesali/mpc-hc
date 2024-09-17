@@ -54,17 +54,21 @@ void CMPCThemeStatic::OnPaint()
         UINT style = GetStyle();
 
         if (!sTitle.IsEmpty()) {
+            bool canWrap = sTitle.Find(_T("\n")) != -1;
+
             CFont* font = GetFont();
             CFont* pOldFont = dc.SelectObject(font);
 
             UINT uFormat = 0;
             if (style & SS_LEFTNOWORDWRAP) {
-                uFormat |= DT_SINGLELINE;
+                if (!canWrap) {
+                    uFormat |= DT_SINGLELINE;
+                }
             } else {
                 uFormat |= DT_WORDBREAK;
             }
 
-            if (0 != (style & SS_CENTERIMAGE) && sTitle.Find(_T("\n")) == -1) {
+            if (0 != (style & SS_CENTERIMAGE) && !canWrap) {
                 //If the static control contains a single line of text, the text is centered vertically in the client area of the control. msdn
                 uFormat |= DT_SINGLELINE;
                 uFormat |= DT_VCENTER;
@@ -78,6 +82,15 @@ void CMPCThemeStatic::OnPaint()
                 uFormat |= DT_RIGHT;
             } else { // if ((style & SS_LEFT) == SS_LEFT || (style & SS_LEFTNOWORDWRAP) == SS_LEFTNOWORDWRAP) {
                 uFormat |= DT_LEFT;
+            }
+
+            UINT ellipsisStyle = (style & SS_ELLIPSISMASK);
+            if (ellipsisStyle == SS_PATHELLIPSIS) {
+                uFormat |= DT_PATH_ELLIPSIS;
+            } else if (ellipsisStyle == SS_ENDELLIPSIS) {
+                uFormat |= DT_END_ELLIPSIS;
+            } else if (ellipsisStyle == SS_WORDELLIPSIS) {
+                uFormat |= DT_WORD_ELLIPSIS;
             }
 
             if ((SendMessage(WM_QUERYUISTATE, 0, 0) & UISF_HIDEACCEL) != 0) {
