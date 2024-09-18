@@ -29,7 +29,7 @@
 
 CFavoriteAddDlg::CFavoriteAddDlg(CString shortname, CString fullname,
     BOOL bEnableABMarks /*=FALSE*/, CWnd* pParent /*=nullptr*/)
-    : CMPCThemeCmdUIDialog(CFavoriteAddDlg::IDD, pParent)
+    : CMPCThemeResizableDialog(CFavoriteAddDlg::IDD, pParent)
     , m_shortname(shortname)
     , m_fullname(fullname)
     , m_bEnableABMarks(bEnableABMarks)
@@ -82,12 +82,18 @@ BOOL CFavoriteAddDlg::OnInitDialog()
 
     m_namectrl.SetCurSel(0);
 
+    AddAnchor(IDC_COMBO1, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_STATIC1, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDOK, BOTTOM_RIGHT);
+    AddAnchor(IDCANCEL, BOTTOM_RIGHT);
+
+
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
 }
 
 
-BEGIN_MESSAGE_MAP(CFavoriteAddDlg, CMPCThemeCmdUIDialog)
+BEGIN_MESSAGE_MAP(CFavoriteAddDlg, CMPCThemeResizableDialog)
     ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOk)
 END_MESSAGE_MAP()
 
@@ -115,5 +121,5 @@ void CFavoriteAddDlg::OnOK()
         s.bFavRememberABMarks = !!m_bRememberABMarks;
     }
 
-    CCmdUIDialog::OnOK();
+    __super::OnOK();
 }

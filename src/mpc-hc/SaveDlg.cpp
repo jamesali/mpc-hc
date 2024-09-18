@@ -28,9 +28,9 @@
 
 // CSaveDlg dialog
 
-IMPLEMENT_DYNAMIC(CSaveDlg, CMPCThemeCmdUIDialog)
+IMPLEMENT_DYNAMIC(CSaveDlg, CDialog)
 CSaveDlg::CSaveDlg(CString in, CString out, CWnd* pParent /*=nullptr*/)
-    : CMPCThemeCmdUIDialog(CSaveDlg::IDD, pParent)
+    : CMPCThemeResizableDialog(CSaveDlg::IDD, pParent)
     , m_in(in)
     , m_out(out)
     , m_nIDTimerEvent((UINT_PTR) - 1)
@@ -43,16 +43,17 @@ CSaveDlg::~CSaveDlg()
 
 void CSaveDlg::DoDataExchange(CDataExchange* pDX)
 {
-    CMPCThemeCmdUIDialog::DoDataExchange(pDX);
+    CMPCThemeResizableDialog::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_ANIMATE1, m_anim);
     DDX_Control(pDX, IDC_PROGRESS1, m_progress);
     DDX_Control(pDX, IDC_REPORT, m_report);
-    DDX_Control(pDX, IDC_FROMTO, m_fromto);
+    DDX_Control(pDX, IDC_STATIC1, m_from);
+    DDX_Control(pDX, IDC_STATIC2, m_to);
     fulfillThemeReqs();
 }
 
 
-BEGIN_MESSAGE_MAP(CSaveDlg, CMPCThemeCmdUIDialog)
+BEGIN_MESSAGE_MAP(CSaveDlg, CMPCThemeResizableDialog)
     ON_BN_CLICKED(IDCANCEL, OnBnClickedCancel)
     ON_MESSAGE(WM_GRAPHNOTIFY, OnGraphNotify)
     ON_WM_TIMER()
@@ -63,21 +64,14 @@ END_MESSAGE_MAP()
 
 BOOL CSaveDlg::OnInitDialog()
 {
-    CMPCThemeCmdUIDialog::OnInitDialog();
+    CMPCThemeResizableDialog::OnInitDialog();
 
     // We can't use m_anim.Open(IDR_AVI_FILECOPY) since we want to load the AVI from the main executable
     m_anim.SendMessage(ACM_OPEN, (WPARAM)AfxGetInstanceHandle(), (LPARAM)IDR_AVI_FILECOPY);
     m_anim.Play(0, UINT(-1), UINT(-1));
 
-    CString str, in = m_in, out = m_out;
-    if (in.GetLength() > 60) {
-        in = in.Left(17) + _T("..") + in.Right(43);
-    }
-    if (out.GetLength() > 60) {
-        out = out.Left(17) + _T("..") + out.Right(43);
-    }
-    str.Format(_T("%s\r\n%s"), in.GetString(), out.GetString());
-    m_fromto.SetWindowText(str);
+    m_from.SetWindowText(m_in);
+    m_to.SetWindowText(m_out);
 
     m_progress.SetRange(0, 100);
     CMPCThemeUtil::fulfillThemeReqs(&m_progress);
@@ -202,9 +196,14 @@ BOOL CSaveDlg::OnInitDialog()
 
     pMS = pMid;
 
-    pMC->Run();
+    //pMC->Run();
 
     m_nIDTimerEvent = SetTimer(1, 500, nullptr);
+
+    AddAnchor(IDC_PROGRESS1, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_STATIC1, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_STATIC2, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDCANCEL, BOTTOM_RIGHT);
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -278,5 +277,5 @@ void CSaveDlg::OnTimer(UINT_PTR nIDEvent)
         m_progress.SetPos(dur > 0 ? (int)(100 * pos / dur) : 0);
     }
 
-    CMPCThemeCmdUIDialog::OnTimer(nIDEvent);
+    CMPCThemeResizableDialog::OnTimer(nIDEvent);
 }

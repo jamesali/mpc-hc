@@ -26,9 +26,9 @@
 
 // CPnSPresetsDlg dialog
 
-IMPLEMENT_DYNAMIC(CPnSPresetsDlg, CMPCThemeCmdUIDialog)
+IMPLEMENT_DYNAMIC(CPnSPresetsDlg, CDialog)
 CPnSPresetsDlg::CPnSPresetsDlg(CWnd* pParent /*=nullptr*/)
-    : CMPCThemeCmdUIDialog(CPnSPresetsDlg::IDD, pParent)
+    : CMPCThemeResizableDialog(CPnSPresetsDlg::IDD, pParent)
 {
 }
 
@@ -64,6 +64,26 @@ BOOL CPnSPresetsDlg::OnInitDialog()
             OnLbnSelchangeList1();
         }
     }
+
+    AddAnchor(IDC_LIST1, TOP_LEFT, BOTTOM_RIGHT);
+    AddAnchor(IDC_EDIT1, BOTTOM_LEFT, BOTTOM_RIGHT);
+    AddAnchor(IDC_STATIC1, BOTTOM_LEFT, BOTTOM_RIGHT);
+
+    AddAnchor(IDC_EDIT2, TOP_RIGHT);
+    AddAnchor(IDC_EDIT3, TOP_RIGHT);
+    AddAnchor(IDC_EDIT4, TOP_RIGHT);
+    AddAnchor(IDC_EDIT5, TOP_RIGHT);
+    AddAnchor(IDC_STATIC2, TOP_RIGHT);
+    AddAnchor(IDC_STATIC3, TOP_RIGHT);
+
+    AddAnchor(IDC_BUTTON1, BOTTOM_LEFT);
+    AddAnchor(IDC_BUTTON2, BOTTOM_LEFT);
+    AddAnchor(IDC_BUTTON3, BOTTOM_LEFT);
+    AddAnchor(IDC_BUTTON4, BOTTOM_LEFT);
+    AddAnchor(IDC_BUTTON5, BOTTOM_LEFT);
+
+    AddAnchor(IDOK, BOTTOM_RIGHT);
+    AddAnchor(IDCANCEL, BOTTOM_RIGHT);
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -109,7 +129,7 @@ CString CPnSPresetsDlg::ParamsToString(CString label, double PosX, double PosY, 
     return str;
 }
 
-BEGIN_MESSAGE_MAP(CPnSPresetsDlg, CMPCThemeCmdUIDialog)
+BEGIN_MESSAGE_MAP(CPnSPresetsDlg, CMPCThemeResizableDialog)
     ON_LBN_SELCHANGE(IDC_LIST1, OnLbnSelchangeList1)
     ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedButton2)
     ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateButton2)

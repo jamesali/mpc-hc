@@ -22,12 +22,12 @@
 #pragma once
 
 #include <afxwin.h>
-#include "CMPCThemeCmdUIDialog.h"
+#include "CMPCThemeResizableDialog.h"
 #include "CMPCThemeComboBox.h"
 
 // CSelectMediaType dialog
 
-class CSelectMediaType : public CMPCThemeCmdUIDialog
+class CSelectMediaType : public CMPCThemeResizableDialog
 {
     DECLARE_DYNAMIC(CSelectMediaType)
 

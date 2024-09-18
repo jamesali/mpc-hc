@@ -23,12 +23,12 @@
 
 #include <afxcmn.h>
 #include <afxwin.h>
-#include "CMPCThemeCmdUIDialog.h"
+#include "CMPCThemeResizableDialog.h"
 #include "CMPCThemeStatic.h"
 
 // CSaveDlg dialog
 
-class CSaveDlg : public CMPCThemeCmdUIDialog
+class CSaveDlg : public CMPCThemeResizableDialog
 {
     DECLARE_DYNAMIC(CSaveDlg)
 
@@ -49,7 +49,7 @@ public:
     CAnimateCtrl m_anim;
     CProgressCtrl m_progress;
     CMPCThemeStatic m_report;
-    CMPCThemeStatic m_fromto;
+    CMPCThemeStatic m_from, m_to;
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

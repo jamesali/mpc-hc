@@ -27,9 +27,9 @@
 
 // CSelectMediaType dialog
 
-IMPLEMENT_DYNAMIC(CSelectMediaType, CMPCThemeCmdUIDialog)
+IMPLEMENT_DYNAMIC(CSelectMediaType, CDialog)
 CSelectMediaType::CSelectMediaType(CAtlArray<GUID>& guids, GUID guid, CWnd* pParent /*=nullptr*/)
-    : CMPCThemeCmdUIDialog(CSelectMediaType::IDD, pParent)
+    : CMPCThemeResizableDialog(CSelectMediaType::IDD, pParent)
     , m_guids(guids)
     , m_guid(guid)
 {
@@ -49,7 +49,7 @@ void CSelectMediaType::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CSelectMediaType, CMPCThemeCmdUIDialog)
+BEGIN_MESSAGE_MAP(CSelectMediaType, CMPCThemeResizableDialog)
     ON_CBN_EDITCHANGE(IDC_COMBO1, OnCbnEditchangeCombo1)
     ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOK)
 END_MESSAGE_MAP()
@@ -59,11 +59,15 @@ END_MESSAGE_MAP()
 
 BOOL CSelectMediaType::OnInitDialog()
 {
-    CMPCThemeCmdUIDialog::OnInitDialog();
+    CMPCThemeResizableDialog::OnInitDialog();
 
     for (size_t i = 0; i < m_guids.GetCount(); i++) {
         m_guidsctrl.AddString(GetMediaTypeName(m_guids[i]));
     }
+
+    AddAnchor(IDC_COMBO1, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDOK, BOTTOM_RIGHT);
+    AddAnchor(IDCANCEL, BOTTOM_RIGHT);
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -94,5 +98,5 @@ void CSelectMediaType::OnOK()
     int i = m_guidsctrl.GetCurSel();
     m_guid = i >= 0 ? m_guids[i] : GUIDFromCString(m_guidstr);
 
-    CMPCThemeCmdUIDialog::OnOK();
+    CMPCThemeResizableDialog::OnOK();
 }
