@@ -27,6 +27,7 @@
 #include "PPageFileMediaInfo.h"
 #include "WinAPIUtils.h"
 #include "../DeCSS/VobFile.h"
+#include "PathUtils.h"
 
 #include "MediaInfo/MediaInfoDLL.h"
 using namespace MediaInfoDLL;
@@ -271,12 +272,9 @@ bool CPPageFileMediaInfo::HasMediaInfo()
 
 void CPPageFileMediaInfo::OnSaveAs()
 {
-    CString fn = m_fn;
-
-    fn.TrimRight(_T('/'));
-    int i = std::max(fn.ReverseFind(_T('\\')), fn.ReverseFind(_T('/')));
-    if (i >= 0 && i < fn.GetLength() - 1) {
-        fn = fn.Mid(i + 1);
+    CStringW fn = m_fn;
+    if (PathUtils::IsURL(fn)) {
+        fn = L"online_stream";
     }
     fn.Append(_T(".MediaInfo.txt"));
 
