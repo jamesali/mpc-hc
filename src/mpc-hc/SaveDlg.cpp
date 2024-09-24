@@ -196,7 +196,7 @@ BOOL CSaveDlg::OnInitDialog()
 
     pMS = pMid;
 
-    //pMC->Run();
+    pMC->Run();
 
     m_nIDTimerEvent = SetTimer(1, 500, nullptr);
 
