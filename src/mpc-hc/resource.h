@@ -458,7 +458,7 @@
 #define IDC_STATIC8                     11267
 #define IDC_STATIC9                     11268
 #define IDC_STATIC10                    11269
-#define IDC_STATIC_BALANCE              11270
+#define IDC_STATIC11                    11270
 #define IDC_DVDPATH                     12000
 #define IDC_SUBRESYNCLIST               12001
 #define IDC_PLAYLIST                    12002
@@ -472,6 +472,7 @@
 #define IDC_PLACEHOLDER                 12010
 #define IDC_REPORT                      12011
 #define IDC_FROMTO                      12012
+#define IDC_STATIC_BALANCE              12013
 #define IDC_LOGOPREVIEW                 12014
 #define IDC_LOGOFILENAME                12016
 #define IDC_AUTHOR                      12018
@@ -1715,7 +1716,7 @@
 #define IDS_SUBTITLE_RENDERER_NONE      57632
 #define IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY 57633
 #define IDS_PPAGEADVANCED_USE_FREETYPE  57634
-#define IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION  57635
+#define IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION 57635
 #define IDS_TIMER_SHOW_PERCENTAGE       57636
 #define IDS_SUBDL_DLG_FAILED_DL         57637
 #define IDS_PPAGEADVANCED_FILEPOS_PLAYLIST 57638
@@ -1733,7 +1734,6 @@
 #define IDS_PPAGEADVANCED_LIBASS_FOR_SRT 57650
 #define IDS_CMD_AB_START                57651
 #define IDS_CMD_AB_END                  57652
-
 #define IDS_ARS_WASAPI_MODE             57700
 #define IDS_ARS_EXCLUSIVE               57701
 #define IDS_ARS_SHARED                  57702
