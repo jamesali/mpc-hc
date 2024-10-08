@@ -15331,10 +15331,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
             m_OSD.Stop();
 
-            if (IsD3DFullScreenMode() && !m_fAudioOnly) {
-                if (m_pVMB || m_pMFVMB) {
-                    m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, true);
-                }
+            if ((m_fFullScreen || IsD3DFullScreenMode()) && !m_fAudioOnly && (m_pVMB || m_pMFVMB)) {
+                m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, true);
             } else {
                 if (m_pMVTO) {
                     m_OSD.Start(m_pVideoWnd, m_pMVTO);
@@ -18410,10 +18408,8 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
                 m_OSD.Stop();
 
-                if (IsD3DFullScreenMode() && !m_fAudioOnly) {
-                    if (m_pVMB || m_pMFVMB) {
-                        m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, true);
-                    }
+                if ((m_fFullScreen || IsD3DFullScreenMode()) && !m_fAudioOnly && (m_pVMB || m_pMFVMB)) {
+                    m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, true);
                 } else {
                     if (m_pMVTO) {
                         m_OSD.Start(m_pVideoWnd, m_pMVTO);
