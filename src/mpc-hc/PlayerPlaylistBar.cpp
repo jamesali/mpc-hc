@@ -1610,7 +1610,9 @@ void CPlayerPlaylistBar::LoadPlaylist(LPCTSTR filename)
                     UINT idx = s.GetSavedPlayListPosition(s.externalPlayListPath);
                     if (idx >= 0 && idx < m_pl.GetCount()) {
                         ExternalPlayListLoaded(s.externalPlayListPath);
-                        m_pl.SetPos(FindPos(idx));
+                        POSITION pos = FindPos(idx);
+                        m_pl.SetPos(pos);
+                        EnsureVisible(pos);
                     }
                 } else {
                     SelectFileInPlaylist(filename);
