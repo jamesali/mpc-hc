@@ -2928,10 +2928,12 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
         switch (evCode) {
             case EC_PAUSED:
-                if (m_audioTrackCount > 1) {
-                    CheckSelectedAudioStream();
+                if (GetLoadState() == MLS::LOADED) {
+                    if (m_audioTrackCount > 1) {
+                        CheckSelectedAudioStream();
+                    }
+                    UpdateCachedMediaState();
                 }
-                UpdateCachedMediaState();
                 break;
             case EC_COMPLETE:
                 UpdateCachedMediaState();
