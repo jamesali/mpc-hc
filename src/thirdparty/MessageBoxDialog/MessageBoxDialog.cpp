@@ -424,7 +424,9 @@ BOOL CMessageBoxDialog::OnInitDialog ( )
 	if ( m_nEscapeButton == IDC_STATIC )
 	{
 		// Disable the close item from the system menu.
-		GetSystemMenu(FALSE)->EnableMenuItem(SC_CLOSE, MF_GRAYED);
+        CMenu* sysmenu = GetSystemMenu(FALSE);
+        if (sysmenu)
+            sysmenu->EnableMenuItem(SC_CLOSE, MF_GRAYED);
 	}
 
 	// Check whether a default button was defined.
