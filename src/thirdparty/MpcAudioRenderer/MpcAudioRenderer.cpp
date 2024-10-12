@@ -2366,6 +2366,12 @@ HRESULT CMpcAudioRenderer::CreateRenderClient(WAVEFORMATEX *pWaveFormatEx, const
 		StreamFlags |= AUDCLNT_STREAMFLAGS_EVENTCALLBACK;
 	}
 
+    if (!m_pAudioClient) {
+        // based on crash dump, don't know why this occurs.
+        ASSERT(FALSE);
+        return E_FAIL;
+    }
+
 	if (SUCCEEDED(hr)) {
 		const REFERENCE_TIME hnsPeriodicity = (IsExclusive(pWaveFormatEx) && m_WasapiMethod == WASAPI_METHOD::EVENT) ? m_hnsBufferDuration : 0;
 		hr = m_pAudioClient->Initialize(ShareMode,
