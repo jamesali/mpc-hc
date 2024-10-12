@@ -1709,6 +1709,19 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
     // Why is EVR using a presenter for DX9 anyway ?!
     DeleteSurfaces();
 
+    if (m_pD3DEx) {
+        m_pD3DEx.Release();
+        Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
+        if (m_pD3DEx) {
+            m_pD3D = m_pD3DEx;
+        } else {
+            ASSERT(FALSE);
+            m_pD3D = nullptr;
+            m_bDeviceResetRequested = false;
+            return false;
+        }
+    }
+
     HRESULT hr;
     CString Error;
     // TODO: Report error messages here
