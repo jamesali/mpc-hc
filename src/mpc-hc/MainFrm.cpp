@@ -5384,9 +5384,11 @@ void CMainFrame::OnFileSaveAs()
     }
 
     OAFilterState fs = State_Stopped;
-    m_pMC->GetState(0, &fs);
-    if (fs == State_Running) {
-        MediaControlPause(true);
+    if (m_pMC) {
+        m_pMC->GetState(0, &fs);
+        if (fs == State_Running) {
+            MediaControlPause(true);
+        }
     }
 
     CSaveDlg dlg(in, p);
