@@ -31,9 +31,6 @@
 #include "../../../DSUtil/vd.h"
 #include <mpc-hc_config.h>
 
-// only for debugging
-//#define DISABLE_USING_D3D9EX
-
 #define FRAMERATE_MAX_DELTA 3000
 
 #define REFERENCE_WIDTH 1920
@@ -174,9 +171,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     }
 
     Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
-    if (!m_pD3DEx) {
-        m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-    } else {
+    if (m_pD3DEx) {
         m_pD3D = m_pD3DEx;
     }
 
@@ -1711,12 +1706,12 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
 
     if (m_pD3DEx) {
         m_pD3DEx.Release();
+        m_pD3D = nullptr;
         Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
         if (m_pD3DEx) {
             m_pD3D = m_pD3DEx;
         } else {
             ASSERT(FALSE);
-            m_pD3D = nullptr;
             m_bDeviceResetRequested = false;
             return false;
         }
