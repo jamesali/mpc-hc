@@ -15,7 +15,7 @@
     - Windows 10 SDK (10.0.17763.0 or any other version)
 2. Install the Windows 8.1 SDK → <https://go.microsoft.com/fwlink/p/?LinkId=323507>
     - When choosing which features to install you only need to select "Windows Software Development Kit".
-    - Alternatively you can use Windows 10 SDK, but then resulting binaries will require at least Windows 7 SP1, so you lose compatibility with Vista and 7 RTM.
+    - Alternatively you can use Windows 10 SDK, but then resulting binaries will require at least Windows 7 SP1, so you lose compatibility with Windows 7 RTM.
 
 
 ## Part B: Install Python 3 (optional)
@@ -55,15 +55,17 @@ releases.
    Windows Control Panel > System > Advanced System Settings > Environment variables.  
    On Windows 10 you can access the legacy control panel by clicking on the Windows Start menu and typing `control.exe`.
 
-
 ## Part D: Yasm
 
-Download YASM and save it as **yasm.exe** in a folder that is included in %PATH%. For example **`C:\Windows`** or **`C:\MSYS64\usr\bin`** (see part C).
-   * For 64-bit Windows: <http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe> (Recommended)
-   * For 32-bit Windows: <http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win32.exe>
+1. Download YASM from <http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe>
+2. Rename it to **yasm.exe** and put it in a folder that is included in %PATH%. For example **`C:\Windows`** or **`C:\MSYS64\usr\bin`** (see part C).
 
+## PART E: NASM
 
-## Part E: Config file with paths
+1. Download NASM from <https://www.nasm.us/pub/nasm/releasebuilds/2.16.03/win64/nasm-2.16.03-win64.zip>
+2. Put nasm.exe in a folder that is included in %PATH%. For example **`C:\Windows`**.
+
+## Part F: Config file with paths
 
 Create a file named **build.user.bat** in the source code folder of MPC-HC (see part F). It should have the following contents: (with paths adapted for your system!)
 
@@ -93,7 +95,7 @@ Notes:
 * If you don't have Git installed then the build version will be inaccurate, the revision number will be a hard-coded as zero.
 
 
-## Part F: Downloading the MPC-HC source
+## Part G: Downloading the MPC-HC source
 
 You need Git for downloading the source code.
 
@@ -131,12 +133,6 @@ Use Git to clone MPC-HC's repository to **C:\mpc-hc** (or anywhere else you like
 
 Note that you can add `-b master` to the `git clone` command if you want to get the latest
 stable version instead of the latest development version.
-
-## PART G: Install NASM
-
-1. Download NASM from <https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip>
-2. Put nasm.exe in the VC folder of your Visual Studio intallation.
-   Example: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC
 
 ## Part H: Compiling the MPC-HC source
 
