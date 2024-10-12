@@ -242,6 +242,8 @@ void COSD::Reset()
 
 void COSD::Start(CWnd* pWnd, CComPtr<IVMRMixerBitmap9> pVMB, CComPtr<IMFVideoMixerBitmap> pMFVMB, bool bShowSeekBar)
 {
+    ASSERT(m_OSDType == OSD_TYPE_NONE);
+
     m_pVMB         = pVMB;
     m_pMFVMB       = pMFVMB;
     m_pMVTO        = nullptr;
@@ -259,6 +261,8 @@ void COSD::Start(CWnd* pWnd, CComPtr<IVMRMixerBitmap9> pVMB, CComPtr<IMFVideoMix
 
 void COSD::Start(CWnd* pWnd, IMadVRTextOsd* pMVTO)
 {
+    ASSERT(m_OSDType == OSD_TYPE_NONE);
+
     m_pMFVMB    = nullptr;
     m_pMVTO     = pMVTO;
     m_pWnd      = pWnd;
@@ -269,6 +273,8 @@ void COSD::Start(CWnd* pWnd, IMadVRTextOsd* pMVTO)
 
 void COSD::Start(CWnd* pWnd)
 {
+    ASSERT(m_OSDType == OSD_TYPE_NONE);
+
     m_pMFVMB    = nullptr;
     m_pMVTO     = nullptr;
     m_pWnd      = pWnd;
@@ -296,6 +302,8 @@ void COSD::Stop()
     m_pMFVMB.Release();
     m_pMVTO.Release();
     m_pWnd = nullptr;
+
+    m_OSDType = OSD_TYPE_NONE;
 
     Reset();
 }
