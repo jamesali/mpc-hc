@@ -11868,7 +11868,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     }
 
     if (restart_osd) {
-        if (m_fFullScreen && (m_pVMB || m_pMFVMB)) {
+        if (m_fFullScreen && m_pCAP3 && m_pMFVMB) { // MPCVR
             m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, false);
         } else {
             m_OSD.Start(m_pOSDWnd);
@@ -15335,14 +15335,14 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
             m_OSD.Stop();
 
-            if ((m_fFullScreen || IsD3DFullScreenMode()) && !m_fAudioOnly && (m_pVMB || m_pMFVMB)) {
+            if (m_pMVTO) {
+                m_OSD.Start(m_pVideoWnd, m_pMVTO);
+            } else if (m_fFullScreen && !m_fAudioOnly && m_pCAP3) { // MPCVR
+                m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, false);
+            } else if (!m_fAudioOnly && IsD3DFullScreenMode() && (m_pVMB || m_pMFVMB)) {
                 m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, true);
             } else {
-                if (m_pMVTO) {
-                    m_OSD.Start(m_pVideoWnd, m_pMVTO);
-                } else {
-                    m_OSD.Start(m_pOSDWnd);
-                }
+                m_OSD.Start(m_pOSDWnd);
             }
         }
 
@@ -18412,14 +18412,14 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
             if (s.fShowOSD || s.fShowDebugInfo) { // Force OSD on when the debug switch is used
                 m_OSD.Stop();
 
-                if ((m_fFullScreen || IsD3DFullScreenMode()) && !m_fAudioOnly && (m_pVMB || m_pMFVMB)) {
+                if (m_pMVTO) {
+                    m_OSD.Start(m_pVideoWnd, m_pMVTO);
+                } else if (m_fFullScreen && !m_fAudioOnly && m_pCAP3) { // MPCVR
+                    m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, false);
+                } else if (!m_fAudioOnly && IsD3DFullScreenMode() && (m_pVMB || m_pMFVMB)) {
                     m_OSD.Start(m_pVideoWnd, m_pVMB, m_pMFVMB, true);
                 } else {
-                    if (m_pMVTO) {
-                        m_OSD.Start(m_pVideoWnd, m_pMVTO);
-                    } else {
-                        m_OSD.Start(m_pOSDWnd);
-                    }
+                    m_OSD.Start(m_pOSDWnd);
                 }
             }
         }
