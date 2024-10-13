@@ -160,7 +160,6 @@ DefaultDirName            = {code:GetInstallFolder}
 LicenseFile               = ..\COPYING.txt
 OutputDir                 = .
 SetupIconFile             = ..\src\mpc-hc\res\icon.ico
-AppReadmeFile             = {app}\Readme.txt
 WizardImageFile           = WizardImageFile.bmp
 WizardSmallImageFile      = WizardSmallImageFile.bmp
 Compression               = lzma2/ultra
@@ -272,7 +271,6 @@ Source: ..\src\mpc-hc\res\shaders\dx9\*.hlsl;      DestDir: {app}\Shaders;      
 Source: ..\src\mpc-hc\res\shaders\dx11\*.hlsl;     DestDir: {app}\Shaders11;        Components: main;         Flags: onlyifdoesntexist
 Source: ..\COPYING.txt;                            DestDir: {app};                  Components: main;         Flags: ignoreversion
 Source: ..\docs\Authors.txt;                       DestDir: {app};                  Components: main;         Flags: ignoreversion
-Source: ..\docs\Readme.txt;                        DestDir: {app};                  Components: main;         Flags: onlyifdestfileexists
 	#if USE_DRDUMP_CRASH_REPORTER
 Source: {#platform}\crashrpt.dll;                  DestDir: {app}\CrashReporter;    Components: main;         Flags: ignoreversion
 Source: {#platform}\dbghelp.dll;                   DestDir: {app}\CrashReporter;    Components: main;         Flags: ignoreversion
