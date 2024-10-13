@@ -771,12 +771,14 @@ void COSD::ClearMessage(bool hide)
         m_nMessagePos = OSD_NOMESSAGE;
     }
 
-    if (m_pVMB) {
-        m_VMR9AlphaBitmap.dwFlags |= VMRBITMAP_DISABLE;
-        m_pVMB->UpdateAlphaBitmapParameters(&m_VMR9AlphaBitmap);
-        m_pMainFrame->RepaintVideo();
-    } else if (m_pMFVMB) {
-        m_pMFVMB->ClearAlphaBitmap();
+    if (m_pVMB || m_pMFVMB) {
+        if (m_pVMB) {
+            m_VMR9AlphaBitmap.dwFlags |= VMRBITMAP_DISABLE;
+            m_pVMB->UpdateAlphaBitmapParameters(&m_VMR9AlphaBitmap);
+        }
+        if (m_pMFVMB) {
+            m_pMFVMB->ClearAlphaBitmap();
+        }
         m_pMainFrame->RepaintVideo();
     } else if (m_pMVTO) {
         m_pMVTO->OsdClearMessage();
