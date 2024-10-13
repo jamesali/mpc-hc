@@ -570,7 +570,8 @@ void COSD::InvalidateBitmapOSD()
     if (m_pVMB) {
         m_VMR9AlphaBitmap.dwFlags &= ~VMRBITMAP_DISABLE;
         m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
-    } else if (m_pMFVMB) {
+    }
+    if (m_pMFVMB) {
         m_pMFVMB->SetAlphaBitmap(&m_MFVAlphaBitmap);
     }
 
