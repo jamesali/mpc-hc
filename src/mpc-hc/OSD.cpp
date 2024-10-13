@@ -216,7 +216,7 @@ void COSD::UpdateBitmap()
                 m_MFVAlphaBitmap.params.rcSrc     = m_rectWnd;
                 m_MFVAlphaBitmap.params.nrcDest   = { 0, 0, 1, 1 };
                 m_MFVAlphaBitmap.params.fAlpha    = 1.0;
-            }
+            } 
 
             m_MemDC.SetTextColor(m_colors[OSD_TEXT]);
             m_MemDC.SetBkMode(TRANSPARENT);
@@ -263,6 +263,7 @@ void COSD::Start(CWnd* pWnd, IMadVRTextOsd* pMVTO)
 {
     ASSERT(m_OSDType == OSD_TYPE_NONE);
 
+    m_pVMB      = nullptr;
     m_pMFVMB    = nullptr;
     m_pMVTO     = pMVTO;
     m_pWnd      = pWnd;
@@ -275,6 +276,7 @@ void COSD::Start(CWnd* pWnd)
 {
     ASSERT(m_OSDType == OSD_TYPE_NONE);
 
+    m_pVMB      = nullptr;
     m_pMFVMB    = nullptr;
     m_pMVTO     = nullptr;
     m_pWnd      = pWnd;
@@ -299,6 +301,7 @@ void COSD::Stop()
 
     ClearMessage();
 
+    m_pVMB.Release();
     m_pMFVMB.Release();
     m_pMVTO.Release();
     m_pWnd = nullptr;
@@ -773,8 +776,7 @@ void COSD::ClearMessage(bool hide)
         m_pMainFrame->RepaintVideo();
     } else if (m_pMFVMB) {
         m_pMFVMB->ClearAlphaBitmap();
-        DLog(L"IMFVideoMixerBitmap::ClearAlphaBitmap");
-        m_pMainFrame->RepaintVideo(); //???
+        m_pMainFrame->RepaintVideo();
     } else if (m_pMVTO) {
         m_pMVTO->OsdClearMessage();
     } else if (::IsWindow(m_hWnd) && IsWindowVisible()) {
@@ -895,15 +897,11 @@ void COSD::DebugMessage(LPCWSTR format, ...)
 
 void COSD::HideMessage(bool hide)
 {
-    if (m_pMFVMB) {
-        if (hide) {
-            ClearMessage(true);
-        } else {
-            InvalidateBitmapOSD();
-        }
+    if (hide) {
+        ClearMessage(true);
     } else {
-        if (hide) {
-            ClearMessage(true);
+        if (m_pMFVMB) {
+            InvalidateBitmapOSD();
         } else {
             if (!m_strMessage.IsEmpty()) {
                 SetWindowPos(m_pWndInsertAfter, 0, 0, 0, 0, m_nDEFFLAGS | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
