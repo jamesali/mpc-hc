@@ -429,12 +429,12 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
             // or if frame duration seems normal
             if (lpPresInfo->rtEnd > lpPresInfo->rtStart && (lpPresInfo->rtEnd >= 2 * m_rtTimePerFrame + 20000LL || abs(rtCurFrameTime - m_rtTimePerFrame) < 10000LL)) {
                 rtSampleTime = lpPresInfo->rtStart;
-                TRACE(_T("VMR9: Present %s -> %s | g_tSampleStart %s | g_tSegmentStart %s | rtCurFrameTime %ld\n"), ReftimeToString(lpPresInfo->rtStart).GetString(), ReftimeToString(lpPresInfo->rtEnd).GetString(), ReftimeToString(g_tSampleStart).GetString(), ReftimeToString(g_tSegmentStart).GetString(), rtCurFrameTime);
+                //TRACE(_T("VMR9: Present %s -> %s | g_tSampleStart %s | g_tSegmentStart %s | rtCurFrameTime %ld\n"), ReftimeToString(lpPresInfo->rtStart).GetString(), ReftimeToString(lpPresInfo->rtEnd).GetString(), ReftimeToString(g_tSampleStart).GetString(), ReftimeToString(g_tSegmentStart).GetString(), rtCurFrameTime);
             } else {
                 if (lpPresInfo->rtEnd > m_rtTimePerFrame) {
                     rtSampleTime = lpPresInfo->rtEnd - m_rtTimePerFrame;
                 }
-                TRACE(_T("VMR9: Present %s -> %s INVALID! | g_tSampleStart %s | g_tSegmentStart %s | m_rtTimePerFrame %ld\n"), ReftimeToString(lpPresInfo->rtStart).GetString(), ReftimeToString(lpPresInfo->rtEnd).GetString(), ReftimeToString(g_tSampleStart).GetString(), ReftimeToString(g_tSegmentStart).GetString(), m_rtTimePerFrame);
+                //TRACE(_T("VMR9: Present %s -> %s INVALID! | g_tSampleStart %s | g_tSegmentStart %s | m_rtTimePerFrame %ld\n"), ReftimeToString(lpPresInfo->rtStart).GetString(), ReftimeToString(lpPresInfo->rtEnd).GetString(), ReftimeToString(g_tSampleStart).GetString(), ReftimeToString(g_tSegmentStart).GetString(), m_rtTimePerFrame);
             }
             __super::SetTime(g_tSegmentStart + rtSampleTime * (g_bExternalSubtitle ? g_dRate : 1));
         }
