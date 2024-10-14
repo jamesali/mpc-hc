@@ -636,7 +636,12 @@ namespace SaneAudioRenderer
 	        startTimeOffset = m_myClock.GetPrivateTime() - m_startTime;
         }
 
-        REFERENCE_TIME jitter = m_startClockOffset - (startTimeOffset) + m_device->GetPosition();
+        REFERENCE_TIME jitter = 0;
+        try {
+            jitter = m_startClockOffset - (startTimeOffset) + m_device->GetPosition();
+        } catch (...) {
+            return 0;
+        }
 
         if (m_device->IsExclusive())
         {
