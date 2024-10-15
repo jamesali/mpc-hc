@@ -13026,6 +13026,12 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
     m_pGB_preview = nullptr;
     m_bUseSeekPreview = s.fUseSeekbarHover && s.fSeekPreview && m_wndPreView && ::IsWindow(m_wndPreView.m_hWnd) && !(s.nCLSwitches & CLSW_THUMBNAILS);
     if (m_bUseSeekPreview) {
+#if 1
+        if (auto pOpenDVDData = dynamic_cast<OpenDVDData*>(pOMD)) {
+            // preview does not always work good with DVD even when loaded from hdd
+            m_bUseSeekPreview = false;
+        } else
+#endif
         if (OpenFileData* pFileData = dynamic_cast<OpenFileData*>(pOMD)) {
             CString fn = pFileData->fns.GetHead();
             if (fn.IsEmpty()) {
@@ -19043,14 +19049,14 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                 TRACE(_T("Failed to close filter graph thread.\n"));
                 CString msg;
                 if (!m_pGB && m_pGB_preview) {
-#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10) && 0
                     if (CrashReporter::IsEnabled()) {
                         throw 1;
                     }
 #endif
-                    msg = L"Timeout when closing preview filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15s).";
+                    msg = L"Timeout when closing preview filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
                 } else {
-                    msg = L"Timeout when closing filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15s).";
+                    msg = L"Timeout when closing filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
                 }
 
                 if (m_fFullScreen || (IDYES == AfxMessageBox(msg, MB_ICONEXCLAMATION | MB_YESNO, 0))) {
