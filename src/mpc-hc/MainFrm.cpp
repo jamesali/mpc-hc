@@ -13382,6 +13382,10 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
 
         if (FAILED(hr)) {
             if (bMainFile) {
+                if (m_pME) {
+                    m_pME->SetNotifyWindow(NULL, 0, 0);
+                }
+
                 if (s.fReportFailedPins) {
                     ShowMediaTypesDialog();
                 }
@@ -18904,6 +18908,10 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     }
                 }
             }
+        }
+
+        if (m_pME) {
+            m_pME->SetNotifyWindow(NULL, 0, 0);
         }
 
         // save external subtitle
