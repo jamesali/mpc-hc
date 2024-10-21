@@ -37,7 +37,7 @@ CPPageMisc::CPPageMisc()
     , m_iContrast(0)
     , m_iHue(0)
     , m_iSaturation(0)
-    , m_nUpdaterAutoCheck(-1)
+    , m_nUpdaterAutoCheck(0)
     , m_nUpdaterDelay(7)
 {
 }

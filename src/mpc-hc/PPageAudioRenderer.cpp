@@ -73,6 +73,7 @@ CPPageAudioRenderer::CPPageAudioRenderer()
     , m_bExclusiveMode(FALSE)
     , m_bCrossfeedEnabled(FALSE)
     , m_bIgnoreSystemChannelMixer(TRUE)
+    , m_bIsEnabled(FALSE)
     , curAudioRenderer()
 {
 }
