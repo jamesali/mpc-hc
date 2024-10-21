@@ -1148,13 +1148,13 @@ msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
 msgid "External:"
 msgstr "Εξωτερικά:"
 
-msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
-msgid "Browse..."
-msgstr "Εύρεση..."
-
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
 msgstr "Εφαρμογή προφίλ χρωμάτων οθόνης"
+
+msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
+msgid "Browse..."
+msgstr "Εύρεση..."
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
@@ -1984,7 +1984,7 @@ msgid "Font size:"
 msgstr "Μέγεθος γραμματοσειράς:"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
-msgid "Display Current T&ime"
+msgid "Display Current Time"
 msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"

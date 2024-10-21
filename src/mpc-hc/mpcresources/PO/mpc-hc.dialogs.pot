@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2024-10-03 11:19:01+0000\n"
+"POT-Creation-Date: 2024-10-21 17:55:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1118,12 +1118,12 @@ msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
 msgid "External:"
 msgstr ""
 
-msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
-msgid "Browse..."
-msgstr ""
-
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
+msgstr ""
+
+msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
+msgid "Browse..."
 msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
@@ -1933,7 +1933,7 @@ msgid "Font size:"
 msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK13"
-msgid "Display Current T&ime"
+msgid "Display Current Time"
 msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
