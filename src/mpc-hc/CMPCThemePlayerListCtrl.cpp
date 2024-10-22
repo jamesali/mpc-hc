@@ -58,8 +58,8 @@ BEGIN_MESSAGE_MAP(CMPCThemePlayerListCtrl, CListCtrl)
     ON_NOTIFY_REFLECT_EX(NM_CUSTOMDRAW, OnCustomDraw)
     ON_WM_ERASEBKGND()
     ON_WM_CTLCOLOR()
-    ON_NOTIFY(HDN_ENDTRACKA, 0, &OnHdnEndtrack)
-    ON_NOTIFY(HDN_ENDTRACKW, 0, &OnHdnEndtrack)
+    ON_NOTIFY_EX(HDN_ENDTRACKA, 0, &OnHdnEndtrack)
+    ON_NOTIFY_EX(HDN_ENDTRACKW, 0, &OnHdnEndtrack)
     ON_NOTIFY_REFLECT_EX(LVN_ITEMCHANGED, &OnLvnItemchanged)
     ON_MESSAGE(PLAYER_PLAYLIST_UPDATE_SCROLLBAR, OnDelayed_UpdateScrollbar)
     ON_WM_WINDOWPOSCHANGED()
@@ -593,7 +593,7 @@ HBRUSH CMPCThemePlayerListCtrl::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 }
 
 
-void CMPCThemePlayerListCtrl::OnHdnEndtrack(NMHDR* pNMHDR, LRESULT* pResult)
+BOOL CMPCThemePlayerListCtrl::OnHdnEndtrack(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
     //    LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
     if (AppNeedsThemedControls()) {
@@ -602,6 +602,11 @@ void CMPCThemePlayerListCtrl::OnHdnEndtrack(NMHDR* pNMHDR, LRESULT* pResult)
         }
     }
     *pResult = 0;
+
+    //we don't want to prevent this event from being processed
+    //it's used when "show windows contents while dragging" is false,
+    //to draw the outline of the resized column
+    return FALSE; 
 }
 
 LRESULT CMPCThemePlayerListCtrl::OnDelayed_UpdateScrollbar(WPARAM, LPARAM invalidate)

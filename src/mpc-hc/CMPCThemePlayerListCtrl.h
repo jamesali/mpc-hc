@@ -66,7 +66,7 @@ protected:
     virtual void PreSubclassWindow();
 public:
     void doDefault() { Default(); };
-    afx_msg void OnHdnEndtrack(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg BOOL OnHdnEndtrack(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg LRESULT OnDelayed_UpdateScrollbar(WPARAM, LPARAM);
     afx_msg BOOL OnLvnItemchanged(NMHDR* pNMHDR, LRESULT* pResult);
 };
