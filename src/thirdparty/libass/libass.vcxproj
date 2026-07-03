@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libass\libass\ass.h" />
+    <ClInclude Include="libass\libass\ass_arabic_charmap.h" />
     <ClInclude Include="libass\libass\ass_bitmap.h" />
     <ClInclude Include="libass\libass\ass_bitmap_engine.h" />
     <ClInclude Include="libass\libass\ass_cache.h" />
@@ -48,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libass\libass\ass.c" />
+    <ClCompile Include="libass\libass\ass_arabic_charmap.c" />
     <ClCompile Include="libass\libass\ass_bitmap.c" />
     <ClCompile Include="libass\libass\ass_bitmap_engine.c" />
     <ClCompile Include="libass\libass\ass_blur.c" />
