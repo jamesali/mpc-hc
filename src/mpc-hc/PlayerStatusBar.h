@@ -54,12 +54,13 @@ private:
     EventClient m_eventc;
     void EventCallback(MpcEvent ev);
 
-    void Relayout();
     int m_initialWindowDPI = 0;
 
 public:
     CPlayerStatusBar(CMainFrame* pMainFrame);
     virtual ~CPlayerStatusBar();
+
+    void Relayout();
 
     void Clear();
 
@@ -79,6 +80,10 @@ public:
     CString PreparePathStatusMessage(CPath path);
 
     void ShowTimer(bool fShow);
+
+    // Builds and tracks the timer-options popup (Remaining time / High precision / Show percentage),
+    // shared by the status-bar time control and the seekbar time section (#3256).
+    void ShowTimerOptionsMenu(CWnd* pOwner, CPoint screenPt);
 
     // Overrides
     virtual BOOL Create(CWnd* pParentWnd);

@@ -56,6 +56,12 @@ CPPageTheme::CPPageTheme()
     , m_bHideWindowedControls(FALSE)
     , m_bUseEnhancedTaskBar(TRUE)
     , m_bUseSMTC(FALSE)
+    , m_bCustomPresetMenu(FALSE)
+    , m_bCustomPresetSeekbar(TRUE)
+    , m_bCustomPresetToolbar(TRUE)
+    , m_bCustomPresetInfo(FALSE)
+    , m_bCustomPresetStats(FALSE)
+    , m_bCustomPresetStatusbar(FALSE)
 {
     EventRouter::EventSelection fires;
     fires.insert(MpcEvent::CHANGING_UI_LANGUAGE);
@@ -90,6 +96,7 @@ void CPPageTheme::DoDataExchange(CDataExchange* pDX)
 
 
     DDX_Control(pDX, IDC_COMBO3, m_HoverPosition);
+    DDX_Control(pDX, IDC_TIMEONSEEKBAR, m_TimeOnSeekBar);
     DDX_Check(pDX, IDC_SHOW_OSD, m_fShowOSD);
     DDX_Check(pDX, IDC_CHECK13, m_fShowCurrentTimeInOSD);
     DDX_Check(pDX, IDC_CHECK4, m_bShowVideoInfoInStatusbar);
@@ -107,6 +114,13 @@ void CPPageTheme::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_CHECK10, m_bHideWindowedControls);
     DDX_Check(pDX, IDC_CHECK_ENHANCED_TASKBAR, m_bUseEnhancedTaskBar);
     DDX_Check(pDX, IDC_CHECK11, m_bUseSMTC);
+
+    DDX_Check(pDX, IDC_CUSTOMPRESET_MENU, m_bCustomPresetMenu);
+    DDX_Check(pDX, IDC_CUSTOMPRESET_SEEKBAR, m_bCustomPresetSeekbar);
+    DDX_Check(pDX, IDC_CUSTOMPRESET_TOOLBAR, m_bCustomPresetToolbar);
+    DDX_Check(pDX, IDC_CUSTOMPRESET_INFO, m_bCustomPresetInfo);
+    DDX_Check(pDX, IDC_CUSTOMPRESET_STATS, m_bCustomPresetStats);
+    DDX_Check(pDX, IDC_CUSTOMPRESET_STATUSBAR, m_bCustomPresetStatusbar);
 }
 
 
@@ -164,6 +178,12 @@ BOOL CPPageTheme::OnInitDialog()
     m_HoverPosition.AddString(ResStr(IDS_TIME_TOOLTIP_ABOVE));
     m_HoverPosition.AddString(ResStr(IDS_TIME_TOOLTIP_BELOW));
     m_HoverPosition.SetCurSel(s.nHoverPosition);
+
+    m_TimeOnSeekBar.AddString(ResStr(IDS_TIME_ON_SEEKBAR_NEVER));
+    m_TimeOnSeekBar.AddString(ResStr(IDS_TIME_ON_SEEKBAR_ALWAYS));
+    m_TimeOnSeekBar.AddString(ResStr(IDS_TIME_ON_SEEKBAR_WHEN_STATUSBAR_HIDDEN));
+    m_TimeOnSeekBar.SetCurSel(s.nTimeOnSeekBar);
+    m_TimeOnSeekBar.SetDroppedWidth(200); // the longest option is wider than the combo field
 
     m_nOSDSize = s.nOSDSize;
     m_strOSDFont = s.strOSDFont;
@@ -227,6 +247,13 @@ BOOL CPPageTheme::OnInitDialog()
     m_bUseEnhancedTaskBar = s.bUseEnhancedTaskBar;
     m_bUseSMTC = s.bUseSMTC;
 
+    m_bCustomPresetMenu = (s.nCustomPresetCaption == MODE_SHOWCAPTIONMENU);
+    m_bCustomPresetSeekbar = !!(s.nCustomPresetControlState & CS_SEEKBAR);
+    m_bCustomPresetToolbar = !!(s.nCustomPresetControlState & CS_TOOLBAR);
+    m_bCustomPresetInfo = !!(s.nCustomPresetControlState & CS_INFOBAR);
+    m_bCustomPresetStats = !!(s.nCustomPresetControlState & CS_STATSBAR);
+    m_bCustomPresetStatusbar = !!(s.nCustomPresetControlState & CS_STATUSBAR);
+
     AdjustDynamicWidgets();
     CreateToolTip();
     EnableThemedDialogTooltips(this);
@@ -272,6 +299,7 @@ BOOL CPPageTheme::OnApply()
     }
 
     s.nHoverPosition = m_HoverPosition.GetCurSel();
+    s.nTimeOnSeekBar = m_TimeOnSeekBar.GetCurSel();
 
     s.nOSDSize = m_nOSDSize;
     m_FontType.GetLBText(m_FontType.GetCurSel(), s.strOSDFont);
@@ -293,6 +321,7 @@ BOOL CPPageTheme::OnApply()
     // There is no main frame when the option dialog is displayed stand-alone
     if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
         pMainFrame->UpdateControlState(CMainFrame::UPDATE_SEEKBAR_CHAPTERS);
+        pMainFrame->ApplyTimeOnSeekBarChange();
     }
 
     s.fShowOSD = m_fShowOSD;
@@ -318,6 +347,20 @@ BOOL CPPageTheme::OnApply()
     }
 
     s.bUseSMTC = m_bUseSMTC;
+
+    s.nCustomPresetCaption = m_bCustomPresetMenu ? MODE_SHOWCAPTIONMENU : MODE_HIDEMENU;
+    UINT customCS = 0;
+    if (m_bCustomPresetSeekbar)   customCS |= CS_SEEKBAR;
+    if (m_bCustomPresetToolbar)   customCS |= CS_TOOLBAR;
+    if (m_bCustomPresetInfo)      customCS |= CS_INFOBAR;
+    if (m_bCustomPresetStats)     customCS |= CS_STATSBAR;
+    if (m_bCustomPresetStatusbar) customCS |= CS_STATUSBAR;
+    s.nCustomPresetControlState = customCS;
+
+    // If the Custom preset is the active view, re-apply it so the change is visible immediately (#3256).
+    if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
+        pMainFrame->ApplyCustomPresetChange();
+    }
 
     return __super::OnApply();
 }

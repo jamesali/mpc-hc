@@ -73,6 +73,20 @@ private:
     std::unique_ptr<CDC> m_pDisabledThumb;
     CRect m_lastThumbRect;
 
+    CString m_timeText;                 // currently displayed time string (empty when none)
+    mutable CFont m_timeFont;           // font for the time text
+    mutable int   m_timeFontHeight = 0; // char height the cached font was built for (px)
+    mutable int   m_timeReservedWidth = 0; // modeled (worst-case-for-options) time-section width, the stable floor (px)
+    mutable int   m_timeActualWidth = 0;   // width of the actual current time string; widens the section if it ever exceeds the model (px)
+    mutable CString m_timeTemplate;     // widest string the reserved width was measured for (tracks the active options)
+
+    bool ShowTimeOnSeekBar() const;
+    bool TimeSectionVisible() const;    // ShowTimeOnSeekBar() and there is a timer string to display
+    int  TimeSectionEffectiveWidth() const; // px the section currently occupies (0 when not shown)
+    void EnsureTimeFont() const;
+    CString BuildTimeTemplate() const;  // widest time string for the currently enabled time options
+    CRect GetTimeRect() const;          // the dedicated time section to the right of the channel
+
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     virtual CSize CalcFixedLayout(BOOL bStretch, BOOL bHorz) override;
 
@@ -86,7 +100,9 @@ private:
     void SyncThumbToVideo(REFERENCE_TIME rtPos, REFERENCE_TIME rtPosDraw);
 
     void CreateThumb(bool bEnabled, CDC& parentDC);
+    CRect GetBaseRect() const;          // full usable rect (channel + time section), before reserving the time area
     CRect GetChannelRect() const;
+    CRect GetSeekableRect() const;      // client area that responds to seek/hover (excludes the time section)
     CRect GetThumbRect() const;
     CRect GetInnerThumbRect(bool bEnabled, const CRect& thumbRect) const;
 
@@ -113,6 +129,8 @@ public:
     void PreviewWindowShow(const CPoint point);
     void UpdateToolTipTextPreview(REFERENCE_TIME rtPos);
 
+    void UpdateTime();
+
 private:
     DECLARE_MESSAGE_MAP()
 
@@ -125,6 +143,7 @@ private:
     afx_msg void OnXButtonDblClk(UINT nFlags, UINT nButton, CPoint point);
     afx_msg void OnMButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+    afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
     afx_msg void OnTimer(UINT_PTR nIDEvent);

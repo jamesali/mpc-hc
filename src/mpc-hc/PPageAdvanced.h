@@ -234,6 +234,7 @@ private:
         CONFIRM_FILE_DELETE,
         LIBASS_FOR_SRT,
         SHOW_VOLUME_PERCENTAGE,
+        STARTUP_PRESET,
     };
 
     enum {

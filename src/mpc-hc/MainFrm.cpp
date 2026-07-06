@@ -397,6 +397,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_VIEW_PRESETS_COMPACT, OnUpdateViewCompact)
     ON_COMMAND(ID_VIEW_PRESETS_NORMAL, OnViewNormal)
     ON_UPDATE_COMMAND_UI(ID_VIEW_PRESETS_NORMAL, OnUpdateViewNormal)
+    ON_COMMAND(ID_VIEW_PRESETS_CUSTOM, OnViewCustom)
+    ON_UPDATE_COMMAND_UI(ID_VIEW_PRESETS_CUSTOM, OnUpdateViewCustom)
     ON_COMMAND(ID_VIEW_FULLSCREEN, OnViewFullscreen)
     ON_COMMAND(ID_VIEW_FULLSCREEN_SECONDARY, OnViewFullscreenSecondary)
     ON_UPDATE_COMMAND_UI(ID_VIEW_FULLSCREEN, OnUpdateViewFullscreen)
@@ -2330,6 +2332,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 m_wndSeekBar.Enable(!g_bNoDuration);
                 m_wndSeekBar.SetRange(0, rtDur);
                 m_wndSeekBar.SetPos(rtNow);
+                m_wndSeekBar.UpdateTime();
                 m_OSD.SetRange(rtDur);
                 m_OSD.SetPos(rtNow);
                 m_Lcd.SetMediaRange(0, rtDur);
@@ -3435,7 +3438,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
                 SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 
-                m_closingmsg.LoadString(err);
+                SetClosingError(err);
             }
             break;
             case EC_DVD_WARNING:
@@ -3480,7 +3483,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             case EC_BG_ERROR:
                 if (m_fCustomGraph) {
                     SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-                    m_closingmsg = !str.IsEmpty() ? str : CString(_T("Unspecified graph error"));
+                    SetClosingError(!str.IsEmpty() ? str : CString(_T("Unspecified graph error")));
                     m_wndPlaylistBar.SetCurValid(false);
                 }
                 break;
@@ -4504,6 +4507,12 @@ LRESULT CMainFrame::OnOpenMediaFailed(WPARAM wParam, LPARAM lParam)
         DoAfterPlaybackEvent();
     }
 
+    if (!bOpenNextInPlaylist) {
+        // Open failed and we are not chaining to another file: reveal the status bar (if a
+        // preset hides it) so the error message is visible, until the next media load.
+        ShowStatusBarForMessage();
+    }
+
     return 0;
 }
 
@@ -4538,6 +4547,7 @@ void CMainFrame::OnFilePostClosemedia(bool bNextIsQueued/* = false*/)
     m_wndStatsBar.RemoveAllLines();
     m_wndStatusBar.Clear();
     m_wndStatusBar.ShowTimer(false);
+    m_wndSeekBar.UpdateTime(); // clear the seekbar time section (durationless media skips SetRange's repaint)
     currentAudioLang.Empty();
     currentSubLang.Empty();
     m_OSD.SetRange(0);
@@ -5308,6 +5318,9 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
     } else if (s.nCLSwitches & CLSW_PRESET3) {
         SendMessage(WM_COMMAND, ID_VIEW_PRESETS_NORMAL);
         s.nCLSwitches &= ~CLSW_PRESET3;
+    } else if (s.nCLSwitches & CLSW_PRESET4) {
+        SendMessage(WM_COMMAND, ID_VIEW_PRESETS_CUSTOM);
+        s.nCLSwitches &= ~CLSW_PRESET4;
     }
     if (s.nCLSwitches & CLSW_VOLUME) {
         if (IsMuted()) {
@@ -5655,7 +5668,7 @@ void CMainFrame::OnDropFiles(CAtlList<CStringW>& slFiles, DROPEFFECT dropEffect)
             CString statusmsg(static_cast<LPCTSTR>(fn));
             SendStatusMessage(statusmsg + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
         } else {
-            SendStatusMessage(_T("Failed to load subtitle file"), 3000);
+            SendStatusMessage(_T("Failed to load subtitle file"), 3000, true);
         }
         return;
     }
@@ -8319,6 +8332,7 @@ void CMainFrame::OnUpdateViewDebugShaders(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewMinimal()
 {
+    m_nActiveViewPreset = ID_VIEW_PRESETS_MINIMAL;
     SetCaptionState(MODE_BORDERLESS);
     m_controls.SetToolbarsSelection(CS_NONE, true);
 }
@@ -8329,6 +8343,7 @@ void CMainFrame::OnUpdateViewMinimal(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewCompact()
 {
+    m_nActiveViewPreset = ID_VIEW_PRESETS_COMPACT;
     SetCaptionState(MODE_FRAMEONLY);
     m_controls.SetToolbarsSelection(CS_SEEKBAR, true);
 }
@@ -8337,14 +8352,103 @@ void CMainFrame::OnUpdateViewCompact(CCmdUI* pCmdUI)
 {
 }
 
+UINT CMainFrame::GetNormalPresetCS() const
+{
+    return CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR;
+}
+
 void CMainFrame::OnViewNormal()
 {
+    m_nActiveViewPreset = ID_VIEW_PRESETS_NORMAL;
     SetCaptionState(MODE_SHOWCAPTIONMENU);
-    m_controls.SetToolbarsSelection(CS_SEEKBAR | CS_TOOLBAR | CS_STATUSBAR, true);
+    m_controls.SetToolbarsSelection(GetNormalPresetCS(), true);
+}
+
+void CMainFrame::ShowStatusBarForMessage()
+{
+    // Only relevant when the active preset hides the status bar (check the user's nCS, not the
+    // effective/forced state). The bar stays revealed until the next media load.
+    if ((AfxGetAppSettings().nCS & CS_STATUSBAR) || m_bStatusBarForcedForMessage) {
+        return;
+    }
+    m_bStatusBarForcedForMessage = true;
+    UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
+}
+
+void CMainFrame::RestoreStatusBarMessageHold()
+{
+    if (m_bStatusBarForcedForMessage) {
+        m_bStatusBarForcedForMessage = false;
+        UpdateControlState(UPDATE_CONTROLS_VISIBILITY);
+    }
+}
+
+void CMainFrame::SetClosingError(const CString& msg)
+{
+    m_closingmsg = msg;
+    ShowStatusBarForMessage(); // reveal the status bar (if a preset hides it) so the error is visible
+}
+
+void CMainFrame::SetClosingError(UINT nIDmsg)
+{
+    CString msg;
+    msg.LoadString(nIDmsg);
+    SetClosingError(msg);
+}
+
+void CMainFrame::ApplyTimeOnSeekBarChange()
+{
+    // Reflect "Always"/"Never" suppression of the status-bar time and refresh the seekbar.
+    m_wndStatusBar.Relayout();
+    m_wndSeekBar.UpdateTime();
+    m_wndSeekBar.Invalidate();
 }
 
 void CMainFrame::OnUpdateViewNormal(CCmdUI* pCmdUI)
 {
+}
+
+void CMainFrame::OnViewCustom()
+{
+    m_nActiveViewPreset = ID_VIEW_PRESETS_CUSTOM;
+    const CAppSettings& s = AfxGetAppSettings();
+    SetCaptionState(static_cast<MpcCaptionState>(s.nCustomPresetCaption));
+    m_controls.SetToolbarsSelection(s.nCustomPresetControlState, true);
+}
+
+void CMainFrame::OnUpdateViewCustom(CCmdUI* pCmdUI)
+{
+}
+
+void CMainFrame::ApplyCustomPresetChange()
+{
+    // If the Custom preset is the active view, re-apply it so edits on the settings page take effect
+    // immediately. Tracked explicitly (not inferred from nCS) so it still works after the user has
+    // toggled an individual bar since selecting the preset (#3256).
+    if (m_nActiveViewPreset == ID_VIEW_PRESETS_CUSTOM) {
+        OnViewCustom();
+    }
+}
+
+void CMainFrame::ApplyStartupPreset()
+{
+    // Applied once at launch (from InitInstance). STARTUP_PRESET_REMEMBER keeps the restored control state.
+    switch (AfxGetAppSettings().nStartupPreset) {
+        case STARTUP_PRESET_MINIMAL:
+            OnViewMinimal();
+            break;
+        case STARTUP_PRESET_COMPACT:
+            OnViewCompact();
+            break;
+        case STARTUP_PRESET_NORMAL:
+            OnViewNormal();
+            break;
+        case STARTUP_PRESET_CUSTOM:
+            OnViewCustom();
+            break;
+        default:
+            break;
+    }
 }
 
 void CMainFrame::OnViewFullscreen()
@@ -9945,7 +10049,7 @@ void CMainFrame::SetSubtitleDelay(int delay_ms, bool relative)
 {
     if (!m_pCAP && !m_pDVS) {
         if (GetLoadState() == MLS::LOADED) {
-            SendStatusMessage(L"Delay is not supported by current subtitle renderer", 3000);
+            SendStatusMessage(L"Delay is not supported by current subtitle renderer", 3000, true);
         }
         return;
     }
@@ -9964,7 +10068,7 @@ void CMainFrame::SetSubtitleDelay(int delay_ms, bool relative)
     else {
         ASSERT(m_pCAP != nullptr);
         if (m_pSubStreams.IsEmpty()) {
-            SendStatusMessage(StrRes(IDS_SUBTITLES_ERROR), 3000);
+            SendStatusMessage(StrRes(IDS_SUBTITLES_ERROR), 3000, true);
             return;
         }
         if (relative) {
@@ -13548,7 +13652,7 @@ void CMainFrame::SetShaders(bool bSetPreResize/* = true*/, bool bSetPostResize/*
     } else {
         return;
     }
-    SendStatusMessage(errMsg, 3000);
+    SendStatusMessage(errMsg, 3000, true);
 }
 
 void CMainFrame::SetBalance(int balance)
@@ -19350,7 +19454,7 @@ void CMainFrame::StopWebServer()
     }
 }
 
-void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
+void CMainFrame::SendStatusMessage(CString msg, int nTimeOut, bool bError /* = false */)
 {
     const auto timerId = TimerOneTimeSubscriber::STATUS_ERASE;
 
@@ -19362,10 +19466,20 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
     }
 
     m_tempstatus_msg = msg;
-    m_timerOneTime.Subscribe(timerId, [this] { m_tempstatus_msg.Empty(); }, nTimeOut);
+    // For a transient error we briefly reveal a preset-hidden status bar; re-hide it when the
+    // message times out so a recurring error (e.g. a failing shader on each load) can't pin it open (#3256).
+    m_timerOneTime.Subscribe(timerId, [this, bError] {
+        m_tempstatus_msg.Empty();
+        if (bError) {
+            RestoreStatusBarMessageHold();
+        }
+    }, nTimeOut);
 
     if (!m_tempstatus_msg.IsEmpty()) {
         m_wndStatusBar.SetStatusMessage(m_tempstatus_msg);
+        if (bError) {
+            ShowStatusBarForMessage(); // reveal the status bar (if a preset hides it) for errors only
+        }
     }
 
     m_Lcd.SetStatusMessage(msg, nTimeOut);
@@ -19421,6 +19535,9 @@ void CMainFrame::AddCurDevToPlaylist()
 
 void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 {
+    // Next media load: stop force-showing the status bar that an earlier error revealed.
+    RestoreStatusBarMessageHold();
+
     auto pFileData = dynamic_cast<const OpenFileData*>(pOMD.m_p);
     //auto pDVDData = dynamic_cast<const OpenDVDData*>(pOMD.m_p);
     auto pDeviceData = dynamic_cast<const OpenDeviceData*>(pOMD.m_p);

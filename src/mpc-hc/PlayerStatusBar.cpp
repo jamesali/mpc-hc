@@ -182,7 +182,9 @@ void CPlayerStatusBar::Relayout()
         CRect rtime = rfull;
         CString str;
         m_time.GetWindowText(str);
-        if (str.IsEmpty()) {
+        // When the time is shown on the seekbar instead (modern theme only), collapse the
+        // status-bar time control (but keep its text so GetStatusTimer() still feeds the seekbar).
+        if (str.IsEmpty() || (s.nTimeOnSeekBar == TIME_ON_SEEKBAR_ALWAYS && AppIsThemeLoaded())) {
             rtime.left = rtime.right;
         } else {
             rtime.left = rtime.right - pDC->GetTextExtent(str).cx;
@@ -466,7 +468,10 @@ void CPlayerStatusBar::OnPaint()
 
     dc.FillSolidRect(&r, 0);
 
-    if (m_bm.m_hObject) {
+    // Only draw the audio-channel bitmap when Relayout actually reserves room for it (Audio Info off).
+    // When Audio Info is on, no space is reserved and the time control overlaps this area; drawing the
+    // bitmap here would leave it exposed once the time collapses for "time on seekbar" (#3256).
+    if (m_bm.m_hObject && !AfxGetAppSettings().bShowAudioFormatInStatusbar) {
         BITMAP bm;
         m_bm.GetBitmap(&bm);
         CDC memdc;
@@ -573,6 +578,12 @@ void CPlayerStatusBar::OnContextMenu(CWnd* pWnd, CPoint point)
         return __super::OnContextMenu(pWnd, point);
     }
 
+    ShowTimerOptionsMenu(this, point);
+}
+
+void CPlayerStatusBar::ShowTimerOptionsMenu(CWnd* pOwner, CPoint screenPt)
+{
+    // Shared by the status-bar time control and the seekbar time section (#3256).
     CAppSettings& s = AfxGetAppSettings();
 
     enum {
@@ -581,6 +592,7 @@ void CPlayerStatusBar::OnContextMenu(CWnd* pWnd, CPoint point)
         SHOW_PERCENTAGE
     };
 
+    m_timerMenu.DestroyMenu();
     m_timerMenu.CreatePopupMenu();
     m_timerMenu.AppendMenu(MF_STRING | MF_ENABLED | (s.fRemainingTime ? MF_CHECKED : MF_UNCHECKED), REMAINING_TIME, ResStr(IDS_TIMER_REMAINING_TIME));
     UINT nFlags = MF_STRING;
@@ -593,7 +605,7 @@ void CPlayerStatusBar::OnContextMenu(CWnd* pWnd, CPoint point)
     m_timerMenu.AppendMenu(MF_STRING | MF_ENABLED | (s.bTimerShowPercentage ? MF_CHECKED : MF_UNCHECKED), SHOW_PERCENTAGE, ResStr(IDS_TIMER_SHOW_PERCENTAGE));
 
     m_timerMenu.fulfillThemeReqs();
-    switch (m_timerMenu.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, point.x, point.y, this)) {
+    switch (m_timerMenu.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, screenPt.x, screenPt.y, pOwner)) {
         case REMAINING_TIME:
             s.fRemainingTime = !s.fRemainingTime;
             m_eventc.FireEvent(MpcEvent::STREAM_POS_UPDATE_REQUEST);
