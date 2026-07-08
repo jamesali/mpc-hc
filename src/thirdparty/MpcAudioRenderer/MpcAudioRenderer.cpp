@@ -2828,6 +2828,10 @@ HRESULT CMpcAudioRenderer::StartAudioClient()
 			RenderWasapiBuffer();
 
 			CAutoLock cAutoLock(&m_csAudioClock);
+            if (!m_pAudioClient) {
+                ASSERT(false);
+                return E_FAIL;
+            }
 			if (FAILED(hr = m_pAudioClient->Start())) {
 				TRACE(L"CMpcAudioRenderer::StartAudioClient() - start audio client failed (0x%08x)\n", hr);
 				return hr;
