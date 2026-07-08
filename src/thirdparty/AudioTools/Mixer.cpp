@@ -200,17 +200,33 @@ bool CMixer::Init()
 			return false;
 		}
 
-		// if back channels do not have sound, then divide side channels for the back and side
 		if (m_out_layout == AV_CH_LAYOUT_7POINT1) {
-			bool back_no_sound = true;
-			for (int i = 0; i < in_ch * 2; i++) {
-				if (m_matrix_dbl[4 * in_ch + i] != 0.0) {
-					back_no_sound = false;
+			// if back channels do not have sound, then divide side channels for the back and side
+			if ((m_in_layout & (AV_CH_BACK_LEFT | AV_CH_BACK_RIGHT)) == 0) {
+				bool back_no_sound = true;
+				for (int i = 0; i < in_ch * 2; i++) {
+					if (m_matrix_dbl[4 * in_ch + i] != 0.0) {
+						back_no_sound = false;
+					}
+				}
+				if (back_no_sound) {
+					for (int i = 0; i < in_ch * 2; i++) {
+						m_matrix_dbl[4 * in_ch + i] = (m_matrix_dbl[6 * in_ch + i] *= M_SQRT1_2);
+					}
 				}
 			}
-			if (back_no_sound) {
+			// if side channels do not have sound, then divide back channels for the back and side
+			else if ((m_in_layout & (AV_CH_SIDE_LEFT | AV_CH_SIDE_RIGHT)) == 0) {
+				bool size_no_sound = true;
 				for (int i = 0; i < in_ch * 2; i++) {
-					m_matrix_dbl[4 * in_ch + i] = (m_matrix_dbl[6 * in_ch + i] *= M_SQRT1_2);
+					if (m_matrix_dbl[6 * in_ch + i] != 0.0) {
+						size_no_sound = false;
+					}
+				}
+				if (size_no_sound) {
+					for (int i = 0; i < in_ch * 2; i++) {
+						m_matrix_dbl[6 * in_ch + i] = (m_matrix_dbl[4 * in_ch + i] *= M_SQRT1_2);
+					}
 				}
 			}
 		}
@@ -239,7 +255,7 @@ bool CMixer::Init()
 	}
 
 #ifdef DEBUG_OR_LOG
-	CString matrix_str = L"CMixer::Init() : matrix";
+	CStringW matrix_str = L"CMixer::Init() : matrix";
 	double k = 0.0;
 	for (int j = 0; j < out_ch; j++) {
 		matrix_str.AppendFormat(L"\n    %d:", j + 1);
@@ -349,7 +365,7 @@ int CMixer::Mixing(BYTE* pOutput, int out_samples, BYTE* pInput, int in_samples)
 		out_samples = 0;
 	}
 
-	if (output == (BYTE*)m_Buffer2.Data()) {
+	if (m_out_sf == SAMPLE_FMT_S24) {
 		convert_int32_to_int24(pOutput, m_Buffer2.Data(), out_samples * out_ch);
 	}
 
