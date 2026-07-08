@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2026-07-07 18:19:43+0000\n"
+"POT-Creation-Date: 2026-07-08 10:58:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4566,6 +4566,11 @@ msgstr ""
 
 msgctxt "IDS_STARTUP_PRESET_REMEMBER"
 msgid "Remember last"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_TIME_ON_SEEKBAR_LEFT"
+msgid ""
+"Show the time on the left side of the seekbar instead of the right side"
 msgstr ""
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"

@@ -4713,6 +4713,11 @@ msgctxt "IDS_STARTUP_PRESET_REMEMBER"
 msgid "Remember last"
 msgstr ""
 
+msgctxt "IDS_PPAGEADVANCED_TIME_ON_SEEKBAR_LEFT"
+msgid ""
+"Show the time on the left side of the seekbar instead of the right side"
+msgstr ""
+
 msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
 msgid "Display current audio and subtitle language in status bar"
 msgstr "상태 표시줄에 현재 오디오 및 자막 언어 표시"
