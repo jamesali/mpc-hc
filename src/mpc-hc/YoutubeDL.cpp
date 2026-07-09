@@ -217,6 +217,9 @@ bool CYoutubeDLInstance::Run(CString url)
                 // abort without showing error message
                 return false;
             }
+            if (err.GetLength() > 1000) {
+                err = err.Left(1000) + L" <...>";
+            }
             err = _T("yt-dlp/youtube-dl error message:\n\n") + err;
         }
         AfxMessageBox(err, MB_ICONERROR, 0);
