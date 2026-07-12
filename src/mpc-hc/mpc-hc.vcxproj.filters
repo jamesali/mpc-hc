@@ -636,6 +636,7 @@
     <ClCompile Include="CMPCThemeProgressCtrl.cpp">
       <Filter>MPCTheme</Filter>
     </ClCompile>
+    <ClCompile Include="GPUInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -1215,6 +1216,7 @@
     <ClInclude Include="CMPCThemeProgressCtrl.h">
       <Filter>MPCTheme</Filter>
     </ClInclude>
+    <ClInclude Include="GPUInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi">

@@ -27,6 +27,7 @@
 
 #include <initguid.h>
 #include "FGFilterLAV.h"
+#include "GPUInfo.h"
 
 #define LAV_FILTERS_VERSION(major, minor, rev, commit) ((QWORD)(major) << 48 | (QWORD)(minor) << 32 | (QWORD)(rev) << 16 | (QWORD)(commit))
 
@@ -618,104 +619,6 @@ static LPCTSTR pixFmtSettingsMap[LAVOutPixFmt_NB] = {
     _T("yv24"), _T("rgb48")
 };
 
-# define PCIV_INTEL     0x8086
-# define PCIV_AMD       0x1002
-# define PCIV_NVIDIA    0x10de
-# define PCIV_QUALCOMM  0x4351
-# define PCIV_MICROSOFT 0x1414
-
-bool GetGPUDetailsD3D9(DWORD* vendorid, DWORD* deviceid, DWORD* pixelshaderversion) {
-    bool result = false;
-    try {
-        IDirect3D9Ex* pD3D = nullptr;
-        HRESULT hr = Direct3DCreate9Ex(D3D_SDK_VERSION, &pD3D);
-        if (hr == D3D_OK && pD3D) {
-            UINT count = pD3D->GetAdapterCount();
-            if (count > 0) {
-                D3DCAPS9 caps;
-                hr = pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps);
-                if (hr == D3D_OK) {
-                    *pixelshaderversion = caps.PixelShaderVersion & 0xFFFF;
-                }
-                D3DADAPTER_IDENTIFIER9 aid9;
-                hr = pD3D->GetAdapterIdentifier(0, 0, &aid9);
-                if (hr == D3D_OK) {
-                    *vendorid = aid9.VendorId;
-                    *deviceid = aid9.DeviceId;
-                    result = true;
-                }
-            }
-            pD3D->Release();
-        }
-    } catch (...) {
-    }
-    return result;
-}
-
-#if 0
-#include <d3d11.h>
-
-bool SupportsD3D11VA()
-{
-    bool result = false;
-    try {
-        ID3D11Device* pDevice = nullptr;
-        ID3D11DeviceContext* pContext = nullptr;
-        D3D_FEATURE_LEVEL fl_available;
-        D3D_FEATURE_LEVEL fl_list[] = { D3D_FEATURE_LEVEL_11_1 };
-        HRESULT hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, fl_list, _countof(fl_list), D3D11_SDK_VERSION, &pDevice, &fl_available, &pContext);
-        if (hr == S_OK) {
-            if (fl_available >= D3D_FEATURE_LEVEL_11_1) {
-                result = true;
-            }
-        }
-    } catch (...) {
-    }
-    return result;
-}
-#endif
-
-// GPUs which have (slow) partial acceleration of HEVC
-bool IntelHEVCBlacklist(DWORD deviceid) {
-    bool result = false;
-
-    switch (deviceid) {
-        case 0x0412: // Haswell
-        case 0x0416:
-        case 0x041a:
-        case 0x041e:
-        case 0x0a16:
-        case 0x0a1e:
-        case 0x0a26:
-        case 0x0a2e:
-        case 0x0c02:
-        case 0x0c06:
-        case 0x0c12:
-        case 0x0c16:
-        case 0x0c22:
-        case 0x0c26:
-        case 0x0d06:
-        case 0x0d16:
-        case 0x0d22:
-        case 0x0d26:
-        case 0x1612: // Broadwell
-        case 0x1616:
-        case 0x161a:
-        case 0x161b:
-        case 0x161d:
-        case 0x161e:
-        case 0x1622:
-        case 0x1626:
-        case 0x162a:
-        case 0x162b:
-        case 0x162d:
-        case 0x162e:
-            result = true;
-    }
-
-    return result;
-}
-
 void CFGFilterLAVVideo::Settings::LoadSettings()
 {
     CMPlayerCApp* pApp = AfxGetMyApp();
@@ -745,21 +648,14 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
 
     dwHWAccel = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), -1);
     if (dwHWAccel == DWORD(-1)) {
-        // Detect GPU and decide if HWA should be used
-        // ToDo: if MPCVR is used as renderer, check registry if it uses D3D11 and then use D3D11 decoding (if supported)
         dwHWAccel = HWAccel_None;
-        DWORD vendorid = 0;
-        DWORD deviceid = 0;
-        DWORD pixelshaderversion = 0;
-        if (GetGPUDetailsD3D9(&vendorid, &deviceid, &pixelshaderversion)) {
-            if (pixelshaderversion >= 0x300) {
-                if (vendorid == PCIV_NVIDIA || vendorid == PCIV_INTEL || vendorid == PCIV_AMD || vendorid == PCIV_QUALCOMM) {
-                    dwHWAccel = HWAccel_DXVA2Native;
-                    if (vendorid == PCIV_INTEL && IntelHEVCBlacklist(deviceid)) {
-                        bHWFormats[HWCodec_HEVC] = false;
-                    }
-                }
-            }
+        GPUDetect gpuinfo = GPUDetect();
+        if (gpuinfo.SupportHWA()) {
+             dwHWAccel = HWAccel_DXVA2Native;
+             // ToDo: if MPCVR is used as renderer, check registry if it uses D3D11 and then use D3D11 decoding (if supported)
+        }
+        if (gpuinfo.IntelHEVCBlacklist()) {
+            bHWFormats[HWCodec_HEVC] = false;
         }
     }
 
