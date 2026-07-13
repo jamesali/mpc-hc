@@ -255,6 +255,8 @@ void CAboutDlg::OnHomepage(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CAboutDlg::OnCopyToClipboard()
 {
+    auto &s = AfxGetAppSettings();
+
     CStringW info = m_appname + _T("\r\n");
     info += CString(_T('-'), m_appname.GetLength()) + _T("\r\n\r\n");
     info += _T("Build information:\r\n");
@@ -288,21 +290,20 @@ void CAboutDlg::OnCopyToClipboard()
 
     GPUDetect gpuinfo = GPUDetect(false);
     if (gpuinfo.GetCount() > 0) {
-        info.AppendFormat(_T("    GPU:                %s"), gpuinfo.gpu1.description.GetString());
+        info.AppendFormat(_T("    GPU:                %s [%s]"), gpuinfo.gpu1.description.GetString(), gpuinfo.GetGPUID1().GetString());
         if (gpuinfo.gpu1.UMDVersion.QuadPart) {
-            info.AppendFormat(_T(" (driver version: %s)"), gpuinfo.gpu1.GetDriverVersionString().GetString());
+            info.AppendFormat(_T(" [driver: %s]"), gpuinfo.gpu1.GetDriverVersionString().GetString());
         }
         info += _T("\r\n");
     }
     if (gpuinfo.GetCount() > 1) {
-        info.AppendFormat(_T("    GPU2:               %s"), gpuinfo.gpu2.description.GetString());
+        info.AppendFormat(_T("    GPU2:               %s [%s]"), gpuinfo.gpu2.description.GetString(), gpuinfo.GetGPUID2().GetString());
         if (gpuinfo.gpu2.UMDVersion.QuadPart) {
-            info.AppendFormat(_T(" (driver version: %s)"), gpuinfo.gpu2.GetDriverVersionString().GetString());
+            info.AppendFormat(_T(" [driver: %s]"), gpuinfo.gpu2.GetDriverVersionString().GetString());
         }
         info += _T("\r\n");
     }
 
-    auto &s = AfxGetAppSettings();
     CMonitors monitors;
 
     CStringW currentMonitorName;

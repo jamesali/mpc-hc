@@ -32,6 +32,7 @@ GPUDetails::GPUDetails()
 
 const GUID H264_VLD_NOFGT         = { 0x1b81be68, 0xa0c7, 0x11d3, 0xb9, 0x84, 0x00, 0xc0, 0x4f, 0x2e, 0x73, 0xc5};
 const GUID H264_VLD_FGT           = { 0x1b81be69, 0xa0c7, 0x11d3, 0xb9, 0x84, 0x00, 0xc0, 0x4f, 0x2e, 0x73, 0xc5};
+const GUID H264_VLD_INTEL_OLD     = { 0x604F8E68, 0x4951, 0x4C54, 0x88, 0xFE, 0xAB, 0xD2, 0x5C, 0x15, 0xB3, 0xD6};
 const GUID MPEG2                  = { 0xee27417f, 0x5e28, 0x4e65, 0xbe, 0xea, 0x1d, 0x26, 0xb5, 0x08, 0xad, 0xc9};
 const GUID VC1_VLD                = { 0x1b81beA3, 0xa0c7, 0x11d3, 0xb9, 0x84, 0x00, 0xc0, 0x4f, 0x2e, 0x73, 0xc5};
 const GUID VC1_D2010              = { 0x1b81beA4, 0xa0c7, 0x11d3, 0xb9, 0x84, 0x00, 0xc0, 0x4f, 0x2e, 0x73, 0xc5};
@@ -164,6 +165,24 @@ GPUDetect::GPUDetect(bool check_hwa_caps)
                                             GUID decoderProfile = guids[i];
                                             if (decoderProfile == H264_VLD_NOFGT || decoderProfile == H264_VLD_FGT) {
                                                 hwacaps |= GPU_HWA_CAP_H264;
+
+                                                // test 4k support
+                                                if (!(hwacaps & GPU_HWA_CAP_H264_4K)) {
+                                                    DXVA2_VideoDesc desc = {};
+                                                    desc.SampleWidth = 3840;
+                                                    desc.SampleHeight = 2160;
+                                                    desc.Format = (D3DFORMAT)MAKEFOURCC('N', 'V', '1', '2');
+                                                    UINT count = 0;
+                                                    DXVA2_ConfigPictureDecode* cfg = nullptr;
+                                                    hr = decoderService->GetDecoderConfigurations(decoderProfile, &desc, nullptr, &count, &cfg);
+                                                    if (SUCCEEDED(hr) && count > 0)
+                                                    {
+                                                        hwacaps |= GPU_HWA_CAP_H264_4K;
+                                                    }
+                                                    CoTaskMemFree(cfg);
+                                                }
+                                            } else if (decoderProfile == H264_VLD_INTEL_OLD) {
+                                                hwacaps |= GPU_HWA_CAP_H264_INTEL;
                                             } else if (decoderProfile == VP9_VLD_PROFILE0) {
                                                 hwacaps |= GPU_HWA_CAP_VP9_P0;
                                             } else if (decoderProfile == VP9_VLD_10BIT_PROFILE2) {

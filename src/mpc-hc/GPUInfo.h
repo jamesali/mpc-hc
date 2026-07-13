@@ -31,16 +31,18 @@
 # define PCIV_QUALCOMM  0x4351
 # define PCIV_MICROSOFT 0x1414
 
-const int GPU_HWA_CAP_H264        =   1;
-const int GPU_HWA_CAP_VP9_P0      =   2;
-const int GPU_HWA_CAP_VP9_P2      =   4;
-const int GPU_HWA_CAP_HEVC_MAIN   =   8;
-const int GPU_HWA_CAP_HEVC_MAIN10 =  16;
-const int GPU_HWA_CAP_HEVC_MAIN12 =  32;
-const int GPU_HWA_CAP_HEVC_MAIN16 =  64;
-const int GPU_HWA_CAP_AV1_P0      = 128;
-const int GPU_HWA_CAP_AV1_P1      = 256;
-const int GPU_HWA_CAP_AV1_P2      = 512;
+const int GPU_HWA_CAP_H264_INTEL  = 1 << 0;
+const int GPU_HWA_CAP_H264        = 1 << 1;
+const int GPU_HWA_CAP_H264_4K     = 1 << 2;
+const int GPU_HWA_CAP_VP9_P0      = 1 << 3;
+const int GPU_HWA_CAP_VP9_P2      = 1 << 4;
+const int GPU_HWA_CAP_HEVC_MAIN   = 1 << 5;
+const int GPU_HWA_CAP_HEVC_MAIN10 = 1 << 6;
+const int GPU_HWA_CAP_HEVC_MAIN12 = 1 << 7;
+const int GPU_HWA_CAP_HEVC_MAIN16 = 1 << 8;
+const int GPU_HWA_CAP_AV1_P0      = 1 << 9;
+const int GPU_HWA_CAP_AV1_P1      = 1 << 10;
+const int GPU_HWA_CAP_AV1_P2      = 1 << 11;
 
 class GPUDetails
 {
@@ -66,6 +68,14 @@ public:
     bool SupportHWA() { return hwa_caps_dx11 > 0 ||  hwa_caps_dx9 > 0; }
     bool SupportD3D11VA() { return hwa_caps_dx11 > 0 && featurelevel >= D3D_FEATURE_LEVEL_11_1; }
     bool IntelHEVCBlacklist();
+    bool UseMPCVR() { return GetHwaCaps() >= GPU_HWA_CAP_H264_4K; }
+    CString GetGPUID(GPUDetails& gpu) {
+        CString res;
+        res.Format(L"%04x:%04x", gpu.vendorid, gpu.deviceid);
+        return res;
+    }
+    CString GetGPUID1() { return GetGPUID(gpu1); }
+    CString GetGPUID2() { return GetGPUID(gpu2); }
 
     GPUDetails gpu1;
     GPUDetails gpu2;
