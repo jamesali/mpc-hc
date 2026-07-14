@@ -138,8 +138,22 @@ GPUDetect::GPUDetect(bool check_hwa_caps)
                         if (!gpu_count) {
                             gpu1 = tmpgpu;
                             gpu_count = 1;
-                            if (count > 1 && GetGPUDetailsDX9(pD3D, 1, &gpu2)) {
-                                gpu_count = 2;
+                            if (count > 1) {
+                                GPUDetails tmpgpu2;
+                                if (GetGPUDetailsDX9(pD3D, 1, &tmpgpu2)) {
+                                    if (tmpgpu2.deviceid != gpu1.deviceid) {
+                                        gpu2 = tmpgpu2;
+                                        gpu_count = 2;
+                                    } else if (count > 2) {
+                                        GPUDetails tmpgpu3;
+                                        if (GetGPUDetailsDX9(pD3D, 2, &tmpgpu3)) {
+                                            if (tmpgpu3.deviceid != gpu1.deviceid) {
+                                                gpu2 = tmpgpu3;
+                                                gpu_count = 2;
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
 
