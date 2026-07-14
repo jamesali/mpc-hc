@@ -58,7 +58,7 @@ GPUDetect::GPUDetect(bool check_hwa_caps)
     if (win8plus) {
 		hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, fl_list, _countof(fl_list), D3D11_SDK_VERSION, &pD3D11Device, &fl_available, &pContext);
 	}
-	if (hr == E_INVALIDARG) {
+	if (hr != S_OK) {
 		hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, nullptr, 0, D3D11_SDK_VERSION, &pD3D11Device, &fl_available, &pContext);
 	}
     if (hr == S_OK && pD3D11Device) {
@@ -90,6 +90,7 @@ GPUDetect::GPUDetect(bool check_hwa_caps)
                                         if (S_OK == pVideoDevice->GetVideoDecoderProfile(i, &decoderProfile)) {
                                             if (decoderProfile == H264_VLD_NOFGT || decoderProfile == H264_VLD_FGT) {
                                                 hwacaps |= GPU_HWA_CAP_H264;
+                                                hwacaps |= GPU_HWA_CAP_H264_4K;
                                             } else if (decoderProfile == VP9_VLD_PROFILE0) {
                                                 hwacaps |= GPU_HWA_CAP_VP9_P0;
                                             } else if (decoderProfile == VP9_VLD_10BIT_PROFILE2) {
@@ -253,7 +254,6 @@ bool GPUDetect::GetGPUDetailsDX9(IDirect3D9Ex* pD3D, int id, GPUDetails* gpu)
     D3DADAPTER_IDENTIFIER9 aid9;
 	HRESULT hr = pD3D->GetAdapterIdentifier(id, 0, &aid9);
 	if (hr == D3D_OK) {
-        char* tmp1[512] = { 0 };
 		gpu->vendorid = aid9.VendorId;
 		gpu->deviceid = aid9.DeviceId;
         gpu->description = CStringW(aid9.Description);

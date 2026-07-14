@@ -39,6 +39,10 @@
 #include "date/date.h"
 #include "PPageExternalFilters.h"
 #include "../VideoRenderers/MPCVRAllocatorPresenter.h"
+#include "GPUInfo.h"
+#include "FGFilterLAV.h"
+#include <chrono>
+
 std::map<DWORD, const wmcmd_base*> CAppSettings::CommandIDToWMCMD;
 
 #pragma warning(push)
@@ -294,6 +298,9 @@ CAppSettings::CAppSettings()
     , bPauseWhileDraggingSeekbar(true)
     , bConfirmFileDelete(true)
     , bShowVolumePercentage(true)
+    , LastGPUCheck(0)
+    , gpuid1(L"")
+    , gpuid2(L"")
 {
     // Internal source filter
 #if INTERNAL_SOURCEFILTER_AC3
@@ -1392,6 +1399,10 @@ void CAppSettings::SaveSettings(bool write_full_history /* = false */)
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_CONFIRM_FILE_DELETE, bConfirmFileDelete);
     pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHOW_VOLUME_PERCENTAGE, bShowVolumePercentage);
 
+    pApp->WriteProfileInt(IDS_R_SETTINGS, L"LastGPUCheck", LastGPUCheck);
+    pApp->WriteProfileString(IDS_R_SETTINGS, L"GPUID1", gpuid1);
+    pApp->WriteProfileString(IDS_R_SETTINGS, L"GPUID2", gpuid2);
+
     if (fKeepHistory && write_full_history) {
         MRU.SaveMediaHistory();
     }
@@ -2342,6 +2353,56 @@ void CAppSettings::LoadSettings()
     bAlwaysUseShortMenu = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ALWAYS_USE_SHORT_MENU, FALSE);
     iStillVideoDuration = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_STILL_VIDEO_DURATION, 10);
     iMouseLeftUpDelay = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MOUSE_LEFTUP_DELAY, 0);
+
+    LastGPUCheck = pApp->GetProfileInt(IDS_R_SETTINGS, L"LastGPUCheck", 0);
+    gpuid1 = pApp->GetProfileString(IDS_R_SETTINGS, L"GPUID1", L"");
+    gpuid2 = pApp->GetProfileString(IDS_R_SETTINGS, L"GPUID2", L"");
+
+    int hoursSinceEpoch = std::chrono::duration_cast<std::chrono::hours>(std::chrono::system_clock::now().time_since_epoch()).count();
+    if (!LastGPUCheck) {
+        LastGPUCheck = hoursSinceEpoch;
+        GPUDetect gpuinfo = GPUDetect();
+        CString previous_gpuid1 = gpuid1;
+        gpuid1 = gpuinfo.GetCount() >= 1 ? gpuinfo.GetGPUID1() : CString();
+        gpuid2 = gpuinfo.GetCount() >= 2 ? gpuinfo.GetGPUID2() : CString();
+
+        // fix incorrect HWA setting, if user only changed renderer
+        if (iDSVideoRendererType == VIDRNDT_DS_MPCVR) {
+            DWORD regval;
+            if (ReadRegistryDWORD(HKEY_CURRENT_USER, L"Software\\MPC-BE Filters\\MPC Video Renderer", L"UseD3D11", regval) && (regval == 1)) {
+                if (pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), -1) == HWAccel_DXVA2Native) {
+                    if (gpuinfo.SupportD3D11VA()) {
+                        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_D3D11);
+                    } else {
+                        WriteRegistryDWORD(HKEY_CURRENT_USER, L"Software\\MPC-BE Filters\\MPC Video Renderer", L"UseD3D11", 0);
+                    }
+                }
+            }
+        }
+
+        bool gpu_changed = previous_gpuid1 != gpuid1;
+        // adjust settings if detection changed
+        if (gpu_changed && gpuinfo.UseMPCVR() && DSObjects::CMPCVRAllocatorPresenter::HasInternalMPCVRFilter()) {
+            if (iDSVideoRendererType != VIDRNDT_DS_MPCVR && iDSVideoRendererType != VIDRNDT_DS_MADVR && iDSVideoRendererType != VIDRNDT_DS_SYNC) {
+                iDSVideoRendererType = VIDRNDT_DS_MPCVR;
+                bool softwaredec = (pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), -1) == HWAccel_None);
+                if (gpuinfo.SupportD3D11VA()) {
+                    WriteRegistryDWORD(HKEY_CURRENT_USER, L"Software\\MPC-BE Filters\\MPC Video Renderer", L"UseD3D11", 1);
+                    if (!softwaredec) {
+                        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_D3D11);
+                    }
+                } else {
+                    WriteRegistryDWORD(HKEY_CURRENT_USER, L"Software\\MPC-BE Filters\\MPC Video Renderer", L"UseD3D11", 0);
+                    if (!softwaredec) {
+                        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_DXVA2Native);
+                    }
+                }
+                if (gpuinfo.IntelHEVCBlacklist()) {
+                    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("hevc"), false);
+                }
+            }
+        }
+    }
 
     if (bMPCTheme) {
         CMPCTheme::InitializeColors();

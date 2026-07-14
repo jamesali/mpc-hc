@@ -652,7 +652,18 @@ void CFGFilterLAVVideo::Settings::LoadSettings()
         GPUDetect gpuinfo = GPUDetect();
         if (gpuinfo.SupportHWA()) {
              dwHWAccel = HWAccel_DXVA2Native;
-             // ToDo: if MPCVR is used as renderer, check registry if it uses D3D11 and then use D3D11 decoding (if supported)
+
+             if (AfxGetAppSettings().iDSVideoRendererType == VIDRNDT_DS_MPCVR) {
+                 if (gpuinfo.SupportD3D11VA()) {
+                     WriteRegistryDWORD(HKEY_CURRENT_USER, L"Software\\MPC-BE Filters\\MPC Video Renderer", L"UseD3D11", 1);
+                     dwHWAccel = HWAccel_D3D11;
+                 } else {
+                     WriteRegistryDWORD(HKEY_CURRENT_USER, L"Software\\MPC-BE Filters\\MPC Video Renderer", L"UseD3D11", 0);
+                 }
+             }
+             if (AfxGetAppSettings().iDSVideoRendererType == VIDRNDT_DS_MADVR) {
+                 dwHWAccel = HWAccel_DXVA2CopyBack;
+             }
         }
         if (gpuinfo.IntelHEVCBlacklist()) {
             bHWFormats[HWCodec_HEVC] = false;

@@ -229,6 +229,11 @@ public:
     afx_msg void OnHelpShowcommandlineswitches();
 };
 
+bool ReadRegistryDWORD(HKEY hKeyRoot, const wchar_t* subKey, const wchar_t* valueName, DWORD& value);
+bool ReadRegistryString(HKEY hKeyRoot, LPCWSTR subKey, LPCWSTR valueName, CString& value);
+bool WriteRegistryDWORD(HKEY hKeyRoot, LPCWSTR subKey, LPCWSTR valueName, DWORD value);
+bool WriteRegistryString(HKEY hKeyRoot, LPCWSTR subKey, LPCWSTR valueName, const CString& value);
+
 #define AfxGetAppSettings() (*static_cast<CMPlayerCApp*>(AfxGetApp())->m_s.get())
 #define AfxGetMyApp()       static_cast<CMPlayerCApp*>(AfxGetApp())
 

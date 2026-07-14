@@ -1030,6 +1030,10 @@ public:
     bool bConfirmFileDelete;
     bool bShowVolumePercentage;
 
+    int LastGPUCheck;
+    CString gpuid1;
+    CString gpuid2;
+
 private:
     struct FilterKey {
         CString name;

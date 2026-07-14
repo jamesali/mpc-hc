@@ -2935,3 +2935,115 @@ void CMPlayerCApp::RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool 
     }
 }
 
+bool ReadRegistryDWORD(HKEY hKeyRoot, const wchar_t* subKey, const wchar_t* valueName, DWORD& value)
+{
+    DWORD dataSize = sizeof(DWORD);
+    DWORD dataType = 0;
+
+    LONG result = RegGetValueW(
+        hKeyRoot,
+        subKey,
+        valueName,
+        RRF_RT_REG_DWORD,
+        &dataType,
+        &value,
+        &dataSize);
+
+    return (result == ERROR_SUCCESS);
+}
+
+bool ReadRegistryString(HKEY hKeyRoot, LPCWSTR subKey, LPCWSTR valueName, CString& value)
+{
+    DWORD dataSize = 0;
+
+    // Query the required buffer size (in bytes).
+    LONG result = RegGetValueW(
+        hKeyRoot,
+        subKey,
+        valueName,
+        RRF_RT_REG_SZ,
+        nullptr,
+        nullptr,
+        &dataSize);
+
+    if (result != ERROR_SUCCESS)
+        return false;
+
+    // Allocate the CString buffer.
+    LPTSTR buffer = value.GetBuffer(dataSize / sizeof(WCHAR));
+
+    result = RegGetValueW(
+        hKeyRoot,
+        subKey,
+        valueName,
+        RRF_RT_REG_SZ,
+        nullptr,
+        buffer,
+        &dataSize);
+
+    value.ReleaseBuffer();
+
+    return (result == ERROR_SUCCESS);
+}
+
+bool WriteRegistryDWORD(HKEY hKeyRoot, LPCWSTR subKey, LPCWSTR valueName, DWORD value)
+{
+    HKEY hKey = nullptr;
+
+    LONG result = RegCreateKeyExW(
+        hKeyRoot,
+        subKey,
+        0,
+        nullptr,
+        REG_OPTION_NON_VOLATILE,
+        KEY_WRITE,
+        nullptr,
+        &hKey,
+        nullptr);
+
+    if (result != ERROR_SUCCESS)
+        return false;
+
+    result = RegSetValueExW(
+        hKey,
+        valueName,
+        0,
+        REG_DWORD,
+        reinterpret_cast<const BYTE*>(&value),
+        sizeof(value));
+
+    RegCloseKey(hKey);
+
+    return (result == ERROR_SUCCESS);
+}
+
+bool WriteRegistryString(HKEY hKeyRoot, LPCWSTR subKey, LPCWSTR valueName, const CString& value)
+{
+    HKEY hKey = nullptr;
+
+    LONG result = RegCreateKeyExW(
+        hKeyRoot,
+        subKey,
+        0,
+        nullptr,
+        REG_OPTION_NON_VOLATILE,
+        KEY_WRITE,
+        nullptr,
+        &hKey,
+        nullptr);
+
+    if (result != ERROR_SUCCESS)
+        return false;
+
+    result = RegSetValueExW(
+        hKey,
+        valueName,
+        0,
+        REG_SZ,
+        reinterpret_cast<const BYTE*>(static_cast<LPCWSTR>(value)),
+        static_cast<DWORD>((value.GetLength() + 1) * sizeof(WCHAR)));
+
+    RegCloseKey(hKey);
+
+    return (result == ERROR_SUCCESS);
+}

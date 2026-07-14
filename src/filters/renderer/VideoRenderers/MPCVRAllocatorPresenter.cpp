@@ -239,7 +239,7 @@ CStringW GetInternalLibraryPath() {
 
 bool CMPCVRAllocatorPresenter::CheckVersion(CString filterPath) {
     QWORD fversion = FileVersionInfo::GetFileVersionNum(filterPath);
-    return fversion >= MPCVR_FILTERS_VERSION(0, 7, 0, 0);
+    return fversion >= MPCVR_FILTERS_VERSION(0, 9, 0, 0);
 }
 
 bool CMPCVRAllocatorPresenter::HasInternalMPCVRFilter() {
