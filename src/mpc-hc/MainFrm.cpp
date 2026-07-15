@@ -19941,9 +19941,10 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
             bool extendedwait = false;
             bool app_closing = !this->IsWindowVisible();
             if (app_closing) {
-                waitdur += 4000ULL;
+                waitdur += 12000ULL;
             }
             int pm = 0;
+            bool file_checked = false;
             while (processmsg) {
                 dwWait = MsgWaitForMultipleObjects(1, &handle, FALSE, (DWORD)std::min(waitdur, 1500ULL), QS_POSTMESSAGE | QS_SENDMESSAGE);
                 switch (dwWait) {
@@ -20000,6 +20001,32 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                     if (tckill > cur) {
                         waitdur = tckill - cur;
                     } else {
+                        if (!file_checked) {
+                            file_checked = true;
+                            if (!lastOpenFile.IsEmpty() && !PathUtils::IsURL(lastOpenFile)) {
+                                // check file existance, this should spin up hdd
+                                ULONGLONG tc1 = GetTickCount64();
+                                CPath path = CPath(lastOpenFile);
+                                bool exists = path.FileExists();
+                                ULONGLONG tc2 = GetTickCount64();
+                                if (tc2 - tc1 >= 500) {
+                                    // delay is likely caused by pending IO
+                                    if (!app_closing) {
+                                        m_closingmsg = L"File close delay is caused by harddrive resuming from sleep mode";
+                                        m_wndStatusBar.SetStatusMessage(m_closingmsg);
+                                        if (USE_LOGGER(s)) {
+                                            PLAYER_LOG(_T("CMainFrame::CloseMedia - File close delay is caused by harddrive resuming from sleep mode"));
+                                        }
+                                    }
+                                }
+                                if (exists) {
+                                    waitdur = 500ULL;
+                                    tckill = GetTickCount64() + waitdur;
+                                    continue;
+                                }
+                            }
+                        }
+
                         if (extendedwait || m_fFullScreen || s.hMasterWnd || hibernating || app_closing) {
                             processmsg = false;
                         } else {
@@ -20099,9 +20126,10 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         bool extendedwait = false;
         bool app_closing = !this->IsWindowVisible();
         if (app_closing) {
-            waitdur += 4000ULL;
+            waitdur += 12000ULL;
         }
         int pm = 0;
+        bool file_checked = false;
         while (processmsg) {
             // This needs to at least wake for QS_SENDMESSAGE because otherwise graph won't terminate until this times out.
             // It also needs PeekMessage, because that triggers internal dispatch of certain pending messages.
@@ -20166,24 +20194,43 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                 if (tckill > cur) {
                     waitdur = tckill - cur;
                 } else {
+                    if (!file_checked) {
+                        file_checked = true;
+                        if (!lastOpenFile.IsEmpty() && !PathUtils::IsURL(lastOpenFile)) {
+                            // check file existance, this should spin up hdd
+                            ULONGLONG tc1 = GetTickCount64();
+                            CPath path = CPath(lastOpenFile);
+                            bool exists = path.FileExists();
+                            ULONGLONG tc2 = GetTickCount64();
+                            if (tc2 - tc1 >= 500) {
+                                // delay is likely caused by pending IO
+                                if (!app_closing) {
+                                    m_closingmsg = L"File close delay is caused by harddrive resuming from sleep mode";
+                                    m_wndStatusBar.SetStatusMessage(m_closingmsg);
+                                    if (USE_LOGGER(s)) {
+                                        PLAYER_LOG(_T("CMainFrame::CloseMedia - File close delay is caused by harddrive resuming from sleep mode"));
+                                    }
+                                }
+                            }
+                            if (exists) {
+                                waitdur = 500ULL;
+                                tckill = GetTickCount64() + waitdur;
+                                continue;
+                            }
+                        }
+                    }
+
                     if (extendedwait || m_fFullScreen || s.hMasterWnd || hibernating || app_closing) {
                         processmsg = false;
                     } else {
-                        CString timeoutmsg;
-                        if (!m_pGB && m_pGB_preview) {
-#if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10) && 0
-                            if (CrashReporter::IsEnabled()) {
-                                throw 1;
-                            }
-#endif
-                            timeoutmsg = L"Timeout when closing preview filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
-                        } else {
-                            if (m_pMVRS) {
-                                timeoutmsg = L"Timeout when closing filter graph.\n\nIf this happens often, try one of these solutions:\n- Use MPC Video renderer instead of MadVR\n- Use AMD GPU driver 24.8.1 (or older)(newer ones have compatibility issue with MadVR)\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
-                            } else {
-                                timeoutmsg = L"Timeout when closing filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
-                            }
+                        if (!m_pGB && !m_pGB_preview) {
+                            waitdur = 500ULL;
+                            tckill = GetTickCount64() + waitdur;
+                            extendedwait = true;
+                            continue;
                         }
+
+                        CString timeoutmsg = L"Timeout when closing filter graph.\n\nClick YES to terminate player process. Click NO to wait longer (up to 15 seconds).";
                         if (USE_LOGGER(s)) {
                             PLAYER_LOG(_T("CMainFrame::CloseMedia - Timeout when closing filter graph"));
                         }
