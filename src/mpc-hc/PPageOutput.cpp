@@ -33,6 +33,8 @@
 #include "FGManager.h"
 #include "CMPCThemeMsgBox.h"
 #include "../VideoRenderers/MPCVRAllocatorPresenter.h"
+#include "GPUInfo.h"
+#include "FakeFilterMapper2.h"
 
 // CPPageOutput dialog
 
@@ -400,12 +402,94 @@ BOOL CPPageOutput::OnApply()
         return FALSE;
     }
 
-    CRenderersSettings& r                   = s.m_RenderersSettings;
+    if (s.iDSVideoRendererType != m_iDSVideoRendererType) {
+        // video renderer changed, optimize HW decoding settings
+        CMPlayerCApp* pApp = AfxGetMyApp();
+        int curhwa = pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), -1);
+        bool needcopyback = false; // external filters that require copyback
+        if (s.GetSubtitleRenderer() == CAppSettings::SubtitleRenderer::VS_FILTER) {
+            needcopyback = true;
+        }
+        if (s.m_filters.GetCount() > 0) {
+            POSITION pos = s.m_filters.GetHeadPosition();
+            while (pos) {
+               FilterOverride fo = s.m_filters.GetNext(pos);
+               if (!fo.fDisabled && fo.dwMerit > MERIT_DO_NOT_USE) {
+                   if (fo.clsid == CLSID_VSFilter || fo.clsid == CLSID_VSFilter2 || fo.clsid == CLSID_FFDShowRawVideo || fo.clsid ==  CLSID_AviSynthFilter || fo.clsid ==  CLSID_VapourSynthFilter) {
+                       needcopyback = true;
+                       break;
+                   }
+               }
+            }
+        }
+
+        if (m_iDSVideoRendererType == VIDRNDT_DS_MPCVR) {
+            GPUDetect gpuinfo = GPUDetect();
+            if (gpuinfo.SupportD3D11VA()) {
+                WriteRegistryDWORD(HKEY_CURRENT_USER, L"Software\\MPC-BE Filters\\MPC Video Renderer", L"UseD3D11", 1);
+                if (curhwa > HWAccel_None) {
+                    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_D3D11);
+                    if (!needcopyback && (-1 != pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), -1))) {
+                        if (AfxMessageBox(L"Change hardware decoding setting to \"D3D11 Native\"?\n\nThat gives better performance and is optimal choice for the selected video renderer.", MB_YESNO, 0) == IDYES) {
+                            pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), -1);
+                        }
+                    }
+                }
+            } else {
+                WriteRegistryDWORD(HKEY_CURRENT_USER, L"Software\\MPC-BE Filters\\MPC Video Renderer", L"UseD3D11", 0);
+                if (curhwa == HWAccel_D3D11) {
+                    if (needcopyback) {
+                        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_DXVA2CopyBack);
+                    } else {
+                        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_DXVA2Native);
+                    }
+                }
+            }
+        } else if (m_iDSVideoRendererType == VIDRNDT_DS_MADVR) {
+            if (curhwa == HWAccel_D3D11) {
+                if (-1 == pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), -1)) {
+                    if (needcopyback || (AfxMessageBox(L"Change hardware decoding setting from \"D3D11 Native\" to \"D3D11 Copyback\"?\n\nThat gives better stability with MadVR. Native mode may causes freezes. It also does not support deinterlacing and black border detection.", MB_YESNO, 0) == IDYES)) {
+                        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), 0);
+                    }
+                }
+            } else if (curhwa == HWAccel_DXVA2Native || curhwa == HWAccel_DXVA2CopyBack) {
+                GPUDetect gpuinfo = GPUDetect();
+                if (gpuinfo.SupportD3D11VA() && gpuinfo.GetHwaCaps() >= GPU_HWA_CAP_AV1_P0) {
+                    if (AfxMessageBox(L"Change hardware decoding setting to \"D3D11 Copyback\"?\n\nThat supports more video formats than DXVA2.", MB_YESNO, 0) == IDYES) {
+                        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_D3D11);
+                        if (-1 == pApp->GetProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), -1)) {
+                            pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccelDeviceD3D11"), 0);
+                        }
+                    }
+                } else if (curhwa == HWAccel_DXVA2Native) {
+                    if (needcopyback || (AfxMessageBox(L"Change hardware decoding setting from \"DXVA2 Native\" to \"DXVA2 Copyback\"?\n\nIn most situations copyback mode is recommended when using MadVR.", MB_YESNO, 0) == IDYES)) {
+                        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_DXVA2CopyBack);
+                    }
+                }
+            }
+        } else if (m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || m_iDSVideoRendererType == VIDRNDT_DS_SYNC || m_iDSVideoRendererType == VIDRNDT_DS_EVR) {
+            if (curhwa == HWAccel_D3D11) {
+                GPUDetect gpuinfo = GPUDetect();
+                if (!gpuinfo.SupportD3D11VA() || gpuinfo.GetHwaCaps() < GPU_HWA_CAP_AV1_P0) {
+                    if (needcopyback) {
+                        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_DXVA2CopyBack);
+                    } else {
+                        pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_DXVA2Native);
+                    }
+                }
+            } else if (curhwa == HWAccel_DXVA2CopyBack && !needcopyback) {
+                if (AfxMessageBox(L"Change hardware decoding setting from \"DXVA2 Copyback\" to \"DXVA2 Native\"?\n\nThat should give better performance with the selected video renderer.", MB_YESNO, 0) == IDYES) {
+                    pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_DXVA2Native);
+                }
+            }
+        } else if (m_iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || m_iDSVideoRendererType == VIDRNDT_DS_VMR9WINDOWED || m_iDSVideoRendererType == VIDRNDT_DS_DEFAULT || m_iDSVideoRendererType == VIDRNDT_DS_OVERLAYMIXER) {
+            if (curhwa == HWAccel_DXVA2Native || curhwa == HWAccel_D3D11) {
+                pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_DXVA2CopyBack);
+            }
+        }
+    }
+
     s.iDSVideoRendererType                  = m_iDSVideoRendererType;
-    r.iAPSurfaceUsage                       = m_iAPSurfaceUsage;
-    r.iDX9Resizer                           = m_iDX9Resizer;
-    r.fVMR9MixerMode                        = !!m_fVMR9MixerMode;
-    r.m_AdvRendSets.bVMR9AlterativeVSync    = m_fVMR9AlterativeVSync != FALSE;
     s.strAudioRendererDisplayName           = GetAudioRendererDisplayName();
     s.fD3DFullscreen                        = m_fD3DFullscreen ? true : false;
 
@@ -415,13 +499,16 @@ BOOL CPPageOutput::OnApply()
         s.SetSubtitleRenderer(subrenderer);
     }
 
+    CRenderersSettings& r                   = s.m_RenderersSettings;
+    r.iAPSurfaceUsage                       = m_iAPSurfaceUsage;
+    r.iDX9Resizer                           = m_iDX9Resizer;
+    r.fVMR9MixerMode                        = !!m_fVMR9MixerMode;
+    r.m_AdvRendSets.bVMR9AlterativeVSync    = m_fVMR9AlterativeVSync != FALSE;
     r.fResetDevice = !!m_fResetDevice;
     r.m_AdvRendSets.bCacheShaders = !!m_fCacheShaders;
-
     if (m_iEvrBuffers.IsEmpty() || _stscanf_s(m_iEvrBuffers, _T("%d"), &r.iEvrBuffers) != 1) {
         r.iEvrBuffers = 5;
     }
-
     if (m_fD3D9RenderDevice) {
         r.D3D9RenderDevice = m_D3D9GUIDNames[m_iD3D9RenderDevice];
     } else {
