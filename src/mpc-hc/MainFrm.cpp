@@ -3061,6 +3061,12 @@ void CMainFrame::GraphEventComplete()
         if (bBreak) {
             DoAfterPlaybackEvent();
         } else if ((m_wndPlaylistBar.GetCount() > 1) && (s.eLoopMode == CAppSettings::LoopMode::PLAYLIST)) {
+            if (IsImageFile(lastOpenFile)) {
+                REFERENCE_TIME rtDur = 0;
+                if (!m_pMS || (m_pMS->GetDuration(&rtDur) != S_OK) || rtDur == 0) {
+                    return; // no automatic jump to next file
+                }
+            }
             int nLoops = m_nLoops;
             SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDFILE);
             m_nLoops = nLoops;
