@@ -11082,7 +11082,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
         }
 
         SeekToDVDChapter((nID == ID_NAVIGATE_SKIPBACK) ? -1 : 1, true);
-    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+    } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE && GetLoadState() == MLS::LOADED) {
         CComQIPtr<IBDATuner> pTun = m_pGB;
         if (pTun) {
             int nCurrentChannel = s.nDVBLastChannel;
