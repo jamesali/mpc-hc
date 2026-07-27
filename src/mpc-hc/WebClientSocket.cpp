@@ -853,6 +853,7 @@ bool CWebClientSocket::OnSnapshotJpeg(CStringA& hdr, CStringA& body, CStringA& m
         if (bpp != 16 && bpp != 24 && bpp != 32) {
             return false;
         }
+        bool topdown = (bih->biHeight < 0);
         int w = bih->biWidth;
         int h = abs(bih->biHeight);
         BYTE* p = DEBUG_NEW BYTE[w * h * 4];
@@ -862,7 +863,11 @@ bool CWebClientSocket::OnSnapshotJpeg(CStringA& hdr, CStringA& body, CStringA& m
         int srcpitch = w * (bpp >> 3);
         int dstpitch = w * 4;
 
-        BitBltFromRGBToRGB(w, h, p, dstpitch, 32, (BYTE*)src + srcpitch * (h - 1), -srcpitch, bpp);
+        if (topdown) {
+            BitBltFromRGBToRGB(w, h, p, dstpitch, 32, (BYTE*)src, srcpitch, bpp);
+        } else {
+            BitBltFromRGBToRGB(w, h, p, dstpitch, 32, (BYTE*)src + srcpitch * (h - 1), -srcpitch, bpp);
+        }
 
         {
             CBitmap bmp;
