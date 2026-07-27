@@ -243,8 +243,8 @@ bool GPUDetect::GetGPUDetailsDX11(IDXGIFactory1* pIDXGIFactory1, int id, GPUDeta
 		DXGI_ADAPTER_DESC1 desc;
 		hr = pEnumAdapter->GetDesc1(&desc);
 		if (hr == S_OK) {
-			gpu->vendorid = desc.VendorId;
-			gpu->deviceid = desc.DeviceId;
+			gpu->vendorid = desc.VendorId & 0xFFFF;
+			gpu->deviceid = desc.DeviceId & 0xFFFF;
             gpu->description = CString(desc.Description);
 			if (desc.DedicatedVideoMemory) {
 				SIZE_T temp = desc.DedicatedVideoMemory / 1024 / 1024;
