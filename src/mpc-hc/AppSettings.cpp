@@ -135,7 +135,7 @@ CAppSettings::CAppSettings()
     , idAudioLang(0)
     , idSubtitlesLang(0)
     , fClosedCaptions(false)
-    , iDSVideoRendererType(VIDRNDT_DS_DEFAULT)
+    , iDSVideoRendererType(VIDRNDT_DS_VMR7)
     , fD3DFullscreen(false)
     , fLaunchfullscreen(false)
     , bHideFullscreenControls(true)
@@ -3934,7 +3934,7 @@ void CAppSettings::MigrateSettings()
         [[fallthrough]];
         case 7:
             // Update the settings after the removal of DirectX 7 renderers
-            switch (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, VIDRNDT_DS_DEFAULT)) {
+            switch (pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, VIDRNDT_DS_VMR7)) {
                 case 3: // VIDRNDT_DS_VMR7WINDOWED
                     VERIFY(pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, VIDRNDT_DS_VMR9WINDOWED));
                     break;

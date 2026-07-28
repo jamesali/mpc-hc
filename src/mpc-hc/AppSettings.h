@@ -109,7 +109,7 @@ enum MpcCaptionState {
 }; // flags for Caption & Menu Mode
 
 enum {
-    VIDRNDT_DS_DEFAULT        = 0,
+    VIDRNDT_DS_VMR7           = 0,
     VIDRNDT_DS_OVERLAYMIXER   = 2,
     VIDRNDT_DS_VMR9WINDOWED   = 4,
     VIDRNDT_DS_VMR9RENDERLESS = 6,

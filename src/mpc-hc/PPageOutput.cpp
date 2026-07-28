@@ -43,7 +43,7 @@ CPPageOutput::CPPageOutput()
     : CMPCThemePPageBase(CPPageOutput::IDD, CPPageOutput::IDD)
     , m_tick(nullptr)
     , m_cross(nullptr)
-    , m_iDSVideoRendererType(VIDRNDT_DS_DEFAULT)
+    , m_iDSVideoRendererType(VIDRNDT_DS_VMR7)
     , m_iAPSurfaceUsage(0)
     , m_iAudioRendererType(0)
     , m_lastSubrenderer(CAppSettings::SubtitleRenderer::INTERNAL)
@@ -259,7 +259,7 @@ BOOL CPPageOutput::OnInitDialog()
         WORD resName;
 
         switch (nID) {
-            case VIDRNDT_DS_DEFAULT:
+            case VIDRNDT_DS_VMR7:
                 resName = IDS_PPAGE_OUTPUT_VMR7;
                 break;
             case VIDRNDT_DS_OVERLAYMIXER:
@@ -319,7 +319,7 @@ BOOL CPPageOutput::OnInitDialog()
     addRenderer(VIDRNDT_DS_SYNC);
     addRenderer(VIDRNDT_DS_VMR9RENDERLESS);
     addRenderer(VIDRNDT_DS_VMR9WINDOWED);
-    addRenderer(VIDRNDT_DS_DEFAULT);
+    addRenderer(VIDRNDT_DS_VMR7);
     addRenderer(VIDRNDT_DS_DXR);
     addRenderer(VIDRNDT_DS_OVERLAYMIXER);
     addRenderer(VIDRNDT_DS_NULL_COMP);
@@ -348,7 +348,7 @@ BOOL CPPageOutput::OnInitDialog()
 
     CreateToolTip();
 
-    m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), ResStr(IDC_DSSYSDEF));
+    m_wndToolTip.AddTool(GetDlgItem(IDC_VIDRND_COMBO), L"");
     m_wndToolTip.AddTool(GetDlgItem(IDC_DX_SURFACE), ResStr(IDC_REGULARSURF));
 
     OnDSRendererChange();
@@ -482,7 +482,7 @@ BOOL CPPageOutput::OnApply()
                     pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_DXVA2Native);
                 }
             }
-        } else if (m_iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || m_iDSVideoRendererType == VIDRNDT_DS_VMR9WINDOWED || m_iDSVideoRendererType == VIDRNDT_DS_DEFAULT || m_iDSVideoRendererType == VIDRNDT_DS_OVERLAYMIXER) {
+        } else if (m_iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || m_iDSVideoRendererType == VIDRNDT_DS_VMR9WINDOWED || m_iDSVideoRendererType == VIDRNDT_DS_VMR7 || m_iDSVideoRendererType == VIDRNDT_DS_OVERLAYMIXER) {
             if (curhwa == HWAccel_DXVA2Native || curhwa == HWAccel_D3D11) {
                 pApp->WriteProfileInt(IDS_R_INTERNAL_LAVVIDEO_HWACCEL, _T("HWAccel"), HWAccel_DXVA2CopyBack);
             }
@@ -626,9 +626,9 @@ void CPPageOutput::OnDSRendererChange()
     m_iDSRotationSupport.SetIcon(m_cross);
 
     switch (m_iDSVideoRendererType) {
-        case VIDRNDT_DS_DEFAULT:
+        case VIDRNDT_DS_VMR7:
             m_iDSSaveImageSupport.SetIcon(m_tick);
-            m_wndToolTip.UpdateTipText(ResStr(IDC_DSSYSDEF), GetDlgItem(IDC_VIDRND_COMBO));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSVMR7), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_OVERLAYMIXER:
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSOVERLAYMIXER), GetDlgItem(IDC_VIDRND_COMBO));
@@ -640,7 +640,7 @@ void CPPageOutput::OnDSRendererChange()
         case VIDRNDT_DS_EVR:
             m_iDSDXVASupport.SetIcon(m_tick);
             m_iDSSaveImageSupport.SetIcon(m_tick);
-            m_wndToolTip.UpdateTipText(_T(""), GetDlgItem(IDC_VIDRND_COMBO));
+            m_wndToolTip.UpdateTipText(ResStr(IDC_DSEVR), GetDlgItem(IDC_VIDRND_COMBO));
             break;
         case VIDRNDT_DS_NULL_COMP:
             m_wndToolTip.UpdateTipText(ResStr(IDC_DSNULL_COMP), GetDlgItem(IDC_VIDRND_COMBO));
