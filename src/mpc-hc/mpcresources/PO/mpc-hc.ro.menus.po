@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2025-04-26 17:38:13+0000\n"
+"POT-Creation-Date: 2026-07-18 21:00:08+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Miloiu Andrei-Valentin <miloiuandrei@gmail.com>, 2026\n"
 "Language-Team: Romanian (https://app.transifex.com/mpchc/teams/106126/ro/)\n"
@@ -109,7 +109,7 @@ msgstr "Bara de &căutare"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
-msgstr "Cont&roale"
+msgstr "Cont&roale (Comenzi)"
 
 msgctxt "ID_VIEW_INFORMATION"
 msgid "&Information"
@@ -133,7 +133,7 @@ msgstr "Listă de &redare (Playlist)"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr "Captu&ră"
+msgstr "Captu&rează (Fă o captură)"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
@@ -145,19 +145,19 @@ msgstr "&Presetări..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr "&Minim"
+msgstr "Interfață &minimală"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "&Compact"
+msgstr "Interfață &compactă"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr "&Normal"
+msgstr "Interfață &normală"
 
 msgctxt "ID_VIEW_PRESETS_CUSTOM"
 msgid "C&ustom"
-msgstr ""
+msgstr "Pe&rsonalizat"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
@@ -225,7 +225,7 @@ msgstr "&Prezentare"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "&Modul ecran complet D3D"
+msgstr "&Modul ecran complet (pe tot ecranul) D3D"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
@@ -702,7 +702,7 @@ msgstr "Jos (Sca&de volumul)"
 
 msgctxt "ID_VOLUME_MUTE"
 msgid "&Mute"
-msgstr "&Mut (Silențios)"
+msgstr "&Mut (Fără sonor / Silențios)"
 
 msgctxt "POPUP"
 msgid "Af&ter Playback"

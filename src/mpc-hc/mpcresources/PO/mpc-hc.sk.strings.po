@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2026-06-02 02:11:23+0000\n"
+"POT-Creation-Date: 2026-07-18 21:00:08+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Marián Hikaník, 2026\n"
 "Language-Team: Slovak (https://app.transifex.com/mpchc/teams/106126/sk/)\n"
@@ -441,7 +441,7 @@ msgstr "Nepodarilo sa nastaviť cieľové okno pre notifikáciu z grafu"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Nepodarilo sa vykresliť všetky piny pre filter DVD Navigator"
+msgstr "Nepodarilo sa vykresliť všetky piny filtra DVD Navigator"
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -549,11 +549,11 @@ msgstr "&Ladenie shaderov..."
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
-msgstr "Oneskorenie titulkov: -"
+msgstr "Oneskorenie titulkov -"
 
 msgctxt "IDS_MPLAYERC_105"
 msgid "Subtitle Delay +"
-msgstr "Oneskorenie titulkov: +"
+msgstr "Oneskorenie titulkov +"
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
@@ -1427,27 +1427,27 @@ msgstr "Skryť p&ri režime na celú obrazovku"
 
 msgctxt "IDS_PLAYLIST_POSITION"
 msgid "&Position"
-msgstr ""
+msgstr "&Pozícia"
 
 msgctxt "IDS_PLAYLIST_POSITION_LEFT"
 msgid "&Left"
-msgstr "Vľavo"
+msgstr "V&ľavo"
 
 msgctxt "IDS_PLAYLIST_POSITION_TOP"
 msgid "&Top"
-msgstr "Hore"
+msgstr "H&ore"
 
 msgctxt "IDS_PLAYLIST_POSITION_RIGHT"
 msgid "&Right"
-msgstr "Vpravo"
+msgstr "Vp&ravo"
 
 msgctxt "IDS_PLAYLIST_POSITION_BOTTOM"
 msgid "&Bottom"
-msgstr "Dole"
+msgstr "Do&le"
 
 msgctxt "IDS_PLAYLIST_POSITION_FLOAT"
 msgid "&Floating"
-msgstr ""
+msgstr "Pláva&júce"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -2213,7 +2213,7 @@ msgstr "Normálne zobrazenie"
 
 msgctxt "IDS_AG_VIEW_CUSTOM"
 msgid "View Custom"
-msgstr ""
+msgstr "Zobraziť používateľské"
 
 msgctxt "IDS_AG_FULLSCREEN"
 msgid "Fullscreen"
@@ -4469,6 +4469,8 @@ msgid ""
 "/viewpreset N\tStart with a specific preset,\n"
 "\t\twhere N is one of \"1\" Minimal, \"2\" Compact, \"3\" Normal, or \"4\" Custom"
 msgstr ""
+"/viewpreset N\tSpustiť so špecifickým prednastavením,\n"
+"\t\tN je jednou z možností \"1\" minimálne, \"2\" kompaktné, \"3\" normálne, or \"4\" používateľské"
 
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
@@ -4809,24 +4811,25 @@ msgstr "Nikdy"
 
 msgctxt "IDS_TIME_ON_SEEKBAR_ALWAYS"
 msgid "Always"
-msgstr ""
+msgstr "Vždy"
 
 msgctxt "IDS_TIME_ON_SEEKBAR_WHEN_STATUSBAR_HIDDEN"
 msgid "When status bar is hidden"
-msgstr ""
+msgstr "Keď je stavový riadok skrytý"
 
 msgctxt "IDS_PPAGEADVANCED_STARTUP_PRESET"
 msgid "View preset to apply at startup"
-msgstr ""
+msgstr "Zobraziť použité prednastavenie pri spúšťaní"
 
 msgctxt "IDS_STARTUP_PRESET_REMEMBER"
 msgid "Remember last"
-msgstr ""
+msgstr "Pamätať si posledné"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_ON_SEEKBAR_LEFT"
 msgid ""
 "Show the time on the left side of the seekbar instead of the right side"
 msgstr ""
+"Zobraziť čas na ľavej strane vyhľadávacieho panela, nie na pravej strane"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
 msgid "Display current audio and subtitle language in status bar"
@@ -5055,7 +5058,7 @@ msgstr "Predvolené"
 
 msgctxt "IDS_ARS_PAUSE_KEEP_ACTIVE"
 msgid "Keep audio device active when paused"
-msgstr ""
+msgstr "Udržiavať zvukové zariadenie aktívne pri pozastavení"
 
 msgctxt "IDS_ARS_TIP_BITEXACT_OUTPUT"
 msgid ""
@@ -5073,7 +5076,7 @@ msgstr ""
 
 msgctxt "IDS_ARS_TIP_PAUSE_KEEP_ACTIVE"
 msgid "The renderer will send inaudible noise to the device."
-msgstr ""
+msgstr "Vykresľovač bude odosielať do zariadenia nepočuteľný zvuk."
 
 msgctxt "IDS_CMD_THUMBNAILS"
 msgid "/thumbnails\tCreate thumbnails"

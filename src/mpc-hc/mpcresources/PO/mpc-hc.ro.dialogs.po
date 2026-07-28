@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2026-06-02 02:11:23+0000\n"
+"POT-Creation-Date: 2026-07-18 21:00:08+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Miloiu Andrei-Valentin <miloiuandrei@gmail.com>, 2026\n"
 "Language-Team: Romanian (https://app.transifex.com/mpchc/teams/106126/ro/)\n"
@@ -703,7 +703,7 @@ msgstr "Blochează"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
 msgid "Set merit:"
-msgstr "Definește merit:"
+msgstr "Definește meritul:"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON3"
 msgid "Up"
@@ -937,15 +937,15 @@ msgstr "Anulează"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Font"
-msgstr "Font (Scris)"
+msgstr "Fontul (Scrisul)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
 msgid "Font"
-msgstr "Font (Scris)"
+msgstr "Fontul (Scrisul)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC1"
 msgid "Spacing"
-msgstr "Spațiere"
+msgstr "Spațierea"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC2"
 msgid "Angle (z,°)"
@@ -1181,7 +1181,7 @@ msgstr "Reinițializează la schimbarea ecranului"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "Ecran complet D3D"
+msgstr "Redă pe tot ecranul prin D3D (Direct3D)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
@@ -1189,11 +1189,11 @@ msgstr "Sincronizare verticală alternativă"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
-msgstr "Mod de mixare/amestecător VMR-9"
+msgstr "Modul de mixare (amestecare) a VMR-9"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
-msgstr "Preîncărcări EVR:"
+msgstr "Memorii tampon ptr. EVR:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
@@ -1744,8 +1744,8 @@ msgstr "Mod exclusiv"
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
 msgstr ""
-"Ignoră amestecătorul de canale al sistemului (ignorat tot timpul în modul "
-"exclusiv WASAPI)"
+"Ignoră amestecătorul (mixerul) de canale al sistemului (ignorat tot timpul "
+"în modul exclusiv WASAPI)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
@@ -1884,7 +1884,7 @@ msgstr "Afișează semnele de capitol pe bara de căutare"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Time on seekbar:"
-msgstr ""
+msgstr "Timpul pe bara de căutare:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
 msgid "Seekbar Hover"
@@ -1988,7 +1988,7 @@ msgstr "Limbă:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Custom Preset (4)"
-msgstr ""
+msgstr "Presetare personalizată (4)"
 
 msgctxt "IDD_PPAGETHEME_IDC_CUSTOMPRESET_MENU"
 msgid "Menu"
@@ -2008,7 +2008,7 @@ msgstr "Informații"
 
 msgctxt "IDD_PPAGETHEME_IDC_CUSTOMPRESET_TOOLBAR"
 msgid "Controls"
-msgstr "Controale"
+msgstr "Controale (Comenzi)"
 
 msgctxt "IDD_PPAGETHEME_IDC_CUSTOMPRESET_STATS"
 msgid "Statistics"

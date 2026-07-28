@@ -4,13 +4,12 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Daniel <danny3@tutanota.com>, 2022
-# Mac Balls, 2022
 # Miloiu Andrei-Valentin <miloiuandrei@gmail.com>, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2026-06-02 02:11:23+0000\n"
+"POT-Creation-Date: 2026-07-18 21:00:08+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Miloiu Andrei-Valentin <miloiuandrei@gmail.com>, 2026\n"
 "Language-Team: Romanian (https://app.transifex.com/mpchc/teams/106126/ro/)\n"
@@ -154,7 +153,7 @@ msgstr "Semnal"
 
 msgctxt "IDS_STATSBAR_SIGNAL_FORMAT"
 msgid "Strength: %d dB, Quality: %ld%%"
-msgstr "Putere: %d dB, Calitate: %ld%%"
+msgstr "Puterea: %d (de) dB, Calitatea: %ld%%"
 
 msgctxt "IDS_SUBTITLES_STYLES_CAPTION"
 msgid "Styles"
@@ -242,7 +241,7 @@ msgstr "%d+"
 
 msgctxt "IDS_NO_PARENTAL_RATING"
 msgid "Not rated"
-msgstr "Fără evaluare"
+msgstr "Neevaluat(ă)"
 
 msgctxt "IDS_INFOBAR_CONTENT"
 msgid "Content"
@@ -258,7 +257,7 @@ msgstr "Știri/Evenimente actuale"
 
 msgctxt "IDS_SPEED_UNIT_G"
 msgid "GB/s"
-msgstr "GB/s (GO/s)"
+msgstr "(de) GB/s (GO/s)"
 
 msgctxt "IDS_FILE_FAV_ADDED"
 msgid "File added to favorites"
@@ -270,11 +269,11 @@ msgstr "DVD-ul a fost adăugat la favorite"
 
 msgctxt "IDS_CAPTURE_SETTINGS"
 msgid "Capture Settings"
-msgstr "Setări de captură"
+msgstr "Setări pentru captură"
 
 msgctxt "IDS_NAVIGATION_BAR"
 msgid "Navigation Bar"
-msgstr "Bară de Navigare"
+msgstr "Bara de navigare"
 
 msgctxt "IDS_SUBRESYNC_CAPTION"
 msgid "Subresync"
@@ -314,16 +313,18 @@ msgstr "Stilul"
 
 msgctxt "IDS_SUBRESYNC_CLN_FONT"
 msgid "Font"
-msgstr "Font (Scris)"
+msgstr "Fontul (Scrisul)"
 
 msgctxt "IDS_DVD_NAV_SOME_PINS_ERROR"
 msgid "Failed to render some of the pins of the DVD Navigator filter"
-msgstr "Eșuare la randarea unora dintre pinii filtrului navigator DVD"
+msgstr ""
+"Nu s-au putut reda unele dintre pinii filtrului pentru navigatorul DVD-ului "
+"(DVD Navigator)."
 
 msgctxt "IDS_DVD_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for DVD playback"
 msgstr ""
-"Eșuare la interogarea interfețelor necesare pentru redarea discului DVD"
+"Nu s-au putut interoga interfețele necesare pentru redarea DVD-urilor."
 
 msgctxt "IDS_CAPTURE_LIVE"
 msgid "Live"
@@ -381,7 +382,7 @@ msgstr "Disc"
 
 msgctxt "IDS_SUBDL_DLG_TITLES_COL"
 msgid "Title(s)"
-msgstr "Titlu(ri)"
+msgstr "Titlu (Titluri)"
 
 msgctxt "IDS_SUBRESYNC_CLN_CHARSET"
 msgid "CharSet"
@@ -437,7 +438,7 @@ msgstr "Implicit al sistemului"
 
 msgctxt "IDS_GRAPH_INTERFACES_ERROR"
 msgid "Failed to query the needed interfaces for playback"
-msgstr "Eșuare la interogarea interfețelor necesare pentru redare"
+msgstr "Nu s-au putut interoga interfețele necesare pentru redare"
 
 msgctxt "IDS_GRAPH_TARGET_WND_ERROR"
 msgid "Could not set target window for graph notification"
@@ -445,7 +446,9 @@ msgstr "Nu se poate seta fereastra țintă pentru notificările graficului"
 
 msgctxt "IDS_DVD_NAV_ALL_PINS_ERROR"
 msgid "Failed to render all pins of the DVD Navigator filter"
-msgstr "Eșuare la randarea tuturor pinilor filtrului navigator DVD"
+msgstr ""
+"Nu s-au putut afișa toți pinii filtrului pentru navigatorul DVD-ului (DVD "
+"Navigator).."
 
 msgctxt "IDS_PLAYLIST_OPEN"
 msgid "&Open"
@@ -545,11 +548,11 @@ msgstr "Opțiuni"
 
 msgctxt "IDS_SHADERS_SELECT"
 msgid "&Select Shaders..."
-msgstr "&Selectează nuanțatoarele (shaderele)..."
+msgstr "&Selectează nuanțatoarele (Selectează shaderele)..."
 
 msgctxt "IDS_SHADERS_DEBUG"
 msgid "&Debug Shaders..."
-msgstr "&Depanează nuanțatoarele (shaderele)..."
+msgstr "&Depanează nuanțatoarele (Depanează shaderele)..."
 
 msgctxt "IDS_MPLAYERC_104"
 msgid "Subtitle Delay -"
@@ -681,7 +684,7 @@ msgstr ""
 
 msgctxt "IDS_PPAGE_OUTPUT_OVERLAYMIXER"
 msgid "Overlay Mixer Renderer"
-msgstr "Randor amestecător strat suprapus"
+msgstr "Randorul pentru amestecătorul (pentru mixerul) de suprapunere"
 
 msgctxt "IDS_ZOOM_25"
 msgid "25%"
@@ -689,11 +692,15 @@ msgstr "25%"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9WINDOWED"
 msgid "Video Mixing Renderer 9 (windowed)"
-msgstr "VMR-9 - Randor amestecare video 9 (în fereastră)"
+msgstr ""
+"Randorul de mixare (de amestecare) video 9 (Video Mixing Renderer 9 / VMR-9)"
+" (în fereastră)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR9RENDERLESS"
 msgid "Video Mixing Renderer 9 (renderless)"
-msgstr "VMR-9 - Randor amestecare video 9 (fără randare)"
+msgstr ""
+"Randorul de mixare (de amestecare) video 9 (Video Mixing Renderer 9 / VMR-9)"
+" (fără randare)"
 
 msgctxt "IDS_PPAGE_OUTPUT_EVR"
 msgid "Enhanced Video Renderer"
@@ -759,11 +766,12 @@ msgstr "&Canale"
 
 msgctxt "IDS_PPAGE_OUTPUT_MPCVR"
 msgid "MPC Video Renderer"
-msgstr "Randator video MPC"
+msgstr "Randorul video MPC (MPC Video Renderer)"
 
 msgctxt "IDS_PPAGE_OUTPUT_VMR7"
 msgid "Video Mixing Renderer 7"
-msgstr "Video Mixing Renderer 7"
+msgstr ""
+"Randorul de mixare (de amestecare) video 7 (Video Mixing Renderer 7 / VMR-7)"
 
 msgctxt "IDD_PPAGEACCELTBL"
 msgid "Player::Keys"
@@ -954,11 +962,11 @@ msgstr "Randorul de sincronizare"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
 msgid "MPC Audio Renderer"
-msgstr "Randor audio MPC"
+msgstr "Randorul audio MPC (MPC Audio Renderer)"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
-msgstr "Suprafață netedă offscreen obișnuită"
+msgstr "Suprafață plană obișnuită în afara ecranului"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_2D"
 msgid "2D surfaces"
@@ -1010,7 +1018,7 @@ msgstr "Null - Fără randare video (formate necomprimate)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "SaneAR Audio Renderer"
-msgstr "Randor audio SaneAR"
+msgstr "Randorul audio SaneAR"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -1123,7 +1131,7 @@ msgstr "Comută bara de navigare"
 
 msgctxt "IDS_AG_VSYNCACCURATE"
 msgid "Accurate VSync"
-msgstr "Sincronizare verticală precisă"
+msgstr "Sincronizare verticală precisă (VSync precis)"
 
 msgctxt "IDC_CHECK_RELATIVETO"
 msgid ""
@@ -1441,27 +1449,27 @@ msgstr "Ascunde în modul ecran complet (pe tot ecranul)"
 
 msgctxt "IDS_PLAYLIST_POSITION"
 msgid "&Position"
-msgstr ""
+msgstr "&Poziție"
 
 msgctxt "IDS_PLAYLIST_POSITION_LEFT"
 msgid "&Left"
-msgstr "Stânga"
+msgstr "&Stânga"
 
 msgctxt "IDS_PLAYLIST_POSITION_TOP"
 msgid "&Top"
-msgstr "Sus"
+msgstr "S&us"
 
 msgctxt "IDS_PLAYLIST_POSITION_RIGHT"
 msgid "&Right"
-msgstr "Dreapta"
+msgstr "&Dreapta"
 
 msgctxt "IDS_PLAYLIST_POSITION_BOTTOM"
 msgid "&Bottom"
-msgstr "Jos"
+msgstr "&Jos"
 
 msgctxt "IDS_PLAYLIST_POSITION_FLOAT"
 msgid "&Floating"
-msgstr ""
+msgstr "P&lutitor"
 
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
@@ -1586,14 +1594,13 @@ msgstr "Deschide DVD-ul/BD-ul"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr ""
-"Eșuare la stabilirea nuanțatoarelor (shaderelor) de post-redimensionare"
+msgstr "Nu s-au putut seta nuanțatoarele (shaderele) de post-redimensionare"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
 msgstr ""
-"Eșuare la stabilirea nuanțatoarelor (shaderelor) de pre-redimensionare și de"
-" post-redimensionare"
+"Nu s-au putut seta atât nuanțatoarele (shaderele) de pre-redimensionare, cât"
+" și cele de post-redimensionare."
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid ""
@@ -1874,7 +1881,7 @@ msgstr ""
 
 msgctxt "IDS_SUBTITLE_RENDERER_INTERNAL"
 msgid "Internal Subtitle Renderer"
-msgstr "Randor de subtitrări intern"
+msgstr "Randorul de subtitrări intern"
 
 msgctxt "IDS_AG_OPEN_DEVICE"
 msgid "Open Device"
@@ -1938,7 +1945,7 @@ msgstr "Mergi la"
 
 msgctxt "IDS_AG_INCREASE_RATE"
 msgid "Increase Rate"
-msgstr "Mărește rata"
+msgstr "Mărește rata de redare (Crește viteza)"
 
 msgctxt "IDS_CONTENT_SHOW_GAMESHOW"
 msgid "Show/Game show"
@@ -1978,7 +1985,7 @@ msgstr "Salvează o copie"
 
 msgctxt "IDS_FASTSEEK_LATEST"
 msgid "Latest keyframe"
-msgstr "Ultimul cadru-cheie"
+msgstr "Ultimul cadru cheie"
 
 msgctxt "IDS_FASTSEEK_NEAREST"
 msgid "Nearest keyframe"
@@ -2009,7 +2016,8 @@ msgstr "Afișează când se trece cu mouse-ul peste controale, ascunde după:"
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
 msgstr ""
-"Eșuare la stabilirea nuanțatoarelor (shaderului) de pre-redimensionare"
+"Nu s-au putut seta atât de shaderele de pre-redimensionare, cât și cele de "
+"post-redimensionare."
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -2092,11 +2100,11 @@ msgstr "Eroare BDA (placa tunerului)"
 
 msgctxt "IDS_AG_DECREASE_RATE"
 msgid "Decrease Rate"
-msgstr "Micșorează rata"
+msgstr "Micșorează rata de redare (Scade viteza)"
 
 msgctxt "IDS_AG_RESET_RATE"
 msgid "Reset Rate"
-msgstr "Resetează rata"
+msgstr "Resetează rata de redare (Resetează viteza)"
 
 msgctxt "IDS_MPLAYERC_21"
 msgid "Audio Delay +10 ms"
@@ -2236,7 +2244,7 @@ msgstr "Vizualizare normală"
 
 msgctxt "IDS_AG_VIEW_CUSTOM"
 msgid "View Custom"
-msgstr ""
+msgstr "Vizualizează setările personalizate"
 
 msgctxt "IDS_AG_FULLSCREEN"
 msgid "Fullscreen"
@@ -2598,7 +2606,7 @@ msgstr "Nu se pot salva subtitrările"
 
 msgctxt "IDS_AG_FRAMERATE"
 msgid "Frame rate"
-msgstr "Rată de cadre"
+msgstr "Rata de cadre"
 
 msgctxt "IDS_MAINFRM_6"
 msgid "drawn: %d, dropped: %d"
@@ -3050,7 +3058,7 @@ msgstr "Micșorează decalajul sincronizării verticale"
 
 msgctxt "IDS_MAINFRM_136"
 msgid "MPC-HC D3D Fullscreen"
-msgstr "Ecran complet MPC-HC pentru D3D"
+msgstr "Redă MPC-HC pe tot ecranul (în modul ecran complet) prin D3D"
 
 msgctxt "IDS_MAINFRM_137"
 msgid "Unknown format"
@@ -4509,6 +4517,8 @@ msgid ""
 "/viewpreset N\tStart with a specific preset,\n"
 "\t\twhere N is one of \"1\" Minimal, \"2\" Compact, \"3\" Normal, or \"4\" Custom"
 msgstr ""
+"/viewpreset N\tÎncepe cu o presetare specifică,\n"
+"\t\tunde N este una dintre următoarele: „1” Interfață minimală, „2” Interfață compactă, „3” Interfață normală sau „4” Personalizat"
 
 msgctxt "IDS_CMD_MUTE"
 msgid "/mute\t\tMute the audio"
@@ -4860,24 +4870,25 @@ msgstr "Niciodată"
 
 msgctxt "IDS_TIME_ON_SEEKBAR_ALWAYS"
 msgid "Always"
-msgstr ""
+msgstr "Întotdeauna"
 
 msgctxt "IDS_TIME_ON_SEEKBAR_WHEN_STATUSBAR_HIDDEN"
 msgid "When status bar is hidden"
-msgstr ""
+msgstr "Când bara de stare este ascunsă"
 
 msgctxt "IDS_PPAGEADVANCED_STARTUP_PRESET"
 msgid "View preset to apply at startup"
-msgstr ""
+msgstr "Vizualizează presetarea de aplicat la pornire"
 
 msgctxt "IDS_STARTUP_PRESET_REMEMBER"
 msgid "Remember last"
-msgstr ""
+msgstr "Ține minte ultima presetare"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_ON_SEEKBAR_LEFT"
 msgid ""
 "Show the time on the left side of the seekbar instead of the right side"
 msgstr ""
+"Afișează ora în partea stângă a barei de căutare în loc de partea dreaptă"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
 msgid "Display current audio and subtitle language in status bar"
@@ -5067,7 +5078,7 @@ msgstr "Activează îmbinarea canalelor stereo (pentru căști)"
 
 msgctxt "IDS_ARS_DUMMY_CHANNELS"
 msgid "Don't fill channels when upmixing"
-msgstr "Nu umple canalele când mixezi"
+msgstr "Nu umple canalele când mixezi (când amesteci)"
 
 msgctxt "IDS_ARS_DEVICE_PERIOD"
 msgid "Device buffer:"
@@ -5112,6 +5123,7 @@ msgstr "Implicit"
 msgctxt "IDS_ARS_PAUSE_KEEP_ACTIVE"
 msgid "Keep audio device active when paused"
 msgstr ""
+"Menține dispozitivul audio activ atunci când este pus pe pauză (întrerupt)"
 
 msgctxt "IDS_ARS_TIP_BITEXACT_OUTPUT"
 msgid ""
@@ -5129,7 +5141,7 @@ msgstr ""
 
 msgctxt "IDS_ARS_TIP_PAUSE_KEEP_ACTIVE"
 msgid "The renderer will send inaudible noise to the device."
-msgstr ""
+msgstr "Randorul va trimite zgomot inaudibil către dispozitiv."
 
 msgctxt "IDS_CMD_THUMBNAILS"
 msgid "/thumbnails\tCreate thumbnails"

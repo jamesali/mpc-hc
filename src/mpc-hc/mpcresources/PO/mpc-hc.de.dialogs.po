@@ -15,7 +15,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2026-06-02 02:11:23+0000\n"
+"POT-Creation-Date: 2026-07-18 21:00:08+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Maik Dießner, 2026\n"
 "Language-Team: German (https://app.transifex.com/mpchc/teams/106126/de/)\n"
@@ -300,7 +300,7 @@ msgstr "Disc-Wiedergabe deaktivieren"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
-msgstr "Prozesspriorität höher als normal"
+msgstr "Prozesspriorität \"Höher als normal\""
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
@@ -316,7 +316,7 @@ msgstr "Zuletzt geöffnete Dateien merken"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr "Letzte Wiedergabeliste speichern"
+msgstr "Letzte Wiedergabeliste merken"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
@@ -336,7 +336,7 @@ msgstr "Letzte Fenstergröße merken"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan && Scan Zoom"
-msgstr "Letzten Pan&Scan-Zoom merken"
+msgstr "Letzten Pan-and-Scan-Zoom merken"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -432,7 +432,7 @@ msgstr "Endlosschleife"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
-msgstr "Mal(e) ab"
+msgstr "Mal ab"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC7"
 msgid "Repeat mode:"
@@ -1152,7 +1152,7 @@ msgstr "Untertitel-Renderer"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Einstellungen für VMR-9 (renderless) und EVR (CP)"
+msgstr "Einstellungen für VMR-9 (Renderless) und EVR (Custom Presenter)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1869,7 +1869,7 @@ msgstr "Kapitelmarkierungen in der Zeitleiste anzeigen"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Time on seekbar:"
-msgstr ""
+msgstr "Zeit auf Zeitleiste:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
 msgid "Seekbar Hover"
@@ -1973,7 +1973,7 @@ msgstr "Sprache:"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Custom Preset (4)"
-msgstr ""
+msgstr "Benutzerdefiniertes Fenster-Profil"
 
 msgctxt "IDD_PPAGETHEME_IDC_CUSTOMPRESET_MENU"
 msgid "Menu"
@@ -1993,11 +1993,11 @@ msgstr "Informationen"
 
 msgctxt "IDD_PPAGETHEME_IDC_CUSTOMPRESET_TOOLBAR"
 msgid "Controls"
-msgstr "Steuerelemente"
+msgstr "Bedienelemente"
 
 msgctxt "IDD_PPAGETHEME_IDC_CUSTOMPRESET_STATS"
 msgid "Statistics"
-msgstr "Statistik"
+msgstr "Statistiken"
 
 msgctxt "IDD_RAR_ENTRY_SELECTOR_CAPTION"
 msgid "Select Media from RAR"
@@ -2021,7 +2021,7 @@ msgstr "Symbolleistenskalierung"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Toolbar Alignment:"
-msgstr "Symbolleistenausrichtung"
+msgstr "Ausrichtung"
 
 msgctxt "IDD_PPAGETOOLBAR_IDC_STATIC"
 msgid "Active Style:"
