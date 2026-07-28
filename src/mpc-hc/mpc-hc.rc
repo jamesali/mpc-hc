@@ -2849,7 +2849,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDC_DSSYSDEF            "Very old VMR-7 renderer from Windows. Has limited functionality.\nNot compatible with internal subtitle renderer, pixelshaders, and rotation."
+    IDC_DSVMR7              "Very old VMR-7 renderer from Windows. Has limited functionality.\nNot compatible with internal subtitle renderer, pixelshaders, and rotation."
     IDC_DSOVERLAYMIXER      "Very old renderer from Windows. Has limited functionality.\nNot compatible with internal subtitle renderer, pixelshaders, and rotation.\nAlways renders in overlay. Generally only YUV formats are allowed, but they are presented directly without any color conversion to RGB. This is the fastest rendering method of all and the only where you can be sure about fullscreen video mirroring to tv-out activating."
     IDC_DSVMR9WIN           "Old VMR-9 renderer from Windows. Has limited functionality.\nNot compatible with internal subtitle renderer, pixelshaders, and rotation."
     IDC_DSVMR9REN           "Old VMR-9 renderer from Windows. Modified to be compatible with all player functionality.\nDoes not support HDR video."
