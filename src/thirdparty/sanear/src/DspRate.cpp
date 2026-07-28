@@ -169,15 +169,17 @@ namespace SaneAudioRenderer
         DspChunk::ToFloat(chunk);
 
         size_t outputFrames = (size_t)(2 * (uint64_t)chunk.GetFrameCount() * m_outputRate / m_inputRate);
-        ASSERT(outputFrames);
         DspChunk output(DspFormat::Float, chunk.GetChannelCount(), outputFrames, m_outputRate);
-
-        size_t inputDone = 0;
-        size_t outputDone = 0;
-        soxr_process(soxr, chunk.GetData(), chunk.GetFrameCount(), &inputDone,
-                           output.GetData(), output.GetFrameCount(), &outputDone);
-        assert(inputDone == chunk.GetFrameCount());
-        output.ShrinkTail(outputDone);
+        if (outputFrames > 0) {
+            size_t inputDone = 0;
+            size_t outputDone = 0;
+            soxr_process(soxr, chunk.GetData(), chunk.GetFrameCount(), &inputDone,
+                output.GetData(), output.GetFrameCount(), &outputDone);
+            assert(inputDone == chunk.GetFrameCount());
+            output.ShrinkTail(outputDone);
+        } else {
+            ASSERT(false);
+        }
 
         return output;
     }
