@@ -1440,6 +1440,12 @@ msgctxt "IDS_PLAYLIST_POSITION_FLOAT"
 msgid "&Floating"
 msgstr "&Nổi"
 
+msgctxt "IDS_SETTINGS_KEEP_REGISTRY_COPY"
+msgid ""
+"Keep a copy of the settings in the Registry? This is useful as backup, and "
+"recommended if you want to use multiple copies of MPC-HC."
+msgstr ""
+
 msgctxt "IDS_CONTROLS_STOPPED"
 msgid "Stopped"
 msgstr "Đã ngừng"
