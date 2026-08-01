@@ -831,7 +831,7 @@ msgid ""
 "Old custom video renderer implementation by Haali.\n"
 "Does not fully support all player functionality.\n"
 "Does not support HDR video.\n"
-"Suitable for old hardware.."
+"Suitable for old hardware."
 msgstr ""
 
 msgctxt "IDC_DSNULL_COMP"
@@ -4091,7 +4091,7 @@ msgstr "就绪..."
 
 msgctxt "IDS_CMD_PNS"
 msgid "/pns \"name\"\tSpecify PnS Frame Adjust Preset to use (for example: /pns \"%s\")"
-msgstr "/pns \"name\" 指定使用的画面平移与缩放 (PnS) 预设(例如：/pns \"1%\")"
+msgstr "/pns \"name\" 指定使用的画面平移与缩放 (PnS) 预设(例如：/pns \"%s\")"
 
 msgctxt "IDS_CMD_PNS_VALUES"
 msgid ""

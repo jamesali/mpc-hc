@@ -828,7 +828,7 @@ msgid ""
 "Old custom video renderer implementation by Haali.\n"
 "Does not fully support all player functionality.\n"
 "Does not support HDR video.\n"
-"Suitable for old hardware.."
+"Suitable for old hardware."
 msgstr ""
 
 msgctxt "IDC_DSNULL_COMP"
