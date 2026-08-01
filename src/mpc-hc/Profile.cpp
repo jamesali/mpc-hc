@@ -306,7 +306,9 @@ bool CProfile::StoreSettingsTo(const SettingsLocation newLocation)
     if (m_bRegistryMode) {
         OpenRegistryKey(); // ensure the handle so the registry store can be removed
         if (m_hAppRegKey) {
-            RegDeleteTreeW(m_hAppRegKey, nullptr);
+            if (AfxMessageBox(_T("Keep a copy of the settings in the Registry? This is useful as backup, and recommended if you want to use multiple copies of MPC-HC."), MB_YESNO) == IDNO) {
+                RegDeleteTreeW(m_hAppRegKey, nullptr);
+            }
             RegCloseKey(m_hAppRegKey);
             m_hAppRegKey = nullptr;
         }
