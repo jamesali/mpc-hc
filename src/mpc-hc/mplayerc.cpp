@@ -1120,7 +1120,10 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
         // INI; the full history is rewritten into the registry by
         // SaveSettings(true) below.
         success = StoreSettingsToRegistry();
-        _tremove(GetIniPath());
+    }
+
+    if (!success) {
+        return false;
     }
 
     // Point the MediaHistory store at the new location before SaveSettings()
