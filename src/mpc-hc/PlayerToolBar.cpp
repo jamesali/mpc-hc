@@ -246,11 +246,9 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
         s.strToolbarName = L"";
     }
 
-
     if (buttonsImageLoaded || SUCCEEDED(SVGImage::Load(resourceID, image, svgscale))) {
         CImage imageDisabled;
         CBitmap* bmp = CBitmap::FromHandle(image);
-
 
         int width = image.GetWidth();
         int height = image.GetHeight() / 4;
@@ -280,9 +278,14 @@ void CPlayerToolBar::MakeImageList(bool createCustomizeButtons, int buttonSize, 
             CBitmap* pOldTargetBmp = nullptr;
             CBitmap* pOldSourceBmp = nullptr;
 
+            CDC* pDC = this->GetDC();
+            if (!pDC) {
+                ASSERT(false);
+                image.Destroy();
+                return;
+            }
             CDC targetDC;
             CDC sourceDC;
-            CDC* pDC = this->GetDC();
             targetDC.CreateCompatibleDC(pDC);
             sourceDC.CreateCompatibleDC(pDC);
 
