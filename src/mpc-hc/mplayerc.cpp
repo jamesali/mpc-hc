@@ -777,7 +777,15 @@ bool CMPlayerCApp::StoreSettingsToIni()
 
 bool CMPlayerCApp::StoreSettingsToRegistry()
 {
-    return m_Profile.StoreSettingsTo(SETS_REGISTRY);
+    CString historyini;
+    if (m_HistoryProfile) {
+        historyini = m_HistoryProfile->GetIniPath();
+    }
+    bool result = m_Profile.StoreSettingsTo(SETS_REGISTRY);
+    if (result && !historyini.IsEmpty() && ::PathFileExistsW(historyini)) {
+        _wremove(historyini);
+    }
+    return result;
 }
 
 CString CMPlayerCApp::GetIniPath() const
