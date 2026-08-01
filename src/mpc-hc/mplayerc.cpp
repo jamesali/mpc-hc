@@ -39,6 +39,8 @@
 #include "WebServer.h"
 #include "WinAPIUtils.h"
 #include "mpc-hc_config.h"
+#include "zlib/minizip/zip.h"
+#include "zlib/minizip/iowin32.h"
 #include "winddk/ntddcdvd.h"
 #include <afxsock.h>
 #include <atlsync.h>
@@ -651,9 +653,6 @@ void SetHandCursor(HWND m_hWnd, UINT nID)
 CMPlayerCApp::CMPlayerCApp()
     : m_hNTDLL(nullptr)
     , m_bDelayingIdle(false)
-    , m_bProfileInitialized(false)
-    , m_bQueuedProfileFlush(false)
-    , m_dwProfileLastAccessTick(0)
     , m_fClosingState(false)
     , m_bThemeLoaded(false)
 {
@@ -773,39 +772,290 @@ HWND g_hWnd = nullptr;
 
 bool CMPlayerCApp::StoreSettingsToIni()
 {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
-    CString ini = GetIniPath();
-    free((void*)m_pszRegistryKey);
-    m_pszRegistryKey = nullptr;
-    free((void*)m_pszProfileName);
-    m_pszProfileName = _tcsdup(ini);
-
-    return true;
+    return m_Profile.StoreSettingsTo(SETS_PROGRAMDIR);
 }
 
 bool CMPlayerCApp::StoreSettingsToRegistry()
 {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
-    free((void*)m_pszRegistryKey);
-    m_pszRegistryKey = nullptr;
-
-    SetRegistryKey(_T("MPC-HC"));
-
-    return true;
+    return m_Profile.StoreSettingsTo(SETS_REGISTRY);
 }
 
 CString CMPlayerCApp::GetIniPath() const
 {
-    CString path = PathUtils::GetProgramPath(true);
-    path = path.Left(path.ReverseFind('.') + 1) + _T("ini");
+    // In registry mode the live ini path is empty; return the prospective path
+    // (where a portable ini would be created) so callers like the "store to ini"
+    // option's write-permission check have a real target to test.
+    CString path = m_Profile.GetIniPath();
+    if (path.IsEmpty()) {
+        path = CProfile::DefaultIniPath();
+    }
     return path;
 }
 
 bool CMPlayerCApp::IsIniValid() const
 {
-    return PathUtils::Exists(GetIniPath());
+    return !IsUsingRegistry();
+}
+
+bool CMPlayerCApp::IsUsingRegistry() const
+{
+    return m_Profile.GetSettingsLocation() == SETS_REGISTRY;
+}
+
+void CMPlayerCApp::SetupSettingsStore()
+{
+    // The store stays at its historical location (HKCU\Software\MPC-HC\MPC-HC or
+    // <exe>.ini) so external tools and older builds keep reading it unchanged.
+    // Scalar settings evolve additively; the one format-fragile composite field
+    // (saved DVB channels) moved to a replacement section (DVBConfiguration2)
+    // at its own call sites, so no store-wide format/migration machinery is
+    // needed here.
+    //
+    // MediaHistory is the one structural change: in portable (INI) mode it moves
+    // to a separate file; in registry mode it stays inside the settings key.
+    if (!IsUsingRegistry()) {
+        SetupHistoryStore();
+    }
+}
+
+// Set up the separate MediaHistory store (portable/INI mode) and perform the
+// one-time split of MediaHistory out of the main settings file.
+void CMPlayerCApp::SetupHistoryStore()
+{
+    m_HistoryProfile = std::make_unique<CProfile>(ResolveHistoryIniPath());
+
+    // One-time: move any MediaHistory still in the main settings store into it.
+    if (!m_Profile.HasEntry(_T("Version"), _T("HistorySplit"))) {
+        m_Profile.MoveSectionTree(_T("MediaHistory"), *m_HistoryProfile);
+        m_Profile.WriteString(_T("Version"), _T("HistorySplit"), _T("1"));
+        m_Profile.Flush(true);
+    }
+}
+
+// User-visible settings policies, deferred until a normal interactive launch is
+// committed (so utility invocations like /help, /close, /regvid, /admin don't
+// pop a modal or apply machine policy). See InitInstance.
+void CMPlayerCApp::ApplySettingsPolicies()
+{
+    // Apply machine-wide default settings pushed via HKLM (issue #2347).
+    ApplyHKLMDefaults();
+}
+
+// Recursively copy an HKLM defaults subtree into the user store, preserving
+// value types. `section` is the user-store section path built from the subkey
+// path ("" at the HKLM root, whose own values are control values, not settings).
+void CMPlayerCApp::ImportHKLMTree(HKEY hKey, const CStringW& section)
+{
+    // Size name buffers from the key's maxima so long value/subkey names aren't
+    // silently dropped (RegEnumValue returns ERROR_MORE_DATA on a short buffer).
+    DWORD maxValueName = 0, maxSubKeyName = 0;
+    if (RegQueryInfoKeyW(hKey, nullptr, nullptr, nullptr, nullptr, &maxSubKeyName,
+                         nullptr, nullptr, &maxValueName, nullptr, nullptr, nullptr) != ERROR_SUCCESS) {
+        maxValueName = 16383;
+        maxSubKeyName = 255;
+    }
+
+    if (!section.IsEmpty()) {
+        std::vector<WCHAR> name(maxValueName + 1);
+        for (DWORD i = 0;; i++) {
+            DWORD nameLen = static_cast<DWORD>(name.size()), type = 0, dataLen = 0;
+            LONG r = RegEnumValueW(hKey, i, name.data(), &nameLen, nullptr, &type, nullptr, &dataLen);
+            if (r == ERROR_NO_MORE_ITEMS) {
+                break;
+            }
+            if (r != ERROR_SUCCESS || dataLen == 0) {
+                continue;
+            }
+            std::vector<BYTE> data(dataLen);
+            DWORD cb = dataLen;
+            if (RegQueryValueExW(hKey, name.data(), nullptr, &type, data.data(), &cb) != ERROR_SUCCESS) {
+                continue;
+            }
+            switch (type) {
+                case REG_DWORD:
+                    if (cb >= sizeof(DWORD)) {
+                        WriteProfileInt(section, name.data(), *reinterpret_cast<DWORD*>(data.data()));
+                    }
+                    break;
+                case REG_QWORD:
+                    if (cb >= sizeof(ULONGLONG)) {
+                        CStringW s;
+                        s.Format(_T("%I64u"), *reinterpret_cast<ULONGLONG*>(data.data()));
+                        WriteProfileString(section, name.data(), s);
+                    }
+                    break;
+                case REG_SZ:
+                case REG_EXPAND_SZ: {
+                    // Registry strings are not guaranteed NUL-terminated; build a
+                    // bounded string from cb bytes and trim at any embedded NUL.
+                    CStringW s(reinterpret_cast<LPCWSTR>(data.data()), static_cast<int>(cb / sizeof(WCHAR)));
+                    int nul = s.Find(L'\0');
+                    if (nul >= 0) {
+                        s.Truncate(nul);
+                    }
+                    if (type == REG_EXPAND_SZ) {
+                        DWORD need = ExpandEnvironmentStringsW(s, nullptr, 0);
+                        if (need > 0) {
+                            CStringW expanded;
+                            ExpandEnvironmentStringsW(s, expanded.GetBufferSetLength(need - 1), need);
+                            expanded.ReleaseBuffer();
+                            s = expanded;
+                        }
+                    }
+                    WriteProfileString(section, name.data(), s);
+                    break;
+                }
+                case REG_BINARY:
+                    WriteProfileBinary(section, name.data(), data.data(), cb);
+                    break;
+                default:
+                    break; // unsupported types are ignored
+            }
+        }
+    }
+
+    std::vector<WCHAR> sub(maxSubKeyName + 1);
+    for (DWORD i = 0;; i++) {
+        DWORD subLen = static_cast<DWORD>(sub.size());
+        LONG r = RegEnumKeyExW(hKey, i, sub.data(), &subLen, nullptr, nullptr, nullptr, nullptr);
+        if (r == ERROR_NO_MORE_ITEMS) {
+            break;
+        }
+        if (r != ERROR_SUCCESS) {
+            continue;
+        }
+        HKEY hSub;
+        if (RegOpenKeyExW(hKey, sub.data(), 0, KEY_READ, &hSub) == ERROR_SUCCESS) {
+            CStringW child = section.IsEmpty() ? CStringW(sub.data()) : (section + L"\\" + sub.data());
+            ImportHKLMTree(hSub, child);
+            RegCloseKey(hSub);
+        }
+    }
+}
+
+void CMPlayerCApp::ApplyHKLMDefaults()
+{
+    HKEY hRoot;
+    if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, _T("Software\\MPC-HC"), 0, KEY_READ, &hRoot) != ERROR_SUCCESS) {
+        return; // no machine-wide defaults configured
+    }
+
+    // Control values live at the root of HKLM\Software\MPC-HC.
+    DWORD type = 0, cb;
+    DWORD reset = 0;
+    cb = sizeof(reset);
+    const bool hasReset = RegQueryValueExW(hRoot, _T("SettingsReset"), nullptr, &type, (BYTE*)&reset, &cb) == ERROR_SUCCESS && type == REG_DWORD;
+    ULONGLONG ts = 0;
+    cb = sizeof(ts);
+    const bool hasTs = RegQueryValueExW(hRoot, _T("SettingsTimestamp"), nullptr, &type, (BYTE*)&ts, &cb) == ERROR_SUCCESS && (type == REG_QWORD || type == REG_DWORD);
+
+    // What we've already applied (kept in the user store).
+    const DWORD appliedReset = static_cast<DWORD>(GetProfileInt(_T("HKLMState"), _T("AppliedReset"), 0));
+    const ULONGLONG appliedTs = _wcstoui64(GetProfileString(_T("HKLMState"), _T("AppliedTimestamp"), _T("0")), nullptr, 10);
+
+    const bool doReset = hasReset && reset != appliedReset;
+    const bool doImport = doReset || (hasTs && ts > appliedTs);
+
+    if (!doImport) {
+        RegCloseKey(hRoot);
+        return;
+    }
+
+    if (doReset) {
+        // Force user settings back to defaults, then re-seed from HKLM.
+        m_Profile.Clear();
+        if (m_HistoryProfile) {
+            m_HistoryProfile->Clear();
+        }
+        // Keep the split marker so the (now-empty) main store isn't re-split.
+        m_Profile.WriteString(_T("Version"), _T("HistorySplit"), _T("1"));
+    }
+
+    ImportHKLMTree(hRoot, CStringW());
+
+    // Record what we applied so this runs only once per change.
+    if (hasReset) {
+        WriteProfileInt(_T("HKLMState"), _T("AppliedReset"), static_cast<int>(reset));
+    }
+    if (hasTs) {
+        CStringW s;
+        s.Format(_T("%I64u"), ts);
+        WriteProfileString(_T("HKLMState"), _T("AppliedTimestamp"), s);
+    }
+
+    FlushProfile(true);
+    RegCloseKey(hRoot);
+}
+
+bool CMPlayerCApp::UseAppDataForHistory()
+{
+    if (m_iHistoryInAppData < 0) {
+        // First call happens before LoadSettings() has run, so read the raw
+        // option value once; later calls use the cached copy.
+        bool inAppData = false;
+        m_Profile.ReadBool(IDS_R_SETTINGS, IDS_RS_HISTORY_IN_APPDATA, inAppData);
+        m_iHistoryInAppData = inAppData ? 1 : 0;
+    }
+    return m_iHistoryInAppData > 0;
+}
+
+void CMPlayerCApp::SetHistoryInAppData(bool inAppData)
+{
+    m_iHistoryInAppData = inAppData ? 1 : 0;
+}
+
+CStringW CMPlayerCApp::ResolveHistoryIniPath()
+{
+    const CStringW programPath = CProfile::HistoryIniPath();
+
+    CString appDataDir;
+    if (!GetAppDataPath(appDataDir)) {
+        return programPath;
+    }
+    CPath historyFileName(programPath);
+    historyFileName.StripPath(); // filename incl. extension (PathUtils::FileName drops the extension)
+    const CStringW appDataPath = PathUtils::CombinePaths(appDataDir, historyFileName);
+
+    bool useAppData = UseAppDataForHistory();
+    if (!useAppData && !PathUtils::Exists(programPath)) {
+        // Fall back to %APPDATA% when the history file cannot be created next
+        // to the executable (e.g. installed in a read-only folder but running
+        // portable off a shared settings INI).
+        HANDLE hProbe = ::CreateFileW(programPath, GENERIC_WRITE, 0, nullptr,
+                                      CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
+        if (hProbe == INVALID_HANDLE_VALUE) {
+            useAppData = true;
+        } else {
+            ::CloseHandle(hProbe);
+            ::DeleteFileW(programPath); // probe only, leave no empty file behind
+        }
+    }
+
+    const CStringW target = useAppData ? appDataPath : programPath;
+    const CStringW other  = useAppData ? programPath : appDataPath;
+    if (useAppData) {
+        ::CreateDirectoryW(appDataDir, nullptr);
+    }
+    // Carry an existing history file over when the location changes (option
+    // toggled, or the fallback newly triggered), so history is not lost.
+    if (!PathUtils::Exists(target) && PathUtils::Exists(other)) {
+        if (!::MoveFileExW(other, target, MOVEFILE_COPY_ALLOWED)) {
+            ::CopyFileW(other, target, TRUE); // source not deletable; copy is enough
+        }
+    }
+
+    return target;
+}
+
+bool CMPlayerCApp::GetPlaylistSavePath(CString& path)
+{
+    // The saved playlist lives next to the MediaHistory store, so the
+    // HistoryInAppData option (and the unwritable-folder fallback) moves both.
+    if (m_HistoryProfile) {
+        path = PathUtils::DirName(m_HistoryProfile->GetIniPath());
+        return !path.IsEmpty();
+    }
+    return GetAppSavePath(path);
 }
 
 bool CMPlayerCApp::GetAppSavePath(CString& path)
@@ -837,8 +1087,6 @@ bool CMPlayerCApp::GetAppDataPath(CString& path)
 
 bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
 {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
     bool success;
 
     // Load favorites so that they can be correctly saved to the new location
@@ -856,6 +1104,16 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
         _tremove(GetIniPath());
     }
 
+    // Point the MediaHistory store at the new location before SaveSettings()
+    // below re-writes the full in-memory history there in the correct format.
+    if (!IsUsingRegistry()) {
+        m_HistoryProfile = std::make_unique<CProfile>(ResolveHistoryIniPath());
+        m_Profile.WriteString(_T("Version"), _T("HistorySplit"), _T("1")); // history is separate here
+    } else {
+        m_HistoryProfile.reset(); // registry keeps history in the registry
+    }
+    m_Profile.Flush(true);
+
     // Save favorites to the new location
     m_s->SetFav(FAV_FILE, filesFav);
     m_s->SetFav(FAV_DVD, DVDsFav);
@@ -870,19 +1128,77 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
     return success;
 }
 
+// Add one on-disk file to an open zip under nameInZip (ASCII). Returns false on
+// any I/O error. Best-effort skip if the source file is missing.
+static bool AddFileToZip(zipFile zf, const CStringW& srcPath, const CStringA& nameInZip)
+{
+    CFile src;
+    if (!src.Open(srcPath, CFile::modeRead | CFile::shareDenyWrite | CFile::typeBinary)) {
+        return true; // nothing to add (e.g. history file not created yet)
+    }
+    zip_fileinfo zi = {};
+    if (zipOpenNewFileInZip(zf, nameInZip, &zi, nullptr, 0, nullptr, 0, nullptr,
+                            Z_DEFLATED, Z_DEFAULT_COMPRESSION) != ZIP_OK) {
+        return false;
+    }
+    bool ok = true;
+    BYTE buf[64 * 1024];
+    UINT n;
+    while ((n = src.Read(buf, sizeof(buf))) > 0) {
+        if (zipWriteInFileInZip(zf, buf, n) != ZIP_OK) {
+            ok = false;
+            break;
+        }
+    }
+    zipCloseFileInZip(zf);
+    return ok;
+}
+
+// Bundle the settings store and the separate MediaHistory store into one zip,
+// each stored under its real filename so restoring a backup is just
+// "extract into the program folder" - no renaming, and neither file is missed.
+bool CMPlayerCApp::ExportSettingsZip(const CString& zipPath)
+{
+    zlib_filefunc64_def ffunc;
+    fill_win32_filefunc64W(&ffunc); // Unicode-safe archive path
+    zipFile zf = zipOpen2_64(zipPath.GetString(), APPEND_STATUS_CREATE, nullptr, &ffunc);
+    if (!zf) {
+        return false;
+    }
+
+    const CStringW settingsSrc = GetIniPath();
+    CStringA settingsName(settingsSrc.Mid(settingsSrc.ReverseFind(L'\\') + 1));
+    bool ok = AddFileToZip(zf, settingsSrc, settingsName);
+
+    if (ok && m_HistoryProfile) {
+        const CStringW histSrc = m_HistoryProfile->GetIniPath();
+        CStringA histName(histSrc.Mid(histSrc.ReverseFind(L'\\') + 1));
+        ok = AddFileToZip(zf, histSrc, histName);
+    }
+
+    zipClose(zf, nullptr);
+    if (!ok) {
+        DeleteFile(zipPath);
+    }
+    return ok;
+}
+
 bool CMPlayerCApp::ExportSettings(CString savePath, CString subKey)
 {
     bool success = false;
     m_s->SaveSettings();
 
     if (IsIniValid()) {
-        success = !!CopyFile(GetIniPath(), savePath, FALSE);
-    } else {
-        CString regKey;
         if (subKey.IsEmpty()) {
-            regKey.Format(_T("Software\\%s\\%s"), m_pszRegistryKey, m_pszProfileName);
+            // Full export: bundle settings + separate MediaHistory into one zip.
+            success = ExportSettingsZip(savePath);
         } else {
-            regKey.Format(_T("Software\\%s\\%s\\%s"), m_pszRegistryKey, m_pszProfileName, subKey.GetString());
+            success = !!CopyFile(GetIniPath(), savePath, FALSE);
+        }
+    } else {
+        CString regKey = m_Profile.GetRegistryKeyPath();
+        if (!subKey.IsEmpty()) {
+            regKey += _T("\\") + subKey;
         }
 
         FILE* fStream;
@@ -901,489 +1217,115 @@ bool CMPlayerCApp::ExportSettings(CString savePath, CString subKey)
     return success;
 }
 
-void CMPlayerCApp::InitProfile()
+// True for the "MediaHistory" section and its "MediaHistory\..." subsections.
+static bool IsMediaHistorySection(LPCWSTR lpszSection)
 {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+    static const wchar_t* const mh = L"MediaHistory";
+    static const size_t n = wcslen(mh);
+    return lpszSection && _wcsnicmp(lpszSection, mh, n) == 0 &&
+           (lpszSection[n] == L'\0' || lpszSection[n] == L'\\');
+}
 
-    if (!m_pszRegistryKey) {
-        // Don't reread mpc-hc.ini if the cache needs to be flushed or it was accessed recently
-        if (m_bProfileInitialized && (m_bQueuedProfileFlush || GetTickCount64() - m_dwProfileLastAccessTick < 100ULL)) {
-            m_dwProfileLastAccessTick = GetTickCount64();
-            return;
-        }
-
-        m_bProfileInitialized = true;
-        m_dwProfileLastAccessTick = GetTickCount64();
-
-        ASSERT(m_pszProfileName);
-        if (!PathUtils::Exists(m_pszProfileName)) {
-            return;
-        }
-
-        FILE* fp;
-        int fpStatus;
-        do { // Open mpc-hc.ini in UNICODE mode, retry if it is already being used by another process
-            fp = _tfsopen(m_pszProfileName, _T("r, ccs=UNICODE"), _SH_SECURE);
-            if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
-                break;
-            }
-            Sleep(100);
-        } while (true);
-        if (!fp) {
-            ASSERT(FALSE);
-            return;
-        }
-        if (_ftell_nolock(fp) == 0L) {
-            // No BOM was consumed, assume mpc-hc.ini is ANSI encoded
-            fpStatus = fclose(fp);
-            ASSERT(fpStatus == 0);
-            do { // Reopen mpc-hc.ini in ANSI mode, retry if it is already being used by another process
-                fp = _tfsopen(m_pszProfileName, _T("r"), _SH_SECURE);
-                if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
-                    break;
-                }
-                Sleep(100);
-            } while (true);
-            if (!fp) {
-                ASSERT(FALSE);
-                return;
-            }
-        }
-
-        CStdioFile file(fp);
-
-        ASSERT(!m_bQueuedProfileFlush);
-        m_ProfileMap.clear();
-
-        CString line, section, var, val;
-        while (file.ReadString(line)) {
-            // Parse mpc-hc.ini file, this parser:
-            //  - doesn't trim whitespaces
-            //  - doesn't remove quotation marks
-            //  - omits keys with empty names
-            //  - omits unnamed sections
-            int pos = 0;
-            if (line[0] == _T('[')) {
-                pos = line.Find(_T(']'));
-                if (pos == -1) {
-                    continue;
-                }
-                section = line.Mid(1, pos - 1);
-            } else if (line[0] != _T(';')) {
-                pos = line.Find(_T('='));
-                if (pos == -1) {
-                    continue;
-                }
-                var = line.Mid(0, pos);
-                val = line.Mid(pos + 1);
-                if (!section.IsEmpty() && !var.IsEmpty()) {
-                    m_ProfileMap[section][var] = val;
-                }
-            }
-        }
-        fpStatus = fclose(fp);
-        ASSERT(fpStatus == 0);
-
-        m_dwProfileLastAccessTick = GetTickCount64();
+CProfile& CMPlayerCApp::ProfileForSection(LPCWSTR lpszSection)
+{
+    if (m_HistoryProfile && IsMediaHistorySection(lpszSection)) {
+        return *m_HistoryProfile;
     }
+    return m_Profile;
 }
 
 void CMPlayerCApp::FlushProfile(bool bForce/* = true*/)
 {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
-    if (!m_pszRegistryKey) {
-        if (!bForce && !m_bQueuedProfileFlush) {
-            return;
-        }
-
-        m_bQueuedProfileFlush = false;
-
-        ASSERT(m_bProfileInitialized);
-        ASSERT(m_pszProfileName);
-
-        FILE* fp;
-        int fpStatus;
-        do { // Open mpc-hc.ini, retry if it is already being used by another process
-            fp = _tfsopen(m_pszProfileName, _T("w, ccs=UTF-8"), _SH_SECURE);
-            if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
-                break;
-            }
-            Sleep(100);
-        } while (true);
-        if (!fp) {
-            ASSERT(FALSE);
-            return;
-        }
-        CStdioFile file(fp);
-        CString line;
-        try {
-            file.WriteString(_T("; MPC-HC\n"));
-            for (auto it1 = m_ProfileMap.begin(); it1 != m_ProfileMap.end(); ++it1) {
-                line.Format(_T("[%s]\n"), it1->first.GetString());
-                file.WriteString(line);
-                for (auto it2 = it1->second.begin(); it2 != it1->second.end(); ++it2) {
-                    line.Format(_T("%s=%s\n"), it2->first.GetString(), it2->second.GetString());
-                    file.WriteString(line);
-                }
-            }
-        } catch (CFileException& e) {
-            // Fail silently if disk is full
-            UNREFERENCED_PARAMETER(e);
-            ASSERT(FALSE);
-        }
-        fpStatus = fclose(fp);
-        ASSERT(fpStatus == 0);
+    m_Profile.Flush(bForce);
+    if (m_HistoryProfile) {
+        m_HistoryProfile->Flush(bForce);
     }
 }
 
 BOOL CMPlayerCApp::GetProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE* ppData, UINT* pBytes)
 {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
-    if (m_pszRegistryKey) {
-        return CWinAppEx::GetProfileBinary(lpszSection, lpszEntry, ppData, pBytes);
-    } else {
-        if (!lpszSection || !lpszEntry || !ppData || !pBytes) {
-            ASSERT(FALSE);
-            return FALSE;
-        }
-        CString sectionStr(lpszSection);
-        CString keyStr(lpszEntry);
-        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
-            ASSERT(FALSE);
-            return FALSE;
-        }
-        CString valueStr;
-
-        InitProfile();
-        auto it1 = m_ProfileMap.find(sectionStr);
-        if (it1 != m_ProfileMap.end()) {
-            auto it2 = it1->second.find(keyStr);
-            if (it2 != it1->second.end()) {
-                valueStr = it2->second;
-            }
-        }
-        if (valueStr.IsEmpty()) {
-            return FALSE;
-        }
-        int length = valueStr.GetLength();
-        // Encoding: each 4-bit sequence is coded in one character, from 'A' for 0x0 to 'P' for 0xf
-        if (length % 2) {
-            ASSERT(FALSE);
-            return FALSE;
-        }
-        for (int i = 0; i < length; i++) {
-            if (valueStr[i] < 'A' || valueStr[i] > 'P') {
-                ASSERT(FALSE);
-                return FALSE;
-            }
-        }
-        *pBytes = length / 2;
-        *ppData = new (std::nothrow) BYTE[*pBytes];
-        if (!(*ppData)) {
-            ASSERT(FALSE);
-            return FALSE;
-        }
-        for (UINT i = 0; i < *pBytes; i++) {
-            (*ppData)[i] = BYTE((valueStr[i * 2] - 'A') | ((valueStr[i * 2 + 1] - 'A') << 4));
-        }
-        return TRUE;
+    if (!lpszSection || !lpszEntry || !ppData || !pBytes) {
+        ASSERT(FALSE);
+        return FALSE;
     }
+    return ProfileForSection(lpszSection).ReadBinary(lpszSection, lpszEntry, ppData, *pBytes) ? TRUE : FALSE;
 }
 
 UINT CMPlayerCApp::GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDefault)
 {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
-    int res = nDefault;
-    if (m_pszRegistryKey) {
-        res = CWinAppEx::GetProfileInt(lpszSection, lpszEntry, nDefault);
-    } else {
-        if (!lpszSection || !lpszEntry) {
-            ASSERT(FALSE);
-            return res;
-        }
-        CString sectionStr(lpszSection);
-        CString keyStr(lpszEntry);
-        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
-            ASSERT(FALSE);
-            return res;
-        }
-
-        InitProfile();
-        auto it1 = m_ProfileMap.find(sectionStr);
-        if (it1 != m_ProfileMap.end()) {
-            auto it2 = it1->second.find(keyStr);
-            if (it2 != it1->second.end()) {
-                res = _ttoi(it2->second);
-            }
-        }
-    }
-    return res;
+    int value;
+    return ProfileForSection(lpszSection).ReadInt(lpszSection, lpszEntry, value) ? static_cast<UINT>(value) : static_cast<UINT>(nDefault);
 }
 
-std::list<CStringW> CMPlayerCApp::GetSectionSubKeys(LPCWSTR lpszSection) {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
+std::list<CStringW> CMPlayerCApp::GetSectionSubKeys(LPCWSTR lpszSection)
+{
     std::list<CStringW> keys;
-
-    if (m_pszRegistryKey) {
-        WCHAR    achKey[MAX_REGKEY_LEN];   // buffer for subkey name
-        DWORD    cbName;                   // size of name string 
-        DWORD    cSubKeys = 0;             // number of subkeys 
-
-        if (HKEY hAppKey = GetAppRegistryKey()) {
-            HKEY hSectionKey;
-            if (ERROR_SUCCESS == RegOpenKeyExW(hAppKey, lpszSection, 0, KEY_READ, &hSectionKey)) {
-                RegQueryInfoKeyW(hSectionKey, NULL, NULL, NULL, &cSubKeys, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
-                if (cSubKeys) {
-                    for (DWORD i = 0; i < cSubKeys; i++) {
-                        cbName = MAX_REGKEY_LEN;
-                        if (ERROR_SUCCESS == RegEnumKeyExW(hSectionKey, i, achKey, &cbName, NULL, NULL, NULL, NULL)){
-                            keys.push_back(achKey);
-                        }
-                    }
-                }
-            }
-        }
-    } else {
-        if (!lpszSection) {
-            ASSERT(FALSE);
-            return keys;
-        }
-        CStringW sectionStr(lpszSection);
-        if (sectionStr.IsEmpty()) {
-            ASSERT(FALSE);
-            return keys;
-        }
-        InitProfile();
-        auto it1 = m_ProfileMap.begin();
-        while (it1 != m_ProfileMap.end()) {
-            if (it1->first.Find(sectionStr + L"\\") == 0) {
-                CStringW subKey = it1->first.Mid(sectionStr.GetLength() + 1);
-                if (subKey.Find(L"\\") == -1) {
-                    keys.push_back(subKey);
-                }
-            }
-            it1++;
-        }
-
+    if (!lpszSection || !*lpszSection) {
+        ASSERT(FALSE);
+        return keys;
     }
+    std::vector<CStringW> names;
+    ProfileForSection(lpszSection).EnumSectionNames(lpszSection, names);
+    keys.assign(names.begin(), names.end());
     return keys;
 }
 
 
 CString CMPlayerCApp::GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault)
 {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
-    CString res;
-    if (m_pszRegistryKey) {
-        res = CWinAppEx::GetProfileString(lpszSection, lpszEntry, lpszDefault);
-    } else {
-        if (!lpszSection || !lpszEntry) {
-            ASSERT(FALSE);
-            return res;
-        }
-        CString sectionStr(lpszSection);
-        CString keyStr(lpszEntry);
-        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
-            ASSERT(FALSE);
-            return res;
-        }
-        if (lpszDefault) {
-            res = lpszDefault;
-        }
-
-        InitProfile();
-        auto it1 = m_ProfileMap.find(sectionStr);
-        if (it1 != m_ProfileMap.end()) {
-            auto it2 = it1->second.find(keyStr);
-            if (it2 != it1->second.end()) {
-                res = it2->second;
-            }
-        }
+    CStringW value;
+    if (!ProfileForSection(lpszSection).ReadString(lpszSection, lpszEntry, value) && lpszDefault) {
+        value = lpszDefault;
     }
-    return res;
+    return value;
 }
 
 BOOL CMPlayerCApp::WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPBYTE pData, UINT nBytes)
 {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
-    if (m_pszRegistryKey) {
-        return CWinAppEx::WriteProfileBinary(lpszSection, lpszEntry, pData, nBytes);
-    } else {
-        if (!lpszSection || !lpszEntry || !pData || !nBytes) {
-            ASSERT(FALSE);
-            return FALSE;
-        }
-        CString sectionStr(lpszSection);
-        CString keyStr(lpszEntry);
-        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
-            ASSERT(FALSE);
-            return FALSE;
-        }
-        CString valueStr;
-
-        TCHAR* buffer = valueStr.GetBufferSetLength(nBytes * 2);
-        // Encoding: each 4-bit sequence is coded in one character, from 'A' for 0x0 to 'P' for 0xf
-        for (UINT i = 0; i < nBytes; i++) {
-            buffer[i * 2] = 'A' + (pData[i] & 0xf);
-            buffer[i * 2 + 1] = 'A' + (pData[i] >> 4 & 0xf);
-        }
-        valueStr.ReleaseBufferSetLength(nBytes * 2);
-
-        InitProfile();
-        CString& old = m_ProfileMap[sectionStr][keyStr];
-        if (old != valueStr) {
-            old = valueStr;
-            m_bQueuedProfileFlush = true;
-        }
-        return TRUE;
+    if (!lpszSection || !lpszEntry || !pData || !nBytes) {
+        ASSERT(FALSE);
+        return FALSE;
     }
+    return ProfileForSection(lpszSection).WriteBinary(lpszSection, lpszEntry, pData, nBytes) ? TRUE : FALSE;
 }
 
-LONG CMPlayerCApp::RemoveProfileKey(LPCWSTR lpszSection, LPCWSTR lpszEntry) {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
-    if (m_pszRegistryKey) {
-        if (HKEY hAppKey = GetAppRegistryKey()) {
-            HKEY hSectionKey;
-            if (ERROR_SUCCESS == RegOpenKeyEx(hAppKey, lpszSection, 0, KEY_READ, &hSectionKey)) {
-                return CWinAppEx::DelRegTree(hSectionKey, lpszEntry);
-            }
-        }
-    } else {
-        if (!lpszSection || !lpszEntry) {
-            ASSERT(FALSE);
-            return 1;
-        }
-        CString sectionStr(lpszSection);
-        CString keyStr(lpszEntry);
-        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
-            ASSERT(FALSE);
-            return 1;
-        }
-
-        InitProfile();
-        auto it1 = m_ProfileMap.find(sectionStr + L"\\" + keyStr);
-        if (it1 != m_ProfileMap.end()) {
-            m_ProfileMap.erase(it1);
-            m_bQueuedProfileFlush = true;
-        }
+LONG CMPlayerCApp::RemoveProfileKey(LPCWSTR lpszSection, LPCWSTR lpszEntry)
+{
+    // Historically this removes the whole subsection [section\entry].
+    if (!lpszSection || !lpszEntry || !*lpszSection || !*lpszEntry) {
+        ASSERT(FALSE);
+        return 1;
     }
+    ProfileForSection(lpszSection).DeleteSection(CStringW(lpszSection) + L"\\" + lpszEntry);
     return 0;
 }
 
 BOOL CMPlayerCApp::WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue)
 {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
-    if (m_pszRegistryKey) {
-        return CWinAppEx::WriteProfileInt(lpszSection, lpszEntry, nValue);
-    } else {
-        if (!lpszSection || !lpszEntry) {
-            ASSERT(FALSE);
-            return FALSE;
-        }
-        CString sectionStr(lpszSection);
-        CString keyStr(lpszEntry);
-        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
-            ASSERT(FALSE);
-            return FALSE;
-        }
-        CString valueStr;
-        valueStr.Format(_T("%d"), nValue);
-
-        InitProfile();
-        CString& old = m_ProfileMap[sectionStr][keyStr];
-        if (old != valueStr) {
-            old = valueStr;
-            m_bQueuedProfileFlush = true;
-        }
-        return TRUE;
-    }
+    return ProfileForSection(lpszSection).WriteInt(lpszSection, lpszEntry, nValue) ? TRUE : FALSE;
 }
 
 BOOL CMPlayerCApp::WriteProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszValue)
 {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
-    if (m_pszRegistryKey) {
-        return CWinAppEx::WriteProfileString(lpszSection, lpszEntry, lpszValue);
-    } else {
-        if (!lpszSection) {
-            ASSERT(FALSE);
-            return FALSE;
-        }
-        CString sectionStr(lpszSection);
-        if (sectionStr.IsEmpty()) {
-            ASSERT(FALSE);
-            return FALSE;
-        }
-        CString keyStr(lpszEntry);
-        if (lpszEntry && keyStr.IsEmpty()) {
-            ASSERT(FALSE);
-            return FALSE;
-        }
-
-        InitProfile();
-
-        // Mimic CWinAppEx::WriteProfileString() behavior
-        if (lpszEntry) {
-            if (lpszValue) {
-                CString& old = m_ProfileMap[sectionStr][keyStr];
-                if (old != lpszValue) {
-                    old = lpszValue;
-                    m_bQueuedProfileFlush = true;
-                }
-            } else { // Delete key
-                auto it = m_ProfileMap.find(sectionStr);
-                if (it != m_ProfileMap.end()) {
-                    if (it->second.erase(keyStr)) {
-                        m_bQueuedProfileFlush = true;
-                    }
-                }
-            }
-        } else { // Delete section
-            if (m_ProfileMap.erase(sectionStr)) {
-                m_bQueuedProfileFlush = true;
-            }
-        }
-        return TRUE;
+    if (!lpszSection) {
+        ASSERT(FALSE);
+        return FALSE;
     }
+    CProfile& profile = ProfileForSection(lpszSection);
+    // Mimic CWinAppEx::WriteProfileString() behavior
+    if (!lpszEntry) { // Delete section
+        profile.DeleteSection(lpszSection);
+    } else if (!lpszValue) { // Delete key
+        profile.DeleteValue(lpszSection, lpszEntry);
+    } else {
+        profile.WriteString(lpszSection, lpszEntry, lpszValue);
+    }
+    return TRUE;
 }
 
 bool CMPlayerCApp::HasProfileEntry(LPCTSTR lpszSection, LPCTSTR lpszEntry)
 {
-    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
-
-    bool ret = false;
-    if (m_pszRegistryKey) {
-        if (HKEY hAppKey = GetAppRegistryKey()) {
-            HKEY hSectionKey;
-            if (RegOpenKeyEx(hAppKey, lpszSection, 0, KEY_READ, &hSectionKey) == ERROR_SUCCESS) {
-                LONG lResult = RegQueryValueEx(hSectionKey, lpszEntry, nullptr, nullptr, nullptr, nullptr);
-                ret = (lResult == ERROR_SUCCESS);
-                VERIFY(RegCloseKey(hSectionKey) == ERROR_SUCCESS);
-            }
-            VERIFY(RegCloseKey(hAppKey) == ERROR_SUCCESS);
-        } else {
-            ASSERT(FALSE);
-        }
-    } else {
-        InitProfile();
-        auto it1 = m_ProfileMap.find(lpszSection);
-        if (it1 != m_ProfileMap.end()) {
-            auto& sectionMap = it1->second;
-            auto it2 = sectionMap.find(lpszEntry);
-            ret = (it2 != sectionMap.end());
-        }
-    }
-    return ret;
+    return ProfileForSection(lpszSection).HasEntry(lpszSection, lpszEntry);
 }
 
 std::vector<int> CMPlayerCApp::GetProfileVectorInt(CString strSection, CString strKey) {
@@ -2003,11 +1945,9 @@ BOOL CMPlayerCApp::InitInstance()
 
     PreProcessCommandLine();
 
-    if (IsIniValid()) {
-        StoreSettingsToIni();
-    } else {
-        StoreSettingsToRegistry();
-    }
+    // The settings store auto-detects its location (portable INI or registry) on
+    // construction. In portable mode this splits MediaHistory into its own file.
+    SetupSettingsStore();
 
     m_s->ParseCommandLine(m_cmdln);
 
@@ -2033,40 +1973,18 @@ BOOL CMPlayerCApp::InitInstance()
             }
         }
 
-        // If the profile was already cached, it should be cleared here
-        ASSERT(!m_bProfileInitialized);
-
-        // Remove the settings
-        if (IsIniValid()) {
-            FILE* fp;
-            do { // Open mpc-hc.ini, retry if it is already being used by another process
-                fp = _tfsopen(m_pszProfileName, _T("w"), _SH_SECURE);
-                if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
-                    break;
-                }
-                Sleep(100);
-            } while (true);
-            if (fp) {
-                // Close without writing anything, it should produce empty file
-                VERIFY(fclose(fp) == 0);
-            } else {
-                ASSERT(FALSE);
-            }
-        } else {
-            CRegKey key;
-            // Clear settings
-            key.Attach(GetAppRegistryKey());
-            VERIFY(key.RecurseDeleteKey(_T("")) == ERROR_SUCCESS);
-            VERIFY(key.Close() == ERROR_SUCCESS);
-            // Set ExePath value to prevent settings migration
-            key.Attach(GetAppRegistryKey());
-            VERIFY(key.SetStringValue(_T("ExePath"), PathUtils::GetProgramPath(true)) == ERROR_SUCCESS);
-            VERIFY(key.Close() == ERROR_SUCCESS);
+        // Remove the settings, then re-mark the history split so the next run
+        // does not try to re-split an already-empty store.
+        m_Profile.Clear();
+        m_Profile.WriteString(_T("Version"), _T("HistorySplit"), _T("1")); // history is separate; don't re-split
+        m_Profile.Flush(true);
+        if (m_HistoryProfile) {
+            m_HistoryProfile->Clear();
         }
 
         // Remove the current playlist if it exists
         CString strSavePath;
-        if (GetAppSavePath(strSavePath)) {
+        if (GetPlaylistSavePath(strSavePath)) {
             CPath playlistPath;
             playlistPath.Combine(strSavePath, _T("default.mpcpl"));
 
@@ -2221,6 +2139,12 @@ BOOL CMPlayerCApp::InitInstance()
             key.SetStringValue(_T("ExePath"), PathUtils::GetProgramPath(true));
         }
     }
+
+    // Now that a normal interactive launch is committed (utility switches and
+    // single-instance forwarding have returned above), apply the deferred
+    // settings policies (newer-version warning + HKLM machine defaults) before
+    // settings are read.
+    ApplySettingsPolicies();
 
     m_s->MigrateSettings(); // migrate old settings
     m_s->LoadSettings();    // read settings

@@ -132,6 +132,7 @@
 #define IDS_RS_CONFIRM_FILE_DELETE          _T("ConfirmFileDelete")
 #define IDS_RS_LIBASS_FOR_SRT               _T("UseLibassForSRT")
 #define IDS_RS_SHOW_VOLUME_PERCENTAGE       _T("ShowVolumePercentage")
+#define IDS_RS_HISTORY_IN_APPDATA           _T("HistoryInAppData")
 #define IDS_RS_TIME_ON_SEEKBAR              _T("TimeOnSeekBar")
 #define IDS_RS_TIME_ON_SEEKBAR_LEFT         _T("TimeOnSeekBarLeft")
 #define IDS_RS_CUSTOM_PRESET_CONTROLSTATE   _T("CustomPresetControlState")
@@ -312,6 +313,15 @@
 #define IDS_RS_COUNTRY                      _T("Country")
 
 #define IDS_R_DVB                           _T("DVBConfiguration")
+// Replacement section for the DVB settings (same pattern as Commands2 and
+// FileFormats2), which old builds never read or write. The channel
+// serialization carries a format-version token and an older build THROWS on a
+// newer token, drops the channel, and — since channels are rewritten on every
+// save — destroys the newer list just by running. The legacy section is left
+// frozen so a downgrade keeps its own last-known-good DVB settings. A sibling
+// key (not a subkey of the legacy section) also keeps the legacy section a
+// plain leaf key, which old builds clear with MFC's non-recursive RegDeleteKey.
+#define IDS_R_DVB2                          _T("DVBConfiguration2")
 //#define IDS_RS_BDA_NETWORKPROVIDER          _T("BDANetworkProvider")
 #define IDS_RS_BDA_TUNER                    _T("BDATuner")
 #define IDS_RS_BDA_RECEIVER                 _T("BDAReceiver")
