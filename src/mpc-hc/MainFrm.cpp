@@ -2245,6 +2245,12 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                         g_bExternalSubtitleTime = false;
                         if (m_pGB && m_pMS) {
                             m_pMS->GetCurrentPosition(&rtNow);
+                            if (!m_pGB || !m_pMS) {
+                                // can happen extremely rarely based on crash dump
+                                // no idea how, since closing of graph is initiated from this same thread
+                                ASSERT(false);
+                                return;
+                            }
                             m_pMS->GetDuration(&rtDur);
 
                             if ((abRepeat.positionA && rtNow < abRepeat.positionA || abRepeat.positionB && rtNow >= abRepeat.positionB) && GetMediaState() != State_Stopped) {
