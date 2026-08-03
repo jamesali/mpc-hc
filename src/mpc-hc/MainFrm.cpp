@@ -9431,7 +9431,7 @@ void CMainFrame::OnPlayStop(bool is_closing)
                 MediaControlStopPreview();
             }
 
-            if (m_pAMNS && m_pFSF) {
+            if (!is_closing && m_pAMNS && m_pFSF) {
                 // After pause or stop the netshow url source filter won't continue
                 // on the next play command, unless we cheat it by setting the file name again.
                 WCHAR* pFN = nullptr;
@@ -9479,10 +9479,10 @@ void CMainFrame::OnPlayStop(bool is_closing)
 
     m_nLoops = 0;
 
-    if (m_hWnd) {
+    if (!is_closing && m_hWnd) {
         MoveVideoWindow();
 
-        if (!is_closing && GetLoadState() == MLS::LOADED) {
+        if (GetLoadState() == MLS::LOADED) {
             __int64 start, stop;
             m_wndSeekBar.GetRange(start, stop);
             if (!IsPlaybackCaptureMode()) {
