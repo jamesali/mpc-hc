@@ -9432,13 +9432,19 @@ void CMainFrame::OnPlayStop(bool is_closing)
             }
 
             if (!is_closing && m_pAMNS && m_pFSF) {
-                // After pause or stop the netshow url source filter won't continue
-                // on the next play command, unless we cheat it by setting the file name again.
-                WCHAR* pFN = nullptr;
-                AM_MEDIA_TYPE mt;
-                if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
-                    m_pFSF->Load(pFN, nullptr);
-                    CoTaskMemFree(pFN);
+                CComQIPtr<IBaseFilter> pBF = m_pFSF;
+                if (pBF) {
+                    CLSID clsid = GetCLSID(pBF);
+                    if (clsid == CLSID_NetShowSource) {
+                        // After pause or stop the netshow url source filter won't continue
+                        // on the next play command, unless we cheat it by setting the file name again.
+                        WCHAR* pFN = nullptr;
+                        AM_MEDIA_TYPE mt;
+                        if (SUCCEEDED(m_pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
+                            m_pFSF->Load(pFN, nullptr);
+                            CoTaskMemFree(pFN);
+                        }
+                    }
                 }
             }
         } else if (GetPlaybackMode() == PM_DVD) {
