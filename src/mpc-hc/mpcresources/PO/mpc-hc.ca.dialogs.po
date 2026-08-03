@@ -1118,81 +1118,13 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Video Renderer"
 msgstr ""
 
-msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON1"
-msgid "Settings"
-msgstr ""
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "DXVA"
-msgstr "DXVA"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles"
-msgstr "Subtítols"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Screenshot"
-msgstr "Captura de pantalla"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Shaders"
-msgstr "Shaders"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Rotation"
-msgstr "Gir"
-
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Audio Renderer"
 msgstr "Renderitzador d'àudio"
 
-msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON2"
-msgid "Settings"
-msgstr ""
-
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Renderitzador dels subtítols"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Configuració del VMR-9 (sense renderitzat) i de l'EVR (CP)"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Surface:"
-msgstr "Superfície:"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Resizer:"
-msgstr "Redimensionador:"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
-msgid "Select D3D9 Render Device"
-msgstr "Selecciona el dispositiu de D3D9"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
-msgid "Reinitialize when changing display"
-msgstr "Restableix en canviar la pantalla"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
-msgid "D3D Fullscreen"
-msgstr "D3D a pantalla completa"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
-msgid "Alternative VSync"
-msgstr "Sincronització Vertical alternativa"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
-msgid "VMR-9 Mixer Mode"
-msgstr "VMR-9 en mode mesclador"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
-msgid "EVR Buffers:"
-msgstr "Memòria intermèdia de l'EVR:"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
-msgid "Cache compiled Shaders"
-msgstr "Emmagatzema els shaders compilats a la memòria cau"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1430,55 +1362,107 @@ msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
 msgstr "Atura el \"filtre graph\""
 
-msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Common"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Resizer:"
+msgstr "Redimensionador:"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_RESETDEVICE"
+msgid "Reinitialize when changing display"
+msgstr "Restableix en canviar la pantalla"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Emmagatzema els shaders compilats a la memòria cau"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "VMR-9 (renderless)"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Surface:"
+msgstr "Superfície:"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_DSVMR9LOADMIXER"
+msgid "VMR-9 Mixer Mode"
+msgstr "VMR-9 en mode mesclador"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Alternative VSync (also EVR (CP))"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_D3D9DEVICE"
+msgid "Select D3D9 Render Device (also EVR (CP))"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "EVR (CP) / Sync Renderer"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_EVR_BUFFERS_TXT"
+msgid "EVR Buffers:"
+msgstr "Memòria intermèdia de l'EVR:"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "D3D Fullscreen"
+msgstr "D3D a pantalla completa"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Sync Renderer"
+msgstr "Sync Renderer"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCVIDEO"
 msgid "Sync video to display"
 msgstr "Sincronitza el vídeo a la pantalla"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC1"
 msgid "Frequency adjustment:"
 msgstr "Ajusta la freqüència:"
 
-msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
 msgstr "Sincronitza la pantalla al vídeo"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC2"
 msgid "Frequency adjustment:"
 msgstr "Ajusta la freqüència:"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC3"
 msgid "lines"
 msgstr "fileres"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC4"
 msgid "columns"
 msgstr "columnes"
 
-msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
 msgstr "Presenta a la sincronització vertical més propera"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC5"
 msgid "Target sync offset:"
 msgstr "Objectiu de l'òfset de la sincronitizació:"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC6"
 msgid "ms"
 msgstr "ms"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC7"
 msgid "Control limits:"
 msgstr "Límits de control:"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC8"
 msgid "+/-"
 msgstr "+/-"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC9"
 msgid "ms"
 msgstr "ms"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
 msgstr ""
 "Els canvis tindran efecte després de tancar i reiniciar la reproducció."
@@ -1719,10 +1703,6 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "Original"
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
-msgid "SaneAR Audio Renderer Enabled"
-msgstr "Renderitzador d'àudio SaneAR activat"
-
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
 msgstr "Dispositiu"
@@ -1773,10 +1753,6 @@ msgstr ""
 "Per minimitzar la distorsió de l'àudio, se recomana mantenir el volum del "
 "reproductor al voltant del 85% durant la reproducció d'un contingut "
 "codificat amb pèrdua de volum elevat."
-
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
-msgid "MPC Audio Renderer Settings"
-msgstr "Paràmetres de renderització d'àudio de l'MPC"
 
 msgctxt "IDD_CMD_LINE_HELP_CAPTION"
 msgid "Command line help"
@@ -2080,88 +2056,3 @@ msgstr ""
 msgctxt "IDD_PPAGETOOLBARLAYOUT_IDC_BUTTON6"
 msgid "v"
 msgstr ""
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCVIDEO"
-msgid "Sync video to display"
-msgstr "Sincronitza el vídeo a la pantalla"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC1"
-msgid "Frequency adjustment:"
-msgstr "Ajusta la freqüència:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCDISPLAY"
-msgid "Sync display to video"
-msgstr "Sincronitza la pantalla al vídeo"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC2"
-msgid "Frequency adjustment:"
-msgstr "Ajusta la freqüència:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC3"
-msgid "lines"
-msgstr "fileres"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC4"
-msgid "columns"
-msgstr "columnes"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCNEAREST"
-msgid "Present at nearest VSync"
-msgstr "Presenta a la sincronització vertical més propera"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC5"
-msgid "Target sync offset:"
-msgstr "Objectiu de l'òfset de la sincronitizació:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC6"
-msgid "ms"
-msgstr "ms"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC7"
-msgid "Control limits:"
-msgstr "Límits de control:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC8"
-msgid "+/-"
-msgstr "+/-"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC9"
-msgid "ms"
-msgstr "ms"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC10"
-msgid "Changes take effect after the playback has been closed and restarted."
-msgstr ""
-"Els canvis tindran efecte després de tancar i reiniciar la reproducció."
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_CACHESHADERS"
-msgid "Cache compiled Shaders"
-msgstr "Emmagatzema els shaders compilats a la memòria cau"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_EVR_BUFFERS_TXT"
-msgid "EVR Buffers:"
-msgstr "Memòria intermèdia de l'EVR:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
-msgid "Resizer:"
-msgstr "Redimensionador:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_RESETDEVICE"
-msgid "Reinitialize when changing display"
-msgstr "Restableix en canviar la pantalla"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_DSVMR9LOADMIXER"
-msgid "VMR-9 Mixer Mode"
-msgstr "VMR-9 en mode mesclador"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_FULLSCREEN_MONITOR_CHECK"
-msgid "D3D Fullscreen"
-msgstr "D3D a pantalla completa"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
-msgid "Surface:"
-msgstr "Superfície:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
-msgid "Sync Renderer"
-msgstr "Sync Renderer"

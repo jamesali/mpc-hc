@@ -1107,81 +1107,13 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Video Renderer"
 msgstr ""
 
-msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON1"
-msgid "Settings"
-msgstr "Thiết lập"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "DXVA"
-msgstr "DXVA"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles"
-msgstr "Phụ để"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Screenshot"
-msgstr "Ảnh chụp màn hình"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Shaders"
-msgstr "Đổ bóng"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Rotation"
-msgstr "Xoay"
-
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Audio Renderer"
 msgstr "Trình kết xuất âm thanh"
 
-msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON2"
-msgid "Settings"
-msgstr "Thiết lập"
-
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Trình kết xuất phụ đề"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Cài đặt VMR-9 (không kết xuất) và EVR (CP)"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Surface:"
-msgstr "Bề mặt:"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Resizer:"
-msgstr "Chỉnh lại kích cỡ:"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
-msgid "Select D3D9 Render Device"
-msgstr "Chọn thiết bị kết xuất D3D9"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
-msgid "Reinitialize when changing display"
-msgstr "Khởi tạo lại khi thay đổi màn hình"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
-msgid "D3D Fullscreen"
-msgstr "D3D Toàn màn hình"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
-msgid "Alternative VSync"
-msgstr "VSync thay thế"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
-msgid "VMR-9 Mixer Mode"
-msgstr "Chế độ trộn VMR-9"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
-msgid "EVR Buffers:"
-msgstr "Bộ đệm EVR:"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
-msgid "Cache compiled Shaders"
-msgstr "Bộ nhớ đệm đã biên dịch Trình tạo bóng"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1419,55 +1351,107 @@ msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
 msgstr "Dừng đồ thị bộ lọc"
 
-msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Common"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Resizer:"
+msgstr "Chỉnh lại kích cỡ:"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_RESETDEVICE"
+msgid "Reinitialize when changing display"
+msgstr "Khởi tạo lại khi thay đổi màn hình"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Bộ nhớ đệm đã biên dịch Trình tạo bóng"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "VMR-9 (renderless)"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Surface:"
+msgstr "Bề mặt:"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_DSVMR9LOADMIXER"
+msgid "VMR-9 Mixer Mode"
+msgstr "Chế độ trộn VMR-9"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Alternative VSync (also EVR (CP))"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_D3D9DEVICE"
+msgid "Select D3D9 Render Device (also EVR (CP))"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "EVR (CP) / Sync Renderer"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_EVR_BUFFERS_TXT"
+msgid "EVR Buffers:"
+msgstr "Bộ đệm EVR:"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "D3D Fullscreen"
+msgstr "D3D Toàn màn hình"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Sync Renderer"
+msgstr "Đồng bộ kết xuất"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCVIDEO"
 msgid "Sync video to display"
 msgstr "Đồng bộ video theo màn hình"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC1"
 msgid "Frequency adjustment:"
 msgstr "Điều chỉnh tần số:"
 
-msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
 msgstr "Đồng bộ màn hình theo video"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC2"
 msgid "Frequency adjustment:"
 msgstr "Điều chỉnh tần số:"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC3"
 msgid "lines"
 msgstr "dòng"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC4"
 msgid "columns"
 msgstr "cột"
 
-msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
 msgstr "Hiện diện tại VSync gần nhất"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC5"
 msgid "Target sync offset:"
 msgstr "Bù đắp đồng bộ đích:"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC6"
 msgid "ms"
 msgstr "mili giây"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC7"
 msgid "Control limits:"
 msgstr "Điều chỉnh hạn mức:"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC8"
 msgid "+/-"
 msgstr "+/-"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC9"
 msgid "ms"
 msgstr "mili giây"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
 msgstr ""
 "Các thay đổi có hiệu lực sau khi quá trình phát lại được đóng và bắt đầu "
@@ -1705,10 +1689,6 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "Mặc định"
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
-msgid "SaneAR Audio Renderer Enabled"
-msgstr "Đã bật trình kết xuất âm thanh SaneAR"
-
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
 msgstr "Thiết bị"
@@ -1756,10 +1736,6 @@ msgid ""
 msgstr ""
 "Để giảm thiểu sự biến dạng âm thanh, bạn nên để âm lượng trình phát ở mức "
 "khoảng 85% khi phát nội dung mã hóa bị mất tiếng lớn."
-
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
-msgid "MPC Audio Renderer Settings"
-msgstr "Cài đặt Trình kết xuất âm thanh MPC"
 
 msgctxt "IDD_CMD_LINE_HELP_CAPTION"
 msgid "Command line help"
@@ -2060,89 +2036,3 @@ msgstr "^"
 msgctxt "IDD_PPAGETOOLBARLAYOUT_IDC_BUTTON6"
 msgid "v"
 msgstr "v"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCVIDEO"
-msgid "Sync video to display"
-msgstr "Đồng bộ video theo màn hình"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC1"
-msgid "Frequency adjustment:"
-msgstr "Điều chỉnh tần số:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCDISPLAY"
-msgid "Sync display to video"
-msgstr "Đồng bộ màn hình theo video"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC2"
-msgid "Frequency adjustment:"
-msgstr "Điều chỉnh tần số:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC3"
-msgid "lines"
-msgstr "dòng"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC4"
-msgid "columns"
-msgstr "cột"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCNEAREST"
-msgid "Present at nearest VSync"
-msgstr "Hiện diện tại VSync gần nhất"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC5"
-msgid "Target sync offset:"
-msgstr "Bù đắp đồng bộ đích:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC6"
-msgid "ms"
-msgstr "mili giây"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC7"
-msgid "Control limits:"
-msgstr "Điều chỉnh hạn mức:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC8"
-msgid "+/-"
-msgstr "+/-"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC9"
-msgid "ms"
-msgstr "mili giây"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC10"
-msgid "Changes take effect after the playback has been closed and restarted."
-msgstr ""
-"Các thay đổi có hiệu lực sau khi quá trình phát lại được đóng và bắt đầu "
-"lại."
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_CACHESHADERS"
-msgid "Cache compiled Shaders"
-msgstr "Bộ nhớ đệm đã biên dịch Trình tạo bóng"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_EVR_BUFFERS_TXT"
-msgid "EVR Buffers:"
-msgstr "Bộ đệm EVR:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
-msgid "Resizer:"
-msgstr "Chỉnh lại kích cỡ:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_RESETDEVICE"
-msgid "Reinitialize when changing display"
-msgstr "Khởi tạo lại khi thay đổi màn hình"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_DSVMR9LOADMIXER"
-msgid "VMR-9 Mixer Mode"
-msgstr "Chế độ trộn VMR-9"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_FULLSCREEN_MONITOR_CHECK"
-msgid "D3D Fullscreen"
-msgstr "D3D Toàn màn hình"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
-msgid "Surface:"
-msgstr "Bề mặt:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
-msgid "Sync Renderer"
-msgstr "Đồng bộ kết xuất"

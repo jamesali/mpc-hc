@@ -1105,81 +1105,13 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Video Renderer"
 msgstr ""
 
-msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON1"
-msgid "Settings"
-msgstr ""
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "DXVA"
-msgstr "DXVA"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles"
-msgstr "Undertexter"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Screenshot"
-msgstr "Skärmdump"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Shaders"
-msgstr "Shaders"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Rotation"
-msgstr "Rotation"
-
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Audio Renderer"
 msgstr "Ljudrenderare"
 
-msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON2"
-msgid "Settings"
-msgstr ""
-
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Undertextrenderare"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VMR-9 (renderlös) och EVR (CP) inställningar"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Surface:"
-msgstr "Yta:"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Resizer:"
-msgstr "Storleksändrare:"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
-msgid "Select D3D9 Render Device"
-msgstr "Välj D3D9 Render-enhet"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
-msgid "Reinitialize when changing display"
-msgstr "Initiera om vid byte av skärm"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
-msgid "D3D Fullscreen"
-msgstr "D3D Helskärm"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
-msgid "Alternative VSync"
-msgstr "Alternativ VSync"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
-msgid "VMR-9 Mixer Mode"
-msgstr "VMR-9 kombinationsläge"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
-msgid "EVR Buffers:"
-msgstr "EVR-buffertar:"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
-msgid "Cache compiled Shaders"
-msgstr "Cacha kompilerade Shaders"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1417,55 +1349,107 @@ msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
 msgstr "Stoppa filtergraf"
 
-msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Common"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Resizer:"
+msgstr "Storleksändrare:"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_RESETDEVICE"
+msgid "Reinitialize when changing display"
+msgstr "Initiera om vid byte av skärm"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Cacha kompilerade Shaders"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "VMR-9 (renderless)"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Surface:"
+msgstr "Yta:"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_DSVMR9LOADMIXER"
+msgid "VMR-9 Mixer Mode"
+msgstr "VMR-9 kombinationsläge"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Alternative VSync (also EVR (CP))"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_D3D9DEVICE"
+msgid "Select D3D9 Render Device (also EVR (CP))"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "EVR (CP) / Sync Renderer"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_EVR_BUFFERS_TXT"
+msgid "EVR Buffers:"
+msgstr "EVR-buffertar:"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "D3D Fullscreen"
+msgstr "D3D Helskärm"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Sync Renderer"
+msgstr "Sync Renderer"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCVIDEO"
 msgid "Sync video to display"
 msgstr "Synkronisera video med skärm"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC1"
 msgid "Frequency adjustment:"
 msgstr "Frekvensjustering:"
 
-msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
 msgstr "Synkronisera skärm med video"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC2"
 msgid "Frequency adjustment:"
 msgstr "Frekvensjustering:"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC3"
 msgid "lines"
 msgstr "rader"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC4"
 msgid "columns"
 msgstr "kolumner"
 
-msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
 msgstr "Visa vid närmaste VSync"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC5"
 msgid "Target sync offset:"
 msgstr "Önskad synkförskjutning:"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC6"
 msgid "ms"
 msgstr "ms"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC7"
 msgid "Control limits:"
 msgstr "Styrgränser:"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC8"
 msgid "+/-"
 msgstr "+/-"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC9"
 msgid "ms"
 msgstr "ms"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
 msgstr "Ändringarna börjar gälla efter omstart av uppspelning."
 
@@ -1699,10 +1683,6 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "Återställ"
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
-msgid "SaneAR Audio Renderer Enabled"
-msgstr ""
-
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
 msgstr ""
@@ -1748,10 +1728,6 @@ msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC8"
 msgid ""
 "To minimize audio distortion, it is recommended to keep player volume at "
 "around 85% when playing loud lossy-encoded content."
-msgstr ""
-
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
-msgid "MPC Audio Renderer Settings"
 msgstr ""
 
 msgctxt "IDD_CMD_LINE_HELP_CAPTION"
@@ -2054,87 +2030,3 @@ msgstr ""
 msgctxt "IDD_PPAGETOOLBARLAYOUT_IDC_BUTTON6"
 msgid "v"
 msgstr ""
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCVIDEO"
-msgid "Sync video to display"
-msgstr "Synkronisera video med skärm"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC1"
-msgid "Frequency adjustment:"
-msgstr "Frekvensjustering:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCDISPLAY"
-msgid "Sync display to video"
-msgstr "Synkronisera skärm med video"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC2"
-msgid "Frequency adjustment:"
-msgstr "Frekvensjustering:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC3"
-msgid "lines"
-msgstr "rader"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC4"
-msgid "columns"
-msgstr "kolumner"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCNEAREST"
-msgid "Present at nearest VSync"
-msgstr "Visa vid närmaste VSync"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC5"
-msgid "Target sync offset:"
-msgstr "Önskad synkförskjutning:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC6"
-msgid "ms"
-msgstr "ms"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC7"
-msgid "Control limits:"
-msgstr "Styrgränser:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC8"
-msgid "+/-"
-msgstr "+/-"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC9"
-msgid "ms"
-msgstr "ms"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC10"
-msgid "Changes take effect after the playback has been closed and restarted."
-msgstr "Ändringarna börjar gälla efter omstart av uppspelning."
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_CACHESHADERS"
-msgid "Cache compiled Shaders"
-msgstr "Cacha kompilerade Shaders"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_EVR_BUFFERS_TXT"
-msgid "EVR Buffers:"
-msgstr "EVR-buffertar:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
-msgid "Resizer:"
-msgstr "Storleksändrare:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_RESETDEVICE"
-msgid "Reinitialize when changing display"
-msgstr "Initiera om vid byte av skärm"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_DSVMR9LOADMIXER"
-msgid "VMR-9 Mixer Mode"
-msgstr "VMR-9 kombinationsläge"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_FULLSCREEN_MONITOR_CHECK"
-msgid "D3D Fullscreen"
-msgstr "D3D Helskärm"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
-msgid "Surface:"
-msgstr "Yta:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
-msgid "Sync Renderer"
-msgstr "Sync Renderer"

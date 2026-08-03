@@ -1106,81 +1106,13 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Video Renderer"
 msgstr ""
 
-msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON1"
-msgid "Settings"
-msgstr ""
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "DXVA"
-msgstr "DXVA"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Subtitles"
-msgstr "Sarikata"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Screenshot"
-msgstr "Cekupan Skrin"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Shaders"
-msgstr "Pelorek"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Rotation"
-msgstr "Putaran"
-
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Audio Renderer"
 msgstr "Penerap Audio"
 
-msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON2"
-msgid "Settings"
-msgstr ""
-
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Penerap Sarikata"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Tetapan VMR-9 (tak terap) dan EVR (CP)"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Surface:"
-msgstr "Permukaan:"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
-msgid "Resizer:"
-msgstr "Pensaiz semula:"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
-msgid "Select D3D9 Render Device"
-msgstr "Pilih Peranti Terap D3D9"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
-msgid "Reinitialize when changing display"
-msgstr "Awalkan semula bila menukar paparan"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
-msgid "D3D Fullscreen"
-msgstr "Skrin Penuh D3D"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
-msgid "Alternative VSync"
-msgstr "VSync Alternatif"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
-msgid "VMR-9 Mixer Mode"
-msgstr "Mod Pengadun VMR-9"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
-msgid "EVR Buffers:"
-msgstr "Penimbal EVR:"
-
-msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
-msgid "Cache compiled Shaders"
-msgstr "Cache Pelorek terkompil"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1418,55 +1350,107 @@ msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
 msgstr "Henti graf penapis"
 
-msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Common"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Resizer:"
+msgstr "Pensaiz semula:"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_RESETDEVICE"
+msgid "Reinitialize when changing display"
+msgstr "Awalkan semula bila menukar paparan"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_CACHESHADERS"
+msgid "Cache compiled Shaders"
+msgstr "Cache Pelorek terkompil"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "VMR-9 (renderless)"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Surface:"
+msgstr "Permukaan:"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_DSVMR9LOADMIXER"
+msgid "VMR-9 Mixer Mode"
+msgstr "Mod Pengadun VMR-9"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_DSVMR9ALTERNATIVEVSYNC"
+msgid "Alternative VSync (also EVR (CP))"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_D3D9DEVICE"
+msgid "Select D3D9 Render Device (also EVR (CP))"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "EVR (CP) / Sync Renderer"
+msgstr ""
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_EVR_BUFFERS_TXT"
+msgid "EVR Buffers:"
+msgstr "Penimbal EVR:"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_FULLSCREEN_MONITOR_CHECK"
+msgid "D3D Fullscreen"
+msgstr "Skrin Penuh D3D"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
+msgid "Sync Renderer"
+msgstr "Penerap Segerak"
+
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCVIDEO"
 msgid "Sync video to display"
 msgstr "Segerak video untuk paparan"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC1"
 msgid "Frequency adjustment:"
 msgstr "Pelarasan frekuensi:"
 
-msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
 msgstr "Segerak paparan ke video"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC2"
 msgid "Frequency adjustment:"
 msgstr "Pelajaran frekuensi:"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC3"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC3"
 msgid "lines"
 msgstr "baris"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC4"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC4"
 msgid "columns"
 msgstr "lajur"
 
-msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
 msgstr "Hadir pada VSync terhampir"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC5"
 msgid "Target sync offset:"
 msgstr "Ofset segerak sasaran:"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC6"
 msgid "ms"
 msgstr "ms"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC7"
 msgid "Control limits:"
 msgstr "Had kawalan:"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC8"
 msgid "+/-"
 msgstr "+/-"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC9"
 msgid "ms"
 msgstr "ms"
 
-msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
+msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
 msgstr ""
 "Perubahan berkesan selepas main balik telah ditutup dan dimulakan semula."
@@ -1704,10 +1688,6 @@ msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
 msgstr "Lalai"
 
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
-msgid "SaneAR Audio Renderer Enabled"
-msgstr ""
-
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
 msgstr ""
@@ -1753,10 +1733,6 @@ msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC8"
 msgid ""
 "To minimize audio distortion, it is recommended to keep player volume at "
 "around 85% when playing loud lossy-encoded content."
-msgstr ""
-
-msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
-msgid "MPC Audio Renderer Settings"
 msgstr ""
 
 msgctxt "IDD_CMD_LINE_HELP_CAPTION"
@@ -2059,88 +2035,3 @@ msgstr ""
 msgctxt "IDD_PPAGETOOLBARLAYOUT_IDC_BUTTON6"
 msgid "v"
 msgstr ""
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCVIDEO"
-msgid "Sync video to display"
-msgstr "Segerak video untuk paparan"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC1"
-msgid "Frequency adjustment:"
-msgstr "Pelarasan frekuensi:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCDISPLAY"
-msgid "Sync display to video"
-msgstr "Segerak paparan ke video"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC2"
-msgid "Frequency adjustment:"
-msgstr "Pelajaran frekuensi:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC3"
-msgid "lines"
-msgstr "baris"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC4"
-msgid "columns"
-msgstr "lajur"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_SYNCNEAREST"
-msgid "Present at nearest VSync"
-msgstr "Hadir pada VSync terhampir"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC5"
-msgid "Target sync offset:"
-msgstr "Ofset segerak sasaran:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC6"
-msgid "ms"
-msgstr "ms"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC7"
-msgid "Control limits:"
-msgstr "Had kawalan:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC8"
-msgid "+/-"
-msgstr "+/-"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC9"
-msgid "ms"
-msgstr "ms"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC10"
-msgid "Changes take effect after the playback has been closed and restarted."
-msgstr ""
-"Perubahan berkesan selepas main balik telah ditutup dan dimulakan semula."
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_CACHESHADERS"
-msgid "Cache compiled Shaders"
-msgstr "Cache Pelorek terkompil"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_EVR_BUFFERS_TXT"
-msgid "EVR Buffers:"
-msgstr "Penimbal EVR:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
-msgid "Resizer:"
-msgstr "Pensaiz semula:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_RESETDEVICE"
-msgid "Reinitialize when changing display"
-msgstr "Awalkan semula bila menukar paparan"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_DSVMR9LOADMIXER"
-msgid "VMR-9 Mixer Mode"
-msgstr "Mod Pengadun VMR-9"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_FULLSCREEN_MONITOR_CHECK"
-msgid "D3D Fullscreen"
-msgstr "Skrin Penuh D3D"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
-msgid "Surface:"
-msgstr "Permukaan:"
-
-msgctxt "IDD_PPAGEVIDEORENDERER_IDC_STATIC"
-msgid "Sync Renderer"
-msgstr "Penerap Segerak"
