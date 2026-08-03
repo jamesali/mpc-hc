@@ -1282,11 +1282,11 @@ void CMainFrame::OnClose()
 
     m_OSD.OnHide();
 
-    ShowWindow(SW_HIDE);
-
-    if (GetMediaState() == State_Running) {
+    if (UpdateCachedMediaState() == State_Running) {
         MediaControlPause(true);
     }
+
+    ShowWindow(SW_HIDE);
 
     m_wndPlaylistBar.SavePlaylist();
     m_wndPlaylistBar.ClearExternalPlaylistIfInvalid();
@@ -9480,7 +9480,7 @@ void CMainFrame::OnPlayStop(bool is_closing)
         }
         m_nStepForwardCount = 0;
     } else if (GetLoadState() == MLS::CLOSING) {
-        MediaControlStop(true);
+        // graph will be stopped in CloseMediaPrivate()
     }
 
     m_nLoops = 0;
@@ -16443,6 +16443,11 @@ void CMainFrame::CloseMediaPrivate()
 
     ULONGLONG tc1 = GetTickCount64();
 
+    // Stop the graph before releasing it.
+    // Stopping can block indefinitely on a stuck source filter (e.g. an unresponsive network stream)
+    // The graph worker thread can be utilized to catch such deadlocks
+    MediaControlStop(true);
+
     m_CachedFilterState = -1;
 
     m_fLiveWM = false;
@@ -19846,9 +19851,11 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         ASSERT(!m_bSettingUpMenus);
     }
 
+    bool app_closing = !this->IsWindowVisible();
+
     bool savehistory = false;
     if (GetLoadState() == MLS::LOADED) {
-        if (GetMediaState() == State_Running) {
+        if (!app_closing && GetMediaState() == State_Running) {
             MediaControlPause(true);
         }
 
@@ -19978,7 +19985,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
             bool killprocess = true;
             bool processmsg = true;
             bool extendedwait = false;
-            bool app_closing = !this->IsWindowVisible();
             if (app_closing) {
                 waitdur += 12000ULL;
             }
@@ -20131,7 +20137,8 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         m_bUseSeekPreview = false;
     }
 
-    // stop the graph before destroying it
+    // update UI for stopped state
+    // the graph itself is stopped in CloseMediaPrivate(), which is called below by graph thread (or directly)
     OnPlayStop(true);
 
     // clear any active osd messages
@@ -20170,7 +20177,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
         bool killprocess = true;
         bool processmsg = true;
         bool extendedwait = false;
-        bool app_closing = !this->IsWindowVisible();
         if (app_closing) {
             waitdur += 12000ULL;
         }
