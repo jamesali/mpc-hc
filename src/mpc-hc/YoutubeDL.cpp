@@ -329,7 +329,7 @@ void GetVideoScore(YDLStreamDetails& details) {
     }
 
     if (s.iYDLMaxHeight > 0) {
-        if (details.height > details.width) {
+        if (details.width > 0 && details.height > details.width) {
             // vertical video
             if (s.iYDLMaxHeight >= details.width) {
                 score += 64;
