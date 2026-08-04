@@ -940,21 +940,13 @@ STDMETHODIMP LibassContext::Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbo
     return E_POINTER;
 }
 
-void AlphaBlendToInverted(const BYTE* src, int w, int h, int pitch, int srcXOffset, int srcYOffset, BYTE* dst, int dst_pitch) {
-    src += srcYOffset * pitch;
+// The flattened image shares the subpic's pixel format (premultiplied color,
+// inverted alpha), and the subpic dirty rect holds no prior content, so the
+// image can be copied row by row instead of alpha blended.
+void CopyToSPD(const BYTE* src, int w, int h, int pitch, int srcXOffset, int srcYOffset, BYTE* dst, int dst_pitch) {
+    src += srcYOffset * pitch + srcXOffset;
     for (int i = 0; i < h; i++, src += pitch, dst += dst_pitch) {
-        const BYTE* s2 = src + srcXOffset;
-        const BYTE* s2end = s2 + w * 4;
-        DWORD* d2 = (DWORD*)dst;
-        for (; s2 < s2end; s2 += 4, d2++) {
-            if (s2[3] > 0) {
-                auto alpha = s2[3];
-                *d2 = (((((*d2 & 0x00ff00ff) * ~alpha) >> 8) + (*((DWORD*)s2) & 0x00ff00ff)) & 0x00ff00ff)
-                    | (((((*d2 & 0x0000ff00) * ~alpha) >> 8) + (*((DWORD*)s2) & 0x0000ff00)) & 0x0000ff00)
-                    | ((~(alpha + (((~((*d2 & 0xff000000) >> 24)) * ~alpha)))) << 24) //A.  this is inverted alpha, so we invert it before multiplying and then invert it again
-                    ;
-            }
-        }
+        memcpy(dst, src, (size_t)w * 4);
     }
 }
 
@@ -977,7 +969,7 @@ bool LibassContext::RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty) 
     }
 
     BYTE* pixelBytes = (BYTE*)(spd.bits + spd.pitch * rcDirty.top + rcDirty.left * 4);
-    AlphaBlendToInverted(reinterpret_cast<uint8_t*>(m_pixels.get()), rcDirty.Width(), rcDirty.Height(), 4 * lastUncroppedDirty.Width(), 4 * (rcDirty.left - lastUncroppedDirty.left), rcDirty.top - lastUncroppedDirty.top, pixelBytes, spd.pitch);
+    CopyToSPD(reinterpret_cast<uint8_t*>(m_pixels.get()), rcDirty.Width(), rcDirty.Height(), 4 * lastUncroppedDirty.Width(), 4 * (rcDirty.left - lastUncroppedDirty.left), rcDirty.top - lastUncroppedDirty.top, pixelBytes, spd.pitch);
     return true;
 }
 
@@ -1017,7 +1009,15 @@ static __forceinline __m128i packed_pix_mix_sse2(const __m128i& dst,
     d_g = _mm_or_si128(d_g, c_g);
     d_b = _mm_or_si128(d_b, c_b);
 
+    __m128i ones = _mm_set1_epi32(0x1);
+    d_a = _mm_add_epi32(d_a, ones);
+
+    // The alpha channel is inverted (0xff = transparent), so a's low word
+    // contains 256 - src alpha. Multiplying it by the incremented destination
+    // alpha can produce 65536, which wraps to zero in this 16-bit multiply.
+    // The subtraction below still leaves the correct value in bits 8-15.
     d_a = _mm_mullo_epi16(d_a, a);
+    d_a = _mm_sub_epi32(d_a, ones);
     d_r = _mm_madd_epi16(d_r, a);
     d_g = _mm_madd_epi16(d_g, a);
     d_b = _mm_madd_epi16(d_b, a);
@@ -1026,11 +1026,6 @@ static __forceinline __m128i packed_pix_mix_sse2(const __m128i& dst,
     d_r = _mm_srli_epi32(d_r, 8);
     d_g = _mm_srli_epi32(d_g, 8);
     d_b = _mm_srli_epi32(d_b, 8);
-
-    __m128i ones = _mm_set1_epi32(0x1);
-    __m128i a_sub_one = _mm_srli_epi32(a, 16);
-    a_sub_one = _mm_sub_epi32(a_sub_one, ones);
-    d_a = _mm_add_epi32(d_a, a_sub_one);
 
     d_a = _mm_slli_epi32(d_a, 24);
     d_r = _mm_slli_epi32(d_r, 16);
@@ -1099,7 +1094,12 @@ static __forceinline void packed_pix_mix_sse2(BYTE* dst, const BYTE* alpha, int 
     }
     DWORD* dst_w = reinterpret_cast<DWORD*>(dst);
     for (; alpha < alpha_end; alpha++, dst_w++) {
+        // pixmix_sse2 accumulates straight alpha; recompute the inverted alpha channel
+        const DWORD dst_alpha = *dst_w >> 24;
+        const DWORD src_alpha = ((static_cast<DWORD>(*alpha) + 1) * (color >> 24)) >> 8;
         pixmix_sse2(dst_w, color, *alpha);
+        const DWORD output_alpha = (((dst_alpha + 1) * (0x100 - src_alpha) - 1) >> 8) << 24;
+        *dst_w = (*dst_w & 0x00FFFFFF) | output_alpha;
     }
 }
 
@@ -1114,7 +1114,9 @@ void LibassContext::AssFlattenSSE2(ASS_Image* image, SubPicDesc& spd, CRect& rcD
         CRect spdRect = GetSPDRect(spd);
         rcDirty.IntersectRect(pRect + spdRect.TopLeft(), spdRect);
 
-        m_pixels = std::make_unique<uint32_t[]>(pRect.Width() * pRect.Height());
+        size_t pixelCount = (size_t)pRect.Width() * pRect.Height();
+        m_pixels.reset(new uint32_t[pixelCount]);
+        std::fill_n(m_pixels.get(), pixelCount, 0xFF000000u); // transparent, inverted alpha
 
         for (auto i = image; i != nullptr; i = i->next) {
             for (int y=0; y<i->h; y++) {
@@ -1127,6 +1129,8 @@ void LibassContext::AssFlattenSSE2(ASS_Image* image, SubPicDesc& spd, CRect& rcD
     }
 }
 
+#if 0
+// Unused C reference implementation of AssFlattenSSE2
 void LibassContext::AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty) {
     if (image) {
         CRect pRect;
@@ -1137,36 +1141,32 @@ void LibassContext::AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty
         CRect spdRect = GetSPDRect(spd);
         rcDirty.IntersectRect(pRect + spdRect.TopLeft(), spdRect);
 
-        BYTE* pixelBytes = (BYTE*)(spd.bits + spd.pitch * rcDirty.top + rcDirty.left * 4);
+        size_t pixelCount = (size_t)pRect.Width() * pRect.Height();
+        m_pixels.reset(new uint32_t[pixelCount]);
+        std::fill_n(m_pixels.get(), pixelCount, 0xFF000000u); // transparent, inverted alpha
 
         for (auto i = image; i != nullptr; i = i->next) {
-            uint32_t iA = 0xff - (i->color & 0x000000ff);
+            uint32_t opacity = 0xff - (i->color & 0x000000ff);
             uint32_t iR = (i->color & 0xff000000) >> 24;
             uint32_t iG = (i->color & 0x00ff0000) >> 16;
             uint32_t iB = (i->color & 0x0000ff00) >> 8;
 
-            auto yOff1 = (ptrdiff_t)i->dst_y - pRect.top;
-            for (int y = 0; y < i->h; y++)
-                {
-                    auto yOff = (yOff1 + y)*spd.pitch;
-                    auto yOffStride = y * i->stride;
-                    auto xOff1 = ((ptrdiff_t)i->dst_x - pRect.left) * 4;
-                    for (int x = 0; x < i->w; ++x, ++yOffStride, xOff1+=4) {
-                        BYTE* dst = &pixelBytes[yOff + xOff1];
+            for (int y = 0; y < i->h; y++) {
+                auto dst = reinterpret_cast<uint8_t*>(m_pixels.get() + ((ptrdiff_t)i->dst_y + y - pRect.top) * pRect.Width() + ((ptrdiff_t)i->dst_x - pRect.left));
+                auto alpha = i->bitmap + y * i->stride;
+                for (int x = 0; x < i->w; ++x, ++alpha, dst += 4) {
+                    uint32_t srcA = ((*alpha + 1u) * opacity) >> 8;
 
-                        uint32_t srcA = (i->bitmap[yOffStride] * iA) >> 8;
-                        uint32_t compA = 0xff - srcA;
-
-                        dst[3] = 0xff - (srcA + (((0xff - dst[3]) * compA) >> 8)); //A.  this is inverted alpha, so we invert it before multiplying and then invert it again
-                        dst[2] = (iR * srcA + dst[2] * compA) >> 8; //R
-                        dst[1] = (iG * srcA + dst[1] * compA) >> 8; //G
-                        dst[0] = (iB * srcA + dst[0] * compA) >> 8; //B
-
-                    }
+                    dst[0] = (dst[0] * (256 - srcA) + iB * (srcA + 1)) >> 8; //B
+                    dst[1] = (dst[1] * (256 - srcA) + iG * (srcA + 1)) >> 8; //G
+                    dst[2] = (dst[2] * (256 - srcA) + iR * (srcA + 1)) >> 8; //R
+                    dst[3] = ((dst[3] + 1u) * (256 - srcA) - 1) >> 8;        //A (inverted: 0xff = transparent)
                 }
+            }
         }
     }
 }
+#endif
 
 void LibassContext::SetFrameSize(int w, int h) {
     if (m_STS->m_subtitleType != Subtitle::SRT) {
