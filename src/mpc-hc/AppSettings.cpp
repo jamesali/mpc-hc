@@ -1648,7 +1648,7 @@ void CAppSettings::SaveSettingsAutoChangeFullScreenMode()
 
 void CAppSettings::LoadSettings()
 {
-    CWinApp* pApp = AfxGetApp();
+    CMPlayerCApp* pApp = AfxGetMyApp();
     ASSERT(pApp);
 
     UINT  len;
@@ -2382,12 +2382,22 @@ void CAppSettings::LoadSettings()
     gpuid2 = pApp->GetProfileString(IDS_R_SETTINGS, L"GPUID2", L"");
 
     int hoursSinceEpoch = std::chrono::duration_cast<std::chrono::hours>(std::chrono::system_clock::now().time_since_epoch()).count();
-    if (!LastGPUCheck) {
-        LastGPUCheck = hoursSinceEpoch;
-        GPUDetect gpuinfo = GPUDetect();
+    if (!LastGPUCheck || LastGPUCheck == 0xDEAD) {
+        if (!LastGPUCheck && pApp->IsUsingRegistry()) {
+            pApp->WriteProfileInt(IDS_R_SETTINGS, L"LastGPUCheck", 0xDEAD);
+            // if driver crashes during check, then on next run we know based on this temporary value
+        }
+
+        bool skip_d3d11 = (LastGPUCheck == 0xDEAD);
+        GPUDetect gpuinfo = GPUDetect(true, skip_d3d11);
         CString previous_gpuid1 = gpuid1;
         gpuid1 = gpuinfo.GetCount() >= 1 ? gpuinfo.GetGPUID1() : CString();
         gpuid2 = gpuinfo.GetCount() >= 2 ? gpuinfo.GetGPUID2() : CString();
+
+        LastGPUCheck = hoursSinceEpoch;
+        if (pApp->IsUsingRegistry()) {
+            pApp->WriteProfileInt(IDS_R_SETTINGS, L"LastGPUCheck", LastGPUCheck);
+        }
 
         // fix incorrect HWA setting, if user only changed renderer
         if (iDSVideoRendererType == VIDRNDT_DS_MPCVR) {

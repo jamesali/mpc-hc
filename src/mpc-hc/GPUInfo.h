@@ -61,7 +61,7 @@ public:
 class GPUDetect
 {
 public:
-    GPUDetect(bool check_hwa_caps = true);
+    GPUDetect(bool check_hwa_caps = true, bool skip_d3d11 = false);
 
     int GetCount() { return gpu_count; }
     int GetHwaCaps() { return hwa_caps_dx11 ? hwa_caps_dx11 : hwa_caps_dx9; }

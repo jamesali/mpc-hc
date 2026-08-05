@@ -46,7 +46,7 @@ const GUID AV1_PROFILE0           = { 0xb8be4ccb, 0xcf53, 0x46ba, 0x8d, 0x59, 0x
 const GUID AV1_PROFILE1           = { 0x6936ff0f, 0x45b1, 0x4163, 0x9c, 0xc1, 0x64, 0x6e, 0xf6, 0x94, 0x61, 0x08};
 const GUID AV1_PROFILE2           = { 0x0c5f2aa1, 0xe541, 0x4089, 0xbb, 0x7b, 0x98, 0x11, 0x0a, 0x19, 0xd7, 0xc8};
 
-GPUDetect::GPUDetect(bool check_hwa_caps)
+GPUDetect::GPUDetect(bool check_hwa_caps /*= true*/, bool skip_d3d11 /*= false*/)
 {
     HRESULT hr = E_INVALIDARG;
     ID3D11Device* pD3D11Device = nullptr;
@@ -55,13 +55,13 @@ GPUDetect::GPUDetect(bool check_hwa_caps)
 	D3D_FEATURE_LEVEL fl_list[] = { D3D_FEATURE_LEVEL_11_1 };
 
     bool win8plus = IsWindowsVersionOrGreaterBuild(8, 0, 0);
-    if (win8plus) {
+    if (!skip_d3d11 && win8plus) {
 		hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, fl_list, _countof(fl_list), D3D11_SDK_VERSION, &pD3D11Device, &fl_available, &pContext);
 	}
-	if (hr != S_OK) {
+	if (!skip_d3d11 && hr != S_OK) {
 		hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, nullptr, 0, D3D11_SDK_VERSION, &pD3D11Device, &fl_available, &pContext);
 	}
-    if (hr == S_OK && pD3D11Device) {
+    if (!skip_d3d11 && hr == S_OK && pD3D11Device) {
         IDXGIDevice1* pDXGIDevice1 = nullptr;
         hr = pD3D11Device->QueryInterface(&pDXGIDevice1);
         if (hr == S_OK && pDXGIDevice1) {
@@ -125,111 +125,111 @@ GPUDetect::GPUDetect(bool check_hwa_caps)
             pDXGIDevice1->Release();
         }
         pD3D11Device->Release();
+    }
 
-        // DirectX 9
-        if (!gpu_count || check_hwa_caps && !hwa_caps_dx11) {
-            IDirect3D9Ex* pD3D = nullptr;
-            hr = Direct3DCreate9Ex(D3D_SDK_VERSION, &pD3D);
-            if (hr == D3D_OK && pD3D) {
-                UINT count = pD3D->GetAdapterCount();
-                if (count > 0) {
-                    GPUDetails tmpgpu;
-                    if (GetGPUDetailsDX9(pD3D, 0, &tmpgpu)) {
-                        if (!gpu_count) {
-                            gpu1 = tmpgpu;
-                            gpu_count = 1;
-                            if (count > 1) {
-                                GPUDetails tmpgpu2;
-                                if (GetGPUDetailsDX9(pD3D, 1, &tmpgpu2)) {
-                                    if (tmpgpu2.deviceid != gpu1.deviceid) {
-                                        gpu2 = tmpgpu2;
-                                        gpu_count = 2;
-                                    } else if (count > 2) {
-                                        GPUDetails tmpgpu3;
-                                        if (GetGPUDetailsDX9(pD3D, 2, &tmpgpu3)) {
-                                            if (tmpgpu3.deviceid != gpu1.deviceid) {
-                                                gpu2 = tmpgpu3;
-                                                gpu_count = 2;
-                                            }
+    // DirectX 9
+    if (skip_d3d11 || !gpu_count || check_hwa_caps && !hwa_caps_dx11) {
+        IDirect3D9Ex* pD3D = nullptr;
+        hr = Direct3DCreate9Ex(D3D_SDK_VERSION, &pD3D);
+        if (hr == D3D_OK && pD3D) {
+            UINT count = pD3D->GetAdapterCount();
+            if (count > 0) {
+                GPUDetails tmpgpu;
+                if (GetGPUDetailsDX9(pD3D, 0, &tmpgpu)) {
+                    if (!gpu_count) {
+                        gpu1 = tmpgpu;
+                        gpu_count = 1;
+                        if (count > 1) {
+                            GPUDetails tmpgpu2;
+                            if (GetGPUDetailsDX9(pD3D, 1, &tmpgpu2)) {
+                                if (tmpgpu2.deviceid != gpu1.deviceid) {
+                                    gpu2 = tmpgpu2;
+                                    gpu_count = 2;
+                                } else if (count > 2) {
+                                    GPUDetails tmpgpu3;
+                                    if (GetGPUDetailsDX9(pD3D, 2, &tmpgpu3)) {
+                                        if (tmpgpu3.deviceid != gpu1.deviceid) {
+                                            gpu2 = tmpgpu3;
+                                            gpu_count = 2;
                                         }
                                     }
                                 }
-                            }
-                        }
-
-                        if (check_hwa_caps && gpu1.vendorid != 0 && gpu1.deviceid != 0 && gpu1.vendorid != PCIV_MICROSOFT) {
-                            // detect video decoding capabilities
-                            IDirect3DDevice9Ex* pD3DDev = nullptr;
-                            D3DPRESENT_PARAMETERS pp = {};
-                            pp.Windowed = TRUE;
-                            pp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-                            pp.BackBufferFormat = D3DFMT_UNKNOWN;
-                            HWND hwnd = GetDesktopWindow();
-                            hr = pD3D->CreateDeviceEx(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES, &pp, nullptr, &pD3DDev);
-                            if (SUCCEEDED(hr)) {
-                                IDirectXVideoDecoderService* decoderService = nullptr;
-                                hr = DXVA2CreateVideoService(pD3DDev, IID_PPV_ARGS(&decoderService));
-                                if (SUCCEEDED(hr)) {
-                                    UINT count = 0;
-                                    GUID* guids = nullptr;
-                                    hr = decoderService->GetDecoderDeviceGuids(&count, &guids);
-                                    if (SUCCEEDED(hr)) {
-                                        DWORD hwacaps = 0;
-                                        for (UINT i = 0; i < count; ++i)
-                                        {
-                                            GUID decoderProfile = guids[i];
-                                            if (decoderProfile == H264_VLD_NOFGT || decoderProfile == H264_VLD_FGT) {
-                                                hwacaps |= GPU_HWA_CAP_H264;
-
-                                                // test 4k support
-                                                if (!(hwacaps & GPU_HWA_CAP_H264_4K)) {
-                                                    DXVA2_VideoDesc desc = {};
-                                                    desc.SampleWidth = 3840;
-                                                    desc.SampleHeight = 2160;
-                                                    desc.Format = (D3DFORMAT)MAKEFOURCC('N', 'V', '1', '2');
-                                                    UINT count = 0;
-                                                    DXVA2_ConfigPictureDecode* cfg = nullptr;
-                                                    hr = decoderService->GetDecoderConfigurations(decoderProfile, &desc, nullptr, &count, &cfg);
-                                                    if (SUCCEEDED(hr) && count > 0)
-                                                    {
-                                                        hwacaps |= GPU_HWA_CAP_H264_4K;
-                                                    }
-                                                    CoTaskMemFree(cfg);
-                                                }
-                                            } else if (decoderProfile == H264_VLD_INTEL_OLD) {
-                                                hwacaps |= GPU_HWA_CAP_H264_INTEL;
-                                            } else if (decoderProfile == VP9_VLD_PROFILE0) {
-                                                hwacaps |= GPU_HWA_CAP_VP9_P0;
-                                            } else if (decoderProfile == VP9_VLD_10BIT_PROFILE2) {
-                                                hwacaps |= GPU_HWA_CAP_VP9_P2;
-                                            } else if (decoderProfile == HEVC_VLD_MAIN) {
-                                                hwacaps |= GPU_HWA_CAP_HEVC_MAIN;
-                                            } else if (decoderProfile == HEVC_VLD_MAIN10) {
-                                                hwacaps |= GPU_HWA_CAP_HEVC_MAIN10;
-                                            } else if (decoderProfile == HEVC_VLD_MAIN12) {
-                                                hwacaps |= GPU_HWA_CAP_HEVC_MAIN12;
-                                            } else if (decoderProfile == HEVC_VLD_MAIN16) {
-                                                hwacaps |= GPU_HWA_CAP_HEVC_MAIN16;
-                                            } else if (decoderProfile == AV1_PROFILE0) {
-                                                hwacaps |= GPU_HWA_CAP_AV1_P0;
-                                            } else if (decoderProfile == AV1_PROFILE1) {
-                                                hwacaps |= GPU_HWA_CAP_AV1_P1;
-                                            } else if (decoderProfile == AV1_PROFILE2) {
-                                                hwacaps |= GPU_HWA_CAP_AV1_P2;
-                                            }
-                                        }
-                                        CoTaskMemFree(guids);
-                                        hwa_caps_dx9 = hwacaps;
-                                    }
-                                    decoderService->Release();
-                                }
-                                pD3DDev->Release();
                             }
                         }
                     }
+
+                    if (check_hwa_caps && gpu1.vendorid != 0 && gpu1.deviceid != 0 && gpu1.vendorid != PCIV_MICROSOFT) {
+                        // detect video decoding capabilities
+                        IDirect3DDevice9Ex* pD3DDev = nullptr;
+                        D3DPRESENT_PARAMETERS pp = {};
+                        pp.Windowed = TRUE;
+                        pp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+                        pp.BackBufferFormat = D3DFMT_UNKNOWN;
+                        HWND hwnd = GetDesktopWindow();
+                        hr = pD3D->CreateDeviceEx(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED | D3DCREATE_NOWINDOWCHANGES, &pp, nullptr, &pD3DDev);
+                        if (SUCCEEDED(hr)) {
+                            IDirectXVideoDecoderService* decoderService = nullptr;
+                            hr = DXVA2CreateVideoService(pD3DDev, IID_PPV_ARGS(&decoderService));
+                            if (SUCCEEDED(hr)) {
+                                UINT count = 0;
+                                GUID* guids = nullptr;
+                                hr = decoderService->GetDecoderDeviceGuids(&count, &guids);
+                                if (SUCCEEDED(hr)) {
+                                    DWORD hwacaps = 0;
+                                    for (UINT i = 0; i < count; ++i)
+                                    {
+                                        GUID decoderProfile = guids[i];
+                                        if (decoderProfile == H264_VLD_NOFGT || decoderProfile == H264_VLD_FGT) {
+                                            hwacaps |= GPU_HWA_CAP_H264;
+
+                                            // test 4k support
+                                            if (!(hwacaps & GPU_HWA_CAP_H264_4K)) {
+                                                DXVA2_VideoDesc desc = {};
+                                                desc.SampleWidth = 3840;
+                                                desc.SampleHeight = 2160;
+                                                desc.Format = (D3DFORMAT)MAKEFOURCC('N', 'V', '1', '2');
+                                                UINT count = 0;
+                                                DXVA2_ConfigPictureDecode* cfg = nullptr;
+                                                hr = decoderService->GetDecoderConfigurations(decoderProfile, &desc, nullptr, &count, &cfg);
+                                                if (SUCCEEDED(hr) && count > 0)
+                                                {
+                                                    hwacaps |= GPU_HWA_CAP_H264_4K;
+                                                }
+                                                CoTaskMemFree(cfg);
+                                            }
+                                        } else if (decoderProfile == H264_VLD_INTEL_OLD) {
+                                            hwacaps |= GPU_HWA_CAP_H264_INTEL;
+                                        } else if (decoderProfile == VP9_VLD_PROFILE0) {
+                                            hwacaps |= GPU_HWA_CAP_VP9_P0;
+                                        } else if (decoderProfile == VP9_VLD_10BIT_PROFILE2) {
+                                            hwacaps |= GPU_HWA_CAP_VP9_P2;
+                                        } else if (decoderProfile == HEVC_VLD_MAIN) {
+                                            hwacaps |= GPU_HWA_CAP_HEVC_MAIN;
+                                        } else if (decoderProfile == HEVC_VLD_MAIN10) {
+                                            hwacaps |= GPU_HWA_CAP_HEVC_MAIN10;
+                                        } else if (decoderProfile == HEVC_VLD_MAIN12) {
+                                            hwacaps |= GPU_HWA_CAP_HEVC_MAIN12;
+                                        } else if (decoderProfile == HEVC_VLD_MAIN16) {
+                                            hwacaps |= GPU_HWA_CAP_HEVC_MAIN16;
+                                        } else if (decoderProfile == AV1_PROFILE0) {
+                                            hwacaps |= GPU_HWA_CAP_AV1_P0;
+                                        } else if (decoderProfile == AV1_PROFILE1) {
+                                            hwacaps |= GPU_HWA_CAP_AV1_P1;
+                                        } else if (decoderProfile == AV1_PROFILE2) {
+                                            hwacaps |= GPU_HWA_CAP_AV1_P2;
+                                        }
+                                    }
+                                    CoTaskMemFree(guids);
+                                    hwa_caps_dx9 = hwacaps;
+                                }
+                                decoderService->Release();
+                            }
+                            pD3DDev->Release();
+                        }
+                    }
                 }
-                pD3D->Release();
             }
+            pD3D->Release();
         }
     }
 }
