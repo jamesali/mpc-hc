@@ -1033,6 +1033,10 @@ CStringW CMPlayerCApp::ResolveHistoryIniPath()
                                       CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
         if (hProbe == INVALID_HANDLE_VALUE) {
             useAppData = true;
+            if (m_iHistoryInAppData != 1) {
+                m_iHistoryInAppData = 1;
+                m_Profile.WriteInt(IDS_R_SETTINGS, IDS_RS_HISTORY_IN_APPDATA, m_iHistoryInAppData);
+            }
         } else {
             ::CloseHandle(hProbe);
             ::DeleteFileW(programPath); // probe only, leave no empty file behind

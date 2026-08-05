@@ -1017,7 +1017,7 @@ void CProfile::Flush(bool bForce)
 
     m_bIniNeedFlush = false;
 
-    ASSERT(m_bIniFirstInit);
+    ASSERT(m_bIniFirstInit || bForce);
     ASSERT(!m_IniPath.IsEmpty());
 
     FILE* fp;
