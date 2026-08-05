@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2026-08-03 13:18:35+0000\n"
+"POT-Creation-Date: 2026-08-05 16:41:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -461,6 +461,14 @@ msgstr ""
 
 msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYDATE_NEWEST"
+msgid "Sort by date (&newest first)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYDATE_OLDEST"
+msgid "Sort by date (&oldest first)"
 msgstr ""
 
 msgctxt "IDS_PLAYLIST_RANDOMIZE"

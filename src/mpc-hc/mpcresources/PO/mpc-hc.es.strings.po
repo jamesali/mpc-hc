@@ -492,6 +492,14 @@ msgctxt "IDS_PLAYLIST_SORTBYPATH"
 msgid "Sort by &path"
 msgstr "Ordenar por &ruta"
 
+msgctxt "IDS_PLAYLIST_SORTBYDATE_NEWEST"
+msgid "Sort by date (&newest first)"
+msgstr ""
+
+msgctxt "IDS_PLAYLIST_SORTBYDATE_OLDEST"
+msgid "Sort by date (&oldest first)"
+msgstr ""
+
 msgctxt "IDS_PLAYLIST_RANDOMIZE"
 msgid "R&andomize"
 msgstr "Orden &aleatorio"
