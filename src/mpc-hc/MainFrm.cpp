@@ -14048,7 +14048,7 @@ void CMainFrame::SyncPreviewEdition()
     }
 
     DWORD cStreams;
-    if (FAILED(m_pSplitterSS->Count(&cStreams))) {
+    if (FAILED(m_pSplitterSS->Count(&cStreams)) || cStreams < 3) {
         return;
     }
 
@@ -14069,7 +14069,7 @@ void CMainFrame::SyncPreviewEdition()
 
     BeginEnumFilters(m_pGB_preview, pEF, pBF) {
         if (CComQIPtr<IAMStreamSelect> pSS = pBF) {
-            if (FAILED(pSS->Count(&cStreams))) {
+            if (FAILED(pSS->Count(&cStreams)) || cStreams < editionCount + 1) {
                 continue;
             }
             int edition = 0;
