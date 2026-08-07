@@ -1812,6 +1812,18 @@ msgctxt "IDD_ADDCOMMAND_DLG_IDCANCEL"
 msgid "Cancel"
 msgstr "Zrušiť"
 
+msgctxt "IDD_HISTORY_CAPTION"
+msgid "History"
+msgstr ""
+
+msgctxt "IDD_HISTORY_IDC_BUTTON1"
+msgid "Menu"
+msgstr ""
+
+msgctxt "IDD_HISTORY_IDC_BUTTON2"
+msgid "Remove selected"
+msgstr ""
+
 msgctxt "IDD_PPAGETHEME_IDC_STATIC1"
 msgid "Theme"
 msgstr "Téma"

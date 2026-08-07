@@ -5118,3 +5118,63 @@ msgstr ""
 msgctxt "IDS_ABOUT_COPYRIGHT"
 msgid "Copyright 2002-%s clsid2 and others"
 msgstr "Avtorske pravice 2002-%s clsid2 in drugi"
+
+msgctxt "IDS_HISTORY_SHOW"
+msgid "&Show history..."
+msgstr ""
+
+msgctxt "IDS_HISTORY_PATH"
+msgid "Path"
+msgstr ""
+
+msgctxt "IDS_HISTORY_TITLE"
+msgid "Title"
+msgstr ""
+
+msgctxt "IDS_HISTORY_POSITION"
+msgid "Position"
+msgstr ""
+
+msgctxt "IDS_HISTORY_LAST_OPENED"
+msgid "Last opened"
+msgstr ""
+
+msgctxt "IDS_HISTORY_REMOVE_SELECTED"
+msgid "Remove selected"
+msgstr ""
+
+msgctxt "IDS_HISTORY_REMOVE_MISSING"
+msgid "Remove missing files"
+msgstr ""
+
+msgctxt "IDS_HISTORY_REMOVE_URLS"
+msgid "Remove all URLs"
+msgstr ""
+
+msgctxt "IDS_HISTORY_REMOVE_OLDER_WEEK"
+msgid "Remove entries older than one week"
+msgstr ""
+
+msgctxt "IDS_HISTORY_REMOVE_OLDER_MONTH"
+msgid "Remove entries older than one month"
+msgstr ""
+
+msgctxt "IDS_HISTORY_CLEAR"
+msgid "Clear all history"
+msgstr ""
+
+msgctxt "IDS_HISTORY_REMOVE_QUESTION"
+msgid "Are you sure you want to remove %d selected entries from the history?"
+msgstr ""
+
+msgctxt "IDS_HISTORY_COPY_PATHS"
+msgid "Copy paths to clipboard"
+msgstr ""
+
+msgctxt "IDS_HISTORY_RESET_POSITION"
+msgid "Reset saved position"
+msgstr ""
+
+msgctxt "IDS_HISTORY_RESET_TRACKS"
+msgid "Reset track selection"
+msgstr ""
