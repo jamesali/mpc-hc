@@ -74,11 +74,15 @@ LPCWSTR GetExceptionName(DWORD code)
             return _T("SINGLE STEP");
         case EXCEPTION_STACK_OVERFLOW:
             return _T("STACK OVERFLOW");
+        case 0xC06D007E:
+            return _T("0xC06D007E - DEPENDENCY MISSING");
         case 0xE06D7363:
             return _T("UNDEFINED C++ EXCEPTION");
-        default:
-            return _T("[UNKNOWN]");
     }
+
+    CString res;
+    res.Format(L"0x%08X", code);
+    return res.GetString();
 }
 
 HMODULE GetExceptionModule(LPVOID address, LPWSTR moduleName)
@@ -126,11 +130,10 @@ void HandleCommonException(LPEXCEPTION_POINTERS exceptionInfo)
                                               "An error has occurred. MPC-HC will close now.\n\n"\
                                               "Exception:\n%s\n\n"\
                                               "Crashing module:\n%s\n"\
-                                              "Offset: 0x%" PRIXPTR ", Codebase: 0x%" PRIXPTR "\n\n"),
+                                              "Offset: 0x%" PRIXPTR "\n\n"),
                GetExceptionName(exceptionInfo->ExceptionRecord->ExceptionCode),
                moduleName,
-               offset,
-               codeBase);
+               offset);
 
     MessageBox(NULL, message, _T("Unexpected error"), MB_OK | MB_TOPMOST | MB_SETFOREGROUND | MB_SYSTEMMODAL);
 }
@@ -164,12 +167,11 @@ void HandleAccessViolation(LPEXCEPTION_POINTERS exceptionInfo)
                                               "An error has occurred. MPC-HC will close now.\n\n"\
                                               "Exception:\n%s\n\n"\
                                               "Crashing module:\n%s\n"\
-                                              "Offset: 0x%" PRIXPTR ", Codebase: 0x%" PRIXPTR "\n"\
+                                              "Offset: 0x%" PRIXPTR "\n"\
                                               "The thread %lu tried to %s memory at address 0x%" PRIXPTR "\n\n"),
                GetExceptionName(exceptionInfo->ExceptionRecord->ExceptionCode),
                moduleName,
                offset,
-               codeBase,
                GetCurrentThreadId(),
                accessType,
                exceptionInfo->ExceptionRecord->ExceptionInformation[1]);
