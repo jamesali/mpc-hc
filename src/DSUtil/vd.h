@@ -43,5 +43,3 @@ extern bool BitBltFromRGBToRGBStretch(int dstw, int dsth, BYTE* dst, int dstpitc
 
 extern void DeinterlaceBlend(BYTE* dst, BYTE* src, DWORD rowbytes, DWORD h, DWORD dstpitch, DWORD srcpitch);
 extern void DeinterlaceBob(BYTE* dst, BYTE* src, DWORD rowbytes, DWORD h, DWORD dstpitch, DWORD srcpitch, bool topfield);
-extern void DeinterlaceELA_X8R8G8B8(BYTE* dst, BYTE* src, DWORD w, DWORD h, DWORD dstpitch, DWORD srcpitch, bool topfield);
-extern void DeinterlaceELA(BYTE* dst, BYTE* src, DWORD w, DWORD h, DWORD dstpitch, DWORD srcpitch, bool topfield);
