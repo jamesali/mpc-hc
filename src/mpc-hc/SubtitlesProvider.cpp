@@ -55,8 +55,12 @@ void SubtitlesProviders::RegisterProviders()
 {
     //Register<OpenSubtitles>(this);
     Register<OpenSubtitles2>(this);
+#if USE_PODNAPISI
     Register<podnapisi>(this);
-    //Register<Napisy24>(this);
+#endif
+#if USE_NAPISY24
+    Register<Napisy24>(this);
+#endif
 }
 
 /******************************************************************************
@@ -692,6 +696,7 @@ const std::set<std::string>& OpenSubtitles2::Languages() const
 ** podnapisi
 ******************************************************************************/
 
+#if USE_PODNAPISI
 SRESULT podnapisi::Login(const std::string& sUserName, const std::string& sPassword)
 {
     //TODO: implement
@@ -928,12 +933,13 @@ const std::set<std::string>& podnapisi::Languages() const
         });
     return result;
 }
+#endif
 
 /******************************************************************************
 ** Napisy24
 ******************************************************************************/
 
-#if 0
+#if USE_NAPISY24
 SRESULT Napisy24::Search(const SubtitlesInfo& pFileInfo)
 {
     if (!pFileInfo.manualSearchString.IsEmpty()) {

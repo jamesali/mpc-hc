@@ -88,16 +88,13 @@ CString token;
 static constexpr TCHAR* APIKEY = _T("s2GJfwwPNA74kkeXudFAdiHIqTDjgrmq");
 DEFINE_SUBTITLESPROVIDER_END
 
+#define USE_PODNAPISI 0
+
+#if USE_PODNAPISI
 DEFINE_SUBTITLESPROVIDER_BEGIN(podnapisi, "Podnapisi", "https://www.podnapisi.net", IDI_PODNAPISI, SPF_SEARCH)
 SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 DEFINE_SUBTITLESPROVIDER_END
-
-#if 0
-DEFINE_SUBTITLESPROVIDER_BEGIN(Napisy24, "Napisy24", "https://napisy24.pl/", IDI_N24, SPF_HASH | SPF_SEARCH)
-SRESULT Hash(SubtitlesInfo& pFileInfo) override;
-DEFINE_SUBTITLESPROVIDER_END
-#endif
 
 static const struct {
     const char* code;
@@ -124,3 +121,12 @@ static const struct {
     { /*54*/ "id", "Indonesian" },              { /*55*/ "ms", "Malay" },                  { /*56*/ "si", "Sinhala" },
     { /*57*/ "kl", "Greenlandic" },             { /*58*/ "kk", "Kazakh" },                 { /*59*/ "bn", "Bengali" },
 };
+#endif
+
+#define USE_NAPISY24 0
+
+#if USE_NAPISY24
+DEFINE_SUBTITLESPROVIDER_BEGIN(Napisy24, "Napisy24", "https://napisy24.pl/", IDI_N24, SPF_HASH | SPF_SEARCH)
+SRESULT Hash(SubtitlesInfo& pFileInfo) override;
+DEFINE_SUBTITLESPROVIDER_END
+#endif
