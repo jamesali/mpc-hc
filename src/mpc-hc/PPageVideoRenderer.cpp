@@ -30,11 +30,11 @@
 IMPLEMENT_DYNAMIC(CPPageVideoRenderer, CMPCThemePPageBase)
 CPPageVideoRenderer::CPPageVideoRenderer()
     : CMPCThemePPageBase(CPPageVideoRenderer::IDD, IDS_PPAGE_VIDEORENDERER_TITLE)
+    , m_iRendererType(-1)
     , m_iAPSurfaceUsage(0)
     , m_iDX9Resizer(0)
     , m_fVMR9MixerMode(FALSE)
     , m_fD3DFullscreen(FALSE)
-    , m_fVMR9AlterativeVSync(FALSE)
     , m_fResetDevice(FALSE)
     , m_fCacheShaders(FALSE)
     , m_iEvrBuffers(_T("5"))
@@ -48,6 +48,7 @@ CPPageVideoRenderer::CPPageVideoRenderer()
     , m_fCycleDelta(0.0012)
     , m_fTargetSyncOffset(10.0)
     , m_fControlLimit(2.0)
+    , m_bResetToDefaults(false)
 {
     m_bPopupHosted = true;
 }
@@ -70,7 +71,6 @@ void CPPageVideoRenderer::DoDataExchange(CDataExchange* pDX)
     DDX_Check(pDX, IDC_RESETDEVICE, m_fResetDevice);
     DDX_Check(pDX, IDC_CACHESHADERS, m_fCacheShaders);
     DDX_Check(pDX, IDC_FULLSCREEN_MONITOR_CHECK, m_fD3DFullscreen);
-    DDX_Check(pDX, IDC_DSVMR9ALTERNATIVEVSYNC, m_fVMR9AlterativeVSync);
     DDX_Check(pDX, IDC_DSVMR9LOADMIXER, m_fVMR9MixerMode);
     DDX_CBString(pDX, IDC_EVR_BUFFERS, m_iEvrBuffers);
     DDX_Check(pDX, IDC_SYNCVIDEO, m_bSynchronizeVideo);
@@ -90,6 +90,7 @@ BEGIN_MESSAGE_MAP(CPPageVideoRenderer, CMPCThemePPageBase)
     ON_BN_CLICKED(IDC_SYNCVIDEO, OnBnClickedSyncVideo)
     ON_BN_CLICKED(IDC_SYNCDISPLAY, OnBnClickedSyncDisplay)
     ON_BN_CLICKED(IDC_SYNCNEAREST, OnBnClickedSyncNearest)
+    ON_BN_CLICKED(IDC_RESET, OnBnClickedReset)
     ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateSyncVideo)
     ON_UPDATE_COMMAND_UI(IDC_CYCLEDELTA, OnUpdateSyncVideo)
     ON_UPDATE_COMMAND_UI(IDC_STATIC2, OnUpdateSyncDisplay)
@@ -123,7 +124,6 @@ BOOL CPPageVideoRenderer::OnInitDialog()
     m_iDX9Resizer = r.iDX9Resizer;
 
     m_fVMR9MixerMode = r.fVMR9MixerMode;
-    m_fVMR9AlterativeVSync = r.m_AdvRendSets.bVMR9AlterativeVSync;
     m_fD3DFullscreen = s.fD3DFullscreen;
     m_fResetDevice = r.fResetDevice;
     m_fCacheShaders = r.m_AdvRendSets.bCacheShaders;
@@ -188,9 +188,26 @@ BOOL CPPageVideoRenderer::OnInitDialog()
 
     UpdateData(FALSE);
 
+    GetDlgItem(IDC_DSVMR9LOADMIXER)->EnableWindow(m_iRendererType == -1 || m_iRendererType == VIDRNDT_DS_VMR9RENDERLESS);
+    GetDlgItem(IDC_EVR_BUFFERS_TXT)->EnableWindow(m_iRendererType != VIDRNDT_DS_VMR9RENDERLESS);
+    GetDlgItem(IDC_EVR_BUFFERS)->EnableWindow(m_iRendererType != VIDRNDT_DS_VMR9RENDERLESS);
+
     // The D3D9 render device selection is only meaningful with more than one adapter
-    GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(m_iD3D9RenderDeviceCtrl.GetCount() > 1);
-    GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(m_iD3D9RenderDeviceCtrl.GetCount() > 1 && m_fD3D9RenderDevice);
+    bool canSelectD3D9Device = m_iD3D9RenderDeviceCtrl.GetCount() > 1 && m_iRendererType != VIDRNDT_DS_SYNC;
+    GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(canSelectD3D9Device);
+    GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(canSelectD3D9Device && m_fD3D9RenderDevice);
+
+    if (m_iRendererType != -1 && m_iRendererType != VIDRNDT_DS_SYNC) {
+        static const UINT syncControls[] = {
+            IDC_SYNC_GROUP, IDC_SYNCVIDEO, IDC_SYNCDISPLAY, IDC_SYNCNEAREST,
+            IDC_CYCLEDELTA, IDC_LINEDELTA, IDC_COLUMNDELTA, IDC_TARGETSYNCOFFSET, IDC_CONTROLLIMIT,
+            IDC_STATIC1, IDC_STATIC2, IDC_STATIC3, IDC_STATIC4, IDC_STATIC5,
+            IDC_STATIC6, IDC_STATIC7, IDC_STATIC8, IDC_STATIC9, IDC_STATIC10
+        };
+        for (const auto& id : syncControls) {
+            GetDlgItem(id)->EnableWindow(FALSE);
+        }
+    }
 
     CreateToolTip();
 
@@ -210,12 +227,16 @@ BOOL CPPageVideoRenderer::OnApply()
     CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = s.m_RenderersSettings;
 
+    if (m_bResetToDefaults) {
+        r.m_AdvRendSets.SetDefault();
+        m_bResetToDefaults = false;
+    }
+
     s.fD3DFullscreen = m_fD3DFullscreen ? true : false;
 
     r.iAPSurfaceUsage = m_iAPSurfaceUsage;
     r.iDX9Resizer = m_iDX9Resizer;
     r.fVMR9MixerMode = !!m_fVMR9MixerMode;
-    r.m_AdvRendSets.bVMR9AlterativeVSync = m_fVMR9AlterativeVSync != FALSE;
     r.fResetDevice = !!m_fResetDevice;
     r.m_AdvRendSets.bCacheShaders = !!m_fCacheShaders;
     if (m_iEvrBuffers.IsEmpty() || _stscanf_s(m_iEvrBuffers, _T("%d"), &r.iEvrBuffers) != 1) {
@@ -271,7 +292,7 @@ void CPPageVideoRenderer::OnFullscreenCheck()
     UpdateData();
     if (m_fD3DFullscreen && CMPCThemeMsgBox::MessageBoxW(this, ResStr(IDS_D3DFS_WARNING), nullptr, MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) == IDNO) {
         m_fD3DFullscreen = false;
-        UpdateData(FALSE);
+        CheckDlgButton(IDC_FULLSCREEN_MONITOR_CHECK, BST_UNCHECKED);
     } else {
         SetModified();
     }
@@ -284,7 +305,9 @@ void CPPageVideoRenderer::OnBnClickedSyncVideo()
         m_bSynchronizeDisplay = FALSE;
         m_bSynchronizeNearest = FALSE;
     }
-    UpdateData(FALSE);
+    CheckDlgButton(IDC_SYNCVIDEO, m_bSynchronizeVideo ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(IDC_SYNCDISPLAY, m_bSynchronizeDisplay ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(IDC_SYNCNEAREST, m_bSynchronizeNearest ? BST_CHECKED : BST_UNCHECKED);
     SetModified();
 }
 
@@ -295,7 +318,9 @@ void CPPageVideoRenderer::OnBnClickedSyncDisplay()
         m_bSynchronizeVideo = FALSE;
         m_bSynchronizeNearest = FALSE;
     }
-    UpdateData(FALSE);
+    CheckDlgButton(IDC_SYNCVIDEO, m_bSynchronizeVideo ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(IDC_SYNCDISPLAY, m_bSynchronizeDisplay ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(IDC_SYNCNEAREST, m_bSynchronizeNearest ? BST_CHECKED : BST_UNCHECKED);
     SetModified();
 }
 
@@ -306,16 +331,48 @@ void CPPageVideoRenderer::OnBnClickedSyncNearest()
         m_bSynchronizeVideo = FALSE;
         m_bSynchronizeDisplay = FALSE;
     }
+    CheckDlgButton(IDC_SYNCVIDEO, m_bSynchronizeVideo ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(IDC_SYNCDISPLAY, m_bSynchronizeDisplay ? BST_CHECKED : BST_UNCHECKED);
+    CheckDlgButton(IDC_SYNCNEAREST, m_bSynchronizeNearest ? BST_CHECKED : BST_UNCHECKED);
+    SetModified();
+}
+
+void CPPageVideoRenderer::OnBnClickedReset()
+{
+    CRenderersSettings::CAdvRendererSettings defaultSettings;
+
+    m_iAPSurfaceUsage = VIDRNDT_AP_TEXTURE3D;
+    m_iDX9Resizer = 1;
+    m_fVMR9MixerMode = TRUE;
+    m_fD3DFullscreen = FALSE;
+    m_fResetDevice = FALSE;
+    m_fCacheShaders = defaultSettings.bCacheShaders;
+    m_iEvrBuffers = _T("5");
+    m_fD3D9RenderDevice = FALSE;
+    m_iD3D9RenderDevice = -1;
+
+    m_bSynchronizeVideo = defaultSettings.bSynchronizeVideo;
+    m_bSynchronizeDisplay = defaultSettings.bSynchronizeDisplay;
+    m_bSynchronizeNearest = defaultSettings.bSynchronizeNearest;
+    m_iLineDelta = defaultSettings.iLineDelta;
+    m_iColumnDelta = defaultSettings.iColumnDelta;
+    m_fCycleDelta = defaultSettings.fCycleDelta;
+    m_fTargetSyncOffset = defaultSettings.fTargetSyncOffset;
+    m_fControlLimit = defaultSettings.fControlLimit;
+
+    m_bResetToDefaults = true;
     UpdateData(FALSE);
+    GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(FALSE);
+    m_wndToolTip.UpdateTipText(ResStr(IDC_TEXTURESURF3D), GetDlgItem(IDC_DX_SURFACE));
     SetModified();
 }
 
 void CPPageVideoRenderer::OnUpdateSyncDisplay(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_bSynchronizeDisplay);
+    pCmdUI->Enable(m_bSynchronizeDisplay && (m_iRendererType == -1 || m_iRendererType == VIDRNDT_DS_SYNC));
 }
 
 void CPPageVideoRenderer::OnUpdateSyncVideo(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(m_bSynchronizeVideo);
+    pCmdUI->Enable(m_bSynchronizeVideo && (m_iRendererType == -1 || m_iRendererType == VIDRNDT_DS_SYNC));
 }
