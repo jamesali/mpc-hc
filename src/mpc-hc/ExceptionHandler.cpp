@@ -284,9 +284,58 @@ LONG WINAPI UnhandledException(LPEXCEPTION_POINTERS exceptionInfo)
         errmsg.Append(trace);
     }
 
+    bool use_wer = false; // Send to Windows Error Reporting
+    CString comment = _T("");
+    moduleName.MakeLower();
+    if (moduleName.Find(_T("nvd3dumx.dll")) >= 0 || moduleName.Find(_T("nvwgf2umx.dll")) >= 0) {
+        comment = _T("This crash was caused by a fault in the NVIDIA graphics driver. If this happens often, then you should install a different version of their driver.");
+        use_wer = true;
+    } else if (moduleName.Find(_T("atiumd")) >= 0 || moduleName.Find(_T("aticfx")) >= 0 || moduleName.Find(_T("atidxx")) >= 0 || moduleName.Find(_T("atiu9")) >= 0) {
+        comment = _T("This crash was caused by a fault in the AMD graphics driver. If this happens often, then you should install a different version of their driver.");
+        use_wer = true;
+    } else if (moduleName.Find(_T("igdumd")) >= 0 || moduleName.Find(_T("igd9dxva")) >= 0 || moduleName.Find(_T("igc64.dll")) >= 0) {
+        comment = _T("This crash was caused by a fault in the Intel graphics driver. If this happens often, then you should install a different version of their driver.");
+        use_wer = true;
+    } else if (moduleName.Find(_T("-lav-")) >= 0 || moduleName.Find(_T("lavvideo")) >= 0 || moduleName.Find(_T("lavaudio")) >= 0 || moduleName.Find(_T("lavsplitter")) >= 0) {
+        comment = _T("This crash was caused by a fault in LAV Filters. Please report this crash to us. Then we can investigate why this crash happens and try to fix it.");
+    } else if (moduleName.Find(_T("madvr")) >= 0 || moduleName.Find(_T("mvrsettings64.dll")) >= 0 || moduleName.Find(_T("madhcnet64.dll")) >= 0) {
+        comment = _T("This crash was caused by a fault in madVR.");
+    } else if (moduleName.Find(_T("atklumdispx.dll")) >= 0) {
+        comment = _T("This crash was caused by a fault in ASUS GamerOSD.");
+    } else if (moduleName.Find(_T("gtii-osd64.dll")) >= 0) {
+        comment = _T("This crash was caused by a fault in Asus GPU Tweak II.");
+    } else if (moduleName.Find(_T("splitter.x64.ax")) >= 0) {
+        comment = _T("This crash was caused by a fault in Haali Media Splitter.");
+    } else if (moduleName.Find(_T("dxr.x64.dll")) >= 0) {
+        comment = _T("This crash was caused by a fault in Haali Video Renderer.");
+    } else if (moduleName.Find(_T("vboxdispd3d.dll")) >= 0) {
+        comment = _T("This crash was caused by a fault in VirtualBox display driver.");
+    } else if (moduleName.Find(_T("explorerframe")) >= 0) {
+        comment = _T("This crash was caused by a fault in a Windows Explorer DLL.\nDo this to avoid the problem:\nMPC-HC options > Player > User Interface > uncheck \"Use enhanced taskbar features\"");
+        use_wer = true;
+    } else if (moduleName.Find(_T("kernelbase.dll")) >= 0 && trace.Find(_T("vapoursynth_filter")) >= 0) {
+        comment = _T("This crash is likely caused by missing VapourSynth runtime or missing C++ runtime installation.\nYou can also fix it by removing this external filter in the options.");
+    } else if (moduleName.Find(_T("kernelbase.dll")) >= 0 && trace.Find(_T("avisynth_filter")) >= 0) {
+        comment = _T("This crash is likely caused by missing AviSynth runtime or missing C++ runtime installation.\nYou can also fix it by removing this external filter in the options.");
+    } else if (moduleName.Find(_T("loilocap")) >= 0) {
+        comment = _T("This crash is caused by a fault in LoiLo Game Recorder.");
+    } else if (moduleName.Find(_T("evr.dll")) >= 0) {
+        comment = _T("This crash is caused by a fault in EVR. If this happens often, choose a different video renderer in the options.");
+        use_wer = true;
+    } else if (moduleName.Find(_T("d3d9on12")) >= 0) {
+        use_wer = true;
+    } else if (moduleName.Find(_T("dsound")) >= 0 || moduleName.Find(_T("audiokse")) >= 0 || moduleName.Find(_T("audioses")) >= 0) {
+        use_wer = true;
+    }
+
+    if (!comment.IsEmpty()) {
+        errmsg.Append(L"\n");
+        errmsg.Append(comment);
+    }
+
     MessageBox(NULL, errmsg, _T("Unexpected error"), MB_OK | MB_TOPMOST | MB_SETFOREGROUND | MB_SYSTEMMODAL);
 
-    return EXCEPTION_EXECUTE_HANDLER;
+    return use_wer ? EXCEPTION_CONTINUE_SEARCH : EXCEPTION_EXECUTE_HANDLER;
 }
 #endif
 
