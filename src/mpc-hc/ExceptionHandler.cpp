@@ -146,8 +146,10 @@ CString GetStackTrace(LPEXCEPTION_POINTERS exp)
                 if (GetModuleFileNameW(hModule, mfn, MAX_PATH)) {
                     CPath file = mfn;
                     file.StripPath();
+                    CString moduleName = file.m_strPath;
+                    moduleName.MakeLower();
                     if (frame.AddrPC.Offset > pSymbol->Address && (frame.AddrPC.Offset - pSymbol->Address < 0x100000)) {
-                        current_line.Format(L"%s : %s() + 0x%" PRIXPTR "\n", file.m_strPath.GetString(), pSymbol->Name, frame.AddrPC.Offset - pSymbol->Address);
+                        current_line.Format(L"%s : %s() + 0x%" PRIXPTR "\n", moduleName.GetString(), pSymbol->Name, frame.AddrPC.Offset - pSymbol->Address);
                     } else {
                         current_line = file.m_strPath + L"\n";
                     }
@@ -246,6 +248,7 @@ LONG WINAPI UnhandledException(LPEXCEPTION_POINTERS exceptionInfo)
         wchar_t mfn[MAX_PATH] = {};
         if (GetModuleFileNameW(hModule, mfn, MAX_PATH)) {
             moduleName = mfn;
+            moduleName.MakeLower();
         } else {
             moduleName = L"[UNKNOWN]";
         }
@@ -286,7 +289,6 @@ LONG WINAPI UnhandledException(LPEXCEPTION_POINTERS exceptionInfo)
 
     bool use_wer = false; // Send to Windows Error Reporting
     CString comment = _T("");
-    moduleName.MakeLower();
     if (moduleName.Find(_T("nvd3dumx.dll")) >= 0 || moduleName.Find(_T("nvwgf2umx.dll")) >= 0) {
         comment = _T("This crash was caused by a fault in the NVIDIA graphics driver. If this happens often, then you should install a different version of their driver.");
         use_wer = true;
