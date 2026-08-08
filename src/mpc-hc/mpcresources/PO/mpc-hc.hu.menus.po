@@ -362,17 +362,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "GPU memória ürítések kivárása"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "Alaphelyzetbe állítás"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "Alapértelmezett videó átalakító beállítások visszaállítása"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "Optimális videó átalakító beállítások visszaállítása"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -673,6 +665,10 @@ msgstr "Sebesség alaphelyzetbe állítása"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "&Szűrők"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

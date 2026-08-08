@@ -360,17 +360,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "&Αναμονή για εκκαθαρίσεις"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "Επανα&φορά"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "Επαναφορά στις &προεπιλεγμένες ρυθμίσεις απόδοσης"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "Επαναφορά στις &βέλτιστες ρυθμίσεις απόδοσης"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -671,6 +663,10 @@ msgstr "Επαναφορά ταχύτητας"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "&Φίλτρα"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

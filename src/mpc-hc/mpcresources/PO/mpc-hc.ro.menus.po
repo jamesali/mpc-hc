@@ -359,17 +359,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "&Așteaptă după eliberări de memorie"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "R&esetează"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "Revino la setările &implicite ale randorului"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "Resetează la setările &optime ale randorului"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -671,6 +663,10 @@ msgstr "R&esetează rata de redare"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "&Filtre"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

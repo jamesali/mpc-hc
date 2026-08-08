@@ -359,17 +359,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "フラッシュを待機(&W)"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "リセット(&E)"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "既定の設定にリセット(&D)"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "最適な設定にリセット(&O)"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -670,6 +662,10 @@ msgstr "再生速度 標準(&E)"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "フィルター(&F)"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

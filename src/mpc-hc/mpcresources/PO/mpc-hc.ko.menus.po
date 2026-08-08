@@ -358,17 +358,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "플러시 대기(&W)"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "초기화(&E)"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "렌더러 기본 설정으로 초기화(&D)"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "최적의 렌더러 설정으로 초기화(&O)"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -669,6 +661,10 @@ msgstr "재생 속도 초기화(&E)"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "필터(&F)"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

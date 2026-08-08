@@ -357,16 +357,8 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr ""
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "ਮੁੜ-ਸੈਟ ਕਰੋ(&e)"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr ""
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
 msgstr ""
 
 msgctxt "POPUP"
@@ -668,6 +660,10 @@ msgstr "ਦਰ ਮੁੜ-ਸੈਟ ਕਰੋ(&e)"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "ਫਿਲਟਰ(&F)"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

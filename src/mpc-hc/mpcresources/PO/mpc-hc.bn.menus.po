@@ -357,17 +357,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "ফ্লাশসমূহের জন্য অপেক্ষাকরণ (&W)"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "পুনর্বিন্যাস করণ (&E)"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "ডিফল্ট রেনডারার সেটিংসমূহে পুনর্বিন্যাস (&D)"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "সর্বোত্তম রেনডারার সেটিংসমূহে পুনর্বিন্যাস (&O)"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -668,6 +660,10 @@ msgstr "গতি পুনর্বিন্যাস করি (&E)"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "ফিল্টারসমূহ (&F)"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

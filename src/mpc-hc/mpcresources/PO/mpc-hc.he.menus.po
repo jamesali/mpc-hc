@@ -358,17 +358,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "המתן לריקון"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "אפס"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "אפס להגדרות ברירת מחדל של תצוגה"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "אפס להגדרות אופטימליות של תצוגה"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -669,6 +661,10 @@ msgstr "אפס מהירות"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "פילטרים"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

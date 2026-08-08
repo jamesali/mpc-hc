@@ -359,17 +359,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "إنتظار التفريغ"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "إعادة الضبط"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "إعادة الضبط الى إعدادات المصيير الإفتراضية"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "إعادة الضبط الى إعدادات المصيير الأمثل"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -670,6 +662,10 @@ msgstr "إعادة ضبط سرعة العرض"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "الفلاتر"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

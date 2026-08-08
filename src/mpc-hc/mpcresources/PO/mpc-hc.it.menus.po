@@ -359,17 +359,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "Attendi svuotamenti"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "Ripristina impostazioni"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "Ripristina le impostazioni predefinite del renderer"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "Ripristina le impostazioni ottimali del renderer"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -670,6 +662,10 @@ msgstr "Reimposta velocità"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "&Filtri"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

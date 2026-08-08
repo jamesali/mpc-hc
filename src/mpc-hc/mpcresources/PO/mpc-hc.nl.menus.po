@@ -360,17 +360,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "Wacht tot GPU leeg is"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "Resetten"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "Reset naar standaard render-instellingen"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "Reset naar optimale render-instellingen"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -671,6 +663,10 @@ msgstr "Normaal"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "&Filters"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

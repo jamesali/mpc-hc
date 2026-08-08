@@ -357,17 +357,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "Тутыруны көтәргә"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "Ташлау"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "Гади көйләүләргә ташларга"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "Уңайлы көйләүләргә ташларга"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -668,6 +660,10 @@ msgstr "&Тизлекне ташларга"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "&Сөзгечләр"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

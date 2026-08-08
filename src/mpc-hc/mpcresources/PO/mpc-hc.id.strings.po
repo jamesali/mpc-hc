@@ -3700,10 +3700,6 @@ msgctxt "IDS_OSD_RS_RESET_DEFAULT"
 msgid "Renderer settings reset to default"
 msgstr "Pengaturan perender disetel ulang ke bawaan"
 
-msgctxt "IDS_OSD_RS_RESET_OPTIMAL"
-msgid "Renderer settings reset to optimal"
-msgstr "Pengaturan perender disetel ulang ke optimal"
-
 msgctxt "IDS_OSD_RS_D3D_FS_GUI_SUPP_ON"
 msgid "D3D Fullscreen GUI Support: On"
 msgstr "Dukungan GUI Layar Penuh D3D: Nyala"
@@ -5198,4 +5194,28 @@ msgstr ""
 
 msgctxt "IDS_HISTORY_RESET_TRACKS"
 msgid "Reset track selection"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_GRP_USER_INTERFACE"
+msgid "User Interface"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_GRP_PLAYBACK"
+msgid "Playback"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_GRP_HISTORY"
+msgid "History"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_GRP_SCREENSHOTS"
+msgid "Screenshots"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_GRP_MISC"
+msgid "Miscellaneous"
+msgstr ""
+
+msgctxt "IDS_AG_COLOR_CONTROLS"
+msgid "Color Controls"
 msgstr ""

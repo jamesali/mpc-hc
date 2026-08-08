@@ -361,17 +361,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "等待刷新完成(&W)"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "重置(&E)"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "重置为默认渲染器设置(&D)"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "重置为优化渲染器设置(&O)"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -672,6 +664,10 @@ msgstr "重置速率(&E)"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "滤镜(&F)"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

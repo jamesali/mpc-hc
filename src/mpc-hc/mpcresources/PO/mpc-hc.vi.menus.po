@@ -359,17 +359,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "&Chờ làm sạch"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "&Cài đặt lại"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "Đặt lại các cài đặt &mặc định cho trình kết xuất"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "Đặt lại các cài đặt &tối ưu cho trình kết xuất"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -670,6 +662,10 @@ msgstr "&Cài đặt lại tốc độ"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "&Bộ lọc"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

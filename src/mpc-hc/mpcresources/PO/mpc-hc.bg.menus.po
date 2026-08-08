@@ -358,17 +358,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "&Чакай за рестарт"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "Н&улиране"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "Нулирай &настройките на рендера"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "Нулирай &настройките на рендера до оптималните"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -669,6 +661,10 @@ msgstr "В&ъзстанови скоростта"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "&Филтри"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

@@ -359,17 +359,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "&Sıfırlama için bekle"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "S&ıfırla"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "&Olağan işleyici ayarlarına dön"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "En &uygun işleyici ayarlarına dön"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -670,6 +662,10 @@ msgstr "Hızı s&ıfırla"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "&Filtreler"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"

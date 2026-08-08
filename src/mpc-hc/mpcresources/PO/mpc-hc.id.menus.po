@@ -359,17 +359,9 @@ msgctxt "ID_VIEW_FLUSHGPU_WAIT"
 msgid "&Wait for flushes"
 msgstr "&Tunggu membilas"
 
-msgctxt "POPUP"
-msgid "R&eset"
-msgstr "S&etel Ulang"
-
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
 msgstr "Kembalikan ke pengaturan peren&der bawaan"
-
-msgctxt "ID_VIEW_RESET_OPTIMAL"
-msgid "Reset to &optimal renderer settings"
-msgstr "Kembalikan ke pengaturan perender &optimal"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
@@ -670,6 +662,10 @@ msgstr "S&etel Ulang Laju"
 msgctxt "ID_FILTERS"
 msgid "&Filters"
 msgstr "&Filter"
+
+msgctxt "ID_COLOR_CONTROLS"
+msgid "&Color controls..."
+msgstr ""
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
