@@ -3142,6 +3142,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
     LONG_PTR evParam1, evParam2;
     // there should be WM_GRAPHNOTIFY message for each event, so no need for a loop here
     if (SUCCEEDED(m_pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
+        m_ActiveGraphNotifyEvCode = evCode;
 #ifdef _DEBUG
         if (evCode != EC_DVD_CURRENT_HMSF_TIME) {
             TRACE(_T("--> CMainFrame::OnGraphNotify (thread %lu)(graph %u)(loadstate %d) event: %ws\n"), GetCurrentThreadId(), (unsigned int)(lParam & 0xffff), loadstate, GetEventString(evCode));
@@ -3553,6 +3554,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
         }
     }
 
+    m_ActiveGraphNotifyEvCode = 0;
     return hr;
 }
 
@@ -19780,6 +19782,15 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     const auto& s = AfxGetAppSettings();
 
+    if (m_ActiveGraphNotifyEvCode == EC_PAUSED) {
+        ASSERT(false);
+        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+        if (CrashReporter::IsEnabled()) {
+            throw 0xdead;
+        }
+        #endif
+    }
+
     if (m_bOpenMediaActive) {
         if (USE_LOGGER(s)) {
             PLAYER_LOG(_T("CMainFrame::OpenMedia (thread %lu) -> skipping because there already is an active OpenMedia call"), GetCurrentThreadId());
@@ -19995,6 +20006,15 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
     }
     m_bUseSeekPreview = false;
     m_bDVDStillOn = false;
+
+    if (m_ActiveGraphNotifyEvCode == EC_PAUSED) {
+        ASSERT(false);
+        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+        if (CrashReporter::IsEnabled()) {
+            throw 0xdead;
+        }
+        #endif
+    }
 
     if (m_eMediaLoadState == MLS::CLOSED) {
         if (USE_LOGGER(s)) {

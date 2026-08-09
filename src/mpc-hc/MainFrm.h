@@ -505,6 +505,8 @@ private:
     volatile MLS m_eMediaLoadState;
     OAFilterState m_CachedFilterState;
 
+    volatile LONG m_ActiveGraphNotifyEvCode = 0;
+
     bool m_bSettingUpMenus;
     volatile bool m_bOpenMediaActive;
     int m_OpenMediaFailedCount;
