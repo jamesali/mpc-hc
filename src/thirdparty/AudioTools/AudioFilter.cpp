@@ -326,21 +326,25 @@ HRESULT CAudioFilter::Pull(std::unique_ptr<CPacket>& p)
 	}
 	CheckPointer(p, E_FAIL);
 
-	const int ret = av_buffersink_get_frame(m_pFilterBufferSink, m_pOutputFrame);
+	int ret = av_buffersink_get_frame(m_pFilterBufferSink, m_pOutputFrame);
 	if (ret >= 0) {
-		ASSERT(m_pOutputFrame->format == m_outAvSampleFmt && m_pOutputFrame->ch_layout.nb_channels == m_outChannels);
+        if (m_pOutputFrame->format == m_outAvSampleFmt && m_pOutputFrame->ch_layout.nb_channels == m_outChannels) {
 
-		p->rtStart = av_rescale(m_pOutputFrame->pts, m_time_base.num * UNITS, m_time_base.den);
-		p->rtStop  = p->rtStart + llMulDiv(UNITS, m_pOutputFrame->nb_samples, m_pOutputFrame->sample_rate, 0);
+            p->rtStart = av_rescale(m_pOutputFrame->pts, m_time_base.num * UNITS, m_time_base.den);
+            p->rtStop = p->rtStart + llMulDiv(UNITS, m_pOutputFrame->nb_samples, m_pOutputFrame->sample_rate, 0);
 
-		if (m_outSampleFmt == SAMPLE_FMT_S24 && m_outAvSampleFmt == AV_SAMPLE_FMT_S32) {
-			const size_t samples = m_pOutputFrame->nb_samples * m_pOutputFrame->ch_layout.nb_channels;
-			p->resize(samples * 3);
-			convert_int32_to_int24(p->data(), (int32_t*)m_pOutputFrame->data[0], samples);
-		} else {
-			const int buffersize = av_samples_get_buffer_size(nullptr, m_pOutputFrame->ch_layout.nb_channels, m_pOutputFrame->nb_samples, m_outAvSampleFmt, 1);
-			p->SetData(m_pOutputFrame->data[0], buffersize);
-		}
+            if (m_outSampleFmt == SAMPLE_FMT_S24 && m_outAvSampleFmt == AV_SAMPLE_FMT_S32) {
+                const size_t samples = m_pOutputFrame->nb_samples * m_pOutputFrame->ch_layout.nb_channels;
+                p->resize(samples * 3);
+                convert_int32_to_int24(p->data(), (int32_t*)m_pOutputFrame->data[0], samples);
+            } else {
+                const int buffersize = av_samples_get_buffer_size(nullptr, m_pOutputFrame->ch_layout.nb_channels, m_pOutputFrame->nb_samples, m_outAvSampleFmt, 1);
+                p->SetData(m_pOutputFrame->data[0], buffersize);
+            }
+        } else {
+            ASSERT(false);
+            ret = -1;
+        }
 	}
 	av_frame_unref(m_pOutputFrame);
 
