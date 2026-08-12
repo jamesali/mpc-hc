@@ -390,6 +390,16 @@ STDMETHODIMP_(SIZE) CMPCVRAllocatorPresenter::GetVideoSize(bool bCorrectAR) cons
     SIZE size = {0, 0};
 
     if (!bCorrectAR) {
+        __int64 ovs = 0;
+        CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR;
+        // MPCVR 0.10.8.2563 and newer
+        if (pIExFilterConfig && SUCCEEDED(pIExFilterConfig->Flt_GetInt64("originalVideoSize", &ovs))) {
+            size.cx = static_cast<long>(ovs >> 32);
+            size.cy = static_cast<long>(ovs & 0xFFFFFFFF);
+            if (size.cx > 0 && size.cy > 0) {
+                return size;
+            }
+        }
         // MPCVR 0.10.2.2540 and newer return an aspect ratio corrected size through
         // IBasicVideo::GetVideoSize (matching VMR-9/madVR behavior, needed by the
         // DVD Navigator), so read the coded frame size from the input connection.
@@ -411,7 +421,7 @@ STDMETHODIMP_(SIZE) CMPCVRAllocatorPresenter::GetVideoSize(bool bCorrectAR) cons
             }
         }
         if (size.cx > 0 && size.cy > 0) {
-            if (CComQIPtr<IExFilterConfig> pIExFilterConfig = m_pMPCVR) {
+            if (pIExFilterConfig) {
 #if _DEBUG
                 SIZE bv_size = {0, 0};
                 if (CComQIPtr<IBasicVideo> pBV = m_pMPCVR) {
