@@ -911,70 +911,90 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 #endif
 
             if (candidate == CLSID_VapourSynthFilter) {
-                bool missing_dep = false;
-                // Versions older than 1.4.9 crash if VapourSynth runtime isn't installed
-                QWORD qwFileVersion = 0;
-                CFGFilterFile* fgf2 = dynamic_cast<CFGFilterFile*>(pFGF);
-                if (fgf2) {
-                    qwFileVersion = FileVersionInfo::GetFileVersionNum(fgf2->GetPath());
-                } else {
-                    qwFileVersion = GetFileVersionFromRegCLSID(CLSIDToString(candidate));
+                static bool vapoursynth_checked = false;
+                static bool vapoursynth_ignore = false;
+                if (vapoursynth_ignore) {
+                    continue;
                 }
-                if (qwFileVersion < 0x1000400090000ui64) {
-                    CString vsscript_path = L"VSScript.dll";
-                    wchar_t* env_value = nullptr;
-                    size_t size = 0;
-                    errno_t result = _wdupenv_s(&env_value, &size, L"VSSCRIPT_PATH");
-                    if (result == 0 && env_value != nullptr)
-                    {
-                        vsscript_path = env_value;
-                        free(env_value);
+                if (!vapoursynth_checked) {
+                    vapoursynth_checked = true;
+                    // Versions older than 1.4.9 crash if VapourSynth runtime isn't installed
+                    QWORD qwFileVersion = 0;
+                    CFGFilterFile* fgf2 = dynamic_cast<CFGFilterFile*>(pFGF);
+                    if (fgf2) {
+                        qwFileVersion = FileVersionInfo::GetFileVersionNum(fgf2->GetPath());
+                    } else {
+                        qwFileVersion = GetFileVersionFromRegCLSID(CLSIDToString(candidate));
                     }
-                    if (!LoadLibraryExW(vsscript_path, nullptr, LOAD_WITH_ALTERED_SEARCH_PATH)) {
-                        TRACE(_T("FGM: missing vsscript.dll\n"));
-                        missing_dep = true;
-                    }
-                }
-                if (missing_dep) {
-                    // disable external filter in settings
-                    CAppSettings& s2 = AfxGetAppSettings();
-                    if (s2.m_filters.GetCount() > 0) {
-                        POSITION efpos = s2.m_filters.GetHeadPosition();
-                        while (efpos) {
-                            FilterOverride* fo = s2.m_filters.GetNext(efpos);
-                            if (!fo->fDisabled && fo->clsid == candidate) {
-                                fo->fDisabled = true;
-                                s2.SaveExternalFilters();
-                                break;
-                            }
+                    if (qwFileVersion < 0x1000400090000ui64) {
+                        CString vsscript_path = L"VSScript.dll";
+                        wchar_t* env_value = nullptr;
+                        size_t size = 0;
+                        errno_t result = _wdupenv_s(&env_value, &size, L"VSSCRIPT_PATH");
+                        if (result == 0 && env_value != nullptr)
+                        {
+                            vsscript_path = env_value;
+                            free(env_value);
+                        }
+                        HMODULE hVS = LoadLibraryExW(vsscript_path, nullptr, LOAD_WITH_ALTERED_SEARCH_PATH);
+                        if (hVS) {
+                            FreeLibrary(hVS);
+                        } else {
+                            TRACE(_T("FGM: missing vsscript.dll\n"));
+                            vapoursynth_ignore = true;
                         }
                     }
-                    // don't use the filter
-                    continue;
+                    if (vapoursynth_ignore) {
+                        // disable external filter in settings
+                        CAppSettings& s2 = AfxGetAppSettings();
+                        if (s2.m_filters.GetCount() > 0) {
+                            POSITION efpos = s2.m_filters.GetHeadPosition();
+                            while (efpos) {
+                                FilterOverride* fo = s2.m_filters.GetNext(efpos);
+                                if (!fo->fDisabled && fo->clsid == candidate) {
+                                    fo->fDisabled = true;
+                                    s2.SaveExternalFilters();
+                                    break;
+                                }
+                            }
+                        }
+                        // don't use the filter
+                        continue;
+                    }
                 }
             }
             if (candidate == CLSID_AviSynthFilter) {
-                bool missing_dep = false;
-                if (!LoadLibraryExW(L"avisynth.dll", nullptr, LOAD_WITH_ALTERED_SEARCH_PATH)) {
-                    TRACE(_T("FGM: missing avisynth.dll\n"));
-                    missing_dep = true;
+                static bool avisynth_checked = false;
+                static bool avisynth_ignore = false;
+                if (avisynth_ignore) {
+                    continue;
                 }
-                if (missing_dep) {
-                    // disable external filter in settings
-                    CAppSettings& s2 = AfxGetAppSettings();
-                    if (s2.m_filters.GetCount() > 0) {
-                        POSITION efpos = s2.m_filters.GetHeadPosition();
-                        while (efpos) {
-                            FilterOverride* fo = s2.m_filters.GetNext(efpos);
-                            if (!fo->fDisabled && fo->clsid == candidate) {
-                                fo->fDisabled = true;
-                                s2.SaveExternalFilters();
-                                break;
+                if (!avisynth_checked) {
+                    avisynth_checked = true;
+                    HMODULE hAVS = LoadLibraryExW(L"avisynth.dll", nullptr, LOAD_WITH_ALTERED_SEARCH_PATH);
+                    if (hAVS) {
+                        FreeLibrary(hAVS);
+                    } else {
+                        TRACE(_T("FGM: missing avisynth.dll\n"));
+                        avisynth_ignore = true;
+                    }
+                    if (avisynth_ignore) {
+                        // disable external filter in settings
+                        CAppSettings& s2 = AfxGetAppSettings();
+                        if (s2.m_filters.GetCount() > 0) {
+                            POSITION efpos = s2.m_filters.GetHeadPosition();
+                            while (efpos) {
+                                FilterOverride* fo = s2.m_filters.GetNext(efpos);
+                                if (!fo->fDisabled && fo->clsid == candidate) {
+                                    fo->fDisabled = true;
+                                    s2.SaveExternalFilters();
+                                    break;
+                                }
                             }
                         }
+                        // don't use the filter
+                        continue;
                     }
-                    // don't use the filter
-                    continue;
                 }
             }
 
