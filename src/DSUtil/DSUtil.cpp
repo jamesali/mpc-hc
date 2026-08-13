@@ -2247,8 +2247,10 @@ bool GetVideoFormatNameFromMediaType(const GUID& guid, CString& name) {
             name = L"H264";
         } else if (name == L"VP90") {
             name = L"VP9";
-        } else if (name == L"AV01") {
+        } else if (name == L"AV01" || name == L"DAV1") {
             name = L"AV1";
+        } else if (name == L"VVC1") {
+            name = L"VVC";
         }
         return true;
     } else if (guid == MEDIASUBTYPE_MPEG1Payload || guid == MEDIASUBTYPE_MPEG1Video) {
