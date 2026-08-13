@@ -942,7 +942,31 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                         POSITION efpos = s2.m_filters.GetHeadPosition();
                         while (efpos) {
                             FilterOverride* fo = s2.m_filters.GetNext(efpos);
-                            if (!fo->fDisabled && fo->clsid == CLSID_VapourSynthFilter) {
+                            if (!fo->fDisabled && fo->clsid == candidate) {
+                                fo->fDisabled = true;
+                                s2.SaveExternalFilters();
+                                break;
+                            }
+                        }
+                    }
+                    // don't use the filter
+                    continue;
+                }
+            }
+            if (candidate == CLSID_AviSynthFilter) {
+                bool missing_dep = false;
+                if (!LoadLibraryExW(L"avisynth.dll", nullptr, LOAD_WITH_ALTERED_SEARCH_PATH)) {
+                    TRACE(_T("FGM: missing avisynth.dll\n"));
+                    missing_dep = true;
+                }
+                if (missing_dep) {
+                    // disable external filter in settings
+                    CAppSettings& s2 = AfxGetAppSettings();
+                    if (s2.m_filters.GetCount() > 0) {
+                        POSITION efpos = s2.m_filters.GetHeadPosition();
+                        while (efpos) {
+                            FilterOverride* fo = s2.m_filters.GetNext(efpos);
+                            if (!fo->fDisabled && fo->clsid == candidate) {
                                 fo->fDisabled = true;
                                 s2.SaveExternalFilters();
                                 break;
