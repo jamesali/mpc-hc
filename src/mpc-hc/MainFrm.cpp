@@ -1291,6 +1291,8 @@ void CMainFrame::OnClose()
         FLUSH_LOGGER();
     }
 
+    ASSERT(GetCurrentThreadId() == AfxGetApp()->m_nThreadID);
+
     s.bToggleShader = m_bToggleShader;
     s.bToggleShaderScreenSpace = m_bToggleShaderScreenSpace;
     s.dZoomX = m_ZoomX;
@@ -1318,6 +1320,14 @@ void CMainFrame::OnClose()
     SendAPICommand(CMD_DISCONNECT, L"\0");  // according to CMD_NOTIFYENDOFSTREAM (ctrl+f it here), you're not supposed to send NULL here
 
     ASSERT(!m_bOpenMediaActive);
+
+    #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+    if (CrashReporter::IsEnabled()) {
+        if (GetCurrentThreadId() != AfxGetApp()->m_nThreadID) {
+            throw 0xdead;
+        }
+    }
+    #endif
 
     if (GetLoadState() != MLS::CLOSED) {
 #if MPC_VERSION_REV > 0
