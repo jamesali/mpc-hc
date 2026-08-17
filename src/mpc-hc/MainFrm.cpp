@@ -132,6 +132,7 @@ DECLARE_INTERFACE_IID_(IAMLine21Decoder_2, IAMLine21Decoder, "6E8D4A21-310C-11d0
 static UINT s_uTaskbarRestart = RegisterWindowMessage(_T("TaskbarCreated"));
 static UINT WM_NOTIFYICON = RegisterWindowMessage(_T("MYWM_NOTIFYICON"));
 static UINT s_uTBBC = RegisterWindowMessage(_T("TaskbarButtonCreated"));
+static UINT WM_MPCAPI_INT = RegisterWindowMessage(MPCAPI_INT_MESSAGE_NAME);
 
 CMainFrame::PlaybackRateMap CMainFrame::filePlaybackRates = {
     { ID_PLAY_PLAYBACKRATE_025,  .25f},
@@ -265,6 +266,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_REGISTERED_MESSAGE(WM_NOTIFYICON, OnNotifyIcon)
 
     ON_REGISTERED_MESSAGE(s_uTBBC, OnTaskBarThumbnailsCreate)
+    ON_REGISTERED_MESSAGE(WM_MPCAPI_INT, OnApiIntMessage)
 
     ON_WM_SETFOCUS()
     ON_WM_GETMINMAXINFO()
@@ -4026,16 +4028,26 @@ void CMainFrame::OnMenuFilters()
 
 void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 {
-    if (GetLoadState() == MLS::LOADING) {
+    const MLS loadState = GetLoadState();
+    // Only a message flagged to survive media loads (the API status message) may be
+    // shown outside the LOADED state; an ordinary transient message must not mask
+    // "Opening..." or a closing error while a load is in progress or has failed.
+    if (!m_tempstatus_msg.IsEmpty()
+            && (loadState == MLS::LOADED
+                || (m_bKeepTempStatusBarVisibleOnMediaLoad && loadState != MLS::CLOSING))) {
+        m_wndStatusBar.SetStatusMessage(m_tempstatus_msg);
+        if (loadState == MLS::LOADING && AfxGetAppSettings().bUseEnhancedTaskBar && m_pTaskbarList) {
+            m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
+        }
+        return;
+    }
+
+    if (loadState == MLS::LOADING) {
         m_wndStatusBar.SetStatusMessage(StrRes(IDS_CONTROLS_OPENING));
         if (AfxGetAppSettings().bUseEnhancedTaskBar && m_pTaskbarList) {
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
         }
-    } else if (GetLoadState() == MLS::LOADED) {
-        if (!m_tempstatus_msg.IsEmpty()) {
-            m_wndStatusBar.SetStatusMessage(m_tempstatus_msg);
-            return;
-        }
+    } else if (loadState == MLS::LOADED) {
         CString msg;
         if (m_fCapturing) {
             msg.LoadString(IDS_CONTROLS_CAPTURING);
@@ -4226,7 +4238,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
         }
 
         m_wndStatusBar.SetStatusMessage(msg);
-    } else if (GetLoadState() == MLS::CLOSING) {
+    } else if (loadState == MLS::CLOSING) {
         m_wndStatusBar.SetStatusMessage(StrRes(IDS_CONTROLS_CLOSING));
         if (AfxGetAppSettings().bUseEnhancedTaskBar && m_pTaskbarList) {
             m_pTaskbarList->SetProgressState(m_hWnd, TBPF_NOPROGRESS);
@@ -5104,7 +5116,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
     if (pCDS->dwData != 0x6ABE51 || pCDS->cbData < sizeof(DWORD)) {
         if (s.hMasterWnd) {
-            ProcessAPICommand(pCDS);
+            ProcessAPICommand(pWnd ? pWnd->GetSafeHwnd() : nullptr, pCDS);
             return TRUE;
         } else {
             return FALSE;
@@ -5131,6 +5143,9 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
     s.ParseCommandLine(cmdln);
 
     if (s.nCLSwitches & CLSW_SLAVE) {
+        m_lastApiVolume = GetVolume();
+        m_lastApiMute = IsMuted() ? 1 : 0;
+        m_hostIntApiVersion = 0; // new host: integer channel unconfirmed until it says HELLO
         SendAPICommand(CMD_CONNECT, L"%d", PtrToInt(GetSafeHwnd()));
         s.nCLSwitches &= ~CLSW_SLAVE;
     }
@@ -10699,21 +10714,39 @@ void CMainFrame::OnPlayFiltersStreams(UINT nID)
 
 void CMainFrame::OnPlayVolume(UINT nID)
 {
+    const int volume = GetVolume();
+    const int mute = IsMuted() ? 1 : 0;
+    const bool changed = volume != m_lastProcessedVolume || mute != m_lastProcessedMute;
+    m_lastProcessedVolume = volume;
+    m_lastProcessedMute = mute;
+
     if (GetLoadState() == MLS::LOADED) {
         CString strVolume;
-        m_pBA->put_Volume(m_wndToolBar.Volume);
+        if (changed) {
+            m_pBA->put_Volume(m_wndToolBar.Volume);
+        }
 
+        // Show the OSD even when the value did not change (e.g. Volume Up pressed
+        // at 100): the user still gets feedback for every press; only the renderer,
+        // LCD and API notifications are deduplicated.
         //strVolume.Format (L"Vol : %d dB", m_wndToolBar.Volume / 100);
-        if (m_wndToolBar.Volume == -10000) {
+        if (mute) {
             strVolume.Format(IDS_VOLUME_OSD, 0);
         } else {
-            strVolume.Format(IDS_VOLUME_OSD, m_wndToolBar.m_volctrl.GetPos());
+            strVolume.Format(IDS_VOLUME_OSD, volume);
         }
         m_OSD.DisplayMessage(OSD_TOPLEFT, strVolume);
         //SendStatusMessage(strVolume, 3000); // Now the volume is displayed in three places at once.
     }
 
-    m_Lcd.SetVolume((m_wndToolBar.Volume > -10000 ? m_wndToolBar.m_volctrl.GetPos() : 1));
+    if (!changed) {
+        return;
+    }
+
+    m_Lcd.SetVolume(mute ? 1 : volume);
+
+    SendCurrentVolumeToApi();
+    SendCurrentMuteToApi();
 }
 
 void CMainFrame::OnPlayVolumeBoost(UINT nID)
@@ -19792,11 +19825,19 @@ void CMainFrame::StopWebServer()
     }
 }
 
-void CMainFrame::SendStatusMessage(CString msg, int nTimeOut, bool bError /* = false */)
+void CMainFrame::SendStatusMessage(CString msg, int nTimeOut, bool bRevealStatusBar /* = false */,
+                                   bool bKeepVisibleOnMediaLoad /* = false */)
 {
     const auto timerId = TimerOneTimeSubscriber::STATUS_ERASE;
 
     m_timerOneTime.Unsubscribe(timerId);
+
+    // A non-revealing replacement cannot inherit a forced-visible status bar from an API
+    // message whose timer has just been cancelled.
+    if (m_bKeepTempStatusBarVisibleOnMediaLoad && !(nTimeOut > 0 && bRevealStatusBar)) {
+        RestoreStatusBarMessageHold();
+    }
+    m_bKeepTempStatusBarVisibleOnMediaLoad = false;
 
     m_tempstatus_msg.Empty();
     if (nTimeOut <= 0) {
@@ -19804,19 +19845,21 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut, bool bError /* = f
     }
 
     m_tempstatus_msg = msg;
-    // For a transient error we briefly reveal a preset-hidden status bar; re-hide it when the
-    // message times out so a recurring error (e.g. a failing shader on each load) can't pin it open (#3256).
-    m_timerOneTime.Subscribe(timerId, [this, bError] {
+    m_bKeepTempStatusBarVisibleOnMediaLoad = bRevealStatusBar && bKeepVisibleOnMediaLoad;
+    // A caller may briefly reveal a preset-hidden status bar; re-hide it when the
+    // message times out so recurring messages cannot pin it open (#3256).
+    m_timerOneTime.Subscribe(timerId, [this, bRevealStatusBar] {
         m_tempstatus_msg.Empty();
-        if (bError) {
+        m_bKeepTempStatusBarVisibleOnMediaLoad = false;
+        if (bRevealStatusBar) {
             RestoreStatusBarMessageHold();
         }
     }, nTimeOut);
 
     if (!m_tempstatus_msg.IsEmpty()) {
         m_wndStatusBar.SetStatusMessage(m_tempstatus_msg);
-        if (bError) {
-            ShowStatusBarForMessage(); // reveal the status bar (if a preset hides it) for errors only
+        if (bRevealStatusBar) {
+            ShowStatusBarForMessage();
         }
     }
 
@@ -19873,8 +19916,11 @@ void CMainFrame::AddCurDevToPlaylist()
 
 void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 {
-    // Next media load: stop force-showing the status bar that an earlier error revealed.
-    RestoreStatusBarMessageHold();
+    // Next media load: stop force-showing the status bar that an earlier error revealed. A
+    // host-supplied status message keeps its own three-second reveal across this transition.
+    if (!m_bKeepTempStatusBarVisibleOnMediaLoad) {
+        RestoreStatusBarMessageHold();
+    }
 
     auto pFileData = dynamic_cast<const OpenFileData*>(pOMD.m_p);
     //auto pDVDData = dynamic_cast<const OpenDVDData*>(pOMD.m_p);
@@ -20876,7 +20922,7 @@ void CMainFrame::SetLoadState(MLS eState)
     }
 
     m_eMediaLoadState = eState;
-    SendAPICommand(CMD_STATE, L"%d", static_cast<int>(eState));
+    SendApiNotify(CMD_STATE, static_cast<int>(eState));
     if (eState == MLS::LOADED) {
         m_controls.DelayShowNotLoaded(false);
         m_eventc.FireEvent(MpcEvent::MEDIA_LOADED);
@@ -20917,7 +20963,7 @@ inline bool CMainFrame::IsStateClosingAborting()
 void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
 {
     m_Lcd.SetPlayState((CMPC_Lcd::PlayState)iState);
-    SendAPICommand(CMD_PLAYMODE, L"%d", iState);
+    SendApiNotify(CMD_PLAYMODE, iState);
 
     if (m_fEndOfStream) {
         SendAPICommand(CMD_NOTIFYENDOFSTREAM, L"\0");     // do not pass NULL here!
@@ -21302,7 +21348,65 @@ void CMainFrame::ResetSubtitlePosAndSize(bool repaint /* = false*/)
 }
 
 
-void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
+static bool ParseAPIStatusMessage(const COPYDATASTRUCT* pCDS, CStringW& message)
+{
+    constexpr size_t maxCodeUnits = 512;
+    if (!pCDS || !pCDS->lpData || pCDS->cbData < 2 * sizeof(wchar_t)
+            || pCDS->cbData > (maxCodeUnits + 1) * sizeof(wchar_t)
+            || pCDS->cbData % sizeof(wchar_t) != 0) {
+        return false;
+    }
+
+    const wchar_t* const value = static_cast<const wchar_t*>(pCDS->lpData);
+    const size_t codeUnits = pCDS->cbData / sizeof(wchar_t) - 1;
+    if (value[codeUnits] != L'\0' || wmemchr(value, L'\0', codeUnits)) {
+        return false;
+    }
+
+    for (size_t i = 0; i < codeUnits; i++) {
+        const wchar_t codeUnit = value[i];
+        if (codeUnit >= 0xD800 && codeUnit <= 0xDBFF) {
+            if (++i >= codeUnits || value[i] < 0xDC00 || value[i] > 0xDFFF) {
+                return false;
+            }
+        } else if ((codeUnit >= 0xDC00 && codeUnit <= 0xDFFF)
+                   || codeUnit < 0x20
+                   || (codeUnit >= 0x7F && codeUnit <= 0x9F)
+                   || codeUnit == 0x2028 || codeUnit == 0x2029) {
+            return false;
+        }
+    }
+
+    message.SetString(value, static_cast<int>(codeUnits));
+    return true;
+}
+
+static bool ParseAPIInteger(const COPYDATASTRUCT* pCDS, int minimum, int maximum, int& result)
+{
+    if (!pCDS || !pCDS->lpData || pCDS->cbData < sizeof(wchar_t)
+            || pCDS->cbData % sizeof(wchar_t) != 0) {
+        return false;
+    }
+
+    const wchar_t* const value = static_cast<const wchar_t*>(pCDS->lpData);
+    const size_t length = pCDS->cbData / sizeof(wchar_t);
+    if (length > 4 || value[length - 1] != L'\0'
+            || wmemchr(value, L'\0', length - 1)
+            || value[0] < L'0' || value[0] > L'9') {
+        return false;
+    }
+
+    wchar_t* end = nullptr;
+    const long parsed = wcstol(value, &end, 10);
+    if (end == value || *end != L'\0' || parsed < minimum || parsed > maximum) {
+        return false;
+    }
+
+    result = static_cast<int>(parsed);
+    return true;
+}
+
+void CMainFrame::ProcessAPICommand(HWND hSender, COPYDATASTRUCT* pCDS)
 {
     CAtlList<CString> fns;
     REFERENCE_TIME rtPos = 0;
@@ -21387,6 +21491,24 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
                 m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
             }
             break;
+        case CMD_SETVOLUME: {
+            int volume;
+            if (hSender == AfxGetAppSettings().hMasterWnd
+                    && ParseAPIInteger(pCDS, 0, 100, volume) && volume != GetVolume()) {
+                // SetVolume posts the canonical volume-change notification.
+                m_wndToolBar.SetVolume(volume);
+            }
+            break;
+        }
+        case CMD_SETMUTE: {
+            int mute;
+            if (hSender == AfxGetAppSettings().hMasterWnd
+                    && ParseAPIInteger(pCDS, 0, 1, mute) && (mute != 0) != IsMuted()) {
+                m_wndToolBar.SetMute(mute != 0);
+                OnPlayVolume(ID_VOLUME_MUTE);
+            }
+            break;
+        }
         case CMD_SETAUDIODELAY:
             rtPos = (REFERENCE_TIME)_wtol((LPCWSTR)pCDS->lpData) * 10000;
             SetAudioDelay(rtPos);
@@ -21415,13 +21537,19 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
             SendAudioTracksToApi();
             break;
         case CMD_GETCURRENTAUDIOTRACK:
-            SendAPICommand(CMD_CURRENTAUDIOTRACK, L"%d", GetCurrentAudioTrackIdx());
+            SendApiNotify(CMD_CURRENTAUDIOTRACK, GetCurrentAudioTrackIdx());
             break;
         case CMD_GETCURRENTSUBTITLETRACK:
-            SendAPICommand(CMD_CURRENTSUBTITLETRACK, L"%d", GetCurrentSubtitleTrackIdx());
+            SendApiNotify(CMD_CURRENTSUBTITLETRACK, GetCurrentSubtitleTrackIdx());
             break;
         case CMD_GETCURRENTPOSITION:
             SendCurrentPositionToApi();
+            break;
+        case CMD_GETVOLUME:
+            SendCurrentVolumeToApi(true);
+            break;
+        case CMD_GETMUTE:
+            SendCurrentMuteToApi(true);
             break;
         case CMD_GETNOWPLAYING:
             SendNowPlayingToApi();
@@ -21461,9 +21589,35 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
             ApplyPanNScanPresetString();
             break;
         case CMD_OSDSHOWMESSAGE:
-            ShowOSDCustomMessageApi((MPC_OSDDATA*)pCDS->lpData);
+            if (pCDS->lpData && pCDS->cbData >= sizeof(MPC_OSDDATA)) {
+                ShowOSDCustomMessageApi((MPC_OSDDATA*)pCDS->lpData);
+            }
             break;
+        case CMD_STATUSSHOWMESSAGE: {
+            CStringW message;
+            const CAppSettings& settings = AfxGetAppSettings();
+            if (hSender == settings.hMasterWnd && IsWindow(hSender)
+                    && ParseAPIStatusMessage(pCDS, message)) {
+                SendStatusMessage(message, 3000, true, true);
+            }
+            break;
+        }
     }
+}
+
+bool CMainFrame::SendAPIStringTo(HWND hTarget, MPCAPI_COMMAND nCommand, const CStringW& payload)
+{
+    COPYDATASTRUCT data = {};
+    data.cbData = static_cast<DWORD>((payload.GetLength() + 1) * sizeof(wchar_t));
+    data.dwData = nCommand;
+    data.lpData = const_cast<wchar_t*>(payload.GetString());
+
+    DWORD_PTR result = 0;
+    return SendMessageTimeout(hTarget, WM_COPYDATA, reinterpret_cast<WPARAM>(GetSafeHwnd()),
+                              reinterpret_cast<LPARAM>(&data),
+                              // fire-and-forget; the timeout keeps a slow target from stalling our UI
+                              // thread, but is generous enough that a merely busy target still gets it
+                              SMTO_ABORTIFHUNG | SMTO_ERRORONEXIT, 500, &result) != 0;
 }
 
 void CMainFrame::SendAPICommand(MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...)
@@ -21847,9 +22001,162 @@ void CMainFrame::SendCurrentPositionToApi(bool fNotifySeek)
     }
 }
 
+void CMainFrame::SendCurrentVolumeToApi(bool force)
+{
+    if (!AfxGetAppSettings().hMasterWnd) {
+        return;
+    }
+
+    const int volume = GetVolume();
+    if (force || volume != m_lastApiVolume) {
+        if (m_hostIntApiVersion > 0) {
+            // Host speaks the integer channel: deliver non-blocking, no buffer to keep alive.
+            PostApiInt(AfxGetAppSettings().hMasterWnd, MPCINT_CURRENTVOLUME, volume);
+            m_lastApiVolume = volume;
+        } else {
+            CStringW payload;
+            payload.Format(L"%d", volume);
+            // Only latch the value when the host actually received it, so a send that
+            // timed out against a busy host is retried on the next change.
+            if (SendAPIStringTo(AfxGetAppSettings().hMasterWnd, CMD_CURRENTVOLUME, payload)) {
+                m_lastApiVolume = volume;
+            }
+        }
+    }
+}
+
+void CMainFrame::SendCurrentMuteToApi(bool force)
+{
+    if (!AfxGetAppSettings().hMasterWnd) {
+        return;
+    }
+
+    const int mute = IsMuted() ? 1 : 0;
+    if (force || mute != m_lastApiMute) {
+        if (m_hostIntApiVersion > 0) {
+            PostApiInt(AfxGetAppSettings().hMasterWnd, MPCINT_CURRENTMUTE, mute);
+            m_lastApiMute = mute;
+        } else {
+            CStringW payload;
+            payload.Format(L"%d", mute);
+            if (SendAPIStringTo(AfxGetAppSettings().hMasterWnd, CMD_CURRENTMUTE, payload)) {
+                m_lastApiMute = mute;
+            }
+        }
+    }
+}
+
+void CMainFrame::PostApiInt(HWND hTarget, WORD command, int value)
+{
+    if (hTarget && WM_MPCAPI_INT) {
+        // Non-blocking: the value travels inside the message, so there is no buffer to
+        // keep alive and no need to wait for the target to process it (unlike WM_COPYDATA).
+        ::PostMessage(hTarget, WM_MPCAPI_INT, reinterpret_cast<WPARAM>(GetSafeHwnd()),
+                      MPCAPI_INT_MAKELPARAM(value, command));
+    }
+}
+
+// Map a host->MPC integer command to its WM_COPYDATA equivalent (0 if not INT-able).
+static MPCAPI_COMMAND IntCommandToApi(WORD intCmd)
+{
+    switch (intCmd) {
+        case MPCINT_SETVOLUME:              return CMD_SETVOLUME;
+        case MPCINT_SETMUTE:                return CMD_SETMUTE;
+        case MPCINT_GETVOLUME:              return CMD_GETVOLUME;
+        case MPCINT_GETMUTE:                return CMD_GETMUTE;
+        case MPCINT_STOP:                   return CMD_STOP;
+        case MPCINT_CLOSEFILE:              return CMD_CLOSEFILE;
+        case MPCINT_PLAYPAUSE:              return CMD_PLAYPAUSE;
+        case MPCINT_PLAY:                   return CMD_PLAY;
+        case MPCINT_PAUSE:                  return CMD_PAUSE;
+        case MPCINT_CLEARPLAYLIST:          return CMD_CLEARPLAYLIST;
+        case MPCINT_STARTPLAYLIST:          return CMD_STARTPLAYLIST;
+        case MPCINT_TOGGLEFULLSCREEN:       return CMD_TOGGLEFULLSCREEN;
+        case MPCINT_JUMPFORWARDMED:         return CMD_JUMPFORWARDMED;
+        case MPCINT_JUMPBACKWARDMED:        return CMD_JUMPBACKWARDMED;
+        case MPCINT_INCREASEVOLUME:         return CMD_INCREASEVOLUME;
+        case MPCINT_DECREASEVOLUME:         return CMD_DECREASEVOLUME;
+        case MPCINT_SHADER_TOGGLE:          return CMD_SHADER_TOGGLE;
+        case MPCINT_CLOSEAPP:               return CMD_CLOSEAPP;
+        case MPCINT_SETAUDIOTRACK:          return CMD_SETAUDIOTRACK;
+        case MPCINT_SETSUBTITLETRACK:       return CMD_SETSUBTITLETRACK;
+        case MPCINT_JUMPOFNSECONDS:         return CMD_JUMPOFNSECONDS;
+        case MPCINT_SETAUDIODELAY:          return CMD_SETAUDIODELAY;
+        case MPCINT_SETSUBTITLEDELAY:       return CMD_SETSUBTITLEDELAY;
+        case MPCINT_GETCURRENTAUDIOTRACK:   return CMD_GETCURRENTAUDIOTRACK;
+        case MPCINT_GETCURRENTSUBTITLETRACK:return CMD_GETCURRENTSUBTITLETRACK;
+        default:                            return static_cast<MPCAPI_COMMAND>(0);
+    }
+}
+
+// Map a MPC->host notification to its integer-channel command (0 if not INT-able).
+static WORD ApiCommandToInt(MPCAPI_COMMAND cmd)
+{
+    switch (cmd) {
+        case CMD_CURRENTVOLUME:        return MPCINT_CURRENTVOLUME;
+        case CMD_CURRENTMUTE:          return MPCINT_CURRENTMUTE;
+        case CMD_STATE:                return MPCINT_STATE;
+        case CMD_PLAYMODE:             return MPCINT_PLAYMODE;
+        case CMD_CURRENTAUDIOTRACK:    return MPCINT_CURRENTAUDIOTRACK;
+        case CMD_CURRENTSUBTITLETRACK: return MPCINT_CURRENTSUBTITLETRACK;
+        default:                       return 0;
+    }
+}
+
+LRESULT CMainFrame::OnApiIntMessage(WPARAM wParam, LPARAM lParam)
+{
+    const HWND hSender = reinterpret_cast<HWND>(wParam);
+    const WORD command = MPCAPI_INT_COMMAND_OF(lParam);
+    const int value = MPCAPI_INT_VALUE_OF(lParam);
+    CAppSettings& s = AfxGetAppSettings();
+
+    // Every integer command is honored only from the connected host (same gate as the
+    // WM_COPYDATA setters). HELLO establishes that the host speaks this channel.
+    if (hSender != s.hMasterWnd) {
+        return 0;
+    }
+
+    if (command == MPCINT_HELLO) {
+        m_hostIntApiVersion = value;
+        PostApiInt(hSender, MPCINT_HELLO, MPCAPI_INT_VERSION);
+        return 0;
+    }
+
+    // Reuse ProcessAPICommand so an integer command shares exactly the same handling and
+    // sender gating as its WM_COPYDATA form; the value is passed as the string parameter.
+    const MPCAPI_COMMAND cmd = IntCommandToApi(command);
+    if (cmd) {
+        CStringW payload;
+        payload.Format(L"%d", value); // ignored by parameterless commands
+        COPYDATASTRUCT cds = {};
+        cds.dwData = cmd;
+        cds.cbData = static_cast<DWORD>((payload.GetLength() + 1) * sizeof(wchar_t));
+        cds.lpData = const_cast<wchar_t*>(payload.GetString());
+        ProcessAPICommand(hSender, &cds);
+    }
+    return 0;
+}
+
+void CMainFrame::SendApiNotify(MPCAPI_COMMAND cmd, int value)
+{
+    const CAppSettings& s = AfxGetAppSettings();
+    if (!s.hMasterWnd) {
+        return;
+    }
+    const WORD intCmd = ApiCommandToInt(cmd);
+    if (m_hostIntApiVersion > 0 && intCmd) {
+        PostApiInt(s.hMasterWnd, intCmd, value);
+    } else {
+        SendAPICommand(cmd, L"%d", value);
+    }
+}
+
 void CMainFrame::ShowOSDCustomMessageApi(const MPC_OSDDATA* osdData)
 {
-    m_OSD.DisplayMessage((OSD_MESSAGEPOS)osdData->nMsgPos, osdData->strMsg, osdData->nDurationMS);
+    // strMsg is a fixed-size field in a host-supplied buffer; bound the read so a
+    // non-terminated field cannot over-read past the struct.
+    const CStringW msg(osdData->strMsg, static_cast<int>(wcsnlen(osdData->strMsg, _countof(osdData->strMsg))));
+    m_OSD.DisplayMessage((OSD_MESSAGEPOS)osdData->nMsgPos, msg, osdData->nDurationMS);
 }
 
 void CMainFrame::JumpOfNSeconds(int nSeconds)
