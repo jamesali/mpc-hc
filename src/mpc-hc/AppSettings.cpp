@@ -174,7 +174,7 @@ CAppSettings::CAppSettings()
     , fOverridePlacement(false)
     , nHorPos(50)
     , nVerPos(90)
-    , nSecondarySubVerPos(15)
+    , nSecondarySubVerPos(8)
     , bSubtitleARCompensation(true)
     , nSubDelayStep(500)
     , bPreferDefaultForcedSubtitles(true)
@@ -1912,9 +1912,9 @@ void CAppSettings::LoadSettings()
     fOverridePlacement = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPOVERRIDEPLACEMENT, FALSE);
     nHorPos = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPHORPOS, 50);
     nVerPos = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPVERPOS, 90);
-    nSecondarySubVerPos = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SECONDARYSUBVERPOS, 15);
+    nSecondarySubVerPos = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SECONDARYSUBVERPOS, 0);
     if (nSecondarySubVerPos < 0 || nSecondarySubVerPos > 100) {
-        nSecondarySubVerPos = 15;
+        nSecondarySubVerPos = 8;
     }
     bSubtitleARCompensation = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLEARCOMPENSATION, TRUE);
     nSubDelayStep = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBDELAYINTERVAL, 500);
