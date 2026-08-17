@@ -336,6 +336,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_STREAM_SUB_NEXT, ID_STREAM_SUB_PREV, OnStreamSub)
     ON_COMMAND(ID_AUDIOSHIFT_ONOFF, OnAudioShiftOnOff)
     ON_COMMAND(ID_STREAM_SUB_ONOFF, OnStreamSubOnOff)
+    ON_COMMAND(ID_SUBTITLES_AUTOCOPY, OnSubtitlesAutoCopy)
     ON_COMMAND_RANGE(ID_DVD_ANGLE_NEXT, ID_DVD_ANGLE_PREV, OnDvdAngle)
     ON_COMMAND_RANGE(ID_DVD_AUDIO_NEXT, ID_DVD_AUDIO_PREV, OnDvdAudio)
     ON_COMMAND_RANGE(ID_DVD_SUB_NEXT, ID_DVD_SUB_PREV, OnDvdSub)
@@ -917,6 +918,8 @@ CMainFrame::CMainFrame()
     , m_nCurSubtitle(-1)
     , m_lSubtitleShift(0)
     , m_rtCurSubPos(0)
+    , m_nLastCopiedSubSegment(-1)
+    , m_rtNextAutoCopySubtitle(0)
     , m_bScanDlgOpened(false)
     , m_bStopTunerScan(false)
     , m_bLockedZoomVideoWindow(false)
@@ -2311,6 +2314,10 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                             }
 
                             m_wndStatusBar.SetStatusTimer(rtNow, rtDur, IsSubresyncBarVisible(), GetTimeFormat());
+
+                            if (AfxGetAppSettings().bAutoCopySubtitleToClipboard && rtNow >= m_rtNextAutoCopySubtitle) {
+                                m_rtNextAutoCopySubtitle = CopyCurrentSubtitleToClipboard(rtNow);
+                            }
                         }
                         break;
                     case PM_DVD:
@@ -4809,6 +4816,14 @@ void CMainFrame::OnStreamSubOnOff()
     }
 }
 
+void CMainFrame::OnSubtitlesAutoCopy()
+{
+    CAppSettings& s = AfxGetAppSettings();
+    s.bAutoCopySubtitleToClipboard = !s.bAutoCopySubtitleToClipboard;
+    ResetAutoCopySubtitle();
+    m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(s.bAutoCopySubtitleToClipboard ? IDS_OSD_AUTOCOPY_SUBTITLE_ON : IDS_OSD_AUTOCOPY_SUBTITLE_OFF));
+}
+
 void CMainFrame::OnDvdAngle(UINT nID)
 {
     if (GetLoadState() != MLS::LOADED) {
@@ -7241,6 +7256,139 @@ void CMainFrame::SubtitlesSave(const TCHAR* directory, bool silent)
             s.MRU.AddSubToCurrent(subPath);
         }
     }
+}
+
+// Guards against copying typesetting rather than dialogue; generous enough for
+// ordinary subtitles, which are a handful of lines at most.
+static const int MAX_AUTOCOPY_SUBTITLE_LINES = 8;
+static const int MAX_AUTOCOPY_SUBTITLE_LENGTH = 1000;
+// No line of dialogue is on screen for less time than this, while animation and
+// karaoke effects are built from events that are much shorter.
+static const REFERENCE_TIME MIN_AUTOCOPY_SUBTITLE_DURATION = 250 * 10000i64;
+
+static CStringW StripMarkupTags(CStringW str)
+{
+    int i = 0;
+    while ((i = str.Find(L'<', i)) >= 0) {
+        // only remove spans that look like markup tags, e.g. <i> or </font>
+        WCHAR c = i + 1 < str.GetLength() ? str[i + 1] : L'\0';
+        if (c != L'/' && !iswalpha(c)) {
+            i++;
+            continue;
+        }
+        int j = str.Find(L'>', i + 1);
+        if (j < 0) {
+            break;
+        }
+        str.Delete(i, j - i + 1);
+    }
+    return str;
+}
+
+// Copies the subtitle shown at rtNow to the clipboard and returns the time the
+// caller should call again: the start of the next subtitle segment, since
+// nothing can change before then.
+REFERENCE_TIME CMainFrame::CopyCurrentSubtitleToClipboard(REFERENCE_TIME rtNow)
+{
+    const CAppSettings& s = AfxGetAppSettings();
+    ASSERT(s.bAutoCopySubtitleToClipboard);
+    if (!s.fEnableSubtitles || !m_pCAP) {
+        return rtNow;
+    }
+
+    double fps = m_pCAP->GetFPS();
+    if (fps <= 0.0) {
+        fps = 25.0;
+    }
+    const REFERENCE_TIME rtDelay = (REFERENCE_TIME)m_pCAP->GetSubtitleDelay() * 10000; // ms -> reference time
+    const REFERENCE_TIME rtSub = rtNow - rtDelay;
+
+    CStringW strText;
+    REFERENCE_TIME rtNext;
+    {
+        CAutoLock cAutoLock(&m_csSubLock);
+
+        auto pRTS = dynamic_cast<CRenderedTextSubtitle*>((ISubStream*)m_pCurrentSubInput.pSubStream);
+        if (!pRTS) {
+            return rtNow;
+        }
+
+        int iSegment = -1, nSegments = 0;
+        const STSSegment* pSeg = pRTS->SearchSubs(rtSub, fps, &iSegment, &nSegments);
+
+        int iNext;
+        if (pSeg) {
+            iNext = iSegment + 1;
+        } else {
+            // between or before segments: find the first one starting after now
+            int lo = 0, hi = nSegments;
+            while (lo < hi) {
+                int mid = (lo + hi) / 2;
+                if (pRTS->TranslateSegmentStart(mid, fps) > rtSub) {
+                    hi = mid;
+                } else {
+                    lo = mid + 1;
+                }
+            }
+            iNext = lo;
+        }
+        if (iNext < nSegments) {
+            rtNext = pRTS->TranslateSegmentStart(iNext, fps) + rtDelay;
+        } else if (m_pCurrentSubInput.pSourceFilter) {
+            rtNext = rtNow; // embedded subtitles: more can still be added while demuxing
+        } else {
+            rtNext = _I64_MAX;
+        }
+
+        if (!pSeg) {
+            m_nLastCopiedSubSegment = -1;
+            return rtNext;
+        }
+        if (iSegment == m_nLastCopiedSubSegment) {
+            return rtNext;
+        }
+        m_nLastCopiedSubSegment = iSegment;
+
+        // Typeset and karaoke effects can put hundreds of fragments on screen
+        // at the same instant, often a single character each. That is artwork
+        // rather than dialogue, and copying it only fills the clipboard with
+        // noise. Judge the text that results rather than the number of events,
+        // because a heavily typeset scene is mostly positioning and drawing
+        // commands that carry no text at all.
+        int nLines = 0;
+        for (size_t i = 0; i < pSeg->subs.GetCount(); i++) {
+            int subIndex = pSeg->subs[i];
+            if (subIndex < 0 || subIndex >= (int)pRTS->GetCount()) {
+                continue;
+            }
+            if (pRTS->TranslateEnd(subIndex, fps) - pRTS->TranslateStart(subIndex, fps) < MIN_AUTOCOPY_SUBTITLE_DURATION) {
+                continue;
+            }
+            CStringW line = StripMarkupTags(pRTS->GetStrW(subIndex));
+            line.Trim();
+            if (line.IsEmpty()) {
+                continue;
+            }
+            if (++nLines > MAX_AUTOCOPY_SUBTITLE_LINES
+                    || strText.GetLength() + line.GetLength() > MAX_AUTOCOPY_SUBTITLE_LENGTH) {
+                strText.Empty();
+                break;
+            }
+            if (!strText.IsEmpty()) {
+                strText += L'\n';
+            }
+            strText += line;
+        }
+    }
+
+    // Clipboard access can block on other applications, keep it outside of m_csSubLock
+    if (!strText.IsEmpty()) {
+        strText.Replace(L"\n", L"\r\n");
+        CClipboard clipboard(this);
+        clipboard.SetText(CString(strText));
+    }
+
+    return rtNext;
 }
 
 void CMainFrame::OnUpdateFileSubtitlesSave(CCmdUI* pCmdUI)
@@ -10246,6 +10394,8 @@ void CMainFrame::SetSubtitleDelay(int delay_ms, bool relative)
         }
         return;
     }
+
+    ResetAutoCopySubtitle(); // the new delay moves the segment boundaries
 
     if (m_pDVS) {
         int currentDelay, speedMul, speedDiv;
@@ -16770,6 +16920,7 @@ void CMainFrame::CloseMediaPrivate()
     m_rtDurationOverride = -1;
     m_bUsingDXVA = false;
     m_audioTrackCount = 0;
+    ResetAutoCopySubtitle();
 
     if (m_pDVBState) {
         m_pDVBState->Join();
@@ -18954,6 +19105,8 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool skip_lcid /* = 
     CAppSettings& s = AfxGetAppSettings();
     ResetSubtitlePosAndSize(false);
 
+    ResetAutoCopySubtitle();
+
     {
         CAutoLock cAutoLock(&m_csSubLock);
 
@@ -19445,6 +19598,7 @@ void CMainFrame::DoSeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
         }
     }
     m_nStepForwardCount = 0;
+    ResetAutoCopySubtitle();
 
     // skip seeks when duration is unknown
     if (!m_wndSeekBar.HasDuration() && (rtPos > 0LL || m_wndStatusBar.GetTimerCurPos() == 0LL)) {

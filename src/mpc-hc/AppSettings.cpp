@@ -187,6 +187,7 @@ CAppSettings::CAppSettings()
     , nAutoDownloadScoreSeries(0x18)
     , bAutoUploadSubtitles(false)
     , bPreferHearingImpairedSubtitles(false)
+    , bAutoCopySubtitleToClipboard(false)
     , bMPCTheme(true)
     , bWindows10DarkThemeActive(false)
     , bWindows10AccentColorsEnabled(false)
@@ -738,6 +739,7 @@ static constexpr wmcmd_base default_wmcmds[] = {
     { ID_STREAM_SUB_NEXT,                 'S', 0,                 IDS_AG_NEXT_SUBTITLE },
     { ID_STREAM_SUB_PREV,                 'S', FSHIFT,            IDS_AG_PREV_SUBTITLE },
     { ID_STREAM_SUB_ONOFF,                'W', 0,                 IDS_MPLAYERC_85 },
+    { ID_SUBTITLES_AUTOCOPY,                0, 0,                 IDS_AG_AUTOCOPY_SUBTITLE },
     { ID_SUBTITLES_SUBITEM_START + 2,       0, 0,                 IDS_MPLAYERC_86 },
     { ID_DVD_ANGLE_NEXT,                    0, 0,                 IDS_MPLAYERC_91 },
     { ID_DVD_ANGLE_PREV,                    0, 0,                 IDS_MPLAYERC_92 },
