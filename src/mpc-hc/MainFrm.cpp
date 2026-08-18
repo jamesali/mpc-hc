@@ -16526,6 +16526,15 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         FLUSH_LOGGER();
     }
 
+    if (m_pGB || m_ActiveGraphNotifyEvCode == EC_PAUSED || GetLoadState() != MLS::LOADING) {
+        ASSERT(false);
+        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+        if (CrashReporter::IsEnabled()) {
+            throw 0xdead;
+        }
+        #endif
+    }
+
     m_fValidDVDOpen = false;
     m_iDefRotation = 0;
 
@@ -20381,6 +20390,15 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         }
     }
 
+    if (m_eMediaLoadState != MLS::CLOSED) {
+        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+        if (CrashReporter::IsEnabled()) {
+            throw 0xdead;
+        }
+        #endif
+        return;
+    }
+
     // clear BD playlist if we are not currently opening something from it
     if (!m_bIsBDPlay) {
         m_MPLSPlaylist.clear();
@@ -21299,7 +21317,15 @@ void CMainFrame::SetLoadState(MLS eState)
         ASSERT(false);
         if (USE_LOGGER(AfxGetAppSettings())) {
             PLAYER_LOG(_T("CMainFrame::SetLoadState - unexpected state change: %d -> %d"), m_eMediaLoadState, eState);
+            FLUSH_LOGGER();
         }
+        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+        if (CrashReporter::IsEnabled()) {
+            if (GetCurrentThreadId() != AfxGetApp()->m_nThreadID) {
+                throw 0xdead;
+            }
+        }
+        #endif
     }
 
     m_eMediaLoadState = eState;
