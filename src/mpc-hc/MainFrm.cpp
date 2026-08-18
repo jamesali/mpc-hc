@@ -1310,6 +1310,8 @@ void CMainFrame::OnClose()
 
     m_OSD.OnHide();
 
+    m_media_trans_control.close();
+
     if (UpdateCachedMediaState() == State_Running) {
         MediaControlPause(true);
     }
@@ -2096,9 +2098,13 @@ void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
             return;
         }
     }
+    if ((nID & 0xFFF0) == SC_CLOSE) {
+        OnClose();
+        return;
+    }
 
     if (USE_LOGGER(AfxGetAppSettings())) {
-        PLAYER_LOG(_T("CMainFrame::OnSysCommand - nID=%u lParam=%ld"), nID, lParam);
+        PLAYER_LOG(_T("CMainFrame::OnSysCommand - nID=0x%x lParam=%ld"), nID, lParam);
     }
 
     __super::OnSysCommand(nID, lParam);
@@ -19659,11 +19665,13 @@ void CMainFrame::DoSeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
     OnTimer(TIMER_STREAMPOSPOLLER);
     OnTimer(TIMER_STREAMPOSPOLLER2);
 
-    // Update media transport controls timeline after seek
-    MediaTransportControlUpdateTimeline(true);
+    if (fs == State_Running || fs == State_Paused) {
+        // Update media transport controls timeline after seek
+        MediaTransportControlUpdateTimeline(true);
 #if MPC_SMTC_VIDEO_THUMBNAIL
-    MediaTransportControlUpdateThumbnail();
+        MediaTransportControlUpdateThumbnail();
 #endif
+    }
 
     SendCurrentPositionToApi(true);
 }
@@ -23020,6 +23028,15 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         }
     }
 
+    if (message == WM_SYSCOMMAND) {
+        UINT nID = LOWORD(wParam) & 0XFFF0;
+        if (nID == SC_CLOSE) {
+            OnClose();
+            return 0;
+        }
+        //TRACE(_T("WM_SYSCOMMAND: value 0x%x\n"), LOWORD(wParam));
+    }
+
     if ((message == WM_COMMAND) && (THBN_CLICKED == HIWORD(wParam))) {
         int const wmId = LOWORD(wParam);
         switch (wmId) {
@@ -23072,6 +23089,7 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         // call madVR window proc directly when the interface is available
         switch (message) {
             case WM_CLOSE:
+            case WM_SYSCOMMAND:
                 break;
             case WM_MOUSEMOVE:
             case WM_LBUTTONDOWN:
@@ -24476,7 +24494,7 @@ void CMainFrame::MediaTransportControlSetMedia() {
 }
 
 void CMainFrame::MediaTransportControlUpdateState(OAFilterState state) {
-    if (m_media_trans_control.smtc_controls) {
+    if (m_media_trans_control.IsActive()) {
         if (state == State_Running)      m_media_trans_control.smtc_controls->put_PlaybackStatus(ABI::Windows::Media::MediaPlaybackStatus_Playing);
         else if (state == State_Paused)  m_media_trans_control.smtc_controls->put_PlaybackStatus(ABI::Windows::Media::MediaPlaybackStatus_Paused);
         else if (state == State_Stopped) m_media_trans_control.smtc_controls->put_PlaybackStatus(ABI::Windows::Media::MediaPlaybackStatus_Stopped);
@@ -24495,7 +24513,7 @@ void CMainFrame::MediaTransportControlUpdateState(OAFilterState state) {
 }
 
 void CMainFrame::MediaTransportControlUpdateTimeline(bool force /*= false*/) {
-    if (!m_media_trans_control.smtc_controls2) {
+    if (!m_media_trans_control.IsActive() || !m_media_trans_control.smtc_controls2) {
         return;
     }
     // Note: IsActive() is a COM call, so when throttling check the tick count first
