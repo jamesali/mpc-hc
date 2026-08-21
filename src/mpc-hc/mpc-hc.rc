@@ -1125,10 +1125,10 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Color controls"
 FONT 9, "Segoe UI", 400, 0, 0x1
 BEGIN
-    LTEXT           "Brightness",IDC_STATIC,12,9,66,8
-    LTEXT           "Contrast",IDC_STATIC,12,28,66,8
-    LTEXT           "Hue",IDC_STATIC,12,47,66,8
-    LTEXT           "Saturation",IDC_STATIC,12,66,66,8
+    LTEXT           "Brightness",IDC_STATIC5,12,9,66,8
+    LTEXT           "Contrast",IDC_STATIC6,12,28,66,8
+    LTEXT           "Hue",IDC_STATIC7,12,47,66,8
+    LTEXT           "Saturation",IDC_STATIC8,12,66,66,8
     RTEXT           "",IDC_STATIC1,84,9,24,10,SS_SUNKEN
     RTEXT           "",IDC_STATIC2,84,28,24,10,SS_SUNKEN
     RTEXT           "",IDC_STATIC3,84,47,24,10,SS_SUNKEN

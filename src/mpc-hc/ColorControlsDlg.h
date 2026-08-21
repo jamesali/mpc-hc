@@ -46,6 +46,7 @@ protected:
     CString m_sSaturation;
 
     void UpdateSliders();
+    void SetupAnchors();
 
     virtual void DoDataExchange(CDataExchange* pDX) override;
     virtual BOOL OnInitDialog() override;

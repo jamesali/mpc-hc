@@ -39,6 +39,8 @@ BOOL CColorControlsDlg::OnInitDialog()
 
     __super::OnInitDialog();
 
+    SetupAnchors();
+
     m_SliBrightness.EnableWindow(TRUE);
     m_SliBrightness.SetRange(-100, 100, true);
     m_SliBrightness.SetTic(0);
@@ -62,6 +64,24 @@ BOOL CColorControlsDlg::OnInitDialog()
     UpdateSliders();
 
     return TRUE;
+}
+
+void CColorControlsDlg::SetupAnchors()
+{
+    AddAnchor(IDC_STATIC1, TOP_LEFT);
+    AddAnchor(IDC_STATIC2, TOP_LEFT);
+    AddAnchor(IDC_STATIC3, TOP_LEFT);
+    AddAnchor(IDC_STATIC4, TOP_LEFT);
+    AddAnchor(IDC_STATIC5, TOP_LEFT);
+    AddAnchor(IDC_STATIC6, TOP_LEFT);
+    AddAnchor(IDC_STATIC7, TOP_LEFT);
+    AddAnchor(IDC_STATIC8, TOP_LEFT);
+    AddAnchor(IDC_SLI_BRIGHTNESS, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_SLI_CONTRAST,   TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_SLI_HUE,        TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_SLI_SATURATION, TOP_LEFT, TOP_RIGHT);
+    AddAnchor(IDC_RESET, TOP_RIGHT);
+    AddAnchor(IDCANCEL,  TOP_RIGHT);
 }
 
 void CColorControlsDlg::UpdateSliders()
