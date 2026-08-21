@@ -37,28 +37,32 @@ BOOL CColorControlsDlg::OnInitDialog()
 {
     EnableSaveRestoreKey(IDS_R_DLG_COLOR_CONTROLS);
 
-    __super::OnInitDialog();
-
     SetupAnchors();
+
+    __super::OnInitDialog();
 
     m_SliBrightness.EnableWindow(TRUE);
     m_SliBrightness.SetRange(-100, 100, true);
     m_SliBrightness.SetTic(0);
+    m_SliBrightness.SetPageSize(5);
     m_SliBrightness.SetLockToZero();
 
     m_SliContrast.EnableWindow(TRUE);
     m_SliContrast.SetRange(-100, 100, true);
     m_SliContrast.SetTic(0);
+    m_SliContrast.SetPageSize(5);
     m_SliContrast.SetLockToZero();
 
     m_SliHue.EnableWindow(TRUE);
     m_SliHue.SetRange(-180, 180, true);
     m_SliHue.SetTic(0);
+    m_SliHue.SetPageSize(10);
     m_SliHue.SetLockToZero();
 
     m_SliSaturation.EnableWindow(TRUE);
     m_SliSaturation.SetRange(-100, 100, true);
     m_SliSaturation.SetTic(0);
+    m_SliSaturation.SetPageSize(5);
     m_SliSaturation.SetLockToZero();
 
     UpdateSliders();
