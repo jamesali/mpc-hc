@@ -187,6 +187,7 @@ void CPPageAdvanced::InitSettings()
     addCStringItem(HISTORY_EXCLUDE_FILTER, IDS_RS_HISTORY_EXCLUDE_FILTER, _T(""), s.sHistoryExcludeFilter, L"Semicolon separated list of substrings. Files and URLs whose full path contains any of them are not added to the recent files list, the resume position history, or the Windows recent documents list.\nExample: private;C:\\Videos\\Temp;youtube.com");
 
     addHeaderItem(ResStr(IDS_INFOBAR_SUBTITLES));
+    addIntItem(SUB_SECONDARY_VERT_POS, L"SecondarySubVerPos", 8, s.nSecondarySubVerPos, std::make_pair(0, 95), L"Vertical position for secondary subtitle. Percentage offset from top.");
     addBoolItem(ADD_LANGCODE_WHEN_SAVE_SUBTITLES, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, false, s.bAddLangCodeWhenSaveSubtitles, StrRes(IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES));
     addBoolItem(LIBASS_FOR_SRT, IDS_RS_LIBASS_FOR_SRT, false, s.bRenderSRTUsingLibass, StrRes(IDS_PPAGEADVANCED_LIBASS_FOR_SRT));
     addBoolItem(USE_FREETYPE, IDS_RS_USE_FREETYPE, false, s.bUseFreeType, StrRes(IDS_PPAGEADVANCED_USE_FREETYPE));
