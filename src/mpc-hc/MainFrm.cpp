@@ -19621,15 +19621,28 @@ void CMainFrame::DoSeekTo(REFERENCE_TIME rtPos, bool bShowOSD /*= true*/)
     }
 
     if (!IsPlaybackCaptureMode()) {
+        bool force_complete = false;
         __int64 start, stop;
         m_wndSeekBar.GetRange(start, stop);
         if (rtPos > stop) {
-            rtPos = stop;
+            REFERENCE_TIME rtCur = m_wndSeekBar.GetPos();
+            if (rtCur + 50000000LL < stop) {
+                // skip to position 1 sec before the end
+                rtPos = stop - 10000000LL;
+            } else {
+                rtPos = stop;
+                // seeking beyond end does not always trigger EC_COMPLETE
+                force_complete = (rtCur == stop);
+            }
         }
         m_wndStatusBar.SetStatusTimer(rtPos, stop, IsSubresyncBarVisible(), GetTimeFormat());
 
         if (bShowOSD) {
             m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
+        }
+        if (force_complete) {
+            GraphEventComplete();
+            return;
         }
     }
 
