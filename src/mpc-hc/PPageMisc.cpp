@@ -185,6 +185,7 @@ void CPPageMisc::OnExportKeys()
 
 void CPPageMisc::OnColorControls()
 {
+    GetParent()->PostMessage(PSM_PRESSBUTTON, PSBTN_OK);
     AfxGetMainFrame()->PostMessage(WM_COMMAND, ID_COLOR_CONTROLS);
 }
 

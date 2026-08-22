@@ -20212,7 +20212,7 @@ void CMainFrame::ShowOptions(int idPage/* = 0*/)
             ShellExecute(nullptr, _T("open"), PathUtils::GetProgramPath(true), _T("/reset"), nullptr, SW_SHOWNORMAL);
             break;
         default:
-            ASSERT(iRes > 0 && iRes != CPPageSheet::APPLY_LANGUAGE_CHANGE);
+            ASSERT(iRes != CPPageSheet::APPLY_LANGUAGE_CHANGE);
             break;
     }
 }
