@@ -14689,8 +14689,25 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                     m_pME->SetNotifyWindow(NULL, 0, 0);
                 }
 
-                if (s.fReportFailedPins) {
-                    ShowMediaTypesDialog();
+                if (s.fReportFailedPins && !m_fOpeningAborted) {
+                    CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
+                    if (pGBDE && pGBDE->GetCount()) {
+                        bool showmtdlg = true;
+                        // don't show meaningless dialog when it fails at generic source filter
+                        // ToDo: throw different error, indicating that file may be damaged/incomplete
+                        if (pGBDE->GetCount() == 1) {
+                            CAtlList<CStringW> path;
+                            CAtlList<CMediaType> mts;
+                            if (S_OK == pGBDE->GetDeadEnd(0, path, mts) && path.GetCount() == 1) {
+                                if (path.GetHead() == L"File Source (Async.)::Output") {
+                                    showmtdlg = false;
+                                }
+                            }
+                        }
+                        if (showmtdlg) {
+                            ShowMediaTypesDialog();
+                        }
+                    }
                 }
 
                 UINT err;
