@@ -328,6 +328,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
     ON_MESSAGE(WM_POSTOPEN, OnFilePostOpenmedia)
     ON_MESSAGE(WM_OPENFAILED, OnOpenMediaFailed)
+    ON_MESSAGE(WM_TUNER_NEW_CHANNEL, OnHeadlessScanNewChannel)
+    ON_MESSAGE(WM_TUNER_SCAN_END, OnHeadlessScanEnd)
     ON_MESSAGE(WM_DVB_EIT_DATA_READY, OnCurrentChannelInfoUpdated)
 
     ON_COMMAND(ID_BOSS, OnBossKey)
@@ -4493,6 +4495,14 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
 
     m_bSettingUpMenus = false;
 
+    // The device is open now, which is the one precondition DoTunerScan has.
+    // Consume the switch so a later open cannot start a second scan.
+    if ((s.nCLSwitches & CLSW_DVBSCAN) && GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+        s.nCLSwitches &= ~CLSW_DVBSCAN;
+        m_bHeadlessDVBScan = true;
+        StartHeadlessDVBScan();
+    }
+
     return 0;
 }
 
@@ -4507,6 +4517,14 @@ LRESULT CMainFrame::OnOpenMediaFailed(WPARAM wParam, LPARAM lParam)
     if (USE_LOGGER(s)) {
         PLAYER_LOG(_T("CMainFrame::OnOpenMediaFailed (thread %lu)"), GetCurrentThreadId());
         FLUSH_LOGGER();
+    }
+
+    // The other way a headless scan can be left with nothing to wait for: the
+    // device was configured but would not open. Quit rather than sit idle.
+    if (AfxGetAppSettings().nCLSwitches & CLSW_DVBSCAN) {
+        TRACE(_T("/dvbscan: the capture device failed to open, abandoning the scan\n"));
+        AfxGetAppSettings().nCLSwitches &= ~CLSW_DVBSCAN;
+        PostMessage(WM_CLOSE);
     }
 
     m_lastOMD.Free();
@@ -5275,9 +5293,24 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
         applyRandomizeSwitch();
         s.nCLSwitches &= ~CLSW_CD;
         PostMessage(WM_MPC_OPENCURPLAYLIST, 0, 0);
-    } else if (s.nCLSwitches & CLSW_DEVICE) {
-        PostMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
-        s.nCLSwitches &= ~CLSW_DEVICE;
+    } else if (s.nCLSwitches & (CLSW_DEVICE | CLSW_DVBSCAN)) {
+        // OnFileOpendevice shows the capture options page and returns when no
+        // device is configured. Interactively that is a prompt; for a headless
+        // run it is a modal nobody can answer, and the process would sit there
+        // with no device, no scan and nothing to time out. Check the same
+        // condition first and fail the run instead.
+        if ((s.nCLSwitches & CLSW_DVBSCAN) && s.iDefaultCaptureDevice == 0 &&
+                s.strAnalogVideo == L"dummy" && s.strAnalogAudio == L"dummy") {
+            TRACE(_T("/dvbscan: no capture device configured, nothing to scan\n"));
+            s.nCLSwitches &= ~CLSW_DVBSCAN;
+            PostMessage(WM_CLOSE);
+        } else {
+            // /dvbscan implies opening the capture device, because DoTunerScan
+            // only runs in PM_DIGITAL_CAPTURE. CLSW_DVBSCAN is deliberately
+            // left set: OnFilePostOpenmedia consumes it once the device is up.
+            PostMessage(WM_COMMAND, ID_FILE_OPENDEVICE);
+            s.nCLSwitches &= ~CLSW_DEVICE;
+        }
     } else if (!s.slFiles.IsEmpty()) {
         CAtlList<CString> sl;
         sl.AddTailList(&s.slFiles);
@@ -21206,6 +21239,101 @@ void CMainFrame::StartTunerScan(CAutoPtr<TunerScanData> pTSD)
 void CMainFrame::StopTunerScan()
 {
     m_bStopTunerScan = true;
+}
+
+void CMainFrame::StartHeadlessDVBScan()
+{
+    const CAppSettings& s = AfxGetAppSettings();
+
+    m_headlessDVBScanChannels.clear();
+
+    CAutoPtr<TunerScanData> pTSD(DEBUG_NEW TunerScanData);
+    pTSD->Hwnd = m_hWnd;
+    pTSD->FrequencyStart = s.cmdlnDVBScan.ulFrequencyStart;
+    pTSD->FrequencyStop = s.cmdlnDVBScan.ulFrequencyStop;
+    // Bandwidth is kHz in TunerScanData and MHz in the profile. This is the
+    // same conversion CTunerScanDlg makes when it loads its fields, so a
+    // headless run and a dialog run scan identically for identical settings.
+    pTSD->Bandwidth = s.cmdlnDVBScan.ulBandwidth ? s.cmdlnDVBScan.ulBandwidth
+                      : (ULONG)s.iBDABandwidth * 1000;
+    pTSD->SymbolRate = s.cmdlnDVBScan.ulSymbolRate ? s.cmdlnDVBScan.ulSymbolRate
+                       : (ULONG)s.iBDASymbolRate;
+    pTSD->Offset = s.fBDAUseOffset ? s.iBDAOffset : 0;
+
+    StartTunerScan(pTSD);
+}
+
+LRESULT CMainFrame::OnHeadlessScanNewChannel(WPARAM wParam, LPARAM lParam)
+{
+    if (!m_bHeadlessDVBScan) {
+        return FALSE;
+    }
+
+    const CAppSettings& s = AfxGetAppSettings();
+    const size_t maxChannelsNum = ID_NAVIGATE_JUMPTO_SUBITEM_END - ID_NAVIGATE_JUMPTO_SUBITEM_START + 1;
+
+    try {
+        CBDAChannel channel((LPCTSTR)lParam);
+        // The dialog applies this filter as it fills its list rather than at
+        // save time, so apply it here too.
+        if (!s.fBDAIgnoreEncryptedChannels || !channel.IsEncrypted()) {
+            if (m_headlessDVBScanChannels.size() < maxChannelsNum) {
+                channel.SetPrefNumber((int)m_headlessDVBScanChannels.size());
+                m_headlessDVBScanChannels.push_back(channel);
+            }
+        }
+    } catch (CException* e) {
+        // A record that will not tokenise is dropped and the scan continues,
+        // which is what CTunerScanDlg::OnNewChannel does with the same failure.
+        TRACE(_T("/dvbscan: failed to parse a scanned channel record\n"));
+        e->Delete();
+    }
+
+    return TRUE;
+}
+
+LRESULT CMainFrame::OnHeadlessScanEnd(WPARAM wParam, LPARAM lParam)
+{
+    if (!m_bHeadlessDVBScan) {
+        return FALSE;
+    }
+    FinishHeadlessDVBScan();
+    return TRUE;
+}
+
+void CMainFrame::FinishHeadlessDVBScan()
+{
+    const CAppSettings& s = AfxGetAppSettings();
+
+    // The serializer the web interface uses, not a second copy of it: whatever
+    // /dvb/channels.json would say about these channels, this file says too.
+    const CStringA json = DVBChannelsToJSON(m_headlessDVBScanChannels);
+
+    bool bWritten = false;
+    if (!s.cmdlnDVBScan.strOutputPath.IsEmpty()) {
+        CFile file;
+        CFileException fe;
+        if (file.Open(s.cmdlnDVBScan.strOutputPath,
+                      CFile::modeCreate | CFile::modeWrite | CFile::typeBinary, &fe)) {
+            try {
+                file.Write((LPCSTR)json, json.GetLength());
+                bWritten = true;
+            } catch (CFileException* pfe) {
+                pfe->Delete();
+            }
+            file.Close();
+        }
+    }
+
+    if (!bWritten) {
+        // Losing the result silently would leave a caller unable to tell an
+        // empty scan from an unwritable path.
+        TRACE(_T("/dvbscan: could not write the result to '%s'\n"),
+              s.cmdlnDVBScan.strOutputPath.GetString());
+    }
+
+    m_bHeadlessDVBScan = false;
+    PostMessage(WM_CLOSE);
 }
 
 HRESULT CMainFrame::SetChannel(int nChannel)
