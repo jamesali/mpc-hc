@@ -3557,6 +3557,9 @@ BEGIN
     IDS_MAINFRM_96          "Can't create video capture filter"
     IDS_MAINFRM_98          "No capture filters"
     IDS_MAINFRM_99          "Can't create capture graph builder object"
+    IDS_MAINFRM_RENDERFAIL_DLL     "Cannot render the file. Failure loading internal filter. Could be caused by a missing DLL."
+    IDS_MAINFRM_RENDERFAIL_DLL_SAC "Cannot render the file. Failure loading internal filter. Could be caused by ""Smart App Control""."
+    IDS_MAINFRM_RENDERFAIL_CORRUPT "Cannot render the file. File might be damaged or incomplete. Send file to developers for analysis."
 END
 
 STRINGTABLE

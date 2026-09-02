@@ -14689,18 +14689,32 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                     m_pME->SetNotifyWindow(NULL, 0, 0);
                 }
 
+                if (hr == VFW_E_CANNOT_RENDER) {
+                    CComPtr<CFGManager> fgm = static_cast<CFGManager*>(m_pGB.p);
+                    if (fgm && fgm->GetInternalFilterLoadingBlocked()) {
+                        DWORD sac;
+                        if (IsWindowsVersionOrGreaterBuild(10,0,22000) && ReadRegistryDWORD(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\CI\\Protected", L"VerifiedAndReputablePolicyStateMinValueSeen", sac) && (sac > 0)) {
+                            throw (UINT)IDS_MAINFRM_RENDERFAIL_DLL_SAC;
+                        } else {
+                            throw (UINT)IDS_MAINFRM_RENDERFAIL_DLL;
+                        }
+                    }
+                }
+
                 if (s.fReportFailedPins && !m_fOpeningAborted) {
                     CComQIPtr<IGraphBuilderDeadEnd> pGBDE = m_pGB;
                     if (pGBDE && pGBDE->GetCount()) {
                         bool showmtdlg = true;
                         // don't show meaningless dialog when it fails at generic source filter
-                        // ToDo: throw different error, indicating that file may be damaged/incomplete
-                        if (pGBDE->GetCount() == 1) {
+                        if (hr == VFW_E_CANNOT_RENDER && pGBDE->GetCount() == 1) {
                             CAtlList<CStringW> path;
                             CAtlList<CMediaType> mts;
                             if (S_OK == pGBDE->GetDeadEnd(0, path, mts) && path.GetCount() == 1) {
                                 if (path.GetHead() == L"File Source (Async.)::Output") {
                                     showmtdlg = false;
+                                    if (s.SrcFilters[SRC_MP4]) {
+                                        throw (UINT)IDS_MAINFRM_RENDERFAIL_CORRUPT;
+                                    }
                                 }
                             }
                         }
@@ -14864,8 +14878,8 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
             if (m_bUseSeekPreview) {
                 HRESULT previewHR;
                 if (isRFS) {
-                    CComPtr<CFGManager> fgm = static_cast<CFGManager*>(m_pGB_preview.p);
-                    previewHR = fgm->RenderRFSFileEntry(fn, nullptr, entryRFS);
+                    CComPtr<CFGManager> fgmp = static_cast<CFGManager*>(m_pGB_preview.p);
+                    previewHR = fgmp->RenderRFSFileEntry(fn, nullptr, entryRFS);
                 } else {
                     previewHR = m_pGB_preview->RenderFile(fn, nullptr);
                 }
