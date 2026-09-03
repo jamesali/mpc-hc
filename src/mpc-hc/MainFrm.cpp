@@ -1296,6 +1296,8 @@ void CMainFrame::OnClose()
 {
     CAppSettings& s = AfxGetAppSettings();
 
+    m_OnClose_called = true;
+
     if (USE_LOGGER(s)) {
         PLAYER_LOG(_T("CMainFrame::OnClose"));
         FLUSH_LOGGER();
@@ -16596,7 +16598,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         FLUSH_LOGGER();
     }
 
-    if (m_pGB || m_ActiveGraphNotifyEvCode == EC_PAUSED || GetLoadState() != MLS::LOADING) {
+    if (m_pGB || m_ActiveGraphNotifyEvCode == EC_PAUSED || GetLoadState() != MLS::LOADING || m_OnClose_called) {
         ASSERT(false);
         #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
         if (CrashReporter::IsEnabled()) {
@@ -20473,7 +20475,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     const auto& s = AfxGetAppSettings();
 
-    if (m_ActiveGraphNotifyEvCode == EC_PAUSED) {
+    if (m_ActiveGraphNotifyEvCode == EC_PAUSED || m_OnClose_called) {
         ASSERT(false);
         #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
         if (CrashReporter::IsEnabled()) {
@@ -23276,15 +23278,17 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         return 0;
     }
 
-    if (message == WM_MPC_OPENCURPLAYLIST && IsStateClosingAborting()) {
-        // this can happen when a modal dialog is shown during media close, as that runs the main message loop
+    if (message == WM_MPC_OPENCURPLAYLIST && (AfxGetMyApp()->m_fClosingState || m_OnClose_called || IsStateClosingAborting())) {
+        // this can for example happen when a modal dialog is shown during media close, as that runs another message loop
         TRACE(_T("Dropped WindowProc: message 0x%x value %d\n"), message, LOWORD(wParam));
         return 0;
     }
 
+#ifdef DEBUG
     if (message != WM_ENTERIDLE && message != WM_DRAWITEM && IsStateClosingAborting()) {
         TRACE(_T("WindowProc during media close: message 0x%x value %d\n"), message, LOWORD(wParam));
     }
+#endif
 
     if (message == WM_ACTIVATE || message == WM_SETFOCUS || message == WM_GETMINMAXINFO) {
         if (AfxGetMyApp()->m_fClosingState) {
@@ -23296,7 +23300,9 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
     if (message == WM_SYSCOMMAND) {
         UINT nID = LOWORD(wParam) & 0XFFF0;
         if (nID == SC_CLOSE) {
-            OnClose();
+            if (!AfxGetMyApp()->m_fClosingState || !m_OnClose_called) {
+                OnClose();
+            }
             return 0;
         }
         //TRACE(_T("WM_SYSCOMMAND: value 0x%x\n"), LOWORD(wParam));

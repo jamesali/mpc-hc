@@ -535,6 +535,7 @@ private:
     OAFilterState m_CachedFilterState;
 
     volatile LONG m_ActiveGraphNotifyEvCode = 0;
+    volatile bool m_OnClose_called = false;
 
     bool m_bSettingUpMenus;
     volatile bool m_bOpenMediaActive;
