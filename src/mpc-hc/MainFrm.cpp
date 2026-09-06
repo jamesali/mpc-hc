@@ -1357,7 +1357,6 @@ void CMainFrame::OnClose()
 
     {
         CAutoLock ga(&lockGraphAccess);
-        AfxGetMyApp()->SetClosingState();
 
         MSG msg;
         while (PeekMessage(&msg, nullptr, WM_GRAPHNOTIFY, WM_MPC_OPENCURPLAYLIST, PM_REMOVE)) {
@@ -1365,9 +1364,11 @@ void CMainFrame::OnClose()
             ASSERT(false);
         }
         int pm = 0;
-        while ((pm++ < 5) && PeekMessage(&msg, nullptr, WM_ACTIVATE, WM_ACTIVATE, PM_REMOVE)) {
+        while ((pm++ < 10) && PeekMessage(&msg, nullptr, WM_ACTIVATE, WM_ACTIVATE, PM_REMOVE)) {
             TRACE(L"Purged WM_ACTIVATE during player close\n");
         }
+
+        AfxGetMyApp()->SetClosingState();
     }
 
     if (USE_LOGGER(s)) {
@@ -23273,12 +23274,20 @@ bool CMainFrame::isSafeZone(CPoint pt) {
 
 LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if (AfxGetMyApp()->m_fClosingState) {
+        if (message == WM_MPC_OPENCURPLAYLIST || message == WM_ACTIVATE || message == WM_SETFOCUS || message == WM_GETMINMAXINFO) {
+            TRACE(_T("Dropped WindowProc because mainframe was destroyed: message 0x%x value %d\n"), message, LOWORD(wParam));
+            return 0;
+        }
+        return __super::WindowProc(message, wParam, lParam);
+    }
+
     if (!m_hWnd) {
         ASSERT(false);
         return 0;
     }
 
-    if (message == WM_MPC_OPENCURPLAYLIST && (AfxGetMyApp()->m_fClosingState || m_OnClose_called || IsStateClosingAborting())) {
+    if (message == WM_MPC_OPENCURPLAYLIST && (m_OnClose_called || IsStateClosingAborting())) {
         // this can for example happen when a modal dialog is shown during media close, as that runs another message loop
         TRACE(_T("Dropped WindowProc: message 0x%x value %d\n"), message, LOWORD(wParam));
         return 0;
@@ -23290,22 +23299,15 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
     }
 #endif
 
-    if (message == WM_ACTIVATE || message == WM_SETFOCUS || message == WM_GETMINMAXINFO) {
-        if (AfxGetMyApp()->m_fClosingState) {
-            TRACE(_T("Dropped WindowProc: message 0x%x value %d\n"), message, LOWORD(wParam));
-            return 0;
-        }
-    }
-
     if (message == WM_SYSCOMMAND) {
         UINT nID = LOWORD(wParam) & 0XFFF0;
         if (nID == SC_CLOSE) {
-            if (!AfxGetMyApp()->m_fClosingState || !m_OnClose_called) {
+            if (!m_OnClose_called) {
                 OnClose();
             }
             return 0;
         }
-        //TRACE(_T("WM_SYSCOMMAND: value 0x%x\n"), LOWORD(wParam));
+        return __super::WindowProc(message, wParam, lParam);
     }
 
     if ((message == WM_COMMAND) && (THBN_CLICKED == HIWORD(wParam))) {
