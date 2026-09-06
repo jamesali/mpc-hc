@@ -1335,24 +1335,13 @@ void CMainFrame::OnClose()
 
     ASSERT(!m_bOpenMediaActive);
 
-    #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
-    if (CrashReporter::IsEnabled()) {
-        if (GetCurrentThreadId() != AfxGetApp()->m_nThreadID) {
-            throw 0xdead;
-        }
-    }
-    #endif
-
     if (GetLoadState() != MLS::CLOSED) {
-#if MPC_VERSION_REV > 0
-        AfxMessageBox(L"Unexpected state while closing.\n\nPlease contact the developers, so that we can analyze the problem.\n\nTo enable debug log:\nOptions > Advanced > DebugLogMask = 1\nLog file location:\n%APPDATA%\\MPC-HC\\player.log", MB_OK);
-#endif
         if (USE_LOGGER(s)) {
             PLAYER_LOG(_T("CMainFrame::OnClose - Unexpected loadstate: %d"), (int)GetLoadState());
             FLUSH_LOGGER();
         }
         ASSERT(false);
-        ForceCloseProcess();
+        ThrowAndForceClose();
     }   
 
     {
@@ -16601,11 +16590,14 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
     if (m_pGB || m_ActiveGraphNotifyEvCode == EC_PAUSED || GetLoadState() != MLS::LOADING || m_OnClose_called) {
         ASSERT(false);
-        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
         if (CrashReporter::IsEnabled()) {
             throw 0xdead;
         }
         #endif
+        m_bOpenMediaActive = false;
+        m_closingmsg = L"Aborted due to unexpected state";
+        return false;
     }
 
     m_fValidDVDOpen = false;
@@ -20478,11 +20470,12 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     if (m_ActiveGraphNotifyEvCode == EC_PAUSED || m_OnClose_called) {
         ASSERT(false);
-        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
         if (CrashReporter::IsEnabled()) {
             throw 0xdead;
         }
         #endif
+        return;
     }
 
     if (m_bOpenMediaActive) {
@@ -20538,7 +20531,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     }
 
     if (m_eMediaLoadState != MLS::CLOSED) {
-        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
         if (CrashReporter::IsEnabled()) {
             throw 0xdead;
         }
@@ -20695,6 +20688,21 @@ void CMainFrame::ForceCloseProcess()
     TerminateProcess(GetCurrentProcess(), 0xDEADBEEF);
 }
 
+void CMainFrame::ThrowAndForceClose()
+{
+    MessageBeep(MB_ICONEXCLAMATION);
+    if (USE_LOGGER(AfxGetAppSettings())) {
+        PLAYER_LOG(_T("CMainFrame::ThrowAndForceClose"));
+        FLUSH_LOGGER();
+    }
+    #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
+    if (CrashReporter::IsEnabled()) {
+        throw 0xdead;
+    }
+    #endif
+    TerminateProcess(GetCurrentProcess(), 0xDEADBEEF);
+}
+
 void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDelete/* = false*/)
 {
     TRACE(_T("CMainFrame::CloseMedia\n"));
@@ -20711,12 +20719,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
     m_bDVDStillOn = false;
 
     if (m_ActiveGraphNotifyEvCode == EC_PAUSED) {
-        ASSERT(false);
-        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
-        if (CrashReporter::IsEnabled()) {
-            throw 0xdead;
-        }
-        #endif
+        ThrowAndForceClose();
     }
 
     if (m_eMediaLoadState == MLS::CLOSED) {
@@ -21561,7 +21564,7 @@ void CMainFrame::SetLoadState(MLS eState)
             PLAYER_LOG(_T("CMainFrame::SetLoadState - unexpected state change: %d -> %d"), m_eMediaLoadState, eState);
             FLUSH_LOGGER();
         }
-        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
         if (CrashReporter::IsEnabled()) {
             if (GetCurrentThreadId() != AfxGetApp()->m_nThreadID) {
                 throw 0xdead;
