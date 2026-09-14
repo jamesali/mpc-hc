@@ -20548,6 +20548,8 @@ void CMainFrame::AddCurDevToPlaylist()
 
 void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 {
+    ASSERT(!InSendMessage());
+
     // Next media load: stop force-showing the status bar that an earlier error revealed. A
     // host-supplied status message keeps its own three-second reveal across this transition.
     if (!m_bKeepTempStatusBarVisibleOnMediaLoad) {
@@ -20809,6 +20811,8 @@ void CMainFrame::ThrowAndForceClose()
 void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDelete/* = false*/)
 {
     TRACE(_T("CMainFrame::CloseMedia\n"));
+
+    ASSERT(!InSendMessage());
 
     auto& s = AfxGetAppSettings();
 
