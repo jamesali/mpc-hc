@@ -23548,9 +23548,11 @@ UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData)
             TRACE(_T("OnPowerBroadcast - suspending\n"));
             bWasPausedBeforeSuspention = FALSE;   
 
+            // API docs says that event must be handled (within 2 sec) before returning from this message handler
+            // So can't use PostMessage for closing file
             if (GetLoadState() == MLS::LOADED) {
                 if (AfxGetAppSettings().iReloadAfterLongPause >= 0) {
-                    // save position and close
+                    // save position and close file
                     m_reloadFilename = lastOpenFile;
                     m_rtReloadPos = m_wndSeekBar.HasDuration() ? m_wndSeekBar.GetPos() : 0;
                     reloadABRepeat = abRepeat;
@@ -23571,13 +23573,9 @@ UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData)
         case PBT_APMRESUMESTANDBY:
             TRACE(_T("OnPowerBroadcast - resuming\n"));
 
-            if (s.nCLSwitches & CLSW_CLOSE) {
-                PostMessage(WM_CLOSE);
-            } else {
-                // Resume if we paused before suspension.
-                if (bWasPausedBeforeSuspention) {
-                    PostMessage(WM_COMMAND, ID_PLAY_PLAY);
-                }
+            // Resume if we paused before suspension.
+            if (bWasPausedBeforeSuspention) {
+                PostMessage(WM_COMMAND, ID_PLAY_PLAY);
             }
             break;
     }
