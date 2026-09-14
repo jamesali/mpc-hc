@@ -1298,6 +1298,15 @@ void CMainFrame::OnClose()
 {
     CAppSettings& s = AfxGetAppSettings();
 
+    if (m_OnClose_called) {
+        ASSERT(false);
+        #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
+        if (CrashReporter::IsEnabled()) {
+            throw 0xdead;
+        }
+        #endif
+        return;
+    }
     m_OnClose_called = true;
 
     if (USE_LOGGER(s)) {
