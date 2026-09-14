@@ -2854,7 +2854,7 @@ void CMainFrame::DoAfterPlaybackEvent()
     if (s.nCLSwitches & CLSW_DONOTHING) {
         // Do nothing
     } else if (s.nCLSwitches & CLSW_CLOSE) {
-        SendMessage(WM_COMMAND, ID_FILE_EXIT);
+        PostMessage(WM_COMMAND, ID_FILE_EXIT);
     } else if (s.nCLSwitches & CLSW_MONITOROFF) {
         m_fEndOfStream = true;
         bExitFullScreen = true;
@@ -3125,9 +3125,10 @@ void CMainFrame::GraphEventComplete()
                     return; // no automatic jump to next file
                 }
             }
-            int nLoops = m_nLoops;
-            SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDFILE);
-            m_nLoops = nLoops;
+            // The skip closes the current file, and OnPlayStop would zero the loop count
+            // during that close. Set flag to keep loop counter.
+            m_bKeepLoopCountOnStop = true;
+            PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDFILE);
         } else {
             if (GetMediaState() == State_Stopped) {
                 SendMessage(WM_COMMAND, ID_PLAY_PLAY);
@@ -3234,10 +3235,10 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                     if (GetPlaybackMode() == PM_ANALOG_CAPTURE) {
                         CComQIPtr<IBaseFilter> pBF = (IUnknown*)evParam1;
                         if (!m_pVidCap && m_pVidCap == pBF || !m_pAudCap && m_pAudCap == pBF) {
-                            SendMessage(WM_COMMAND, ID_FILE_CLOSE_AND_RESTORE);
+                            PostMessage(WM_COMMAND, ID_FILE_CLOSE_AND_RESTORE);
                         }
                     } else if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-                        SendMessage(WM_COMMAND, ID_FILE_CLOSE_AND_RESTORE);
+                        PostMessage(WM_COMMAND, ID_FILE_CLOSE_AND_RESTORE);
                     }
                 }
                 break;
@@ -3500,7 +3501,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                         break;
                 }
 
-                SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+                PostMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 
                 SetClosingError(err);
             }
@@ -3549,7 +3550,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 break;
             case EC_BG_ERROR:
                 if (m_fCustomGraph) {
-                    SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+                    PostMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
                     SetClosingError(!str.IsEmpty() ? str : CString(_T("Unspecified graph error")));
                     m_wndPlaylistBar.SetCurValid(false);
                 }
@@ -9896,7 +9897,11 @@ void CMainFrame::OnPlayStop(bool is_closing)
         // graph will be stopped in CloseMediaPrivate()
     }
 
-    m_nLoops = 0;
+    if (m_bKeepLoopCountOnStop) {
+        m_bKeepLoopCountOnStop = false;
+    } else {
+        m_nLoops = 0;
+    }
 
     if (!is_closing && m_hWnd) {
         MoveVideoWindow();
