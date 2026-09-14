@@ -5052,7 +5052,7 @@ void CMainFrame::OnFileOpenQuick()
 
     m_wndPlaylistBar.Open(fns, fMultipleFiles);
 
-    OpenCurPlaylistItem();
+    PostMessage(WM_MPC_OPENCURPLAYLIST, 0, 0);
 }
 
 void CMainFrame::OnFileOpenmedia()
@@ -5667,7 +5667,7 @@ void CMainFrame::OnFileOpenOpticalDisk(UINT nID)
                 }
 
                 m_wndPlaylistBar.Open(sl, true);
-                OpenCurPlaylistItem();
+                PostMessage(WM_MPC_OPENCURPLAYLIST, 0, 0);
             }
             break;
         }
@@ -5874,7 +5874,7 @@ void CMainFrame::OnDropFiles(CAtlList<CStringW>& slFiles, DROPEFFECT dropEffect)
         }
         if (ProcessYoutubeDLURL(slFiles.GetHead(), bAppend)) {
             if (!bAppend) {
-                OpenCurPlaylistItem();
+                PostMessage(WM_MPC_OPENCURPLAYLIST, 0, 0);
             }
             return;
         } else if (IsOnYDLWhitelist(slFiles.GetHead())) {
@@ -9624,7 +9624,7 @@ void CMainFrame::OnPlayPlay()
 
     if (IsStateClosed()) {
         m_bFirstPlay = false;
-        OpenCurPlaylistItem();
+        PostMessage(WM_MPC_OPENCURPLAYLIST, 0, 0);
         return;
     }
 
@@ -11604,9 +11604,9 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 
         if (!SeekToFileChapter((nID == ID_NAVIGATE_SKIPBACK) ? -1 : 1, true)) {
             if (nID == ID_NAVIGATE_SKIPBACK) {
-                SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPBACKFILE);
+                PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPBACKFILE);
             } else if (nID == ID_NAVIGATE_SKIPFORWARD) {
-                SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDFILE);
+                PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDFILE);
             }
         }
     } else if (GetPlaybackMode() == PM_DVD) {
@@ -11683,13 +11683,13 @@ void CMainFrame::OnNavigateSkipFile(UINT nID)
 
                 if (nID == ID_NAVIGATE_SKIPBACKFILE) {
                     if (SearchInDir(false, s.bLoopFolderOnPlayNextFile)) {
-                        OpenCurPlaylistItem();
+                        PostMessage(WM_MPC_OPENCURPLAYLIST, 0, 0);
                     } else {
                         m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
                     }
                 } else if (nID == ID_NAVIGATE_SKIPFORWARDFILE) {
                     if (SearchInDir(true, s.bLoopFolderOnPlayNextFile)) {
-                        OpenCurPlaylistItem();
+                        PostMessage(WM_MPC_OPENCURPLAYLIST, 0, 0);
                     } else {
                         m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
                     }
@@ -11701,8 +11701,7 @@ void CMainFrame::OnNavigateSkipFile(UINT nID)
             } else if (nID == ID_NAVIGATE_SKIPFORWARDFILE) {
                 m_wndPlaylistBar.SetNext();
             }
-
-            OpenCurPlaylistItem();
+            PostMessage(WM_MPC_OPENCURPLAYLIST, 0, 0);
         }
     }
 }
@@ -11803,7 +11802,7 @@ void CMainFrame::OnNavigateJumpTo(UINT nID)
                     CAtlList<CString> sl;
                     sl.AddTail(CString(Item.m_strFileName));
                     m_wndPlaylistBar.Append(sl, false);
-                    OpenCurPlaylistItem();
+                    PostMessage(WM_MPC_OPENCURPLAYLIST, 0, 0);
                     return;
                 }
                 idx++;
@@ -11824,7 +11823,7 @@ void CMainFrame::OnNavigateJumpTo(UINT nID)
 
         if (id >= 0 && id < m_wndPlaylistBar.GetCount() && m_wndPlaylistBar.GetSelIdx() != id) {
             m_wndPlaylistBar.SetSelIdx(id);
-            OpenCurPlaylistItem();
+            PostMessage(WM_MPC_OPENCURPLAYLIST, 0, 0);
         }
     } else if (GetPlaybackMode() == PM_DVD) {
         SeekToDVDChapter(nID - ID_NAVIGATE_JUMPTO_SUBITEM_START + 1);
@@ -12304,11 +12303,10 @@ void CMainFrame::OpenRecentFileEntry(RecentFileEntry& r)
     CAtlList<CString> fns;
     fns.AddHeadList(&r.fns);
 
-    if (!CloseMediaBeforeOpen()) {
-        return;
-    }
-
     if (fns.GetCount() == 1 && CanSendToYoutubeDL(r.fns.GetHead())) {
+        if (!CloseMediaBeforeOpen()) {
+            return;
+        }
         if (ProcessYoutubeDLURL(fns.GetHead(), false)) {
             OpenCurPlaylistItem();
             return;
@@ -12330,7 +12328,7 @@ void CMainFrame::OpenRecentFileEntry(RecentFileEntry& r)
         m_wndPlaylistBar.ReplaceCurrentItem(fns, &subs, r.title, _T(""), r.cue);
     }
 
-    OpenCurPlaylistItem();
+    PostMessage(WM_MPC_OPENCURPLAYLIST, 0, 0);
 }
 
 void CMainFrame::OnUpdateRecentFile(CCmdUI* pCmdUI)
@@ -23088,7 +23086,7 @@ void CMainFrame::OnFileOpendirectory()
     }
 
     m_wndPlaylistBar.Open(sl, true);
-    OpenCurPlaylistItem();
+    PostMessage(WM_MPC_OPENCURPLAYLIST, 0, 0);
 }
 
 HRESULT CMainFrame::CreateThumbnailToolbar()
