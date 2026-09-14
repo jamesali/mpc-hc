@@ -2184,7 +2184,7 @@ LRESULT CMainFrame::OnAppCommand(WPARAM wParam, LPARAM lParam)
         POSITION pos = s.wmcmds.GetHeadPosition();
         while (pos) {
             const wmcmd& wc = s.wmcmds.GetNext(pos);
-            if (wc.appcmd == cmd && TRUE == SendMessage(WM_COMMAND, wc.cmd)) {
+            if (wc.appcmd == cmd && PostMessage(WM_COMMAND, wc.cmd)) {
                 fRet = TRUE;
             }
         }
