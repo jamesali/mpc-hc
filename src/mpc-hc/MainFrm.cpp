@@ -4214,10 +4214,14 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
                     videoinfo.Append(m_statusbarVideoSize);
                 }
             }
-            if (s.bShowFPSInStatusbar && m_pCAP) {
+            if (s.bShowFPSInStatusbar) {
                 if (m_dSpeedRate != 1.0) {
-                    fpsinfo.Format(_T("%.2lf fps (%.2lfx)"), m_pCAP->GetFPS(), m_dSpeedRate);
-                } else {
+                    if (m_pCAP) {
+                        fpsinfo.Format(_T("%.2lf fps (%.2lfx)"), m_pCAP->GetFPS(), m_dSpeedRate);
+                    } else {
+                        fpsinfo.Format(_T("%.2lfx"), m_dSpeedRate);
+                    }
+                } else if (m_pCAP) {
                     fpsinfo.Format(_T("%.2lf fps"), m_pCAP->GetFPS());
                 }
             }
