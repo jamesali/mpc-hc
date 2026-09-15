@@ -5122,7 +5122,12 @@ void CMainFrame::OnFileOpenmedia()
 
         m_wndPlaylistBar.Open(filenames, dlg.HasMultipleFiles());
 
-        OpenCurPlaylistItem();
+        if (IsPlaylistEmpty()) {
+            m_closingmsg = L"Failed to add to playlist. Contact developers.";
+            m_wndStatusBar.SetStatusMessage(m_closingmsg);
+        } else {
+            OpenCurPlaylistItem();
+        }
     }
 }
 
