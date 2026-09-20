@@ -1299,6 +1299,8 @@ void CMainFrame::OnClose()
 {
     CAppSettings& s = AfxGetAppSettings();
 
+    ASSERT(!InSendMessage());
+
     if (m_OnClose_called) {
         ASSERT(false);
         #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
@@ -2105,7 +2107,8 @@ void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
         }
     }
     if ((nID & 0xFFF0) == SC_CLOSE) {
-        OnClose();
+        m_OnClose_queued = true;
+        PostMessage(WM_CLOSE);
         return;
     }
 
@@ -2846,6 +2849,10 @@ LRESULT CMainFrame::OnDoOpenCurPlaylist(WPARAM wParam, LPARAM lParam)
             throw 1;
         }
 #endif
+        return S_OK;
+    }
+    if (m_OnClose_queued) {
+        // we know we are going to close, so no reason to open media
         return S_OK;
     }
 
@@ -16698,7 +16705,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         FLUSH_LOGGER();
     }
 
-    if (m_pGB || m_ActiveGraphNotifyEvCode == EC_PAUSED || GetLoadState() != MLS::LOADING || m_OnClose_called) {
+    if (m_pGB || m_ActiveGraphNotifyEvCode == EC_PAUSED || GetLoadState() != MLS::LOADING || m_OnClose_called || m_OnClose_queued) {
         ASSERT(false);
         #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
         if (CrashReporter::IsEnabled()) {
@@ -20609,6 +20616,10 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         #endif
         return;
     }
+    if (m_OnClose_queued) {
+        ASSERT(false);
+        return;
+    }
 
     if (m_bOpenMediaActive) {
         if (USE_LOGGER(s)) {
@@ -21121,7 +21132,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                             }
                         }
 
-                        if (extendedwait || m_fFullScreen || s.hMasterWnd || hibernating || app_closing) {
+                        if (extendedwait || m_fFullScreen || s.hMasterWnd || hibernating || app_closing || m_OnClose_queued) {
                             processmsg = false;
                             #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
                             if (extendedwait && CrashReporter::IsEnabled()) {
@@ -21321,7 +21332,7 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/, bool bPendingFileDel
                         }
                     }
 
-                    if (extendedwait || m_fFullScreen || s.hMasterWnd || hibernating || app_closing) {
+                    if (extendedwait || m_fFullScreen || s.hMasterWnd || hibernating || app_closing || m_OnClose_queued) {
                         #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER && (MPC_VERSION_REV > 10)
                         if (extendedwait && CrashReporter::IsEnabled()) {
                             if (IDYES == AfxMessageBox(L"It looks like the filter graph might be deadlocked.\n\nClick YES to submit a crash report.\nClick NO to terminate the player process.", MB_ICONEXCLAMATION | MB_YESNO, 0)) {
@@ -23431,7 +23442,7 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         return 0;
     }
 
-    if (message == WM_MPC_OPENCURPLAYLIST && (m_OnClose_called || IsStateClosingAborting())) {
+    if (message == WM_MPC_OPENCURPLAYLIST && (m_OnClose_called || m_OnClose_queued || IsStateClosingAborting())) {
         // this can for example happen when a modal dialog is shown during media close, as that runs another message loop
         TRACE(_T("Dropped WindowProc: message 0x%x value %d\n"), message, LOWORD(wParam));
         return 0;
@@ -23446,8 +23457,9 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
     if (message == WM_SYSCOMMAND) {
         UINT nID = LOWORD(wParam) & 0XFFF0;
         if (nID == SC_CLOSE) {
+            m_OnClose_queued = true;
             if (!m_OnClose_called) {
-                OnClose();
+                PostMessage(WM_CLOSE);
             }
             return 0;
         }
