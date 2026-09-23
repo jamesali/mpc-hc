@@ -15533,9 +15533,10 @@ void CMainFrame::SetupCueChapters(CString cuefn) {
             else if (str.Left(5) == _T("INDEX")) {
                 CT2CA tmp(str.Mid(6));
                 const char* tmp2(tmp);
-                int i1(0), m(0), s(0), ms(0);
-                sscanf_s(tmp2, "%d %d:%d:%d", &i1, &m, &s, &ms);
-                if (i1 != 0) track.time = 10000i64 * ((m * 60 + s) * 1000 + ms);
+                int i1(0), m(0), s(0), ff(0);
+                sscanf_s(tmp2, "%d %d:%d:%d", &i1, &m, &s, &ff);
+                // ff is frames at 75 per second, so 75 or more can only come from a writer that emitted milliseconds
+                if (i1 != 0) track.time = 10000i64 * ((m * 60 + s) * 1000 + (ff >= 75 ? ff : ff * 1000 / 75));
             }
         }
     }
@@ -18855,7 +18856,7 @@ void CMainFrame::OnStreamSelect(bool bForward, DWORD dwSelGroup)
 
         size_t count = streams.size();
         if (count && currentSel != SIZE_MAX) {
-            size_t requested = (bForward ? currentSel + 1 : currentSel - 1) % count;
+            size_t requested = (bForward ? currentSel + 1 : currentSel + count - 1) % count;
             DWORD id;
             int trackindex;
             LCID lcid = 0;
