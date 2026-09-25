@@ -1834,6 +1834,7 @@ void CMainFrame::OnMove(int x, int y)
     }
 
     WINDOWPLACEMENT wp;
+    wp.length = sizeof(wp);
     GetWindowPlacement(&wp);
     if (!m_bNeedZoomAfterFullscreenExit && !m_fFullScreen && IsWindowVisible() && wp.flags != WPF_RESTORETOMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED) {
         GetWindowRect(AfxGetAppSettings().rcLastWindowPos);
@@ -23781,6 +23782,7 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case IDTB_BUTTON5:
                 WINDOWPLACEMENT wp;
+                wp.length = sizeof(wp);
                 GetWindowPlacement(&wp);
                 if (wp.showCmd == SW_SHOWMINIMIZED) {
                     SendMessage(WM_SYSCOMMAND, SC_RESTORE, -1);
@@ -23853,7 +23855,8 @@ inline bool CMainFrame::ForwardMessageToRenderer(HWND hWnd, UINT message, WPARAM
 bool CMainFrame::IsAeroSnapped()
 {
     bool ret = false;
-    WINDOWPLACEMENT wp = { sizeof(wp) };
+    WINDOWPLACEMENT wp;
+    wp.length = sizeof(wp);
     if (IsWindowVisible() && !IsZoomed() && !IsIconic() && GetWindowPlacement(&wp)) {
         CRect rect;
         GetWindowRect(rect);
