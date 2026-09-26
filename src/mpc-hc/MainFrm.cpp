@@ -20655,6 +20655,11 @@ bool CMainFrame::StopCapture()
 
 void CMainFrame::ShowOptions(int idPage/* = 0*/)
 {
+    if (AfxGetMyApp()->m_fClosingState) {
+        ASSERT(false);
+        return;
+    }
+
     // Disable the options dialog when using D3D fullscreen
     if (IsD3DFullScreenMode() && !m_bFullScreenWindowIsOnSeparateDisplay) {
         return;
