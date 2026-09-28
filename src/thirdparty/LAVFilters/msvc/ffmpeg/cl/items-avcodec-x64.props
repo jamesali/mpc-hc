@@ -622,7 +622,6 @@
     <ClCompile Include="$(FFmpegSrc)libavcodec\rv60dsp.c"><ObjectFileName>$(IntDir)libavcodec\rv60dsp.obj</ObjectFileName></ClCompile>
     <ClCompile Include="$(FFmpegSrc)libavcodec\s302m.c"><ObjectFileName>$(IntDir)libavcodec\s302m.obj</ObjectFileName></ClCompile>
     <ClCompile Include="$(FFmpegSrc)libavcodec\samidec.c"><ObjectFileName>$(IntDir)libavcodec\samidec.obj</ObjectFileName></ClCompile>
-    <ClCompile Include="$(FFmpegSrc)libavcodec\sanm.c"><ObjectFileName>$(IntDir)libavcodec\sanm.obj</ObjectFileName></ClCompile>
     <ClCompile Include="$(FFmpegSrc)libavcodec\sbc.c"><ObjectFileName>$(IntDir)libavcodec\sbc.obj</ObjectFileName></ClCompile>
     <ClCompile Include="$(FFmpegSrc)libavcodec\sbc_parser.c"><ObjectFileName>$(IntDir)libavcodec\sbc_parser.obj</ObjectFileName></ClCompile>
     <ClCompile Include="$(FFmpegSrc)libavcodec\sbcdec.c"><ObjectFileName>$(IntDir)libavcodec\sbcdec.obj</ObjectFileName></ClCompile>

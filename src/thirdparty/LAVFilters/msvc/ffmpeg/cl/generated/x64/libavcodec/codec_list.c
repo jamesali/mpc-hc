@@ -184,7 +184,6 @@ static const FFCodec * const codec_list[] = {
     &ff_rv40_decoder,
     &ff_rv60_decoder,
     &ff_s302m_decoder,
-    &ff_sanm_decoder,
     &ff_scpr_decoder,
     &ff_screenpresso_decoder,
     &ff_sga_decoder,
